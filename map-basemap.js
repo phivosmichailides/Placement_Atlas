@@ -426,10 +426,9 @@ const STYLES=Object.freeze({
     // Keep the legally required MapTiler and OpenStreetMap credits, but avoid
     // repeating the "Leaflet" label on every map and programme mini-map.
     map.attributionControl?.setPrefix(false);
-    // In reliable Streets mode, both the main map and mini-maps use the same
-    // full-detail MapTiler raster tiles. The bespoke vector style remains
-    // available internally for diagnosing its incomplete road rendering.
-    if(!window.ATLAS_DIAGNOSTIC_VECTOR)return raster(map,'Reliable Streets basemap');
+    // The authored MapTiler vector style is the primary basemap. Raster tiles
+    // remain a defensive fallback for blocked WebGL, failed requests, or
+    // browsers that cannot render the custom style.
     // Mini-maps render snapshots from the same selected Editorial vector style.
     // Leaflet still owns their site/Tube markers, attribution and click target,
     // while a single shared MapLibre context avoids WebGL-context exhaustion.

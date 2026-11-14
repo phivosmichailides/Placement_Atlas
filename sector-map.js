@@ -362,8 +362,8 @@
       // boroughs and neighbourhoods; individual sites appear at street level.
       // Slightly broader spatial grouping reduces the marker carpet without
       // hiding individual locations at close zoom levels.
-      const cellSize=zoom<=5?27:zoom<=6?30:zoom<=7?32:zoom<=8?33:
-        zoom<=9?32:zoom<=10?30:zoom<=11?27:zoom<=12?21:
+      const cellSize=zoom<=5?80:zoom<=6?70:zoom<=7?58:zoom<=8?48:
+        zoom<=9?40:zoom<=10?34:zoom<=11?28:zoom<=12?21:
         zoom<=13?16:zoom<=14?11:zoom<=15?7:0;
       const visibleBounds=zoom>=16?placementMap.getBounds().pad(.55):null;
       const displayGroups=[];
@@ -454,12 +454,12 @@
         const excluded=entries.every(isExcluded);
         const stroke=excluded?'#B06B72':preferred?'#D7A5C1':'#F1EFEB';
         const fillColor=palette[mapSector]||palette.Other;
-        const radius=(entries.length>1?3.6:2.8)+(preferred?.5:0);
+        const radius=(entries.length>1?3:2.2)+(preferred?.4:0);
         const needsBadge=group.cluster||entries.length>1;
         let pin;
         if(needsBadge){
-          const size=group.cluster?(entries.length>=100?29:entries.length>=10?24:20):(entries.length>=100?27:entries.length>=10?22:19);
-          const fontSize=entries.length>=100?9.2:9.5;
+          const size=group.cluster?(entries.length>=100?23:entries.length>=10?19:16):(entries.length>=100?22:entries.length>=10?18:16);
+          const fontSize=entries.length>=100?8.5:8.8;
           const countLabel=entries.length>999?'999+':String(entries.length);
           pin=L.marker(c,{
             icon:L.divIcon({

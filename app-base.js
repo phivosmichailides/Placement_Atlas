@@ -157,6 +157,7 @@ function moveRank(id,direction){const a=ranked(),i=a.findIndex(p=>p.id===id),j=i
 function exportRanked(){const a=ranked();if(!a.length)return toast('Add programmes to your shortlist first.');const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';const rows=[['Rank','Programme ID','Programme','Employer','Decision','Salary','Hours','Sponsorship','Note'],...a.map((p,i)=>[i+1,p.id,p.title,p.employer,mark(p).status,p.salary,p.hours,p.visa===null?'Unknown':p.visa?'Yes':'No',mark(p).note])];download('phivos-ranked-shortlist.csv',rows.map(r=>r.map(q).join(',')).join('\r\n'),'text/csv');document.dispatchEvent(new CustomEvent('desk:action',{detail:{name:'shortlist_exported'}}));toast('Ranked shortlist exported. Transfer your choices into Oriel.')}
 async function initMap(){
   const status=$('mapStatus');
+  const mapHost=$('placementMap');
   if(typeof L==='undefined'){
     if(status)status.textContent='Map library unavailable. Programme results remain accessible.';
     return;
@@ -171,6 +172,10 @@ async function initMap(){
   placementMap=L.map('placementMap',{
     zoomControl:false,minZoom:3,maxZoom:19,preferCanvas:false,scrollWheelZoom:false,zoomAnimation:true,fadeAnimation:true,zoomSnap:0.1,zoomDelta:1
   }).setView([51.5074,-.1278],10.4);
+  if(mapHost){
+    mapHost.dataset.loading='true';
+    mapHost.setAttribute('aria-busy','true');
+  }
   mapLayer=L.layerGroup().addTo(placementMap);
   // No CARTO: its current public tiles can contain an HTTP-200
   // "API KEY REQUIRED" watermark, which does not trigger tileerror.
@@ -181,7 +186,13 @@ async function initMap(){
   else L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
     maxZoom:19,attribution:'© OpenStreetMap contributors'
   }).addTo(placementMap);
-  drawMap(placements.filter(matches));
+  const markMapReady=()=>{
+    if(!mapHost)return;
+    delete mapHost.dataset.loading;
+    mapHost.setAttribute('aria-busy','false');
+  };
+  placementMap.once('load',markMapReady);
+  window.setTimeout(markMapReady,2500);
   requestAnimationFrame(()=>placementMap?.invalidateSize(false));
 }
 function drawMap(list){if(!placementMap)return;$('mapSelection').innerHTML='';mapLayer.clearLayers();const groups=new Map();let located=0;list.forEach(p=>{let found=false;new Set(p.postcodes.map(pcKey)).forEach(pc=>{const c=geo[pc];if(!c)return;found=true;const k=c.join(',');if(!groups.has(k))groups.set(k,{c,entries:[]});groups.get(k).entries.push(p)});if(found)located++});for(const {c,entries} of groups.values()){const preferred=entries.some(p=>SHORT.has(mark(p).status)),excluded=entries.every(isExcluded),colour=preferred?'#13795b':excluded?'#b74444':'#4a69bd';const pin=L.circleMarker(c,{radius:entries.length>1?9:6,color:'#fff',weight:2,fillColor:colour,fillOpacity:.95}).addTo(mapLayer).bindTooltip(`${entries.length} programme${entries.length===1?'':'s'} · ${entries[0].postcodes.join(', ')}`);const openPin=()=>{$('mapSelection').innerHTML=`<div class="map-selection-head"><b>${entries.length} programme${entries.length===1?'':'s'} at this location</b><button class="textbtn" id="closeSelection">Close</button></div>`+sorted([...entries]).map(p=>card(p)).join('');$('closeSelection').onclick=()=>$('mapSelection').innerHTML='';$('mapSelection').scrollIntoView({behavior:'smooth',block:'nearest'})};pin.on('click',openPin);const el=pin.getElement();if(el){el.setAttribute('tabindex','0');el.setAttribute('role','button');el.setAttribute('aria-label',`Show ${entries.length} programmes at ${entries[0].postcodes.join(', ')}`);el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openPin()}})}}if(!mapTileFailed)$('mapStatus').textContent=`${located} of ${list.length} matching programmes mapped · ${groups.size} locations${located<list.length?' · Unlocated programmes remain in the list':''}`;}
@@ -201,14 +212,8 @@ $('exportRanked').onclick=exportRanked;$('fitMap').onclick=()=>{if(!mapLayer||!p
     console.error('Placement data loading failed',err);
     return;
   }
-  // Main map must be independent of errors in any card enhancement or
-  // optional directions/commute feature. Initialise before rendering cards.
-  try{
-    await initMap();
-  }catch(err){
-    $('mapStatus').textContent='Map unavailable. Programme results and saved decisions remain accessible.';
-    console.error('Main map initialisation failed',err);
-  }
+  // Render the catalogue before the map work so the first useful interaction
+  // is available while tiles are still arriving.
   try{
     renderAll();
     document.dispatchEvent(new CustomEvent('desk:cards-ready'));
@@ -218,6 +223,16 @@ $('exportRanked').onclick=exportRanked;$('fitMap').onclick=()=>{if(!mapLayer||!p
     if(results&&!results.querySelector('.placement')){
       results.innerHTML='<div class="errorBox">Programme details could not render. Reload to retry; your saved decisions are unchanged.</div>';
     }
+  }
+  // Main map is independent of errors in any card enhancement or optional
+  // directions/commute feature. Its pin layer is populated once here, after
+  // the initial result list has painted.
+  try{
+    await initMap();
+    drawMap(placements.filter(matches));
+  }catch(err){
+    $('mapStatus').textContent='Map unavailable. Programme results and saved decisions remain accessible.';
+    console.error('Main map initialisation failed',err);
   }
 })();
 

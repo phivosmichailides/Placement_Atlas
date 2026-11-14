@@ -106,6 +106,24 @@ html[data-theme="dark"]{--atlas-map-backdrop:#1b2520}
 .uxMiniMap .leaflet-tile-pane{
   background:var(--atlas-map-backdrop,#f7f3e9)!important;
 }
+#placementMap[data-loading="true"]::after{
+  content:"Loading map";
+  position:absolute;inset:0;z-index:450;
+  display:grid;place-items:center;
+  color:var(--mut);font-size:11px;font-weight:750;
+  letter-spacing:.04em;
+  background:linear-gradient(110deg,
+    color-mix(in srgb,var(--panel) 64%,transparent) 25%,
+    color-mix(in srgb,var(--panel) 88%,transparent) 42%,
+    color-mix(in srgb,var(--panel) 64%,transparent) 60%);
+  background-size:200% 100%;
+  animation:atlasMapLoading 1.4s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes atlasMapLoading{to{background-position:-200% 0}}
+@media(prefers-reduced-motion:reduce){
+  #placementMap[data-loading="true"]::after{animation:none}
+}
 #placementMap .leaflet-tile,
 .uxMiniMap .leaflet-tile{
   border:0!important;outline:0!important;box-shadow:none!important;

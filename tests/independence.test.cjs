@@ -263,7 +263,7 @@ test('finishing pass keeps learning, device theme and map colour placement wired
   const html=read('index.html'),sw=read('sw.js'),map=read('sector-map.js'),css=read('atlas-completion.css');
   for(const name of ['learning-library.js','atlas-completion.css','premium-quiet-interface.css','premium-workspace.js'])assertAssetSynced(html,sw,name);
   assert.match(html,/localStorage\.getItem\('oriel-desk-palette-v1'\)\|\|'mono'/);
-  assert.match(html,/prefers-color-scheme: dark/);
+  assert.match(html,/var theme=saved==='dark'\?'dark':'light'/);
   assert.match(map,/prefsGrid\.insertBefore\(settings,resetCard\|\|null\)/);
   assert.match(map,/paMapColourReset/);
   assert.match(css,/#prefs \.atlasMapColourSettings \.paMapColourReset/);

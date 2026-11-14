@@ -478,6 +478,9 @@ const STYLES=Object.freeze({
       else raster(map,reason);
     };
     try{
+      // Seed the host control immediately so the required credit is present
+      // during MapLibre's asynchronous style load.
+      map.attributionControl?.addAttribution(styleAttribution());
       layer=L.maplibreGL({
         style:style(),pane:'orielVectorBasemap',
         attributionControl:{customAttribution:styleAttribution()},

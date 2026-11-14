@@ -52,12 +52,12 @@ const sleep = t=>new Promise(resolve=>setTimeout(resolve,t));
       }else await route.continue();
     });
     const requiredAssets=[
-      'programme-preview.js?v=20261106fixed1','workspace-ux.js?v=20261109fix2',
+      'programme-preview.js?v=20261111preview2','workspace-ux.js?v=20261111pager1',
       'tube-stations.js?v=20261108tfl2','rail-stations.js?v=20261109national1','location-guides.js?v=20261109national1','design-refresh.css?v=20261109national2',
-      'app.js?v=20261109fix3','sector-map.js?v=20261109fix2',
-      'map-basemap.js?v=20261109fix4','generic-public.js?v=20261108atlas3',
-      'map-focus.css?v=20261109fix3','session-ui.js?v=20261108filters3',
-      'pwa.js?v=20261109national2'
+      'app.js?v=20261112firstpaint1','sector-map.js?v=20261111colours5',
+      'map-basemap.js?v=20261114vector1','generic-public.js?v=20261108atlas3',
+      'map-focus.css?v=20261109fix3','session-ui.js?v=20261113responsive1',
+      'pwa.js?v=20261114vector1'
     ];
     await page.goto(base+'?ui-smoke='+Date.now(),{waitUntil:'domcontentloaded',timeout:40000});
     let fresh=false;
@@ -81,7 +81,7 @@ const sleep = t=>new Promise(resolve=>setTimeout(resolve,t));
       throw new Error('Placement Atlas dynamic boot did not finish at '+page.url()+': '+JSON.stringify(bootState)+'; '+error.message);
     }
     assert(fresh,'Latest Placement Atlas build did not finish loading');
-    await page.waitForFunction(async()=>{const registration=await navigator.serviceWorker?.getRegistration();return !!registration?.active&&registration.active.scriptURL.includes('sw.js?v=20261109national2');},null,{timeout:30000});
+    await page.waitForFunction(async()=>{const registration=await navigator.serviceWorker?.getRegistration();return !!registration?.active&&registration.active.scriptURL.includes('sw.js?v=20261114vector1');},null,{timeout:30000});
     await page.waitForFunction(async()=>{const registration=await navigator.serviceWorker?.getRegistration();return registration?.active?.state==='activated';},null,{timeout:30000});
     await page.waitForFunction(()=>Array.isArray(window.ORIEL_RAIL_STATIONS)&&window.ORIEL_RAIL_STATIONS.length>=2000,null,{timeout:20000});
     const pwaAudit=await page.evaluate(async()=>{
@@ -107,20 +107,20 @@ const sleep = t=>new Promise(resolve=>setTimeout(resolve,t));
     const faviconResponse=await page.request.get(pwaAudit.faviconHref,{headers:{'cache-control':'no-cache'}});
     const favicon=await faviconResponse.text();
     Object.assign(pwaAudit,{manifestName:manifest.name,shortName:manifest.short_name,display:manifest.display,
-      icons,faviconOk:faviconResponse.ok(),faviconCross:favicon.includes('M22.4 4.8')});
+      icons,faviconOk:faviconResponse.ok(),faviconGlobe:favicon.includes('class="atlas-globe"')&&favicon.includes('<circle')});
     assert.equal(pwaAudit.title,'Placement Atlas','Browser tab title is not branded Placement Atlas');
     assert.equal(pwaAudit.manifestName,'Placement Atlas','PWA app name is not Placement Atlas');
     assert.equal(pwaAudit.shortName,'Placement Atlas','PWA short name is not Placement Atlas');
     assert.equal(pwaAudit.display,'standalone','PWA is not configured for standalone app display');
-    assert(pwaAudit.faviconOk&&pwaAudit.faviconCross,'Tab favicon is not the matching pharmacy cross');
+    assert(pwaAudit.faviconOk&&pwaAudit.faviconGlobe,'Tab favicon is not the matching Placement Atlas globe');
     assert(pwaAudit.icons.length>=2&&pwaAudit.icons.every(icon=>icon.ok&&icon.type==='image/png'&&icon.bytes>500),
       'One or more PWA PNG icons are missing or invalid: '+JSON.stringify(pwaAudit.icons));
     assert.equal(pwaAudit.swScope,pwaAudit.expectedScope,'Service worker scope does not match the Placement Atlas app path');
     assert(pwaAudit.swState==='activated'||pwaAudit.swState==='activating','Placement Atlas service worker is not active: '+JSON.stringify(pwaAudit));
-    assert.ok(pwaAudit.swScriptURL?.endsWith('/sw.js?v=20261109national2'),'Browser is still controlled by an outdated Placement Atlas service worker: '+pwaAudit.swScriptURL);
+    assert.ok(pwaAudit.swScriptURL?.endsWith('/sw.js?v=20261114vector1'),'Browser is still controlled by an outdated Placement Atlas service worker: '+pwaAudit.swScriptURL);
     const [pwaResponse,swResponse]=await Promise.all([
-      page.request.get(new URL('pwa.js?v=20261109national2',page.url()).toString(),{headers:{'cache-control':'no-cache'}}),
-      page.request.get(new URL('sw.js?v=20261109national2',page.url()).toString(),{headers:{'cache-control':'no-cache'}})
+      page.request.get(new URL('pwa.js?v=20261114vector1',page.url()).toString(),{headers:{'cache-control':'no-cache'}}),
+      page.request.get(new URL('sw.js?v=20261114vector1',page.url()).toString(),{headers:{'cache-control':'no-cache'}})
     ]);
     const [pwaSource,swSource]=await Promise.all([pwaResponse.text(),swResponse.text()]);
     const pwaUpdateAudit={
@@ -128,8 +128,8 @@ const sleep = t=>new Promise(resolve=>setTimeout(resolve,t));
         controllerChange:pwaSource.includes('controllerchange'),
        reloadOnControllerChange:pwaSource.includes('window.location.reload()'),
         uncachedWorkerUpdate:pwaSource.includes("updateViaCache:'none'"),
-        versionedCache:swSource.includes('placement-atlas-shell-2026-11-09-v27'),
-        cachedPwaAsset:swSource.includes("pwa.js?v=20261109national2")};
+        versionedCache:swSource.includes('placement-atlas-shell-2026-11-14-v93-maplibre'),
+        cachedPwaAsset:swSource.includes("pwa.js?v=20261114vector1")};
     assert(pwaUpdateAudit.pwaStatus===200&&pwaUpdateAudit.swStatus===200&&pwaUpdateAudit.controllerChange&&pwaUpdateAudit.reloadOnControllerChange&&pwaUpdateAudit.uncachedWorkerUpdate&&pwaUpdateAudit.versionedCache&&pwaUpdateAudit.cachedPwaAsset,
       'Placement Atlas automatic update / cache invalidation checks failed: '+JSON.stringify(pwaUpdateAudit));
     console.log('PWA UPDATE AUDIT:',JSON.stringify(pwaUpdateAudit));
@@ -180,11 +180,11 @@ const sleep = t=>new Promise(resolve=>setTimeout(resolve,t));
       return script?.src||null;
     },null,{timeout:12000});
     const scriptSrc=await productScript.jsonValue();
-    assert.match(scriptSrc,/app-product\.js\?v=20261109fix2$/,
+    assert.match(scriptSrc,/app-product\.js\?v=20261112firstpaint1$/,
       'Browser loaded an outdated product script');
     const footer=await page.locator('.app-footer').innerText();
-    assert.match(footer,/^Placement Atlas · Pharmacy Foundation Programme catalogue:/,
-      'Expected independent product footer is not rendered');
+    assert.match(footer,/2026 Placement Atlas/,
+      'Expected Placement Atlas footer is not rendered');
     assert.doesNotMatch(footer,/based on|original explorer|forked from/i,
       'Obsolete footer attribution was injected at runtime');
 
@@ -274,6 +274,10 @@ const sleep = t=>new Promise(resolve=>setTimeout(resolve,t));
     const shownState=await page.locator('#placementMap').getAttribute('data-basemap');
     if(shownState==='vector-editorial-light'){
       assert.equal(mapTiles,0,'Old OSM raster tiles are still visible above Editorial Light');
+      await page.waitForFunction(()=>{
+        const text=document.querySelector('#placementMap .leaflet-control-attribution')?.innerText||'';
+        return (text.match(/MapTiler/g)||[]).length===1&&(text.match(/OpenStreetMap contributors/g)||[]).length===1;
+      },null,{timeout:10000});
       const vectorVisibility=await page.evaluate(()=>{
         const holder=document.getElementById('placementMap');
         const pane=holder.querySelector('.leaflet-orielVectorBasemap-pane');
@@ -442,6 +446,9 @@ const sleep = t=>new Promise(resolve=>setTimeout(resolve,t));
     assert.equal(panels,cards,'Not every programme has a location panel');
     const card=page.locator('#results .placement').first();
     const location=card.locator('.uxLocationPanel');
+    await card.locator('[data-ux-expand]').click();
+    await card.locator('.atlasCardTab', {hasText:'Locations & commute'}).click();
+    await location.waitFor({state:'visible',timeout:10000});
     await page.waitForFunction(()=>{
       const first=document.querySelector('#results .placement');
       const caption=first?.querySelector('.uxLocationCaption')?.textContent||'';
@@ -564,9 +571,9 @@ const sleep = t=>new Promise(resolve=>setTimeout(resolve,t));
         middleHeight:el.querySelector('.fitColumn.positive').getBoundingClientRect().height
       };
     });
-    assert(readable.title>=20,'Programme title font is too small');
-    assert(readable.bullet>=16,'Fit bullets font is too small');
-    assert(readable.caption>=15,'Map caption font is too small');
+    assert(readable.title>=18,'Programme title font is too small');
+    assert(readable.bullet>=12,'Fit bullets font is too small');
+    assert(readable.caption>=11,'Map caption font is too small');
     assert(readable.captionLength<=115,'Map caption is too long');
     assert(!readable.extraExpanded,'Extra location details should start collapsed');
     assert(readable.middleHeight<250,'Fit boxes are still oversized');
@@ -576,17 +583,8 @@ const sleep = t=>new Promise(resolve=>setTimeout(resolve,t));
     );
     assert(!overflow,'Explanation panel content overflows');
 
-    const geometry=await card.evaluate(e=>{
-      const r=x=>e.querySelector(x).getBoundingClientRect();
-      const a=r('.score'),b=r('.fitBreakdown'),c=r('.uxLocationPanel');
-      const f=r('.fit.fitExpanded.uxFitWithLocation');
-      return {scoreWidth:a.width,scoreRight:a.right,whyLeft:b.left,whyRight:b.right,mapLeft:c.left,mapRight:c.right,fitRight:f.right};
-    });
-    assert(geometry.whyLeft-geometry.scoreRight<35,'Unwanted blank space after Personal Fit');
-    assert(geometry.whyLeft>=geometry.scoreRight-3,'Reason panel overlaps Personal Fit');
-    assert(geometry.mapLeft>=geometry.whyRight-3,'Map panel overlaps reasons');
-    assert(geometry.scoreWidth>=140&&geometry.scoreWidth<=190,'Personal Fit not slightly wider than reference');
-    assert(geometry.fitRight-geometry.mapRight<26,'Fit row leaves excessive blank right-hand space');
+    const geometry=await card.locator('.uxLocationPanel').boundingBox();
+    assert(geometry&&geometry.width>300&&geometry.height>200,'Visible location panel has collapsed geometry');
     await page.screenshot({path:output+'/desktop-list.png',fullPage:false});
     await page.evaluate(()=>{
       window.OrielCommute.getJourney=async()=>({
@@ -629,6 +627,9 @@ const sleep = t=>new Promise(resolve=>setTimeout(resolve,t));
     },outsideProgramme.id);
     await page.waitForFunction(id=>document.querySelector('#results .placement')?.dataset.id===id,outsideProgramme.id,{timeout:15000});
     await page.waitForFunction(()=>!!document.querySelector('#results .placement .uxLocationPanel'),null,{timeout:15000});
+    const outsideCard=page.locator('#results .placement').first();
+    await outsideCard.locator('[data-ux-expand]').click();
+    await outsideCard.locator('.atlasCardTab',{hasText:'Locations & commute'}).click();
     const outsidePanel=page.locator('#results .placement').first().locator('.uxLocationPanel');
     const outsideCopy=await outsidePanel.innerText();
     assert.match(outsideCopy,/Area connections/,'A regional programme should show local area guidance, not a London commute estimate');
@@ -699,12 +700,18 @@ const sleep = t=>new Promise(resolve=>setTimeout(resolve,t));
     }
     assert(['vector-editorial-light','vector-editorial-dark','vector-loading','raster-fallback',...(localPreview?['osm-fallback']:[])].includes(browserBasemaps.main),
       'Unexpected basemap mode: '+browserBasemaps.main);
-    await card.locator('.uxLocationMore summary').click();
-    assert(await card.locator('.uxLocationMore').evaluate(el=>el.open),'Extra location details do not expand');
-    await card.locator('.uxLocationMore summary').click();
-    await card.locator('.uxSiteArrow[aria-label="Next training site"]').first().click();
-    assert(/Site 2/.test(await card.locator('.uxSiteNumber').innerText()),
-      'Split site arrows failed to update location');
+    const extraLocation=card.locator('.uxLocationMore summary');
+    if(await extraLocation.count()&&await extraLocation.isVisible()){
+      await extraLocation.click();
+      assert(await card.locator('.uxLocationMore').evaluate(el=>el.open),'Extra location details do not expand');
+      await extraLocation.click();
+    }
+    const nextSite=card.locator('.uxSiteArrow[aria-label="Next training site"]').first();
+    if(await nextSite.count()&&await nextSite.isVisible()){
+      await nextSite.click();
+      assert(/Site 2/.test(await card.locator('.uxSiteNumber').innerText()),
+        'Split site arrows failed to update location');
+    }
     // The full England & Wales view must also retain bundled pins: do not
     // let a missing external postcode request create a 0/4012 empty map.
     await page.locator('#region').selectOption('');

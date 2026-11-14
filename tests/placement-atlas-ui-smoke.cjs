@@ -73,7 +73,11 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
    const map=document.getElementById('placementMap');
    return map&&(map.dataset.basemap||map.querySelector('canvas')||map.querySelector('.leaflet-tile-loaded'));
   },null,{timeout:60000});
-  await page.waitForFunction(()=>!!document.querySelector('#placementMap .leaflet-control-attribution, #placementMap .maplibregl-ctrl-attrib'),null,{timeout:30000});
+  await page.waitForFunction(()=>{
+   const host=document.getElementById('placementMap');
+   const credit=host?.querySelector('.leaflet-control-attribution, .maplibregl-ctrl-attrib');
+   return !!credit&&(credit.innerText||credit.innerHTML||'').includes('OpenStreetMap');
+  },null,{timeout:30000});
   const mapInfo=await page.evaluate(()=>{
    const host=document.getElementById('placementMap'),credit=host.querySelector('.leaflet-control-attribution, .maplibregl-ctrl-attrib');
    const layer=typeof placementMap!=='undefined'&&placementMap?placementMap._orielBasemapRecord?.layer:null;

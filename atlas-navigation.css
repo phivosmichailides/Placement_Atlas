@@ -1,3 +1,18 @@
+html body:not(.atlasNavigationReady) #atlasHeaderTools{
+  visibility:hidden!important;
+  min-height:0!important;
+  height:0!important;
+  margin:0!important;
+  overflow:hidden!important;
+  pointer-events:none!important;
+}
+html body.atlasNavigationReady #atlasHeaderTools{visibility:visible}
+html body button:not(:disabled),
+html body a[href],
+html body summary,
+html body [role="button"]{cursor:pointer}
+html body button:disabled{cursor:not-allowed}
+
 /* Placement Atlas — always-available navigation, retaining the existing icon set. */
 html body .shell > header.top.atlasStickyHeader{
   position:sticky!important;top:0;z-index:1650;

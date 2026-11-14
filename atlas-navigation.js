@@ -183,6 +183,9 @@
       if(button.classList.contains('active')||visibleParent)button.setAttribute('aria-current','page');
       else button.removeAttribute('aria-current');
     }
+    if(window.matchMedia('(max-width:650px)').matches){
+      nav.querySelector('.tab.active')?.scrollIntoView({block:'nearest',inline:'nearest'});
+    }
     const count=document.getElementById('atlasCompareCount');
     if(count){
       try{count.textContent=String(typeof state!=='undefined'&&Array.isArray(state.compare)?state.compare.length:0)}
@@ -190,6 +193,8 @@
     }
   };
   document.body.dataset.atlasView='explore';
+  nav.scrollLeft=0;
+  document.body.classList.add('atlasNavigationReady');
   document.addEventListener('desk:after-navigation',sync);
   document.addEventListener('desk:state-saved',sync);
   document.addEventListener('desk:dataset',sync);

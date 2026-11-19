@@ -64,11 +64,8 @@ self.addEventListener('install',event=>{
     await Promise.all([...urls].map(async url=>{
       try{const response=await fetch(url,{cache:'reload'});if(response.ok&&response.type==='basic')await cache.put(url,response.clone())}catch{}
     }));
-    // Cache the MapLibre runtime separately so a later offline reopen can still initialise the vector renderer.
-    const mapAssets=await caches.open(MAP_ASSET_CACHE);
-    await Promise.all(REMOTE_MAP_ASSETS.map(async url=>{
-      try{const response=await fetch(url,{mode:'cors',cache:'reload'});if(response.ok)await mapAssets.put(url,response.clone())}catch{}
-    }));
+    // WebGL packages are optional. Cache them on first Editorial use rather
+    // than downloading large CDN assets during the fast Streets install.
     await self.skipWaiting();
   })());
 });

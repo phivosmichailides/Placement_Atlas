@@ -151,7 +151,7 @@
     }
 
     const programmePins=new Map(),pinBases=new WeakMap(),programmeCoordinates=new Map();
-    let selectedProgramme=null,hoveredProgramme=null,currentMapList=placements.filter(matches),mapRedrawQueued=false;
+    let selectedProgramme=null,hoveredProgramme=null,currentMapList=placements.filter(matches),mapRedrawQueued=false;let cachedGroupList=null,cachedGroupData=null,redrawTimer=null;
 
     // TfL Underground markers are a separate layer, so filtering or redrawing
     // placement pins never removes transport context. Only show at street-level
@@ -318,9 +318,10 @@
       $('mapSelection').innerHTML='';
       mapLayer.clearLayers();
       programmePins.clear();hoveredProgramme=null;
-      const groups=new Map(),allCodes=new Set(),resolvedCodes=new Set();
-      let programmesWithAnySite=0,programmesWithAllSites=0,programmesWithoutCode=0;
-
+      let groups,allCodes,resolvedCodes,programmesWithAnySite,programmesWithAllSites,programmesWithoutCode;
+      if(cachedGroupList===list&&cachedGroupData){({groups,allCodes,resolvedCodes,programmesWithAnySite,programmesWithAllSites,programmesWithoutCode}=cachedGroupData);}else{
+      groups=new Map();allCodes=new Set();resolvedCodes=new Set();
+      programmesWithAnySite=0;programmesWithAllSites=0;programmesWithoutCode=0;
       list.forEach(p=>{
         const codes=locationCodes(p);
         if(!codes.length){programmesWithoutCode++;return;}
@@ -354,6 +355,8 @@
       window.OrielMapCurrentBounds=groups.size
         ?L.latLngBounds([...groups.values()].map(group=>L.latLng(group.c[0],group.c[1])))
         :null;
+      cachedGroupList=list;cachedGroupData={groups,allCodes,resolvedCodes,programmesWithAnySite,programmesWithAllSites,programmesWithoutCode};
+      }
 
       const zoom=placementMap.getZoom();
       // Use broader clusters at national scale so dense coverage does not
@@ -365,7 +368,8 @@
       const cellSize=zoom<=5?80:zoom<=6?70:zoom<=7?58:zoom<=8?48:
         zoom<=9?40:zoom<=10?34:zoom<=11?28:zoom<=12?21:
         zoom<=13?16:zoom<=14?11:zoom<=15?7:0;
-      const visibleBounds=zoom>=16?placementMap.getBounds().pad(.55):null;
+      // Render only pins in or near the viewport; all programmes remain searchable.
+      const visibleBounds=placementMap.getBounds().pad(.30);
       const displayGroups=[];
       if(cellSize>0){
         // Use a spatial hash only to find nearby candidate clusters. Cluster
@@ -535,12 +539,12 @@
       const summary=[
         programmesWithAllSites.toLocaleString()+' fully mapped',
         groups.size.toLocaleString()+' sites',
-        displayGroups.length.toLocaleString()+' markers'
+        displayGroups.length.toLocaleString()+' markers near this view'
       ];
       if(unresolved)summary.push(unresolved.toLocaleString()+' codes unresolved');
       if(programmesWithoutCode)summary.push(programmesWithoutCode.toLocaleString()+' programmes have no postcode/outcode in the source');
       $('mapStatus').textContent=summary.join(' · ');
-      $('mapStatus').title='Showing programmes that match your current filters. With no active filters, the full catalogue is shown. At wider zooms, numbered clusters zoom into nearby sites; individual location pins open a programme preview. Outcode-only markers are approximate area locations. Underground station symbols appear at close street-level zoom (15.5+); station data provided by Transport for London.';
+      $('mapStatus').title='All matching programmes remain available in Explore. Only pins near the current viewport are drawn; move or zoom to reveal other sites. Numbered clusters expand as you zoom. Outcode-only markers are approximate area locations. Underground symbols appear at street-level zoom (15.5+); station data provided by Transport for London.';
       window.OrielMapStats={
         scope:'matching',
         programmes:list.length,
@@ -561,18 +565,20 @@
       updateViewportHint();
     };
     const scheduleMapRedraw=()=>{
-      if(mapRedrawQueued)return;
-      mapRedrawQueued=true;
-      requestAnimationFrame(()=>{
-        mapRedrawQueued=false;
-        try{drawMap(currentMapList)}catch(error){console.warn('Map markers could not be refreshed after navigation',error)}
-      });
+      if(redrawTimer)clearTimeout(redrawTimer);
+      // Debounce camera movement; do not rebuild the markers on animation frames.
+      redrawTimer=setTimeout(()=>{
+        redrawTimer=null;
+        requestAnimationFrame(()=>{
+          try{drawMap(currentMapList)}catch(error){console.warn('Map markers could not be refreshed after navigation',error)}
+        });
+      },120);
     };
     let viewportHintQueued=false;
     const scheduleViewportHint=()=>{if(viewportHintQueued)return;viewportHintQueued=true;requestAnimationFrame(()=>{viewportHintQueued=false;updateViewportHint();});};
     placementMap.on('popupclose',()=>{selectedProgramme=null;syncMap();});
     placementMap.on('zoomend',()=>{scheduleMapRedraw();scheduleViewportHint();});
-    placementMap.on('moveend',()=>{if(placementMap.getZoom()>=16)scheduleMapRedraw();scheduleViewportHint();});
+    placementMap.on('moveend',()=>{scheduleMapRedraw();scheduleViewportHint();});
     try{drawMap(placements.filter(matches));}catch{}
     // Keep the intentional London starting view. Fit the national extent only
     // when the user presses Fit results or the empty-map action.

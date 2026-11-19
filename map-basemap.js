@@ -151,7 +151,7 @@ const STYLES=Object.freeze({
     if(!CHOICES.has(choice))return false;
     const changesRenderer=(preference==='fast')!==(choice==='fast');
     preference=choice;
-    try{localStorage.setItem(STYLE_KEY,choice)}catch{}
+    try{localStorage.setItem(STYLE_KEY,choice);if(choice==='auto')localStorage.setItem('oriel-basemap-fast-migration-20261119','1')}catch{}
     // Switching between Leaflet raster and MapLibre vector requires replacing
     // the renderer; reload with saved choices rather than stacking map layers.
     if(changesRenderer){location.reload();return true;}

@@ -443,7 +443,7 @@ const STYLES=Object.freeze({
     // Mini-maps render snapshots from the same selected Editorial vector style.
     // Leaflet still owns their site/Tube markers, attribution and click target,
     // while a single shared MapLibre context avoids WebGL-context exhaustion.
-    if(mini)return addMiniSnapshot(map,replaceFallback);
+    if(mini)return preference==='fast'?raster(map,'Reliable Streets basemap'):addMiniSnapshot(map,replaceFallback);
     // Use a lightweight, labelled Streets tile map by default. It has visible
     // roads, does not create a WebGL context and scrolls/zooms more smoothly.
     if(preference==='fast')return raster(map,'Reliable Streets basemap');

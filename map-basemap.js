@@ -20,7 +20,14 @@ const STYLES=Object.freeze({
     const saved=localStorage.getItem(STYLE_KEY)||localStorage.getItem('oriel-basemap-style-v2')||'fast';
     if(saved==='dark'||saved==='editorial-dark')preference='editorial-dark';
     else if(saved==='editorial-light'||saved==='editorial'||['positron','bright','liberty','fiord'].includes(saved))preference='editorial-light';
-    else if(saved==='auto'||saved==='fast')preference='fast';
+    else if(saved==='fast')preference='fast';
+    else if(saved==='auto'){
+      // Migrate legacy Automatic users once to the faster streets map, but
+      // preserve the ability to choose Editorial Automatic afterwards.
+      if(!localStorage.getItem('oriel-basemap-fast-migration-20261119')){
+        preference='fast';localStorage.setItem('oriel-basemap-fast-migration-20261119','1');
+      }else preference='auto';
+    }
     localStorage.setItem(STYLE_KEY,preference);
   }catch{};
   // The adapter supports a single custom credit per layer. A MapTiler style

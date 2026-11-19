@@ -14,13 +14,13 @@ const STYLES=Object.freeze({
   'editorial-dark':styleUrl('map-styles/editorial-dark.json')
 });
   const STYLE_KEY='oriel-basemap-style-v3';
-  const CHOICES=new Set(['auto',...Object.keys(STYLES)]);
-  let preference='auto';
+  const CHOICES=new Set(['fast','auto',...Object.keys(STYLES)]);
+  let preference='fast';
   try{
-    const saved=localStorage.getItem(STYLE_KEY)||localStorage.getItem('oriel-basemap-style-v2')||'auto';
+    const saved=localStorage.getItem(STYLE_KEY)||localStorage.getItem('oriel-basemap-style-v2')||'fast';
     if(saved==='dark'||saved==='editorial-dark')preference='editorial-dark';
     else if(saved==='editorial-light'||saved==='editorial'||['positron','bright','liberty','fiord'].includes(saved))preference='editorial-light';
-    else if(saved==='auto')preference='auto';
+    else if(saved==='auto'||saved==='fast')preference='fast';
     localStorage.setItem(STYLE_KEY,preference);
   }catch{};
   // The adapter supports a single custom credit per layer. A MapTiler style
@@ -35,7 +35,7 @@ const STYLES=Object.freeze({
   let miniRenderer=null,miniRendererHost=null,miniRendererStyle=null,miniQueue=Promise.resolve();
   const mode=()=>document.documentElement.getAttribute('data-theme')==='dark'?'dark':'light';
   // Automatic switches between two coordinated versions of the same map design.
-  const activeStyleName=()=>preference==='auto'?(mode()==='dark'?'editorial-dark':'editorial-light'):preference;
+  const activeStyleName=()=>['auto','fast'].includes(preference)?(mode()==='dark'?'editorial-dark':'editorial-light'):preference;
   const style=()=>STYLES[activeStyleName()];
   // A raster fallback remains available on browsers without WebGL. The local
   // vector styles use the muted Editorial palette; raster fallback stays on
@@ -72,10 +72,10 @@ const STYLES=Object.freeze({
       15,roadWidth(2.75+offset),17,roadWidth(3.45+offset),
       19,roadWidth(4.3+offset)];
     const surfaceWidth=roadWidthAtZoom(0),casingWidth=roadWidthAtZoom(1.15);
-    const casingColour=dark?'#1b2520':'#f7f3e9';
+    const casingColour=dark?'#26332e':'#fffdf9';
     const roadColour=dark
-      ?['match',['get','class'],'motorway','#a98f73','trunk','#a08f79','primary','#928f80','secondary','#858f84','tertiary','#78867d','minor','#6f7e75','service','#66766e','track','#5d6d65','#68786f']
-      :['match',['get','class'],'motorway','#bba487','trunk','#c3af95','primary','#cbbba3','secondary','#d3c6b3','tertiary','#dbd1c2','minor','#e0d8cc','service','#e5dfd6','track','#ded5c5','#e1d8ca'];
+      ?['match',['get','class'],'motorway','#c4a68b','trunk','#b5a08a','primary','#adb0a1','secondary','#9daa9d','tertiary','#9aa89d','minor','#899b90','service','#829588','track','#809184','#90a196']
+      :['match',['get','class'],'motorway','#a28a70','trunk','#aa917a','primary','#b39b87','secondary','#b7a694','tertiary','#b8ac9d','minor','#b4afa5','service','#bdb9b0','track','#c4b9a9','#b7b0a6'];
     const layout={'line-cap':'round','line-join':'round'};
     const layers=[
       {id:'atlas-road-casing',type:'line',source:'maptiler_planet_v4','source-layer':'road',minzoom:3,filter,layout,paint:{'line-color':casingColour,'line-opacity':1,'line-width':casingWidth}},
@@ -142,8 +142,12 @@ const STYLES=Object.freeze({
   };
   const choose=choice=>{
     if(!CHOICES.has(choice))return false;
+    const changesRenderer=(preference==='fast')!==(choice==='fast');
     preference=choice;
     try{localStorage.setItem(STYLE_KEY,choice)}catch{}
+    // Switching between Leaflet raster and MapLibre vector requires replacing
+    // the renderer; reload with saved choices rather than stacking map layers.
+    if(changesRenderer){location.reload();return true;}
     applyStyle();
     return true;
   };
@@ -152,7 +156,7 @@ const STYLES=Object.freeze({
     const nextTheme=mode();
     if(nextTheme===lastTheme)return;
     lastTheme=nextTheme;
-    if(preference==='auto')applyStyle();
+    if(preference==='auto'||preference==='fast')applyStyle();
   });
   themeObserver.observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
   // Browsers limit concurrent WebGL contexts. Mini-maps share one snapshot
@@ -231,7 +235,7 @@ const STYLES=Object.freeze({
     map.on('unload',()=>{if(timer)clearTimeout(timer);rasterInstances.delete(record);fallbackInstances.delete(record);});
     timer=setTimeout(()=>{
       if(loadedTiles===0)useOpenStreetMap(errorTiles?'MapTiler raster tiles returned errors.':'MapTiler raster tiles did not arrive before the loading timeout.');
-    },7000);
+    },5500);
     const holder=map.getContainer();
     holder.dataset.basemap='raster-fallback';
     holder.dataset.basemapReason=reason;
@@ -433,6 +437,9 @@ const STYLES=Object.freeze({
     // Leaflet still owns their site/Tube markers, attribution and click target,
     // while a single shared MapLibre context avoids WebGL-context exhaustion.
     if(mini)return addMiniSnapshot(map,replaceFallback);
+    // Use a lightweight, labelled Streets tile map by default. It has visible
+    // roads, does not create a WebGL context and scrolls/zooms more smoothly.
+    if(preference==='fast')return raster(map,'Reliable Streets basemap');
     // MapLibre GL JS v5 may not expose supported(); absence is not a WebGL failure.
     const maplibre=window.maplibregl;
     const explicitlyUnsupported=typeof maplibre?.supported==='function'&&!maplibre.supported();
@@ -566,7 +573,7 @@ const STYLES=Object.freeze({
           fail('MapTiler vector request failed'+(status?' (HTTP '+status+')':'')+': '+message,status===403);
         }
       });
-      timeout=setTimeout(()=>{if(!ready)fail('MapTiler vector tiles did not render before the loading timeout.')},30000);
+      timeout=setTimeout(()=>{if(!ready)fail('MapTiler vector tiles did not render before the loading timeout.')},11000);
       map.on('unload',()=>{
         ended=true;
         instances.delete(record);

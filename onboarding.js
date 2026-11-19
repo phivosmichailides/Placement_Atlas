@@ -94,7 +94,7 @@
       palette:localStorage.getItem('oriel-desk-palette-v1')||document.documentElement.getAttribute('data-palette')||'mono',
       theme:document.documentElement.getAttribute('data-theme')||'light'
     });
-    const defaultAnswers=()=>({region:'',environment:'',priorities:[],salary:'',hours:'',community:'',homePostcode:window.OrielCommuteProfile?.read?.()||'',...getAppearance()});
+    const defaultAnswers=()=>({region:'',environment:'',priorities:[],salary:'',hours:'',community:'',visaPriority:state?.prefs?.visaPriority||'none',homePostcode:window.OrielCommuteProfile?.read?.()||'',...getAppearance()});
     const renderAppliedProfile=profile=>{
       const panel=document.getElementById('uxProfileApplied'),target=document.getElementById('uxProfileAppliedChips');
       if(!panel||!target)return;
@@ -106,7 +106,7 @@
       (Array.isArray(p.priorities)?p.priorities:[]).forEach(x=>{if(priorities[x])items.push('Priority · '+priorities[x])});
       if(p.salary)items.push('Minimum salary · £'+Number(p.salary).toLocaleString('en-GB'));
       if(p.hours)items.push('Hours · ≤'+p.hours+'h');
-      if(p.community&&p.community!=='some')items.push('Community · '+({happy:'Welcome',less:'Prefer less',avoid:'Avoid community-heavy'}[p.community]||'Some'));
+      if(p.visaPriority==='require')items.push('Skilled Worker visa · Required');else if(p.visaPriority==='prefer')items.push('Skilled Worker visa · Preferred');if(p.community&&p.community!=='some')items.push('Community · '+({happy:'Welcome',less:'Prefer less',avoid:'Avoid community-heavy'}[p.community]||'Some'));
       const postcode=p.homePostcode||window.OrielCommuteProfile?.read?.()||'';
       if(postcode){const area=window.OrielCommuteProfile?.areaLabel?.(postcode)||postcode;items.push('Commute base · '+(area===postcode?area:area+' ('+postcode+')'));}
       target.replaceChildren();
@@ -173,7 +173,7 @@
           const opts=[['money','','Pay','I want strong salary/value.'],['lifestyle','','Work-life balance','Hours and day-to-day quality matter a lot.'],['progression','','Career value','I want experience that opens doors afterwards.'],['location','','Location','Where I live/work matters to my quality of life.'],['independence','','Independence','I prefer autonomy, quieter work or desk-friendly tasks.'],['clinical','','Clinical variety','I want broad, interesting clinical exposure.']];
           body=`<div class="onboardStepLabel">3 of 5 · Priorities</div><h3> What matters most to you?</h3><p class="onboardLead">Pick up to three. These get extra weight in your fit score.</p><div class="onboardChoices">${opts.map(x=>choice(x[0],x[1],x[2],x[3],answers.priorities.includes(x[0]))).join('')}</div><div class="onboardError" id="obError"></div>`;
         }else if(step===3){
-          body=`<div class="onboardStepLabel">4 of 5 · Practical details</div><h3>Any practical limits?</h3><p class="onboardLead">Set a salary or hours preference, or leave either one flexible.</p><div class="onboardFields"><label class="onboardField"><span>Minimum salary</span><select id="obSalary"><option value="">No minimum</option><option value="26000">£26k+</option><option value="28000">£28k+</option><option value="30000">£30k+</option><option value="32000">£32k+</option><option value="36000">£36k+</option></select></label><label class="onboardField"><span>Maximum weekly hours</span><select id="obHours"><option value="">Flexible</option><option value="35">≤35h</option><option value="37.5">≤37.5h</option><option value="40">≤40h</option><option value="42.5">≤42.5h</option></select></label></div><div class="onboardHomeBase"><label class="onboardField"><span>Home area (optional)</span><input id="obHomePostcode" type="text" placeholder="e.g. E16 1RB or Canning Town" autocomplete="postal-code" maxlength="60"></label><p>Used only to estimate journeys from your home area to training sites. Saved in this browser; shared with TfL only when you request a journey estimate.</p><div class="onboardError" id="obHomePostcodeError"></div></div>`;
+          body=`<div class="onboardStepLabel">4 of 5 · Practical details</div><h3>Any practical limits?</h3><p class="onboardLead">Set a salary or hours preference, or leave either one flexible.</p><div class="onboardFields"><label class="onboardField"><span>Minimum salary</span><select id="obSalary"><option value="">No minimum</option><option value="26000">£26k+</option><option value="28000">£28k+</option><option value="30000">£30k+</option><option value="32000">£32k+</option><option value="36000">£36k+</option></select></label><label class="onboardField"><span>Maximum weekly hours</span><select id="obHours"><option value="">Flexible</option><option value="35">≤35h</option><option value="37.5">≤37.5h</option><option value="40">≤40h</option><option value="42.5">≤42.5h</option></select></label></div><label class="onboardField"><span>Skilled Worker visa sponsorship</span><select id="obVisa"><option value="none">Not needed / any programme</option><option value="prefer">Prefer programmes offering sponsorship</option><option value="require">Show sponsored programmes only</option></select></label><p class="onboardFine">Sponsorship is taken from the Oriel programme data; personal visa eligibility still needs checking.</p><div class="onboardHomeBase"><label class="onboardField"><span>Home area (optional)</span><input id="obHomePostcode" type="text" placeholder="e.g. E16 1RB or Canning Town" autocomplete="postal-code" maxlength="60"></label><p>Used only to estimate journeys from your home area to training sites. Saved in this browser; shared with TfL only when you request a journey estimate.</p><div class="onboardError" id="obHomePostcodeError"></div></div>`;
         }else if(step===4){
           const opts=[['happy','','Happy with community','I’m comfortable with a community-heavy programme.'],['some','','Some is fine','I’m happy to have it as part of a mixed programme.'],['less','','Prefer less community','I’d rather hospital/GP/other settings take the lead.'],['avoid','','Avoid community-heavy','Strongly push community-heavy programmes down my recommendations.']];
           body=`<div class="onboardStepLabel">5 of 5 · One last thing</div><h3> How do you feel about community pharmacy exposure?</h3><p class="onboardLead">This changes how strongly community-heavy programmes are penalised in your personal fit score.</p><div class="onboardChoices">${opts.map(x=>choice(x[0],x[1],x[2],x[3],answers.community===x[0])).join('')}</div>`;
@@ -206,9 +206,9 @@
         if(step===1){card.querySelectorAll('.onboardChoice').forEach(b=>b.onclick=()=>{answers.environment=b.dataset.value;step=2;render()});}
         if(step===2){card.querySelectorAll('.onboardChoice').forEach(b=>b.onclick=()=>{const v=b.dataset.value;const i=answers.priorities.indexOf(v);if(i>=0)answers.priorities.splice(i,1);else if(answers.priorities.length<3)answers.priorities.push(v);else{const er=card.querySelector('#obError');if(er)er.textContent='Choose up to three priorities.';return;}render()});}
         if(step===3){
-          const sal=card.querySelector('#obSalary'),hrs=card.querySelector('#obHours'),home=card.querySelector('#obHomePostcode');
-          sal.value=answers.salary;hrs.value=answers.hours;
-          sal.onchange=()=>answers.salary=sal.value;hrs.onchange=()=>answers.hours=hrs.value;
+          const sal=card.querySelector('#obSalary'),hrs=card.querySelector('#obHours'),visa=card.querySelector('#obVisa'),home=card.querySelector('#obHomePostcode');
+          sal.value=answers.salary;hrs.value=answers.hours;visa.value=answers.visaPriority||'none';
+          sal.onchange=()=>answers.salary=sal.value;hrs.onchange=()=>answers.hours=hrs.value;visa.onchange=()=>answers.visaPriority=visa.value;
           if(home){home.value=answers.homePostcode||'';home.addEventListener('input',()=>{answers.homePostcode=home.value;const error=card.querySelector('#obHomePostcodeError');if(error)error.textContent='';});}
         }
         if(step===4){card.querySelectorAll('.onboardChoice').forEach(b=>b.onclick=()=>{answers.community=b.dataset.value;step=5;render()});}
@@ -256,7 +256,7 @@
           if(p==='clinical'){weights.hospital=Math.max(weights.hospital,4);weights.gp=Math.max(weights.gp,4);}
         });
         weights.communityPenalty={happy:0,some:2,less:4,avoid:5}[answers.community]??3;
-        state.prefs.weights={...state.prefs.weights,...weights};
+        state.prefs.weights={...state.prefs.weights,...weights};state.prefs.visaPriority=answers.visaPriority||'none';
         answers.homePostcode=window.OrielCommuteProfile?.normalise?.(answers.homePostcode||'')||'';
         state.prefs.onboarding={...answers};
         save();
@@ -282,7 +282,7 @@
             const r=$('region'),sal=$('salary'),hrs=$('hours');
             if(r)r.value=answers.region||'';
             if(sal)sal.value=answers.salary||'';
-            if(hrs)hrs.value=answers.hours||'';
+            if(hrs)hrs.value=answers.hours||'';if($('visa'))$('visa').value=answers.visaPriority==='require'?'yes':'';
             if($('sort'))$('sort').value='fit';
             pageLimit=40;
             if(r)r.dispatchEvent(new Event('change'));

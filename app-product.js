@@ -263,7 +263,7 @@
       const preferHospital=(['hospital','mixed','unsure'].includes(env)&&weight('hospital')>=2)||weight('hospital')>=4;
       const preferGP=(['gp','mixed','unsure'].includes(env)&&weight('gp')>=2)||weight('gp')>=4;
       const preferCommunity=env==='community'||profile.community==='happy';
-      const minSalary=Number(profile.salary)||0,maxHours=Number(profile.hours)||0;if(p.visa===true)positive('Skilled Worker visa sponsorship advertised by Oriel');else if(profile.visaPriority==='require')caution(p.visa===false?'Skilled Worker visa sponsorship not offered':'Skilled Worker visa sponsorship not confirmed');
+      const minSalary=Number(profile.salary)||0,maxHours=Number(profile.hours)||0;if(p.visa===true)positive('Skilled Worker visa sponsorship advertised by Oriel');else if((state.prefs.visaPriority||profile.visaPriority)==='require')caution(p.visa===false?'Skilled Worker visa sponsorship not offered':'Skilled Worker visa sponsorship not confirmed');
 
       // Respect hard-ish limits: below-minimum pay is never called strong pay.
       if(minSalary&&p.salary){

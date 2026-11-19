@@ -244,7 +244,7 @@
       hover(id,active=true){hoveredProgramme=active?id:null;syncMap()},
       current:()=>selectedProgramme
     };
-    const updateFocusCount=()=>{const count=window.OrielMapStats?.programmes??currentMapList.length;const label=document.getElementById('atlasMapFocusCount');if(label)label.textContent=`${count.toLocaleString()} of ${placements.length.toLocaleString()} programmes shown`;};
+    const updateFocusCount=()=>{const count=window.OrielMapStats?.programmes??currentMapList.length;const label=document.getElementById('atlasMapFocusCount');if(label)label.textContent=`${count.toLocaleString()} of ${placements.length.toLocaleString()} programmes match · displaying pins near this view`;};
     const updateViewportHint=()=>{
       const hint=document.getElementById('atlasMapEmptyHint');
       if(!hint||!placementMap||!mapLayer)return;

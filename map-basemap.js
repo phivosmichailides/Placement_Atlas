@@ -450,7 +450,14 @@ const STYLES=Object.freeze({
     // MapLibre GL JS v5 may not expose supported(); absence is not a WebGL failure.
     const maplibre=window.maplibregl;
     const explicitlyUnsupported=typeof maplibre?.supported==='function'&&!maplibre.supported();
-    if(!L.maplibreGL||!maplibre||explicitlyUnsupported||instances.size>=MAX_GL_MAPS){
+    if(!L.maplibreGL||!maplibre){
+      const fallback=raster(map,'Loading Editorial vector renderer');
+      // Editorial mode is optional. Load WebGL dependencies only when chosen;
+      // replace the temporary Streets tiles once the renderer is ready.
+      ensureMapLibraries().then(()=>retryFallbacks()).catch(error=>console.warn('Optional Editorial map could not initialise.',error));
+      return fallback;
+    }
+    if(explicitlyUnsupported||instances.size>=MAX_GL_MAPS){
       const reason=!maplibre?'MapLibre GL JS did not load.':!L.maplibreGL?'The Leaflet–MapLibre adapter did not load.':explicitlyUnsupported?'This browser reports WebGL as unavailable.':'The page has reached its MapLibre renderer limit.';
       return raster(map,reason);
     }

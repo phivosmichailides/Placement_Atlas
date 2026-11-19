@@ -2,7 +2,7 @@
 (()=>{
   const hadSaved=(()=>{try{return !!localStorage.getItem('phivos-desk-v2')}catch{return false}})();
   const base=document.createElement('script');
-  base.src='app-base.js?v=20261111labels1';
+  base.src='app-base.js?v=20261119swv1';
   base.onload=()=>{
     const decisions=[['','○','Unmarked'],['love','♡','Love'],['yes','✓','Strong yes'],['maybe','◐','Maybe'],['backup','◇','Only if needed'],['no','−','No'],['never','×','Absolutely not']];
     const decisionPicker=status=>{
@@ -57,11 +57,11 @@
     // Full postcodes use the bulk endpoint (100 per request); outcodes use
     // postcode.io's district centroid and are labelled approximate on the map.
     let resolveScopeAgain=false;
-    const resolveScopePins=async()=>{
+    const resolveScopePins=async({auto=false}={})=>{
       if(geoBusy){resolveScopeAgain=true;return;}
       if(typeof geo==='undefined')return;
       const region=activeRegion();
-      const source=placements;
+      const source=placements.filter(matches);if(!source.length)return;if(auto&&(!activeRegion()||source.length>650))return;
       const validPoint=value=>Array.isArray(value)&&value.length>=2&&Number.isFinite(Number(value[0]))&&Number.isFinite(Number(value[1]));
       // A cached null is a failed lookup, not a resolved location. A valid
       // postcode-district centroid is also a usable fallback for that postcode.
@@ -88,7 +88,7 @@
       const originalLabel=locateButton?.textContent||'Locate all sites';
       if(locateButton){locateButton.disabled=true;locateButton.textContent='Locating…';locateButton.setAttribute('aria-busy','true');}
       const status=$('mapStatus');
-      let completed=0,located=0,next=0,nextRenderAt=400;
+      let completed=0,located=0,next=0,nextRenderAt=800;
       const failed=[];
       const jobs=[];
       for(let i=0;i<missingPostcodes.length;i+=100)jobs.push({type:'postcode',values:missingPostcodes.slice(i,i+100)});
@@ -163,7 +163,7 @@
           if(completed>=nextRenderAt||completed===total){
             drawMap(placements.filter(matches));
             try{localStorage.setItem('phivos-geo-v1',JSON.stringify(geo))}catch{}
-            nextRenderAt+=400;
+            nextRenderAt+=800;
           }
         }
       };
@@ -197,7 +197,7 @@
       if(onlineResolveTimer)clearTimeout(onlineResolveTimer);
       onlineResolveTimer=setTimeout(()=>{
         onlineResolveTimer=null;
-        if(navigator.onLine!==false)resolveScopePins();
+        if(navigator.onLine!==false)resolveScopePins({auto:true});
       },900);
     });
 
@@ -263,7 +263,7 @@
       const preferHospital=(['hospital','mixed','unsure'].includes(env)&&weight('hospital')>=2)||weight('hospital')>=4;
       const preferGP=(['gp','mixed','unsure'].includes(env)&&weight('gp')>=2)||weight('gp')>=4;
       const preferCommunity=env==='community'||profile.community==='happy';
-      const minSalary=Number(profile.salary)||0,maxHours=Number(profile.hours)||0;
+      const minSalary=Number(profile.salary)||0,maxHours=Number(profile.hours)||0;if(p.visa===true)positive('Skilled Worker visa sponsorship advertised by Oriel');else if((state.prefs.visaPriority||profile.visaPriority)==='require')caution(p.visa===false?'Skilled Worker visa sponsorship not offered':'Skilled Worker visa sponsorship not confirmed');
 
       // Respect hard-ish limits: below-minimum pay is never called strong pay.
       if(minSalary&&p.salary){
@@ -345,7 +345,7 @@
       const icon=sector(p)==='Hospital'?'':sector(p)==='General Practice'?'':sector(p)==='Industry'?'':'';
       const badgeClass=label=>{
         const text=label.trim();
-        if(text==='Sponsorship: not offered')return 'badge-sponsorship-warning';if(text.startsWith('Specialist:'))return 'badge-specialist';
+        if(text==='Skilled Worker visa: offered')return 'good';if(text==='Skilled Worker visa: not offered')return 'badge-sponsorship-warning';if(text.startsWith('Specialist:'))return 'badge-specialist';
         if(/^(Hospital)(:|$)/.test(text))return 'badge-hospital';
         if(/^(General Practice|GP)(:|$)/.test(text))return 'badge-gp';
         if(/^Industry(:|$)/.test(text))return 'badge-industry';
@@ -353,7 +353,7 @@
         return '';
       };
       const specialised=window.OrielSpecialist?.classify(p)||[];
-      const tags=[...specialised.map(x=>'Specialist: '+window.OrielSpecialist.labelOf(x)),p.places&&` ${p.places} training ${p.places===1?'place':'places'}`,`Sponsorship: ${p.visa===true?'offered':p.visa===false?'not offered':'not stated'}`,p.region&&` ${p.region}`,`${icon} ${sector(p)}`,p.hours&&` ${p.hours}h/week`,p.settings.length>1&&' Split',h&&`Hospital: ${h}w`,g&&`GP: ${g}w`,c&&`Community: ${c}w`,i&&`Industry: ${i}w`].filter(Boolean);
+      const tags=[...specialised.map(x=>'Specialist: '+window.OrielSpecialist.labelOf(x)),p.places&&` ${p.places} training ${p.places===1?'place':'places'}`,`Skilled Worker visa: ${p.visa===true?'offered':p.visa===false?'not offered':'not confirmed'}`,p.region&&` ${p.region}`,`${icon} ${sector(p)}`,p.hours&&` ${p.hours}h/week`,p.settings.length>1&&' Split',h&&`Hospital: ${h}w`,g&&`GP: ${g}w`,c&&`Community: ${c}w`,i&&`Industry: ${i}w`].filter(Boolean);
       const fitCopy=personalisedFitInsights(p,a);
       const code=p.id.split('/').pop();
       const orielState=m.priority?`Your shortlist priority #${m.priority}`:SHORT.has(m.status)?'Saved to your shortlist':'Not shortlisted';
@@ -410,7 +410,7 @@
     const refreshScope=async({locate=false}={})=>{
       stats();explore();reco();
       updateMapHeading();
-      if(locate){try{await resolveScopePins()}catch{}}
+      if(locate){try{await resolveScopePins({auto:true})}catch{}}
       // Filtering must not unexpectedly zoom the map to the national extent.
     };
 
@@ -462,7 +462,7 @@
     // The canonical public footer is owned by index.html; do not overwrite it.
 
     const regionEl=$('region');
-    regionEl.addEventListener('change',()=>{if(regionEl.value){quick.delete('london');document.querySelector('[data-q="london"]')?.classList.remove('on');}pageLimit=40;persistFilters();refreshScope({locate:false});});
+    regionEl.addEventListener('change',()=>{if(regionEl.value){quick.delete('london');document.querySelector('[data-q="london"]')?.classList.remove('on');}pageLimit=40;persistFilters();refreshScope({locate:true});});
     document.querySelector('[data-q="london"]')?.addEventListener('click',()=>{if(quick.has('london'))regionEl.value='';setTimeout(()=>refreshScope({locate:true}),0);});
     $('allRegionsBtn')?.addEventListener('click',()=>{regionEl.value='';quick.delete('london');document.querySelector('[data-q="london"]')?.classList.remove('on');pageLimit=40;persistFilters();refreshScope({locate:false});});
     if($('locateBtn'))$('locateBtn').onclick=()=>resolveScopePins();
@@ -477,7 +477,7 @@
       autoLocateChecks++;
       if(placements.length&&placementMap&&window.__sectorPinsInstalled&&!geoBusy){
         clearInterval(autoLocateTimer);
-        resolveScopePins();
+        resolveScopePins({auto:true});
       }else if(autoLocateChecks>80)clearInterval(autoLocateTimer);
     },250);
   };

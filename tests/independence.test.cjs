@@ -349,7 +349,7 @@ test('discovery redesign uses progressive disclosure and concise, evidence-led s
   assert.match(heroCss,/atlasHowItWorks/,'How it works disclosure needs a clear presentation');
   assert.match(cards,/atlasCompactTakeHome/,'Compact cards should show the estimated monthly take-home');
   assert.match(cards,/facts\.push\(\['caution','Travel',postcodes\+' listed postcodes'\]\)/,'Multi-postcode programmes must show supplied location count as a travel check');
-  assert.match(cards,/facts\.push\(\['neutral','Sponsorship','Not stated'\]\)/,'Unknown sponsorship must remain unknown');
+  assert.match(cards,/facts\.push\(\['neutral','Skilled Worker visa','Not confirmed'\]\)/,'Unknown sponsorship must remain unconfirmed');
   assert.doesNotMatch(cards,/facts\.push\(\['good','Hospital \+ GP'/,
     'A training setting is factual, not inherently a positive recommendation');
   assert.match(cardCss,/atlasCompactTakeHome/,'Compact take-home needs a readable secondary style');

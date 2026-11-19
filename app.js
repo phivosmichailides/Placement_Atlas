@@ -17,14 +17,14 @@
     };
     const loadOnboarding=()=>{
       const onboarding=document.createElement('script');
-      onboarding.src='onboarding.js?v=20261113experience1';
+      onboarding.src='onboarding.js?v=20261119swv1';
       onboarding.onload=loadDeadlineDates;
       onboarding.onerror=loadDeadlineDates;
       document.body.appendChild(onboarding);
     };
     const loadSectors=()=>{
       const sectors=document.createElement('script');
-      sectors.src='sector-map.js?v=20261111colours5';
+      sectors.src='sector-map.js?v=20261119viewport1';
       sectors.onload=loadOnboarding;
       sectors.onerror=loadOnboarding;
       document.body.appendChild(sectors);
@@ -37,7 +37,7 @@
       document.body.appendChild(generic);
     };
     const product=document.createElement('script');
-    product.src='app-product.js?v=20261112firstpaint1';
+    product.src='app-product.js?v=20261119swv1';
     product.onload=loadGeneric;
     product.onerror=()=>{
       const r=document.getElementById('results');

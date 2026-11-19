@@ -13,7 +13,7 @@
 <link rel="apple-touch-icon" sizes="192x192" href="/icons/placement-atlas-192.png?v=20261111globe1">
 <link rel="manifest" href="/manifest.webmanifest?v=20261111globe1">
 <meta name="application-name" content="Placement Atlas">
-<meta name="atlas-release" content="2026-11-13-turnstile-auth">
+<meta name="atlas-release" content="2026-11-19-swv-map-clarity">
 <meta name="description" content="Placement Atlas is an independent Oriel placement desk for UK MPharm students. Compare 4,064 foundation pharmacist training programmes across England and Wales with interactive maps, pay and hours insights, personalised fit scores, filters, shortlist management and swipe-based discovery.">
 <link rel="canonical" href="https://placementatlas.co.uk/">
 <meta name="robots" content="index, follow, max-image-preview:large">
@@ -236,7 +236,7 @@ html[data-theme="dark"] .top #themeToggle .themeIconMoon {
         <p class="smallnote" id="uxHomePostcodeStatus">Used to assess a typical weekday 08:00 journey to every training site, including each site in split programmes. A full postcode is most precise; an area or station gives a broader starting point. Programme pins stay unchanged. Saved in this browser; route requests are sent to TfL.</p>
       </div>
       <div class="grid2"><label class="field"><span>Max hours</span><select id="hours"><option value="">Any</option><option>35</option><option>37.5</option><option>40</option><option>42.5</option></select></label><label class="field"><span>Minimum salary</span><select id="salary"><option value="">Any</option><option value="26000">£26k</option><option value="28000">£28k</option><option value="30000">£30k</option><option value="32000">£32k</option><option value="36000">£36k</option></select></label></div>
-      <label class="field"><span>Decisions</span><select id="decision"><option value="all">All decisions</option><option value="active">Hide No / Absolutely not</option><option value="shortlist">My shortlist</option><option value="unmarked">Not decided yet</option><option value="excluded">Excluded</option></select></label><label class="field"><span>Sponsorship</span><select id="visa"><option value="">Any / check eligibility</option><option value="yes">Sponsorship offered</option><option value="no">Not offered</option><option value="unknown">Not stated</option></select></label><label class="check"><input type="checkbox" id="hideAvoid"> Hide avoided areas entirely (all split sites)</label><label class="check"><input type="checkbox" id="hideOuterLondon"> Hide far-out London towns (e.g. Orpington)</label><label class="check"><input type="checkbox" id="hideExcluded"> Hide excluded programmes</label><label class="check uxHideCheck"><input type="checkbox" id="hideShortlisted"> Hide already-shortlisted programmes</label><fieldset class="uxSpecialistFilters" aria-label="Specialist setting exclusions"><legend>Specialist settings</legend>
+      <label class="field"><span>Decisions</span><select id="decision"><option value="all">All decisions</option><option value="active">Hide No / Absolutely not</option><option value="shortlist">My shortlist</option><option value="unmarked">Not decided yet</option><option value="excluded">Excluded</option></select></label><label class="field"><span>Skilled Worker visa sponsorship</span><select id="visa"><option value="">All programmes</option><option value="yes">Advertised sponsorship only</option><option value="no">Sponsorship not offered</option><option value="unknown">Not confirmed in Oriel export</option></select></label><label class="check"><input type="checkbox" id="hideAvoid"> Hide avoided areas entirely (all split sites)</label><label class="check"><input type="checkbox" id="hideOuterLondon"> Hide far-out London towns (e.g. Orpington)</label><label class="check"><input type="checkbox" id="hideExcluded"> Hide excluded programmes</label><label class="check uxHideCheck"><input type="checkbox" id="hideShortlisted"> Hide already-shortlisted programmes</label><fieldset class="uxSpecialistFilters" aria-label="Specialist setting exclusions"><legend>Specialist settings</legend>
   <p class="uxSpecialistIntro">Filter training environments you want to avoid. Classifications are based on the Oriel programme title, employer and named settings—not every specialist ward in an ordinary hospital.</p>
   <label class="check"><input type="checkbox" id="hideJustice"> Hide prison, custody &amp; justice settings</label>
   <label class="check"><input type="checkbox" id="hideMental"> Hide mental health &amp; forensic services</label>
@@ -250,8 +250,9 @@ html[data-theme="dark"] .top #themeToggle .themeIconMoon {
 <div class="map-heading-tools">
 <label class="map-style-picker" for="mapStyle">Map style
   <select id="mapStyle" aria-label="Choose map appearance">
-    <optgroup label="Your Editorial map">
-      <option value="auto">Automatic · Theme-aware</option>
+    <optgroup label="Fast, road-readable map"><option value="fast">Fast Streets · Recommended</option></optgroup>
+    <optgroup label="Your Editorial vector map">
+      <option value="auto">Editorial · Automatic</option>
       <option value="editorial-light">Streets Light</option>
       <option value="editorial-dark">Streets Dark</option>
     </optgroup>
@@ -311,7 +312,7 @@ html[data-theme="dark"] .top #themeToggle .themeIconMoon {
   <div class="card outcomeComparison"><div class="eyebrow">DECISION SUPPORT</div><h3>Compare with your shortlist</h3><p class="muted">Your locally saved ranking is shown for context. It doesn't indicate available vacancies or change your official preferences.</p><div id="outcomeCompareResults">Once programme data loads, your leading shortlisted programmes will appear here.</div></div>
 </section>
 <section class="panel" id="compare"><div class="sectionHero card"><div><div class="eyebrow">SIDE BY SIDE</div><h2>Compare programmes</h2><p>Add up to five from Explore.</p></div><button class="btn" id="clearCompare">Clear comparison</button></div><div class="compareWrap" id="compareArea"></div></section>
-<section class="panel" id="prefs"><div class="settings"><div class="settingsCard card"><div class="eyebrow">YOUR PROFILE</div><h2>Your priorities</h2><p class="muted">Your setup sets the starting point. Fine-tune how each factor affects programme matches below.</p><div id="weights"></div></div><div class="settingsCard card"><div class="eyebrow">LOCATIONS</div><h2>Area preferences</h2><label class="field"><span>Areas you like</span><textarea id="likes"></textarea></label><label class="field"><span>Areas you’d rather avoid</span><textarea id="avoids"></textarea></label><button class="btn primary" id="savePrefs">Save preferences</button></div><div class="settingsCard card uxAppearanceSettings">
+<section class="panel" id="prefs"><div class="settings"><div class="settingsCard card"><div class="eyebrow">YOUR PROFILE</div><h2>Your priorities</h2><p class="muted">Your setup sets the starting point. Fine-tune how each factor affects programme matches below.</p><div id="weights"></div><div class="atlasVisaPreference"><label class="field" for="visaPriorityPreference"><span>Skilled Worker visa sponsorship</span><select id="visaPriorityPreference"><option value="none">Not needed / no preference</option><option value="prefer">Prefer programmes offering sponsorship</option><option value="require">Require advertised sponsorship</option></select></label><p class="smallnote">Programme sponsorship status comes from the dated Oriel export. An advertised offer does not guarantee individual visa eligibility. <a href="https://www.london.wtepharmacy.nhs.uk/national-recruitment/preferencing/" target="_blank" rel="noopener noreferrer">Official Oriel guidance</a>.</p></div></div><div class="settingsCard card><div class="eyebrow">LOCATIONS</div><h2>Area preferences</h2><label class="field"><span>Areas you like</span><textarea id="likes"></textarea></label><label class="field"><span>Areas you’d rather avoid</span><textarea id="avoids"></textarea></label><button class="btn primary" id="savePrefs">Save preferences</button></div><div class="settingsCard card uxAppearanceSettings">
   <div class="eyebrow">WHOLE-SITE APPEARANCE · NOT MAP PINS</div>
   <h2>Interface colours</h2>
   <p class="muted">Choose a colour theme for the whole interface. Map pin colours can be adjusted separately.</p>
@@ -378,9 +379,8 @@ html[data-theme="dark"] .top #themeToggle .themeIconMoon {
 </footer><div class="toast" role="status" id="toast"></div>
 <script src="atlas-navigation.js?v=20261113responsive1"></script>
 <script src="vendor/leaflet.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/maplibre-gl@5.0.0/dist/maplibre-gl.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-leaflet@0.1.4/leaflet-maplibre-gl.js" crossorigin="anonymous"></script>
-<script src="map-basemap.js?v=20261114vector1"></script>
+<!-- MapLibre loads only if the user selects an Editorial vector map. -->
+<script src="map-basemap.js?v=20261119roads1"></script>
   <script src="research-core.js?v=1"></script>
 <script src="research.js?v=20261015-no-ratings"></script>
 <script src="desk-enhancements.js?v=20261111quiet5"></script>
@@ -401,7 +401,7 @@ html[data-theme="dark"] .top #themeToggle .themeIconMoon {
 <script src="tube-stations.js?v=20261108tfl2"></script>
 <script src="rail-stations.js?v=20261109national1"></script>
 <script src="location-blacklist.js?v=20261111copy4"></script>
-<script src="app.js?v=20261112firstpaint1"></script>
+<script src="app.js?v=20261119swvmap1"></script>
 <script src="preferences-ui.js?v=20261111slider2"></script>
 <script src="theme-outcome.js?v=20261106i"></script>
 <script src="workspace-ux.js?v=20261111pager1"></script>
@@ -413,7 +413,7 @@ html[data-theme="dark"] .top #themeToggle .themeIconMoon {
 <script src="interface-polish.js?v=20261107responsive2"></script>
 <script src="atlas-interactions.js?v=20261110reset1"></script>
 <script src="premium-discovery-preview.js?v=20261112firstpaint1"></script>
-<script src="premium-card-tabs.js?v=20261111salary2"></script>
+<script src="premium-card-tabs.js?v=20261119swv1"></script>
 <script src="premium-workspace.js?v=20261111workspace2"></script>
 <script src="pwa.js?v=20261114vector1"></script>
 <script src="placement-mobile-navigation.js?v=20261113identity1"></script>

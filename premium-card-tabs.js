@@ -125,8 +125,9 @@
     // The quick-read row is reserved for checks, not a repetition of the
     // setting and hours already shown in the summary chips.
     if(postcodes>1)facts.push(['caution','Travel',postcodes+' listed postcodes']);
-    if(p.visa===false)facts.push(['caution','Sponsorship','Not offered']);
-    else if(p.visa==null)facts.push(['neutral','Sponsorship','Not stated']);
+    if(p.visa===true)facts.push(['good','Skilled Worker visa','Offered']);
+    else if(p.visa===false)facts.push(['caution','Skilled Worker visa','Not offered']);
+    else facts.push(['neutral','Skilled Worker visa','Not confirmed']);
     for(const [tone,name,value] of facts.slice(0,3)){
       const span=make('span','atlasCardQuickFact atlasCardQuickFact-'+tone);
       span.append(make('i','atlasCardSignalDot'),make('b','',name),make('span','',value));

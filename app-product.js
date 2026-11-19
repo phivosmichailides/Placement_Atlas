@@ -345,7 +345,7 @@
       const icon=sector(p)==='Hospital'?'':sector(p)==='General Practice'?'':sector(p)==='Industry'?'':'';
       const badgeClass=label=>{
         const text=label.trim();
-        if(text==='Sponsorship: offered')return 'good';if(text==='Sponsorship: not offered')return 'badge-sponsorship-warning';if(text.startsWith('Specialist:'))return 'badge-specialist';
+        if(text==='Skilled Worker visa: offered')return 'good';if(text==='Skilled Worker visa: not offered')return 'badge-sponsorship-warning';if(text.startsWith('Specialist:'))return 'badge-specialist';
         if(/^(Hospital)(:|$)/.test(text))return 'badge-hospital';
         if(/^(General Practice|GP)(:|$)/.test(text))return 'badge-gp';
         if(/^Industry(:|$)/.test(text))return 'badge-industry';
@@ -353,7 +353,7 @@
         return '';
       };
       const specialised=window.OrielSpecialist?.classify(p)||[];
-      const tags=[...specialised.map(x=>'Specialist: '+window.OrielSpecialist.labelOf(x)),p.places&&` ${p.places} training ${p.places===1?'place':'places'}`,`Sponsorship: ${p.visa===true?'offered':p.visa===false?'not offered':'not stated'}`,p.region&&` ${p.region}`,`${icon} ${sector(p)}`,p.hours&&` ${p.hours}h/week`,p.settings.length>1&&' Split',h&&`Hospital: ${h}w`,g&&`GP: ${g}w`,c&&`Community: ${c}w`,i&&`Industry: ${i}w`].filter(Boolean);
+      const tags=[...specialised.map(x=>'Specialist: '+window.OrielSpecialist.labelOf(x)),p.places&&` ${p.places} training ${p.places===1?'place':'places'}`,`Skilled Worker visa: ${p.visa===true?'offered':p.visa===false?'not offered':'not confirmed'}`,p.region&&` ${p.region}`,`${icon} ${sector(p)}`,p.hours&&` ${p.hours}h/week`,p.settings.length>1&&' Split',h&&`Hospital: ${h}w`,g&&`GP: ${g}w`,c&&`Community: ${c}w`,i&&`Industry: ${i}w`].filter(Boolean);
       const fitCopy=personalisedFitInsights(p,a);
       const code=p.id.split('/').pop();
       const orielState=m.priority?`Your shortlist priority #${m.priority}`:SHORT.has(m.status)?'Saved to your shortlist':'Not shortlisted';

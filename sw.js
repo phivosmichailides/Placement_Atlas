@@ -7,7 +7,7 @@ const EXTRA_ASSETS=[
   'atlas-completion.css?v=20261112firstpaint1','shortlist-refinement.css?v=20261112shortlist1','shortlist-refinement.js?v=20261112shortlist1','learning-library.js?v=20261113navigationfix1',
   'atlas-interactions.js?v=20261110reset1','atlas-interactions.css?v=20261110ux1','atlas-footer.css?v=20261113responsive1',
   'premium-discovery-preview.js?v=20261112firstpaint1','premium-discovery-preview.css?v=20261111makeover5',
-  'premium-card-tabs.js?v=20261111salary2','premium-card-tabs.css?v=20261111makeover5',
+  'premium-card-tabs.js?v=20261119swv1','premium-card-tabs.css?v=20261111makeover5',
   'premium-editorial-palettes.css?v=20261111makeover5','premium-workspace.css?v=20261111workspace2','premium-quiet-interface.css?v=20261111quiet5','premium-workspace.js?v=20261111workspace2',
   'placement-refinements.css?v=20261111mobile3','placement-profile.css?v=20261113security2',
   'placement-makeover.css?v=20261111cards2','placement-fixes.css?v=20261111final2','placement-fixes.js?v=20261111fix3','placement-mobile-navigation.js?v=20261113identity1',

@@ -65,8 +65,9 @@
  const excludedFilter=$('hideExcluded'),excludedBtn=$('uxHideExcludedBtn');
  const syncExcluded=()=>{
    if(!excludedBtn||!excludedFilter)return;
-   excludedBtn.setAttribute('aria-pressed',String(excludedFilter.checked));
-   excludedBtn.textContent=excludedFilter.checked?'✓ Hide excluded':'○ Show excluded';
+   // A pressed Show excluded toggle means excluded programmes are visible.
+   excludedBtn.setAttribute('aria-pressed',String(!excludedFilter.checked));
+   excludedBtn.textContent=excludedFilter.checked?'○ Show excluded':'✓ Showing excluded';
  };
  excludedBtn?.addEventListener('click',()=>{
    if(!excludedFilter)return;

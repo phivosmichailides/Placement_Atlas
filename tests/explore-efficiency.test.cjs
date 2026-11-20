@@ -50,24 +50,26 @@ test('results toolbar has a single authoritative and accessible active filter ar
   assert.doesNotMatch(js,/localStorage\.setItem/);
 });
 
-test('new files and changed scripts are versioned consistently for the PWA',()=>{
+test('HTML and service worker agree on cache-busted discovery assets',()=>{
   const assets=[
-    'premium-discovery-preview.js?v=20261120compacthero1',
-    'explore-efficiency.css?v=20261120ranking-menu1',
-    'explore-efficiency.js?v=20261120hero1',
-    'atlas-navigation.js?v=20261120compacthero2',
-    'workspace-ux.js?v=20261120compacthero2',
-    'offer-journey.js?v=20261120compacthero1',
-    'app.js?v=20261120ranking-menu1'
+    'premium-discovery-preview.js','explore-efficiency.css',
+    'explore-efficiency.js','atlas-navigation.js','workspace-ux.js',
+    'offer-journey.js','app.js'
   ];
-  for(const asset of assets){
-    assert.ok(html.includes(asset),'Missing HTML asset: '+asset);
-    assert.ok(sw.includes(asset),'Missing PWA asset: '+asset);
+  const assetRef=(source,file)=>{
+    const escaped=file.replace(/\./g,'\\.');
+    return source.match(new RegExp(escaped+'\\?v=[A-Za-z0-9_-]+'))?.[0]||'';
+  };
+  for(const file of assets){
+    const inHtml=assetRef(html,file),inCache=assetRef(sw,file);
+    assert.ok(inHtml,'Missing HTML asset: '+file);
+    assert.ok(inCache,'Missing service-worker asset: '+file);
+    assert.equal(inHtml,inCache,'Mismatched browser-cache version: '+file);
   }
-  assert.ok(app.includes('deadline-dates.js?v=20261120compacthero1'));
-  assert.ok(sw.includes('deadline-dates.js?v=20261120compacthero1'));
+  const deadline=assetRef(app,'deadline-dates.js');
+  assert.ok(deadline,'The app must load recruitment countdown logic');
+  assert.ok(sw.includes(deadline),'Service worker must cache current countdown script');
 });
-
 
 test('normal map previews stay compact without shrinking the expanded map',()=>{
   assert.ok(css.includes('#explore:not(.uxFiltersCollapsed) #placementMap'));

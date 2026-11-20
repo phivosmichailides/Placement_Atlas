@@ -154,7 +154,8 @@
    const age=start===null?Infinity:Date.now()-start;
    const show=Number.isFinite(age)&&age>=0&&age<CELEBRATION_DAYS*86400000;
    if(!show){existing?.remove();return}
-   const anchor=$('atlasDeadlineRow')||document.querySelector('.productIntro');
+   // Keep celebrations outside the two-column hero even though the countdown sits within it.
+   const anchor=document.querySelector('.productIntro')||$('atlasDeadlineRow');
    if(!anchor)return;
    let banner=existing;
    if(!banner){

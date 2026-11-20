@@ -72,8 +72,9 @@ fs.mkdirSync(output,{recursive:true});
   assert(Math.abs(headerDimensions.brandY-headerDimensions.navY)<16,'Logo/title and nav are not on the same row: '+JSON.stringify(headerDimensions));
   assert(headerDimensions.navRight<=headerDimensions.headerRight+1,'Primary navigation spills beyond header');
   assert(headerDimensions.statusY>=headerDimensions.headerBottom-1,'Status and account controls are not below header');
-  assert.equal(await page.locator('header.top .brand .logo img').count(),0,'Square favicon should not appear as the page logo');
-  assert.equal(await page.locator('header.top .brand .atlasLogoGlyph path').count(),1,'Palette-aware cross is missing');
+  assert.equal(await page.locator('header.top .brand .logo img').count(),0,'Header brand mark should be an inline globe, not a raster image');
+  assert.equal(await page.locator('header.top .brand .atlasGlobeMark circle').count(),1,'Palette-aware globe outline is missing');
+  assert.equal(await page.locator('header.top .brand .atlasGlobeMark path').count(),2,'Globe latitude/longitude lines are missing');
   await page.waitForFunction(()=>!!document.querySelector('.panel.active .historyControls'),null,{timeout:20000});
   assert.equal(await page.locator('header.top .historyControls').count(),0,'Undo/redo should not be in sticky banner');
   const tileFilter=await page.evaluate(()=>getComputedStyle(document.querySelector('#placementMap .leaflet-tile-pane')).filter);
@@ -371,7 +372,7 @@ fs.mkdirSync(output,{recursive:true});
   const mobileNav=await page.locator('header.top').evaluate(el=>({left:el.getBoundingClientRect().left,right:el.getBoundingClientRect().right,position:getComputedStyle(el).position}));
   assert(mobileNav.left>=-1&&mobileNav.right<=391&&mobileNav.position==='sticky','Mobile navigation overflows the viewport: '+JSON.stringify(mobileNav));
   assert.equal(await page.locator('#atlasHeaderTools #themeToggle').count(),1,'Theme action missing on mobile');
-  assert(await page.locator('header.top .atlasLogoGlyph').isVisible(),'Mobile cross icon missing');
+  assert(await page.locator('header.top .atlasGlobeMark').isVisible(),'Mobile globe icon missing');
   // At phone width, For You and Compare may never collide or overflow.
   await page.locator('nav.tabs [data-tab=explore]').click();
   await page.waitForFunction(()=>document.getElementById('explore')?.classList.contains('uxFiltersCollapsed'),

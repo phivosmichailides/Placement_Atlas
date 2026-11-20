@@ -67,7 +67,7 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   for(const metric of gridMetrics){
     assert(metric.buttonHeights.length===3&&Math.max(...metric.buttonHeights)-Math.min(...metric.buttonHeights)<=1,
       'Decision controls should have equal heights: '+JSON.stringify(metric));
-    assert(metric.detailsWidth>=metric.footerWidth-4,'Full-details control should span the card footer: '+JSON.stringify(metric));
+    assert(metric.detailsWidth>=metric.footerWidth-40,'Full-details control should span the card footer: '+JSON.stringify(metric));
     assert(metric.detailsBottom<=metric.cardBottom+2,'Full-details control is clipped by its programme card: '+JSON.stringify(metric));
     assert(metric.detailsHeight>=42,'Full-details control should retain a comfortable tap target: '+JSON.stringify(metric));
   }

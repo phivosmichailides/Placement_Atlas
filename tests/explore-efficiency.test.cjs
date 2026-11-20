@@ -69,11 +69,11 @@ test('new files and changed scripts are versioned consistently for the PWA',()=>
 
 
 test('normal map previews stay compact without shrinking the expanded map',()=>{
-  assert.match(css,/#explore:not\\(\\.uxFiltersCollapsed\\) #placementMap/);
-  assert.match(css,/height:clamp\\(245px,30vh,330px\\)!important/);
-  assert.match(css,/#explore\\.uxFiltersCollapsed #placementMap/);
-  assert.match(css,/\\.atlasMapFocusStage #placementMap/);
-  assert.match(css,/height:100%!important;min-height:0!important/);
+  assert.ok(css.includes('#explore:not(.uxFiltersCollapsed) #placementMap'));
+  assert.ok(css.includes('height:clamp(245px,30vh,330px)!important'));
+  assert.ok(css.includes('#explore.uxFiltersCollapsed #placementMap'));
+  assert.ok(css.includes('.atlasMapFocusStage #placementMap'));
+  assert.ok(css.includes('height:100%!important;min-height:0!important'));
 });
 
 test('HTML static IDs are unique and active-filter script parses',()=>{

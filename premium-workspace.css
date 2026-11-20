@@ -136,6 +136,40 @@ html.atlasPremiumPreview #foryou .recoEmpty p{
   display:block;-webkit-line-clamp:unset;overflow:visible;
 }
 
+/* The unpersonalised For You state needs stronger hierarchy and shorter lines. */
+html.atlasPremiumPreview #foryou .recoGrid > .recoPersonaliseEmpty,
+#foryou #reco > .recoPersonaliseEmpty{
+  grid-column:1/-1;
+  padding:clamp(24px,4vw,38px) 20px!important;
+  text-align:center;
+}
+#foryou #reco > .recoPersonaliseEmpty h3{
+  margin:0 0 10px!important;
+  font-size:clamp(23px,2.2vw,28px)!important;
+  font-weight:750!important;
+  line-height:1.25!important;
+  letter-spacing:-.025em;
+}
+#foryou #reco > .recoPersonaliseEmpty p{
+  max-width:38ch;
+  margin:0 auto 22px!important;
+  font-size:clamp(16px,1.35vw,18px)!important;
+  line-height:1.45!important;
+  color:var(--mut)!important;
+}
+#foryou #reco > .recoPersonaliseEmpty [data-atlas-start-quiz]{
+  min-height:48px;
+  padding:12px 25px!important;
+  font-size:16px!important;
+  font-weight:700!important;
+  line-height:1.25;
+}
+@media(max-width:600px){
+  #foryou #reco > .recoPersonaliseEmpty{padding:25px 16px!important}
+  #foryou #reco > .recoPersonaliseEmpty h3{font-size:23px!important}
+  #foryou #reco > .recoPersonaliseEmpty p{font-size:16px!important}
+}
+
 /* Shortlist: preserve rank, status, notes and actions while reducing repeated detail. */
 html.atlasPremiumPreview #shortlist .shortlist-toolbar{
   display:flex;flex-wrap:wrap;align-items:center;gap:8px;

@@ -143,7 +143,7 @@
           applyAppearance();
         }
         document.dispatchEvent(new CustomEvent('desk:action',{detail:{name:'onboarding_skipped'}}));
-        overlay.remove();previousFocus?.focus();try{localStorage.setItem(DONE_KEY,'1');sessionStorage.setItem(SESSION_SKIP,'1')}catch{}
+        overlay.remove();previousFocus?.focus();try{sessionStorage.setItem(SESSION_SKIP,'1')}catch{}
       };
       overlay.addEventListener('click',e=>{if(e.target===overlay)close()});
       overlay.addEventListener('keydown',e=>{if(e.key==='Escape')close();if(e.key==='Tab'){const controls=[...card.querySelectorAll('button,select,input')].filter(x=>!x.disabled);const first=controls[0],last=controls.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus()}}});
@@ -324,15 +324,23 @@
     document.getElementById('personaliseTop')?.addEventListener('click',()=>openSetup(true));
     let done=false,skipped=false,returning=false;
     try{
-      done=localStorage.getItem(DONE_KEY)==='1';
+      const completedProfile=state?.prefs?.onboarding||loadAnswers();
+      const hasRealAnswers=!!completedProfile&&(
+        ['region','environment','salary','hours','community','homePostcode'].some(k=>String(completedProfile[k]||'').trim()!=='')||
+        (Array.isArray(completedProfile.priorities)&&completedProfile.priorities.length>0)||
+        ['prefer','require'].includes(completedProfile.visaPriority)
+      );
+      done=localStorage.getItem(DONE_KEY)==='1'&&hasRealAnswers;
       skipped=sessionStorage.getItem(SESSION_SKIP)==='1';
-      returning=Boolean(localStorage.getItem('phivos-desk-v2')||
-        localStorage.getItem('phivos-desk-csv-v2')||
-        localStorage.getItem('oriel-desk-palette-v1')||
-        localStorage.getItem('oriel-desk-layout-v1')||
-        localStorage.getItem(PROFILE_KEY)||
-        localStorage.getItem('placement-atlas-visited-v1'));
-      if(!done&&returning){localStorage.setItem(DONE_KEY,'1');done=true}
+      // app-base/generic-public can write a neutral state on this very first
+      // page load; that alone must not mark the user as returning or quizzed.
+      returning=Boolean(localStorage.getItem('placement-atlas-visited-v1')||
+        (window.__placementDeskWasFresh!==true&&(
+          localStorage.getItem('phivos-desk-v2')||
+          localStorage.getItem('phivos-desk-csv-v2')||
+          localStorage.getItem('oriel-desk-palette-v1')||
+          localStorage.getItem('oriel-desk-layout-v1')||
+          localStorage.getItem(PROFILE_KEY))));
       localStorage.setItem('placement-atlas-visited-v1','1');
     }catch{}
     if(done)document.body.classList.add('deskPersonalised');

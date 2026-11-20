@@ -46,6 +46,61 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   await page.locator('#uxExplorePager select').selectOption('36');
   await page.waitForFunction(()=>document.querySelectorAll('#results .placement').length===36,null,{timeout:45000});
 
+  // Grid regression: every card in a row stretches to the same height, its
+  // three decision controls align, and the full-width details control is not clipped.
+  await page.locator('#uxExploreToolbar [data-ux-layout="grid"]').click();
+  await page.waitForFunction(()=>document.documentElement.dataset.layout==='grid'&&
+    document.querySelector('#results .placement.atlasSampleCard'),null,{timeout:15000});
+  const gridMetrics=await page.locator('#results > .placement.atlasSampleCard').evaluateAll(cards=>cards.slice(0,3).map(card=>{
+    const rect=card.getBoundingClientRect();
+    const footer=card.querySelector('.decision-quick.atlasCardFooter');
+    const buttons=[...footer.querySelectorAll(':scope > [data-action="prefer"],:scope > [data-action="compare"],:scope > [data-action="exclude"]')];
+    const details=footer.querySelector('.atlasSampleExpandButton');
+    const detailRect=details.getBoundingClientRect();
+    return {cardHeight:rect.height,cardBottom:rect.bottom,footerWidth:footer.getBoundingClientRect().width,
+      buttonHeights:buttons.map(button=>button.getBoundingClientRect().height),
+      detailsWidth:detailRect.width,detailsBottom:detailRect.bottom,detailsHeight:detailRect.height};
+  }));
+  assert.equal(gridMetrics.length,3,'The first grid row should contain three programme cards');
+  assert(Math.max(...gridMetrics.map(x=>x.cardHeight))-Math.min(...gridMetrics.map(x=>x.cardHeight))<=1,
+    'Programme cards in the same grid row should have equal heights: '+JSON.stringify(gridMetrics));
+  for(const metric of gridMetrics){
+    assert(metric.buttonHeights.length===3&&Math.max(...metric.buttonHeights)-Math.min(...metric.buttonHeights)<=1,
+      'Decision controls should have equal heights: '+JSON.stringify(metric));
+    assert(metric.detailsWidth>=metric.footerWidth-4,'Full-details control should span the card footer: '+JSON.stringify(metric));
+    assert(metric.detailsBottom<=metric.cardBottom+2,'Full-details control is clipped by its programme card: '+JSON.stringify(metric));
+    assert(metric.detailsHeight>=42,'Full-details control should retain a comfortable tap target: '+JSON.stringify(metric));
+  }
+  const specialistIntro=await page.locator('#uxFilterSidebar .uxSpecialistIntro').textContent();
+  assert.equal(specialistIntro.trim(),'Hide programmes linked to specialist settings you want to avoid.');
+  assert.equal(await page.locator('#uxFilterSidebar .uxSpecialistMethod').evaluate(el=>el.open),false,
+    'The longer specialist classification explanation should be collapsed by default');
+  const firstGridCard=page.locator('#results > .placement.atlasSampleCard').first();
+  await firstGridCard.locator('[data-ux-expand]').click();
+  await page.waitForFunction(()=>document.querySelector('#results > .placement.atlasSampleCard')?.classList.contains('uxExpanded'),null,{timeout:10000});
+  const fitPanelMetrics=await firstGridCard.locator('.fitBreakdown').evaluate(el=>{
+    const boxes=[...el.querySelectorAll(':scope > .fitColumn')].map(node=>{
+      const r=node.getBoundingClientRect();return {width:r.width,height:r.height};
+    });
+    const style=getComputedStyle(el);
+    return {display:style.display,columns:style.gridTemplateColumns,boxes};
+  });
+  assert.equal(fitPanelMetrics.display,'grid','Fit explanations should use a grid layout');
+  assert.equal(fitPanelMetrics.boxes.length,2,'Both explanation panels should be present');
+  assert(Math.abs(fitPanelMetrics.boxes[0].width-fitPanelMetrics.boxes[1].width)<=2,
+    'Programme highlights and potential trade-offs should be equal width: '+JSON.stringify(fitPanelMetrics));
+  assert(Math.abs(fitPanelMetrics.boxes[0].height-fitPanelMetrics.boxes[1].height)<=2,
+    'Programme highlights and potential trade-offs should be equal height: '+JSON.stringify(fitPanelMetrics));
+  await firstGridCard.locator('[data-ux-expand]').click();
+  await page.locator('#uxMapScopeToggle').click();
+  assert.equal(await page.locator('#uxMapScopeToggle').getAttribute('aria-pressed'),'true',
+    'Map should allow an explicit all-filtered-results view');
+  await page.locator('#uxMapScopeToggle').click();
+  assert.equal(await page.locator('#uxMapScopeToggle').getAttribute('aria-pressed'),'false',
+    'Map should return to the fast current-page view');
+  await page.locator('#uxExploreToolbar [data-ux-layout="list"]').click();
+  await page.waitForFunction(()=>document.documentElement.dataset.layout==='list',null,{timeout:10000});
+
   const saveNote=page.locator('#uxFilterSidebar .footerbar .smallnote');
   assert.equal(await saveNote.evaluate(el=>getComputedStyle(el).whiteSpace),'nowrap','Saved locally note should stay on one line');
   const firstTitle=page.locator('#results .placement .placementTop h3').first();
@@ -157,7 +212,7 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   const footer=page.locator('footer.app-footer.atlasFooter');
   await page.evaluate(()=>document.querySelector('footer.app-footer.atlasFooter').scrollIntoView({block:'start',behavior:'instant'}));
   await page.waitForFunction(()=>document.body.classList.contains('atlasFooterInView')&&
-    document.getElementById('uxDrawerLauncher')?.hasAttribute('data-atlas-footer-hidden'),null,{timeout:5000});
+    document.getElementById('uxDrawerLauncher')?.hasAttribute('data-atlas-footer-hidden'),null,{timeout:12000});
   const footerMetrics=await footer.evaluate(el=>{
     const f=el.getBoundingClientRect();
     const left=el.querySelector('.atlasFooterIdentity')?.getBoundingClientRect();

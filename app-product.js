@@ -4,7 +4,7 @@
   const base=document.createElement('script');
   base.src='app-base.js?v=20261120auditperf2';
   base.onload=()=>{
-    const decisions=[['','○','Unmarked'],['love','♡','Love'],['yes','✓','Strong yes'],['maybe','◐','Maybe'],['backup','◇','Only if needed'],['no','−','No'],['never','×','Absolutely not']];
+    const decisions=[['','○','No Ranking'],['love','♡','Love'],['yes','✓','Strong yes'],['maybe','◐','Maybe'],['backup','◇','Only if needed'],['no','−','No'],['never','×','Absolutely not']];
     const decisionPicker=status=>{
       const current=decisions.find(x=>x[0]===status)||decisions[0];
       return `<details class="decisionPicker decision-${status||'unmarked'}"><summary aria-label="Placement decision: ${current[2]}"><span>${current[1]} ${current[2]}</span><span aria-hidden="true">⌄</span></summary><div class="decisionChoices" role="group" aria-label="Choose your decision">${decisions.map(([value,icon,label])=>`<button type="button" class="decisionChoice decision-${value||'unmarked'}" data-action="status-choice" data-value="${value}" aria-pressed="${value===status}"><span aria-hidden="true">${icon}</span><span>${label}</span>${value===status?'<span class="decisionTick" aria-hidden="true">✓</span>':''}</button>`).join('')}</div></details>`;

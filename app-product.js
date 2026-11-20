@@ -474,6 +474,7 @@
     // The canonical public footer is owned by index.html; do not overwrite it.
 
     const regionEl=$('region');
+    window.__atlasRegionEnhanced=true;
     regionEl.addEventListener('change',()=>{if(regionEl.value){quick.delete('london');document.querySelector('[data-q="london"]')?.classList.remove('on');}pageLimit=40;persistFilters();refreshScope({locate:true});});
     document.querySelector('[data-q="london"]')?.addEventListener('click',()=>{if(quick.has('london'))regionEl.value='';setTimeout(()=>refreshScope({locate:true}),0);});
     $('allRegionsBtn')?.addEventListener('click',()=>{regionEl.value='';quick.delete('london');document.querySelector('[data-q="london"]')?.classList.remove('on');pageLimit=40;persistFilters();refreshScope({locate:false});});

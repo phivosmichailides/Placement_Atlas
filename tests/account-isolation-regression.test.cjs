@@ -69,12 +69,12 @@ test('reset is complete and persisted, including specialist exclusions',()=>{
 });
 
 test('new-account script versions and PWA assets match to avoid stale logic',()=>{
-  const bundle='20261120accountaudit1';
-  for(const file of ['supabase-cloud.js','app.js']){
-    assert.ok(index.includes(file+'?v='+bundle),'index cache bust missing: '+file);
-    assert.ok(sw.includes(file+'?v='+bundle),'service worker cache bust missing: '+file);
-  }
-  for(const file of ['generic-public.js','onboarding.js']){
+  const versions={'supabase-cloud.js':'20261120accountaudit1','app.js':'20261120auditperf1',
+    'app-base.js':'20261120auditperf1','app-product.js':'20261120auditperf1',
+    'generic-public.js':'20261120accountaudit1','onboarding.js':'20261120accountaudit1'};
+  for(const [file,bundle] of Object.entries(versions)){
+    if(file==='supabase-cloud.js'||file==='app.js')
+      assert.ok(index.includes(file+'?v='+bundle),'index cache bust missing: '+file);
     assert.ok(sw.includes(file+'?v='+bundle),'service worker cache bust missing: '+file);
   }
 });
@@ -84,4 +84,17 @@ test('new app account storage isolation covers independent UI settings',()=>{
     assert.ok(cloud.includes("'"+key+"'"),'Tracked account key missing: '+key);
   }
   assert.match(cloud,/\bKEYS\.forEach\(rawRemove\)/);
+});
+
+test('guest recommendations avoid wasteful scoring and private Oriel defaults',()=>{
+  const product=source('app-product.js'),core=source('app-base.js');
+  const start=product.indexOf('    reco=()=>{');
+  const end=product.indexOf('    const fitCurrentMap=',start);
+  assert.ok(start>=0&&end>start);
+  const rec=product.slice(start,end);
+  assert.ok(rec.indexOf('if(!state.prefs.onboarding)')<rec.indexOf('const arr=placements.filter'),
+    'Guest recommendations must return before scoring the full catalogue');
+  assert.match(product,/let fitStatsCache=/);
+  assert.doesNotMatch(core,/2026-10-13-2126/);
+  assert.match(core,/ORIEL_SNAPSHOT=\\{version:'public-neutral-20261120'/);
 });

@@ -1,0 +1,223 @@
+/* Placement Atlas · compact Explore first-screen / filter summary.
+   All refinements remain reversible and use existing canonical controls. */
+html.atlasPremiumPreview body .productIntro.card{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(300px,440px)!important;
+  align-items:start!important;
+  column-gap:clamp(18px,3vw,52px)!important;
+  row-gap:14px!important;
+  min-height:0!important;
+  padding:clamp(19px,2.4vw,34px)!important;
+  margin:8px 0 12px!important;
+}
+html.atlasPremiumPreview body .productIntro .productIntroCopy{
+  grid-column:1;min-width:0!important;width:100%!important;max-width:none!important;
+}
+html.atlasPremiumPreview body .productIntro h2{
+  font-size:clamp(30px,2.9vw,43px)!important;
+  line-height:1.11!important;
+  letter-spacing:-.043em!important;
+  margin:0 0 12px!important;
+}
+html.atlasPremiumPreview body .productIntro .eyebrow{margin-bottom:9px!important}
+html.atlasPremiumPreview body .productIntro p{margin-bottom:14px!important;line-height:1.5!important}
+html.atlasPremiumPreview body .productIntro .introActions .btn{
+  min-height:41px!important;padding:10px 17px!important;
+}
+html.atlasPremiumPreview body .productIntro .atlasHeroTrust{margin-top:11px!important}
+html.atlasPremiumPreview body .productIntro .atlasHowItWorks{
+  margin-top:13px!important;padding-top:9px!important;
+}
+html.atlasPremiumPreview body .productIntro #atlasDeadlineRow{
+  grid-column:2;grid-row:1;
+  align-self:start;justify-self:stretch;
+  position:relative!important;
+  display:block!important;width:100%!important;
+  min-width:0!important;max-width:none!important;
+  margin:0!important;padding:0!important;
+}
+html.atlasPremiumPreview body .productIntro #atlasDeadlineRow #orielDeadline{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto!important;
+  align-items:center!important;
+  width:100%!important;max-width:none!important;min-width:0!important;
+  margin:0!important;padding:13px 15px!important;
+  gap:4px 12px!important;
+  text-align:left!important;
+  border-radius:13px!important;
+  background:var(--ux-accent-soft,var(--soft))!important;
+  border-color:var(--ux-accent-border,var(--line))!important;
+  box-shadow:none!important;
+}
+html.atlasPremiumPreview body .productIntro #orielDeadline .deadlineLabel{
+  font-size:11px!important;letter-spacing:.05em!important;
+  line-height:1.35!important;color:var(--ux-accent-ink,var(--ink))!important;
+}
+html.atlasPremiumPreview body .productIntro #orielDeadline .deadlineValue{
+  font-size:12px!important;line-height:1.4!important;
+  text-align:right!important;color:var(--ux-accent-ink,var(--ink))!important;
+}
+html.atlasPremiumPreview body .productIntro #orielDeadline .deadlineExact{
+  grid-column:1!important;line-height:1.4!important;min-width:0!important;
+  font-size:11px!important;
+}
+html.atlasPremiumPreview body .productIntro #orielDeadline .deadlineLink{
+  grid-column:2!important;font-size:11px!important;
+  max-width:100%;white-space:normal!important;text-align:right!important;
+}
+html.atlasPremiumPreview body .productIntro #orielDeadline .atlasOfferDeadlineButton{
+  grid-column:1 / -1!important;
+  justify-self:stretch!important;
+  width:100%!important;min-height:36px!important;
+  padding:7px 11px!important;margin:6px 0 0!important;
+  border-radius:10px!important;
+}
+/* Save vertical space between the introductory decision and the actual map. */
+html.atlasPremiumPreview body #explore .atlasExploreSubnav{
+  margin-bottom:10px!important;padding:9px 12px!important;
+}
+html.atlasPremiumPreview body #explore .atlasStatToolbarPremium{
+  margin:10px 0 7px!important;
+}
+html.atlasPremiumPreview body #explore #stats{
+  margin-bottom:11px!important;gap:9px!important;
+}
+html.atlasPremiumPreview body #explore #stats .stat{
+  padding:11px 14px!important;border-radius:13px!important;
+}
+html.atlasPremiumPreview body #explore #stats .stat .k{
+  font-size:clamp(20px,2.15vw,26px)!important;
+}
+html.atlasPremiumPreview body #explore #stats .stat .l{
+  font-size:11.5px!important;
+}
+/* The single Undo/Redo disclosure follows the filter heading, not the map. */
+html.atlasPremiumPreview body #uxFilterSidebar > .historyControls{
+  display:flex!important;justify-content:flex-start!important;
+  width:100%!important;margin:-5px 0 13px!important;
+  padding:0 0 10px!important;
+  border-bottom:1px solid var(--line)!important;
+  min-height:0!important;
+}
+html.atlasPremiumPreview body #uxFilterSidebar .atlasHistoryDisclosure{max-width:100%}
+html.atlasPremiumPreview body #uxFilterSidebar .atlasHistoryDisclosure > summary{
+  min-height:32px!important;
+}
+/* Existing exclusion and shortlist toggle buttons now live below salary/hours. */
+html body #uxFilterSidebar .atlasSidebarToggleRow{
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:7px;align-items:stretch;margin:1px 0 13px;padding:0 0 13px;
+  border-bottom:1px solid var(--line);
+}
+html body #uxFilterSidebar .atlasSidebarToggleRow > .btn{
+  display:inline-flex!important;align-items:center;justify-content:center;
+  min-width:0!important;width:100%!important;min-height:40px!important;
+  margin:0!important;padding:8px 7px!important;
+  border-radius:10px!important;white-space:normal!important;
+  text-wrap:balance;text-align:center;
+  font-size:11.5px!important;line-height:1.25!important;font-weight:750!important;
+}
+html body #uxFilterSidebar .atlasSidebarToggleRow .btn[aria-pressed="true"]{
+  color:var(--ux-accent-ink,var(--ink))!important;
+  background:var(--ux-accent-soft,var(--soft))!important;
+  border-color:var(--ux-accent-border,var(--line))!important;
+}
+/* Hide duplicate technical checkboxes; the buttons above control the same state. */
+html body #uxFilterSidebar label.check:has(> #hideExcluded),
+html body #uxFilterSidebar label.check:has(> #hideShortlisted){
+  display:none!important;
+}
+/* No redundant Hide filters in programme toolbar; it reappears only to restore a
+   collapsed sidebar. The main collapse button is inside the sidebar itself. */
+html body #explore:not(.uxFiltersCollapsed) #uxExploreToolbar #uxToolbarFilters{
+  display:none!important;
+}
+html body #explore.uxFiltersCollapsed #uxExploreToolbar #uxToolbarFilters{
+  display:inline-flex!important;
+}
+html.atlasPremiumPreview body #uxExploreToolbar{
+  align-items:center!important;
+  gap:9px 12px!important;
+  margin-top:9px!important;
+}
+html.atlasPremiumPreview body #uxExploreToolbar .uxToolbarLead{
+  display:flex!important;flex:1 1 460px!important;
+  flex-wrap:wrap!important;align-items:center!important;
+  justify-content:flex-start!important;
+  gap:7px 10px!important;min-width:0!important;margin-right:auto!important;
+}
+html.atlasPremiumPreview body #uxExploreToolbar .uxToolbarLead > b{
+  font-size:15.5px!important;font-weight:820!important;
+  letter-spacing:-.015em!important;white-space:nowrap;
+}
+html.atlasPremiumPreview body #uxExploreToolbar .atlasActiveFilters{
+  display:flex!important;min-width:0!important;max-width:100%!important;
+  flex:1 1 200px;flex-wrap:wrap!important;align-items:center!important;
+  gap:5px!important;
+}
+html.atlasPremiumPreview body #uxExploreToolbar .atlasFilterChip{
+  display:inline-flex!important;align-items:center;justify-content:center;gap:7px;
+  max-width:100%;min-height:29px;padding:5px 9px!important;
+  border:1px solid var(--line)!important;border-radius:999px!important;
+  background:var(--soft)!important;color:var(--ink)!important;
+  font:700 11.5px/1.25 "Plus Jakarta Sans",Inter,sans-serif!important;
+  cursor:pointer;transition:background .14s,border-color .14s;
+  text-align:left;
+}
+html.atlasPremiumPreview body #uxExploreToolbar .atlasFilterChip > span:first-child{
+  min-width:0;overflow-wrap:anywhere;
+}
+html.atlasPremiumPreview body #uxExploreToolbar .atlasFilterChip .atlasFilterRemove{
+  color:var(--mut);font-size:15px;font-weight:600;line-height:1;
+}
+html.atlasPremiumPreview body #uxExploreToolbar .atlasFilterChip:hover{
+  background:var(--ux-accent-soft,var(--panel))!important;
+  border-color:var(--ux-accent-border,var(--line))!important;
+}
+html.atlasPremiumPreview body #uxExploreToolbar .atlasFilterChip:focus-visible{
+  outline:2px solid var(--ux-accent-ink,var(--ink))!important;outline-offset:2px;
+}
+html.atlasPremiumPreview body #uxExploreToolbar .atlasNoFilters{
+  color:var(--mut);font-size:12px;line-height:1.4;
+}
+@media(max-width:1130px){
+  html.atlasPremiumPreview body .productIntro.card{
+    grid-template-columns:minmax(0,1fr) minmax(265px,340px)!important;
+    column-gap:20px!important;
+  }
+  html.atlasPremiumPreview body .productIntro h2{
+    font-size:clamp(29px,3vw,38px)!important;
+  }
+}
+@media(max-width:860px){
+  html.atlasPremiumPreview body .productIntro.card{
+    grid-template-columns:minmax(0,1fr)!important;
+    row-gap:14px!important;
+    padding:20px!important;
+  }
+  html.atlasPremiumPreview body .productIntro #atlasDeadlineRow{
+    grid-column:1!important;grid-row:2!important;
+    max-width:490px!important;
+  }
+  html.atlasPremiumPreview body .productIntro .productIntroCopy{
+    grid-column:1!important;grid-row:1!important;
+  }
+  html.atlasPremiumPreview body #uxExploreToolbar .uxToolbarLead{flex-basis:100%!important}
+}
+@media(max-width:650px){
+  html.atlasPremiumPreview body .productIntro.card{
+    padding:17px 15px!important;margin:6px 0 10px!important;row-gap:11px!important;
+  }
+  html.atlasPremiumPreview body .productIntro h2{font-size:clamp(26px,6vw,33px)!important}
+  html.atlasPremiumPreview body .productIntro #orielDeadline .deadlineLabel,
+  html.atlasPremiumPreview body .productIntro #orielDeadline .deadlineExact,
+  html.atlasPremiumPreview body .productIntro #orielDeadline .deadlineLink{
+    font-size:10px!important;
+  }
+  html.atlasPremiumPreview body #explore .atlasExploreSubnav{padding:8px!important}
+  html.atlasPremiumPreview body #uxFilterSidebar .atlasSidebarToggleRow{gap:6px}
+  html.atlasPremiumPreview body #uxExploreToolbar .atlasActiveFilters{flex-basis:100%!important}
+}
+@media(prefers-reduced-motion:reduce){
+  html.atlasPremiumPreview body #uxExploreToolbar .atlasFilterChip{transition:none!important}
+}

@@ -1,0 +1,41 @@
+name: Search discoverability checks
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'about.html'
+      - 'guide.html'
+      - 'README.md'
+      - 'sitemap.xml'
+      - 'robots.txt'
+      - 'llms.txt'
+      - 'tests/search-discoverability.test.cjs'
+      - '.github/workflows/search-discoverability.yml'
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'about.html'
+      - 'guide.html'
+      - 'README.md'
+      - 'sitemap.xml'
+      - 'robots.txt'
+      - 'llms.txt'
+      - 'tests/search-discoverability.test.cjs'
+      - '.github/workflows/search-discoverability.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check-crawler-content:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate discovery test syntax
+        run: node --check tests/search-discoverability.test.cjs
+      - name: Check indexable HTML, metadata, schema and sitemap
+        run: node --test tests/search-discoverability.test.cjs

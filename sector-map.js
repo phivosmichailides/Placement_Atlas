@@ -312,6 +312,29 @@
       document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!dialog.hidden)closeFocus();});
     };
     installMapControls();
+    // Leaflet needs an explicit size refresh when the filters collapse or the
+    // map moves between its inline panel and the expanded map dialog.
+    let mapResizeFrame=0,lastMapDimensions='';
+    if(typeof ResizeObserver==='function'){
+      const mapContainer=placementMap.getContainer();
+      const observer=new ResizeObserver(entries=>{
+        const size=entries[0]?.contentRect;
+        if(!size||size.width<180||size.height<140)return;
+        const key=Math.round(size.width)+'x'+Math.round(size.height);
+        if(key===lastMapDimensions)return;
+        lastMapDimensions=key;
+        if(mapResizeFrame)cancelAnimationFrame(mapResizeFrame);
+        mapResizeFrame=requestAnimationFrame(()=>{
+          mapResizeFrame=0;
+          if(!mapContainer.isConnected)return;
+          const rect=mapContainer.getBoundingClientRect();
+          if(rect.width>=180&&rect.height>=140)
+            placementMap.invalidateSize({pan:false,animate:false});
+        });
+      });
+      observer.observe(mapContainer);
+      window.__orielMapResizeObserver=observer;
+    }
     drawMap=requestedList=>{const list=Array.isArray(requestedList)?requestedList:placements.filter(matches);currentMapList=list;refreshPalette();
       if(!placementMap)return;
       placementMap.closePopup();

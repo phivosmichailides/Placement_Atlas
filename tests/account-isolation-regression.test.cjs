@@ -69,8 +69,8 @@ test('reset is complete and persisted, including specialist exclusions',()=>{
 });
 
 test('new-account script versions and PWA assets match to avoid stale logic',()=>{
-  const versions={'supabase-cloud.js':'20261120accountaudit1','app.js':'20261120auditperf1',
-    'app-base.js':'20261120auditperf1','app-product.js':'20261120auditperf1',
+  const versions={'supabase-cloud.js':'20261120accountaudit1','app.js':'20261120auditperf2',
+    'app-base.js':'20261120auditperf2','app-product.js':'20261120auditperf2',
     'generic-public.js':'20261120accountaudit1','onboarding.js':'20261120accountaudit1'};
   for(const [file,bundle] of Object.entries(versions)){
     if(file==='supabase-cloud.js'||file==='app.js')
@@ -97,4 +97,11 @@ test('guest recommendations avoid wasteful scoring and private Oriel defaults',(
   assert.match(product,/let fitStatsCache=/);
   assert.doesNotMatch(core,/2026-10-13-2126/);
   assert.ok(core.includes("ORIEL_SNAPSHOT={version:'public-neutral-20261120'"));
+});
+
+test('region selection has only one enhanced full-refresh handler',()=>{
+  const core=source('app-base.js'),product=source('app-product.js');
+  assert.match(core,/if\(id==='region'&&window\.__atlasRegionEnhanced\)return/);
+  assert.match(product,/window\.__atlasRegionEnhanced=true/);
+  assert.match(product,/regionEl\.addEventListener\('change'/);
 });

@@ -1,0 +1,206 @@
+/* Placement Atlas — Explore layout, detail-card and performance corrections.
+   Scoped to Explore; shortlist, Oriel decisions, source data and ranking are untouched. */
+
+html.atlasPremiumPreview #explore .layout,
+html.atlasPremiumPreview #explore .workspace,
+html.atlasPremiumPreview #explore .map-card,
+html.atlasPremiumPreview #explore #placementMap {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+/* Removing the filter panel must remove its grid track as well. */
+html.atlasPremiumPreview #explore.uxFiltersCollapsed .layout {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 0 !important;
+}
+html.atlasPremiumPreview #explore.uxFiltersCollapsed #uxFilterSidebar {
+  display: none !important;
+}
+html.atlasPremiumPreview #explore.uxFiltersCollapsed .workspace {
+  grid-column: 1 / -1 !important;
+  width: 100% !important;
+  min-width: 0 !important;
+}
+html.atlasPremiumPreview #explore.uxFiltersCollapsed .map-card {
+  width: 100% !important;
+  max-width: none !important;
+}
+html.atlasPremiumPreview #explore.uxFiltersCollapsed #placementMap {
+  height: clamp(390px, 48vw, 680px) !important;
+  min-height: 390px !important;
+}
+
+/* Filters are part of the page flow. The document, not a nested panel,
+   owns vertical scrolling, so every filter remains discoverable. */
+html.atlasPremiumPreview #explore #uxFilterSidebar,
+html.atlasPremiumPreview #explore:not(.uxFiltersCollapsed) #uxFilterSidebar {
+  position: static !important;
+  inset: auto !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  overflow-y: visible !important;
+  overflow-x: visible !important;
+  overscroll-behavior: auto !important;
+  align-self: start !important;
+}
+html.atlasPremiumPreview #explore #atlasFilterBackdrop {
+  display: none !important;
+}
+@media (max-width: 1180px) {
+  html.atlasPremiumPreview #explore .layout {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 14px !important;
+  }
+  html.atlasPremiumPreview #explore:not(.uxFiltersCollapsed) #uxFilterSidebar {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    max-height: none !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 18px !important;
+    box-shadow: none !important;
+  }
+  html.atlasPremiumPreview #explore.uxFiltersCollapsed #uxFilterSidebar {
+    display: none !important;
+  }
+  html.atlasPremiumPreview #explore .workspace {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+  }
+  html.atlasPremiumPreview #explore.uxFiltersCollapsed #placementMap {
+    height: clamp(360px, 58vw, 620px) !important;
+  }
+}
+@media (max-width: 550px) {
+  html.atlasPremiumPreview #explore:not(.uxFiltersCollapsed) #uxFilterSidebar {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 14px !important;
+  }
+  html.atlasPremiumPreview #explore.uxFiltersCollapsed #placementMap {
+    height: min(72vh, 520px) !important;
+    min-height: 340px !important;
+  }
+}
+
+/* The actual cards are atlasDiscoveryCard, not the retired atlasSampleCard.
+   Expanded details use the full grid row and a readable three-part overview. */
+html.atlasPremiumPreview[data-layout="grid"] #results > .placement.atlasDiscoveryCard.uxExpanded {
+  grid-column: 1 / -1 !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  align-self: start !important;
+  overflow: visible !important;
+}
+html.atlasPremiumPreview #results > .placement.atlasDiscoveryCard.uxExpanded {
+  min-width: 0 !important;
+}
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasCardSections,
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasCardPages,
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasCardPage {
+  min-width: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .fit.fitExpanded.atlasTabbedFit {
+  display: grid !important;
+  grid-template-columns: minmax(150px, .78fr) minmax(0, 2fr) !important;
+  align-items: stretch !important;
+  gap: 14px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit > .score {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: auto !important;
+  min-height: 150px !important;
+}
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit > .fitBreakdown {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  align-items: stretch !important;
+  gap: 12px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit .fitColumn {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 14px 16px !important;
+  overflow-wrap: anywhere !important;
+}
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit .fitColumn .fitPoint {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 8px !important;
+  min-width: 0 !important;
+  text-align: left !important;
+  line-height: 1.48 !important;
+  padding: 7px 0 !important;
+  overflow-wrap: anywhere !important;
+}
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit .fitColumn .fitPoint::before {
+  flex: 0 0 auto !important;
+  align-self: flex-start !important;
+  margin-top: .48em !important;
+}
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit .fitColumn.positive .atlasFitQuizLink,
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit .fitColumn.caution .atlasFitQuizLink,
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit .fitColumn.positive [data-atlas-start-quiz],
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit .fitColumn.caution [data-atlas-start-quiz] {
+  display: none !important;
+}
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit .fitColumn.positive,
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit .fitColumn.caution {
+  min-width: 0 !important;
+  overflow-wrap: anywhere !important;
+}
+@media (max-width: 900px) {
+  html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .fit.fitExpanded.atlasTabbedFit {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit > .score {
+    min-height: 0 !important;
+  }
+}
+@media (max-width: 680px) {
+  html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit > .fitBreakdown {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+/* Reduce off-screen card layout work without hiding or removing any results. */
+html.atlasPremiumPreview #results > .placement.atlasDiscoveryCard {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 470px;
+}
+html.atlasPremiumPreview #results > .placement.atlasDiscoveryCard.uxExpanded {
+  content-visibility: visible;
+  contain-intrinsic-size: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.atlasPremiumPreview #explore #placementMap,
+  html.atlasPremiumPreview #results .placement.atlasDiscoveryCard {
+    scroll-behavior: auto !important;
+    transition-duration: 0s !important;
+  }
+}

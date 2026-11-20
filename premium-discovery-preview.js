@@ -333,10 +333,12 @@
     panel.querySelector(':scope > .footerbar')?.insertAdjacentElement('beforebegin',details);
     // If a returning user's advanced settings are active, expose the controls.
     const current=typeof state!=='undefined'?state.filters||{}:{};
-    if(['decision','visa','specialistView','hideAvoid','hideOuterLondon','hideExcluded','hideShortlisted','hideJustice','hideMental','hideOtherSpecialist'].some(k=>{
+    if(['decision','visa','specialistView','hideAvoid','hideOuterLondon','hideJustice','hideMental','hideOtherSpecialist'].some(k=>{
       const v=current[k];return v===true||(typeof v==='string'&&v&&v!=='all');
     }))details.open=true;
     const activeAdvanced=[...details.querySelectorAll('input,select,textarea')].some(el=>{
+      // Exclusions and shortlist switches are always visible above this panel.
+      if(el.id==='hideExcluded'||el.id==='hideShortlisted')return false;
       if(el.type==='checkbox')return el.checked;
       if(el.type==='radio')return el.checked;
       if(el.tagName==='SELECT')return !['','all','fit'].includes(el.value);

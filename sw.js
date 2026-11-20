@@ -1,5 +1,5 @@
 'use strict';
-const CACHE_NAME='placement-atlas-shell-2026-11-20-v100-local-font-globe';
+const CACHE_NAME='placement-atlas-shell-2026-11-20-v101-unified-globe-mark';
 const ROOT=new URL('./',self.registration.scope).href;
 const EXTRA_ASSETS=[
   'member-profile.js?v=20261113experience1','member-profile.css?v=20261113experience1','atlas-experience.css?v=20261113navigationfix1','responsive-fit.css?v=20261113responsive1','footer-viewport.js?v=20261113responsive1','offer-journey.js?v=20261113experience1','cloud-auth.css?v=20261112members1','cloud-password-auth.css?v=20261113turnstile1',

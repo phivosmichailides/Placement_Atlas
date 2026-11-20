@@ -17,6 +17,9 @@ acknowledge dependencies; they do not imply endorsement or affiliation.
   https://github.com/maplibre/maplibre-gl-leaflet
 - **Supabase JavaScript client** — optional signed-in workspace persistence.
   https://github.com/supabase/supabase-js
+- **Plus Jakarta Sans** — variable typeface by Tokotype, self-hosted from Google
+  Fonts under the SIL Open Font License 1.1. The complete licence is retained in
+  `fonts/OFL.txt`. https://github.com/google/fonts/tree/main/ofl/plusjakartasans
 
 Using these software libraries does not make the app dependent on any other
 Oriel placement explorer. Third-party licence terms still apply.

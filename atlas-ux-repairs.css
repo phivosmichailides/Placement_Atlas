@@ -55,6 +55,15 @@ html.atlasPremiumPreview #explore.uxFiltersCollapsed #placementMap{
   }
 }
 
+/* Let grid cards grow to their content; equal-height grid rows still keep
+   neighbouring cards aligned without cutting off the final action row. */
+html.atlasPremiumPreview[data-layout="grid"] #results > .placement.atlasSampleCard,
+html.atlasPremiumPreview[data-layout="grid"] #results > .placement.atlasDiscoveryCard{
+  height:auto!important;
+  min-height:0!important;
+  align-self:stretch!important;
+}
+
 /* Keep the three decision actions together and give the detail action its own
    full-width row. This prevents the grid card footer from clipping the button. */
 html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasSampleCard .decision-quick.atlasCardFooter,

@@ -213,13 +213,15 @@
    qs:typeof quick!=='undefined'?[...quick]:[]});
   if(filterKey!==lastFilterKey){if(!skipResetOnce)page=1;lastFilterKey=filterKey}
   skipResetOnce=false;
+  const data=getData();
+  if(!data||!data.length){optionsCache=[];optionsCacheKey='';return}
   const optionsKey=filterKey+'|'+exploreStateKey();
   if(optionsKey!==optionsCacheKey){
-   try{optionsCache=sorted(getData().filter(matches))}catch(error){console.error('Explore filter failed:',error);return}
+   try{optionsCache=sorted(data.filter(matches))}catch(error){optionsCacheKey='';console.error('Explore filter failed:',error);return}
    optionsCacheKey=optionsKey;
   }
   const options=optionsCache;
-  const total=options.length,catalogueTotal=getData().length,size=pageLimit(total),pages=Math.max(1,Math.ceil(total/size));
+  const total=options.length,catalogueTotal=data.length,size=pageLimit(total),pages=Math.max(1,Math.ceil(total/size));
   window.OrielFilteredProgrammes=options;
   page=Math.min(Math.max(1,page),pages);
   const shown=options.slice((page-1)*size,page*size);

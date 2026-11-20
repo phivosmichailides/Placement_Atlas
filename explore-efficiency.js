@@ -17,7 +17,7 @@
   const setValue=(id,value)=>{
     const control=byId(id);if(!control)return;
     control.value=value;
-    control.dispatchEvent(new Event('change',{bubbles:true}));
+    control.dispatchEvent(new Event(id==='search'?'input':'change',{bubbles:true}));
   };
   const clearQuick=name=>{
     const button=document.querySelector('#quick .chip[data-q="'+name+'"]');

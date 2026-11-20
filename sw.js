@@ -1,5 +1,5 @@
 'use strict';
-const CACHE_NAME='placement-atlas-shell-2026-11-20-v103-title-spacing-transparent-navigation';
+const CACHE_NAME='placement-atlas-shell-2026-11-20-v104-simulation-nav-svg';
 const ROOT=new URL('./',self.registration.scope).href;
 const EXTRA_ASSETS=[
   'member-profile.js?v=20261113experience1','member-profile.css?v=20261113experience1','atlas-experience.css?v=20261113navigationfix1','responsive-fit.css?v=20261113responsive1','atlas-grid-performance.css?v=20261120d','footer-viewport.js?v=20261113responsive1','offer-journey.js?v=20261113experience1','cloud-auth.css?v=20261112members1','cloud-password-auth.css?v=20261113turnstile1',
@@ -24,7 +24,7 @@ const EXTRA_ASSETS=[
   'programme-preview.js?v=20261111preview2','location-guides.js?v=20261109national1',
   'pay-estimate.js?v=20261105c','research-core.js?v=1','research.js?v=20261015-no-ratings',
   'preferences-ui.js?v=20261111slider2','preferences-ui.css?v=20261111slider1','theme-outcome.js?v=20261106i',
-  'simulator.js?v=20261113navigationfix1','motion-effects.js?v=20261107a',
+  'simulator.js?v=20261120simnav1','motion-effects.js?v=20261107a',
   'session-ui.js?v=20261113responsive1','interface-polish.js?v=20261107responsive2',
   'data/oriel-2026.part-01.txt','data/oriel-2026.part-02.txt','data/oriel-2026.part-03.txt',
   'data/oriel-2026.part-04.txt','data/oriel-2026.part-05.txt',

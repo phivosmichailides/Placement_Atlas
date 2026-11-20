@@ -156,8 +156,8 @@
     if(sidebar){
       // Keep Undo/Redo inside Explore's filters, rather than above the map.
       const heading=sidebar.querySelector('.secthead');
-      if(heading)heading.insertAdjacentElement('afterend',history);
-      else sidebar.prepend(history);
+      if(heading){if(heading.nextElementSibling!==history)heading.insertAdjacentElement('afterend',history);}
+      else if(sidebar.firstElementChild!==history)sidebar.prepend(history);
       return;
     }
     const subnav=panel.querySelector(':scope > .atlasExploreSubnav');

@@ -35,7 +35,7 @@
    title.dataset.atlasFullTitle=full;
    title.title=full;title.replaceChildren();
    const short=document.createElement('span');short.className='atlasTitleConcise';short.textContent=display;
-   const raw=document.createElement('span');raw.className='atlasTitleOriginal';raw.textContent=fullDisplay;
+   const raw=document.createElement('span');raw.className='atlasTitleOriginal';raw.textContent=full;
    const toggle=document.createElement('button');toggle.type='button';toggle.className='atlasTitleExpand';
    toggle.textContent='Full name';toggle.setAttribute('aria-expanded','false');
    toggle.setAttribute('aria-label','Show original Oriel programme name');

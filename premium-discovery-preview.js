@@ -208,7 +208,7 @@
         const shortText=document.createElement('span');
         shortText.className='atlasTitleConcise';shortText.textContent=concise;
         const original=document.createElement('span');
-        original.className='atlasTitleOriginal';original.textContent=fullDisplay;
+        original.className='atlasTitleOriginal';original.textContent=full;
         const fullToggle=document.createElement('button');
         fullToggle.type='button';fullToggle.className='atlasTitleExpand';
         fullToggle.textContent='Full name';

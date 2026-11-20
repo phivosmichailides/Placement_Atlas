@@ -17,7 +17,7 @@
     };
     const loadOnboarding=()=>{
       const onboarding=document.createElement('script');
-      onboarding.src='onboarding.js?v=20261119swv1';
+      onboarding.src='onboarding.js?v=20261120accountaudit1';
       onboarding.onload=loadDeadlineDates;
       onboarding.onerror=loadDeadlineDates;
       document.body.appendChild(onboarding);
@@ -31,7 +31,7 @@
     };
     const loadGeneric=()=>{
       const generic=document.createElement('script');
-      generic.src='generic-public.js?v=20261108atlas3';
+      generic.src='generic-public.js?v=20261120accountaudit1';
       generic.onload=loadSectors;
       generic.onerror=loadSectors;
       document.body.appendChild(generic);

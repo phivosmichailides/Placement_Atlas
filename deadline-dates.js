@@ -61,8 +61,8 @@
     box.setAttribute('role','status');
     box.setAttribute('aria-live','polite');
     box.innerHTML='<div class="deadlineLabel" id="deadlineLabel">ORIEL 2027/28 · TRAINING INTAKE</div><div class="deadlineValue" id="deadlineValue">Checking recruitment stage…</div><div class="deadlineExact" id="deadlineExact"></div><a class="deadlineLink" href="https://london.wtepharmacy.nhs.uk/national-recruitment/offers/" target="_blank" rel="noopener noreferrer">Official offers guidance ↗</a>';
-    // Keep recruitment status in a narrow row just ABOVE the page introduction,
-    // outside the sticky identity/navigation header.
+    // Show recruitment status inside the introduction's top-right column.
+    // This frees the separate line above the map and catalogue.
     let statusRow=document.getElementById('atlasDeadlineRow');
     if(!statusRow){
       statusRow=document.createElement('div');
@@ -74,7 +74,7 @@
     const placeStatusRow=()=>{
       const hero=document.querySelector('.productIntro');
       if(hero){
-        if(statusRow.nextElementSibling!==hero)hero.insertAdjacentElement('beforebegin',statusRow);
+        if(statusRow.parentElement!==hero)hero.append(statusRow);
         return true;
       }
       const anchor=document.getElementById('atlasHeaderTools')||document.querySelector('header.top');

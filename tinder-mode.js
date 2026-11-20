@@ -245,11 +245,68 @@
       }
     }catch{}
   };
-  const playDecisionSound=status=>{
-    if(status==='no')playTones([[310,0,.16,'sine',.018,235],[235,.09,.18,'triangle',.014,175]]);
-    else if(status==='love')playTones([[520,0,.22,'triangle',.022,880],[784,.075,.22,'sine',.022,1175],[1046,.15,.24,'triangle',.018,1568],[1397,.23,.3,'sine',.014,1900]]);
-    else playTones([[880,0,.13,'sine',.021,1175],[1175,.075,.18,'triangle',.018,1480]]);
+  // Soft overlapping bell partials create a continuous, star-like shimmer
+  // instead of the old short, percussive button taps.
+  const playSparkle=status=>{
+    if(!soundEnabled)return;
+    const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)return;
+    const presets={
+      no:{notes:[1568,1397,1175,1046,988,880,784],gap:.105,duration:.68,volume:.0115,output:.76},
+      yes:{notes:[784,988,1175,1397,1568,1760,1976],gap:.105,duration:.70,volume:.012,output:.78},
+      love:{notes:[880,1175,1397,1568,1760,2093,2349,2637],gap:.095,duration:.82,volume:.0125,output:.80}
+    };
+    const preset=presets[status]||presets.yes;
+    const schedule=()=>{
+      try{
+        const now=audioContext.currentTime+.025;
+        const output=audioContext.createGain();
+        output.gain.setValueAtTime(preset.output,now);
+        output.connect(audioContext.destination);
+        const echo=audioContext.createDelay(.5),echoMix=audioContext.createGain();
+        echo.delayTime.setValueAtTime(.145,now);
+        echoMix.gain.setValueAtTime(.16,now);
+        echo.connect(echoMix);echoMix.connect(output);
+        const addBell=(frequency,offset,duration,volume,pan=0)=>{
+          const start=now+offset;
+          const panner=audioContext.createStereoPanner?.();
+          if(panner){panner.pan.setValueAtTime(pan,start);panner.connect(output);panner.connect(echo);}
+          const partials=[[1,1],[2.76,.19],[4.08,.045]];
+          for(const [ratio,weight] of partials){
+            const oscillator=audioContext.createOscillator(),envelope=audioContext.createGain();
+            const peak=volume*weight;
+            oscillator.type='sine';
+            oscillator.frequency.setValueAtTime(frequency*ratio,start);
+            oscillator.frequency.exponentialRampToValueAtTime(frequency*ratio*1.003,start+duration*.38);
+            oscillator.frequency.exponentialRampToValueAtTime(frequency*ratio,start+duration);
+            envelope.gain.setValueAtTime(.0001,start);
+            envelope.gain.exponentialRampToValueAtTime(peak,start+.052);
+            envelope.gain.setValueAtTime(peak*.72,start+duration*.43);
+            envelope.gain.exponentialRampToValueAtTime(.0001,start+duration);
+            oscillator.connect(envelope);
+            if(panner)envelope.connect(panner);
+            else{envelope.connect(output);envelope.connect(echo);}
+            oscillator.start(start);oscillator.stop(start+duration+.025);
+          }
+        };
+        preset.notes.forEach((frequency,index)=>{
+          const pan=((index%5)-2)*.16;
+          addBell(frequency,index*preset.gap,preset.duration,preset.volume,pan);
+        });
+        // Super Like gets a soft, sustained harmonic glow beneath the brighter cascade.
+        if(status==='love'){
+          addBell(1046,.035,.92,.0032,-.28);
+          addBell(1318,.035,.92,.0030,0);
+          addBell(1568,.035,.92,.0028,.28);
+        }
+      }catch{}
+    };
+    try{
+      audioContext=audioContext||new Audio();
+      if(audioContext.state==='suspended')audioContext.resume().then(schedule).catch(()=>{});
+      else schedule();
+    }catch{}
   };
+  const playDecisionSound=status=>playSparkle(status);
   const playUndoSound=()=>{playTones([[392,0,.2,'sine',.02,784],[587,.11,.2,'triangle',.018,880]]);if(soundEnabled)setTimeout(()=>playTones([[175,0,.09,'sine',.012,120]]),800)};
   const syncFilterToggle=()=>{
     const toggle=$('tinderFilterToggle');if(!toggle)return;

@@ -74,13 +74,13 @@ test('Placement Atlas branding and install assets are complete', () => {
   assert.doesNotMatch(html,/fonts\.googleapis\.com|fonts\.gstatic\.com/);
   assert.match(html,/preload[^>]+PlusJakartaSans-VariableFont_wght\.ttf/);
   const typography=read('design-refresh.css');
-  assert.match(typography,/@font-face[\\s\\S]*?font-family:"Plus Jakarta Sans"/);
-  assert.match(typography,/font-weight:200 800/);
-  assert.match(typography,/font-display:swap/);
-  assert.match(typography,/font-family:"Plus Jakarta Sans"/);
+  assert(typography.includes('@font-face{'));
+  assert(typography.includes('font-weight:200 800'));
+  assert(typography.includes('font-display:swap'));
+  assert(typography.includes('font-family:"Plus Jakarta Sans"'));
   const fontBytes=fs.readFileSync(path.join(root,'fonts/PlusJakartaSans-VariableFont_wght.ttf'));
   assert.deepEqual([...fontBytes.subarray(0,4)],[0,1,0,0],'Plus Jakarta Sans font must be a valid TrueType file');
-  assert.match(read('sw.js'),/fonts\\/PlusJakartaSans-VariableFont_wght\\.ttf/);
+  assert(read('sw.js').includes('fonts/PlusJakartaSans-VariableFont_wght.ttf'));
   assert.match(html,/rel="manifest"[^>]+manifest\.webmanifest/);
   assert.match(html,/id="installAppBtn"/);
   assert.match(html,/pwa\.js\?v=/);

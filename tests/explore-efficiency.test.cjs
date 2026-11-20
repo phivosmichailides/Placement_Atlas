@@ -54,8 +54,8 @@ test('new files and changed scripts are versioned consistently for the PWA',()=>
   const assets=[
     'explore-efficiency.css?v=20261120hero1',
     'explore-efficiency.js?v=20261120hero1',
-    'atlas-navigation.js?v=20261120compacthero1',
-    'workspace-ux.js?v=20261120compacthero1',
+    'atlas-navigation.js?v=20261120compacthero2',
+    'workspace-ux.js?v=20261120compacthero2',
     'offer-journey.js?v=20261120compacthero1',
     'app.js?v=20261120compacthero1'
   ];

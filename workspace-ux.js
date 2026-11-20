@@ -83,6 +83,10 @@
    });
  }
  syncHide();syncExcluded();
+ // Reset, cloud restore and quiz setup can change the underlying checkboxes
+ // without firing a native change event. Keep their visible toggles truthful.
+ document.addEventListener('desk:filters-saved',()=>{syncHide();syncExcluded()});
+ document.addEventListener('desk:ready',()=>{syncHide();syncExcluded()});
 
  // Optional PAYE/pension preferences are deliberately separate from ranked decisions.
  const payCard=document.createElement('div');

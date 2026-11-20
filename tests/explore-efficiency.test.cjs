@@ -53,12 +53,12 @@ test('results toolbar has a single authoritative and accessible active filter ar
 test('new files and changed scripts are versioned consistently for the PWA',()=>{
   const assets=[
     'premium-discovery-preview.js?v=20261120compacthero1',
-    'explore-efficiency.css?v=20261120hero2',
+    'explore-efficiency.css?v=20261120ranking-menu1',
     'explore-efficiency.js?v=20261120hero1',
     'atlas-navigation.js?v=20261120compacthero2',
     'workspace-ux.js?v=20261120compacthero2',
     'offer-journey.js?v=20261120compacthero1',
-    'app.js?v=20261120compacthero1'
+    'app.js?v=20261120ranking-menu1'
   ];
   for(const asset of assets){
     assert.ok(html.includes(asset),'Missing HTML asset: '+asset);

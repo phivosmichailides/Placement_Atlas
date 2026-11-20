@@ -273,3 +273,31 @@ html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryC
   font-size:1.05em!important;
   line-height:inherit!important;
 }
+
+
+/* Programme titles: give words more breathing room across every card view. */
+html.atlasPremiumPreview #results .placement .placementTop h3,
+html.atlasPremiumPreview #shortlistList .placement .placementTop h3,
+html.atlasPremiumPreview #mapSelection .placement .placementTop h3,
+html.atlasPremiumPreview #reco .reco h3 {
+  letter-spacing:-.006em!important;
+  word-spacing:.015em!important;
+  line-height:1.38!important;
+  overflow-wrap:break-word!important;
+  word-break:normal!important;
+  hyphens:none!important;
+}
+
+/* The concise and original title must never appear together when expanded. */
+html.atlasPremiumPreview .placement .uxTitleExpanded>.atlasTitleConcise {
+  display:none!important;
+}
+
+/* Theme palettes style individual navigation choices, never the navigation rail. */
+html.atlasPremiumPreview body .shell > header.top.atlasStickyHeader > nav.tabs {
+  background:transparent!important;
+  background-color:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  box-shadow:none!important;
+}

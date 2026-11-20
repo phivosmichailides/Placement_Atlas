@@ -12,6 +12,7 @@
       .replace(/\bHosp\.?(?=\s|$)/gi,'Hospital')
       .replace(/\bPCN\s*\(/gi,'PCN (')
       .replace(/([A-Za-z0-9])\(/g,'$1 (')
+      .replace(/\)(?=[A-Za-z0-9])/g,') ')
       .replace(/\s+\)/g,')')
       .replace(/\s+,/g,',')
       .replace(/,\s*/g,', ')

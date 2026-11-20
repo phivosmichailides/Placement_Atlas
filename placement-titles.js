@@ -7,8 +7,12 @@
    try{if(typeof placements==='undefined'||!Array.isArray(placements))return null;return placements.find(p=>String(p.id)===String(id))||null}
    catch{return null}
  };
+ const formatSpacing=value=>typeof window.AtlasPrototypeFormatTitleSpacing==='function'
+   ?window.AtlasPrototypeFormatTitleSpacing(value)
+   :String(value||'').trim().replace(/\s*&\s*/g,' & ').replace(/\s*\+\s*/g,' + ')
+     .replace(/([A-Za-z0-9])\(/g,'$1 (').replace(/\)(?=[A-Za-z0-9])/g,') ');
  const concise=(title,p)=>typeof window.AtlasPrototypeCleanTitle==='function'
-   ?window.AtlasPrototypeCleanTitle(title,p):String(title||'').trim();
+   ?window.AtlasPrototypeCleanTitle(title,p):formatSpacing(title);
  const enhance=(card)=>{
    if(!card)return;
    const id=card.dataset?.id||card.querySelector('[data-open]')?.getAttribute('data-open');
@@ -20,13 +24,18 @@
    // Existing Explore cards have their own equivalent "Full name" button.
    if(title.querySelector('.atlasTitleConcise')){title.dataset.paReadableTitle='1';return;}
    const full=String(programme.title||programme.employer||title.textContent||'').trim();
-   const display=concise(full,programme);
+   const fullDisplay=formatSpacing(full);
+   const display=concise(fullDisplay,programme);
    title.dataset.paReadableTitle='1';
-   if(!display||display===full)return;
+   if(!display)return;
+   if(display===fullDisplay){
+     if(title.textContent!==fullDisplay)title.textContent=fullDisplay;
+     return;
+   }
    title.dataset.atlasFullTitle=full;
    title.title=full;title.replaceChildren();
    const short=document.createElement('span');short.className='atlasTitleConcise';short.textContent=display;
-   const raw=document.createElement('span');raw.className='atlasTitleOriginal';raw.textContent=full;
+   const raw=document.createElement('span');raw.className='atlasTitleOriginal';raw.textContent=fullDisplay;
    const toggle=document.createElement('button');toggle.type='button';toggle.className='atlasTitleExpand';
    toggle.textContent='Full name';toggle.setAttribute('aria-expanded','false');
    toggle.setAttribute('aria-label','Show original Oriel programme name');
@@ -35,6 +44,7 @@
      const isOpen=title.classList.toggle('uxTitleExpanded');
      toggle.textContent=isOpen?'Less':'Full name';
      toggle.setAttribute('aria-expanded',String(isOpen));
+     toggle.setAttribute('aria-label',isOpen?'Show shortened programme title':'Show original Oriel programme name');
    });
    title.append(short,raw,toggle);
  };

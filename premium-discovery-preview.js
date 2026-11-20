@@ -13,11 +13,19 @@
     if(typeof switchTab==='function')switchTab(tab);
     else document.querySelector('[data-tab="'+tab+'"]')?.click();
   };
+  const formatTitleSpacing=title=>String(title||'')
+    .replace(/[\u00a0\u2007\u202f]/g,' ')
+    .replace(/\s+/g,' ').trim()
+    .replace(/\s*&\s*/g,' & ')
+    .replace(/\s*\+\s*/g,' + ')
+    .replace(/([A-Za-z0-9])\(/g,'$1 (')
+    .replace(/\)(?=[A-Za-z0-9])/g,') ');
+  window.AtlasPrototypeFormatTitleSpacing=formatTitleSpacing;
   const cleanTitle=(title,programme={})=>{
     // Keep the unmodified source title separately for "Full name". This
     // function is presentation-only and never modifies Oriel identifiers.
-    const raw=String(title||'').trim();
-    let value=raw.replace(/\s+/g,' ').replace(/\s*\+\s*/g,' + ');
+    const raw=formatTitleSpacing(title);
+    let value=raw;
     const parts=value.split('/').map(x=>x.trim()).filter(Boolean);
     const postcode=/\b(?:GIR\s?0AA|[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2})\b/i;
     if(parts.length>1){
@@ -186,16 +194,21 @@
       row.insertAdjacentElement('afterend',hint);
     }
     const title=top?.querySelector('h3');
-    if(title){
-      const full=title.textContent.trim();
-      const concise=cleanTitle(full,p);
-      if(concise!==full){
+    // Both title enhancers can run at different points in the async card
+    // lifecycle. Never wrap a heading twice or read nested control text.
+    if(title&&!title.querySelector('.atlasTitleConcise,.atlasTitleOriginal,.atlasTitleExpand')&&
+      title.dataset.paReadableTitle!=='1'){
+      const full=String(p.title||p.employer||title.textContent||'').trim();
+      const fullDisplay=formatTitleSpacing(full);
+      const concise=cleanTitle(fullDisplay,p);
+      if(concise!==fullDisplay){
         title.dataset.atlasFullTitle=full;
+        title.dataset.paReadableTitle='1';
         title.replaceChildren();
         const shortText=document.createElement('span');
         shortText.className='atlasTitleConcise';shortText.textContent=concise;
         const original=document.createElement('span');
-        original.className='atlasTitleOriginal';original.textContent=full;
+        original.className='atlasTitleOriginal';original.textContent=fullDisplay;
         const fullToggle=document.createElement('button');
         fullToggle.type='button';fullToggle.className='atlasTitleExpand';
         fullToggle.textContent='Full name';
@@ -210,6 +223,8 @@
         });
         title.title=full;
         title.append(shortText,original,fullToggle);
+      }else if(title.textContent!==fullDisplay){
+        title.textContent=fullDisplay;
       }
     }
   };

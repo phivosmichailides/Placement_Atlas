@@ -711,6 +711,12 @@
        const isExpanded=title.classList.toggle('uxTitleExpanded');
        title.setAttribute('aria-expanded',String(isExpanded));
        title.setAttribute('aria-label',(isExpanded?'Collapse':'Expand')+' full title: '+fullTitle);
+       const titleControl=title.querySelector('.atlasTitleExpand');
+       if(titleControl){
+         titleControl.textContent=isExpanded?'Less':'Full name';
+         titleControl.setAttribute('aria-expanded',String(isExpanded));
+         titleControl.setAttribute('aria-label',isExpanded?'Show shortened programme title':'Show original Oriel programme name');
+       }
      };
      title.addEventListener('click',event=>{event.stopPropagation();toggleTitle()});
      title.addEventListener('keydown',event=>{

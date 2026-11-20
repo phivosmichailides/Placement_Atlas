@@ -1,22 +1,22 @@
 'use strict';
-const CACHE_NAME='placement-atlas-shell-2026-11-20-v102-preferences-pagination-layout-fix';
+const CACHE_NAME='placement-atlas-shell-2026-11-20-v103-title-spacing-transparent-navigation';
 const ROOT=new URL('./',self.registration.scope).href;
 const EXTRA_ASSETS=[
-  'member-profile.js?v=20261113experience1','member-profile.css?v=20261113experience1','atlas-experience.css?v=20261113navigationfix1','responsive-fit.css?v=20261113responsive1','atlas-grid-performance.css?v=20261120c','footer-viewport.js?v=20261113responsive1','offer-journey.js?v=20261113experience1','cloud-auth.css?v=20261112members1','cloud-password-auth.css?v=20261113turnstile1',
+  'member-profile.js?v=20261113experience1','member-profile.css?v=20261113experience1','atlas-experience.css?v=20261113navigationfix1','responsive-fit.css?v=20261113responsive1','atlas-grid-performance.css?v=20261120d','footer-viewport.js?v=20261113responsive1','offer-journey.js?v=20261113experience1','cloud-auth.css?v=20261112members1','cloud-password-auth.css?v=20261113turnstile1',
   'atlas-navigation.js?v=20261113responsive1','atlas-navigation.css?v=20261111logo1','atlas-map-tones.css?v=20261111tone2',
-  'atlas-completion.css?v=20261112firstpaint1','shortlist-refinement.css?v=20261112shortlist1','shortlist-refinement.js?v=20261112shortlist1','learning-library.js?v=20261113navigationfix1',
+  'atlas-completion.css?v=20261112firstpaint1','shortlist-refinement.css?v=20261112shortlist1','shortlist-refinement.js?v=20261120titlefix1','learning-library.js?v=20261113navigationfix1',
   'atlas-interactions.js?v=20261110reset1','atlas-interactions.css?v=20261110ux1','atlas-footer.css?v=20261113responsive1',
-  'premium-discovery-preview.js?v=20261112firstpaint1','premium-discovery-preview.css?v=20261111makeover5',
+  'premium-discovery-preview.js?v=20261120titlefix1','premium-discovery-preview.css?v=20261111makeover5',
   'premium-card-tabs.js?v=20261119swv1','premium-card-tabs.css?v=20261111makeover5',
   'premium-editorial-palettes.css?v=20261111makeover5','premium-workspace.css?v=20261111workspace2','premium-quiet-interface.css?v=20261111quiet5','premium-workspace.js?v=20261111workspace2',
   'placement-refinements.css?v=20261111mobile3','placement-profile.css?v=20261113security2',
   'placement-makeover.css?v=20261111cards2','placement-fixes.css?v=20261111final2','placement-fixes.js?v=20261111fix3','placement-mobile-navigation.js?v=20261113identity1',
-  'placement-profile.js?v=20261113turnstile1','placement-titles.js?v=20261111titles2',
+  'placement-profile.js?v=20261113turnstile1','placement-titles.js?v=20261120titlefix1',
   'placement-atlas-globe.svg','favicon.svg','placement-atlas-compass-pin.webp?v=20261111logo2','manifest.webmanifest',
   'pwa.js?v=20261114vector1',
   'atlas-turnstile.js?v=20261113turnstile1','cloud-password-auth.js?v=20261113turnstile1','supabase-cloud.js?v=20261113turnstile1','google-identity.js?v=20261113turnstile1','supabase-config.js?v=20261112gsi2','app.js?v=20261120perf2','app-base.js?v=20261120perf2','app-product.js?v=20261120perf2','generic-public.js?v=20261111neutral5',
   'sector-map.js?v=20261119viewport1','onboarding.js?v=20261119swv1','deadline-dates.js?v=20261112firstpaint1',
-  'map-basemap.js?v=20261119roads1','workspace-ux.js?v=20261120perf2','rail-stations.js?v=20261109national1',
+  'map-basemap.js?v=20261119roads1','workspace-ux.js?v=20261120titlefix1','rail-stations.js?v=20261109national1',
   'location-blacklist.js?v=20261111copy4','specialist-settings.js','area-rules.js',
   'locations-bundled.js?v=20261106a','tube-stations.js?v=20261108tfl2',
   'desk-enhancements.js?v=20261111quiet5','tinder-mode.js?v=20261120sparkle1','tinder-mode.css?v=20261110deckfix1',

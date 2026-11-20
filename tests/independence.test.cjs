@@ -392,3 +392,21 @@ test('preferences remain grouped and the first Explore page stays lightweight', 
   assert.match(read('atlas-grid-performance.css'),/align-items:baseline!important/);
   assert.match(read('atlas-grid-performance.css'),/margin-top:0!important/);
 });
+
+
+test('programme title enhancers do not duplicate names and navigation rail stays transparent', () => {
+  const html=read('index.html'),sw=read('sw.js');
+  const preview=read('premium-discovery-preview.js');
+  const titles=read('placement-titles.js');
+  const workspace=read('workspace-ux.js');
+  const css=read('atlas-grid-performance.css');
+  assert.match(preview,/title\.querySelector\('\.atlasTitleConcise,\.atlasTitleOriginal,\.atlasTitleExpand'\)/);
+  assert.match(preview,/String\(p\.title\|\|p\.employer\|\|title\.textContent\|\|''\)/);
+  assert.match(titles,/AtlasPrototypeFormatTitleSpacing/);
+  assert.match(workspace,/titleControl\.textContent=isExpanded\?'Less':'Full name'/);
+  assert.match(css,/\.uxTitleExpanded>\.atlasTitleConcise/);
+  assert.match(css,/nav\.tabs\s*\{/);
+  assert.match(css,/background:transparent!important/);
+  for(const name of ['premium-discovery-preview.js','placement-titles.js','workspace-ux.js','shortlist-refinement.js','atlas-grid-performance.css'])
+    assertAssetSynced(html,sw,name);
+});

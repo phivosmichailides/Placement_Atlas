@@ -129,6 +129,78 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   const firstTitle=page.locator('#results .placement .placementTop h3').first();
   const titleMetrics=await firstTitle.evaluate(el=>({letterSpacing:getComputedStyle(el).letterSpacing,text:el.innerText}));
   assert(parseFloat(titleMetrics.letterSpacing)>=-.5,'Programme title tracking is still too compressed: '+JSON.stringify(titleMetrics));
+  const titleSpacing=await page.evaluate(()=>window.AtlasPrototypeCleanTitle(
+    'Chelsea&Westminster Hospital + South Southwark PCN(Elm Lodge Practice)',{}
+  ));
+  assert.equal(titleSpacing,'Chelsea & Westminster Hospital + South Southwark PCN (Elm Lodge Practice)',
+    'Programme title spacing should separate ampersands and parenthesised sites cleanly');
+  const enhancedTitle=page.locator('#results .placement .placementTop h3:has(.atlasTitleConcise)').first();
+  await enhancedTitle.waitFor({state:'attached',timeout:20000});
+  const initialTitleState=await enhancedTitle.evaluate(el=>({
+    concise:el.querySelectorAll(':scope > .atlasTitleConcise').length,
+    original:el.querySelectorAll(':scope > .atlasTitleOriginal').length,
+    controls:el.querySelectorAll(':scope > .atlasTitleExpand').length,
+    expanded:el.classList.contains('uxTitleExpanded'),
+    conciseDisplay:getComputedStyle(el.querySelector('.atlasTitleConcise')).display,
+    originalDisplay:getComputedStyle(el.querySelector('.atlasTitleOriginal')).display,
+    buttonText:el.querySelector('.atlasTitleExpand')?.textContent.trim(),
+    buttonExpanded:el.querySelector('.atlasTitleExpand')?.getAttribute('aria-expanded')
+  }));
+  assert.deepEqual([initialTitleState.concise,initialTitleState.original,initialTitleState.controls],[1,1,1],
+    'A programme heading must be enhanced once, never wrapped twice: '+JSON.stringify(initialTitleState));
+  assert.equal(initialTitleState.expanded,false,'Programme titles should start collapsed');
+  assert.notEqual(initialTitleState.conciseDisplay,'none','Concise title should be visible initially');
+  assert.equal(initialTitleState.originalDisplay,'none','Full title should be hidden until requested');
+  assert.equal(initialTitleState.buttonText,'Full name','Initial title control should offer the full name');
+  assert.equal(initialTitleState.buttonExpanded,'false','Initial title control should expose collapsed state');
+  await enhancedTitle.evaluate(el=>el.dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true})));
+  const expandedTitleState=await enhancedTitle.evaluate(el=>({
+    expanded:el.classList.contains('uxTitleExpanded'),
+    conciseDisplay:getComputedStyle(el.querySelector('.atlasTitleConcise')).display,
+    originalDisplay:getComputedStyle(el.querySelector('.atlasTitleOriginal')).display,
+    buttonText:el.querySelector('.atlasTitleExpand')?.textContent.trim(),
+    buttonExpanded:el.querySelector('.atlasTitleExpand')?.getAttribute('aria-expanded')
+  }));
+  assert.equal(expandedTitleState.expanded,true,'Clicking the heading should expand its full title');
+  assert.equal(expandedTitleState.conciseDisplay,'none','Expanded title must not repeat the concise title');
+  assert.notEqual(expandedTitleState.originalDisplay,'none','Expanded title should show the original name');
+  assert.equal(expandedTitleState.buttonText,'Less','Heading expansion must update the visible title control');
+  assert.equal(expandedTitleState.buttonExpanded,'true','Heading expansion must update the control accessibility state');
+  await enhancedTitle.locator('.atlasTitleExpand').click();
+  const collapsedTitleState=await enhancedTitle.evaluate(el=>({
+    expanded:el.classList.contains('uxTitleExpanded'),
+    conciseDisplay:getComputedStyle(el.querySelector('.atlasTitleConcise')).display,
+    originalDisplay:getComputedStyle(el.querySelector('.atlasTitleOriginal')).display,
+    buttonText:el.querySelector('.atlasTitleExpand')?.textContent.trim(),
+    buttonExpanded:el.querySelector('.atlasTitleExpand')?.getAttribute('aria-expanded')
+  }));
+  assert.equal(collapsedTitleState.expanded,false,'Full name control should collapse the title');
+  assert.notEqual(collapsedTitleState.conciseDisplay,'none','Collapsed title should show the concise name');
+  assert.equal(collapsedTitleState.originalDisplay,'none','Collapsed title should hide the original name');
+  assert.equal(collapsedTitleState.buttonText,'Full name','Collapsed title control should offer the full name again');
+  assert.equal(collapsedTitleState.buttonExpanded,'false','Collapsed title control should expose its state');
+  await page.waitForFunction(()=>typeof window.AtlasFormatShortlistTitle==='function',null,{timeout:10000});
+  assert.equal(await page.evaluate(()=>window.AtlasFormatShortlistTitle('South Southwark PCN (Elm Lodge Practice)Chelsea & Westminster Hospital')),
+    'South Southwark PCN (Elm Lodge Practice) Chelsea & Westminster Hospital',
+    'A closing parenthesis must not run into the next word');
+
+  const navThemeAudit=await page.evaluate(async()=>{
+    const root=document.documentElement,nav=document.querySelector('.atlasStickyHeader>nav.tabs');
+    const oldTheme=root.dataset.theme,oldPalette=root.dataset.palette,results=[];
+    for(const theme of ['light','dark'])for(const palette of ['forest','copper','mauve','amber','cocoa','mono']){
+      root.dataset.theme=theme;root.dataset.palette=palette;
+      await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+      const style=getComputedStyle(nav);
+      results.push({theme,palette,background:style.backgroundColor,image:style.backgroundImage,
+        border:style.borderTopWidth,shadow:style.boxShadow});
+    }
+    if(oldTheme===undefined)delete root.dataset.theme;else root.dataset.theme=oldTheme;
+    if(oldPalette===undefined)delete root.dataset.palette;else root.dataset.palette=oldPalette;
+    return results;
+  });
+  assert.equal(navThemeAudit.length,12,'All six palettes and both brightness modes should be checked');
+  assert(navThemeAudit.every(item=>item.background==='rgba(0, 0, 0, 0)'&&item.image==='none'&&item.border==='0px'&&item.shadow==='none'),
+    'The navigation rail must remain transparent in every palette and brightness: '+JSON.stringify(navThemeAudit));
 
   // Preferences: area search and exclusion controls must stay inside their own
   // card, alongside the priorities card on wide screens and stacked on compact screens.

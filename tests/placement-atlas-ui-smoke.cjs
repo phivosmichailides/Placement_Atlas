@@ -33,16 +33,18 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   await page.waitForFunction(()=>typeof placements!=='undefined'&&placements.length===4064&&
     !!document.getElementById('results')&&!!document.querySelector('#uxExplorePager select'),null,{timeout:90000});
 
-  // First visit is monochrome and the default results page is a manageable 100.
+  // First visit is monochrome and starts with a lightweight, 36-card results page.
   assert.equal(await page.locator('html').getAttribute('data-palette'),'mono','New visitors should start in the monochrome palette');
   const pageSize=page.locator('#uxExplorePager select');
-  assert.equal(await pageSize.inputValue(),'100','Default programme page size should be 100');
-  assert.deepEqual(await pageSize.locator('option').evaluateAll(options=>options.map(option=>option.value)),['100','200','500','all']);
-  await page.waitForFunction(()=>document.querySelectorAll('#results .placement').length===100,null,{timeout:45000});
-  await pageSize.selectOption('200');
-  await page.waitForFunction(()=>document.querySelectorAll('#results .placement').length===200,null,{timeout:45000});
+  assert.equal(await pageSize.inputValue(),'36','Default programme page size should be 36');
+  assert.deepEqual(await pageSize.locator('option').evaluateAll(options=>options.map(option=>option.value)),['36','72','100','200','500','all']);
+  await page.waitForFunction(()=>document.querySelectorAll('#results .placement').length===36,null,{timeout:45000});
+  await pageSize.selectOption('72');
+  await page.waitForFunction(()=>document.querySelectorAll('#results .placement').length===72,null,{timeout:45000});
   await page.locator('#uxExplorePager select').selectOption('100');
   await page.waitForFunction(()=>document.querySelectorAll('#results .placement').length===100,null,{timeout:45000});
+  await page.locator('#uxExplorePager select').selectOption('36');
+  await page.waitForFunction(()=>document.querySelectorAll('#results .placement').length===36,null,{timeout:45000});
 
   const saveNote=page.locator('#uxFilterSidebar .footerbar .smallnote');
   assert.equal(await saveNote.evaluate(el=>getComputedStyle(el).whiteSpace),'nowrap','Saved locally note should stay on one line');

@@ -31,19 +31,8 @@
   }
   if(headerActions.parentNode!==headerTools)headerTools.append(headerActions);
   if(headerTools.parentNode!==root)header.insertAdjacentElement('afterend',headerTools);
-  // Use the Placement Atlas compass-pin mark in the main header.
-  // The simpler globe remains the browser-tab favicon.
-  const logo=header.querySelector('.brand .logo');
-  if(logo){
-    const mark=document.createElement('img');
-    mark.src='placement-atlas-compass-pin.webp?v=20261111logo2';
-    mark.alt='';
-    mark.setAttribute('aria-hidden','true');
-    mark.width=512;mark.height=512;mark.decoding='async';
-    mark.style.cssText='display:block;width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;object-position:center;visibility:visible;opacity:1';
-    logo.style.cssText='display:grid;place-items:center;flex:none;width:47px;height:47px;min-width:47px;background:none;border:0;box-shadow:none;overflow:visible';
-    logo.replaceChildren(mark);
-  }
+  // The inline, palette-aware globe in index.html is the shared brand mark.
+  // Leave it untouched so the header matches the browser favicon in both themes.
 
   // File management is available after the active page's content rather than
   // occupying the primary app navigation. All original click handlers survive.

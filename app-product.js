@@ -382,7 +382,7 @@
       const title=document.querySelector('#foryou .sectionHero h2');
       if(title)title.textContent=state.prefs.onboarding?`Your strongest matches${region?' · '+region:' · England & Wales'}`:'Explore possibilities · personalise to see your matches';
       if(!state.prefs.onboarding){
-        $('reco').innerHTML='<div class="card empty"><h3>Make these recommendations yours</h3><p>Complete the short quiz to unlock personalised fit scores and recommendations based on what you value.</p><button type="button" class="btn primary" data-atlas-start-quiz>Personalise my matches</button></div>';
+        $('reco').innerHTML='<div class="card empty recoPersonaliseEmpty"><h3>Find your best matches</h3><p>A quick quiz makes your results personal.</p><button type="button" class="btn primary" data-atlas-start-quiz>Personalise</button></div>';
         return;
       }
       // Only score and rank the catalogue when recommendations will be shown.

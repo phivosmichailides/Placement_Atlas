@@ -428,7 +428,7 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
         iconVisible:Boolean(icon&&getComputedStyle(icon).display!=='none'&&icon.getBoundingClientRect().width>0&&icon.getBoundingClientRect().height>0),
         iconArtwork:Boolean(icon&&icon.querySelectorAll('circle').length===1&&icon.querySelectorAll('path').length===2),
         title:bounds(title),deadline:bounds(deadline),intro:bounds(intro),
-        deadlineInHeader:header.contains(deadline),deadlineParent:deadline.parentElement?.id,deadlinePrecedesIntro:Boolean(deadline.compareDocumentPosition(intro)&Node.DOCUMENT_POSITION_FOLLOWING),
+        deadlineInHeader:header.contains(deadline),deadlineParent:deadline.parentElement?.id,deadlineInsideIntro:intro.contains(deadline),
         launcher:bounds(launcher),launcherPosition:getComputedStyle(launcher).position,
         launcherHidden:getComputedStyle(launcher).visibility==='hidden',
         footerVisible:(()=>{
@@ -445,8 +445,8 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
     assert(!intersects(layout.brand,layout.utility),'Brand and utility controls overlap: '+JSON.stringify(layout));
     assert(!intersects(layout.nav,layout.utility),'Navigation and utility controls overlap: '+JSON.stringify(layout));
     assert(layout.pageWidth<=layout.vw+1,'Whole-page horizontal overflow: '+JSON.stringify(layout));
-    assert(!layout.deadlineInHeader&&layout.deadlineParent==='atlasDeadlineRow'&&layout.deadlinePrecedesIntro,
-      'Oriel recruitment status must precede the hero and never appear inside the header: '+JSON.stringify(layout));
+    assert(!layout.deadlineInHeader&&layout.deadlineParent==='atlasDeadlineRow'&&layout.deadlineInsideIntro,
+      'Oriel recruitment status must sit within the hero, not in a separate top row or header: '+JSON.stringify(layout));
     assert(layout.launcherPosition==='fixed','Shortlist launcher must be viewport-fixed: '+JSON.stringify(layout));
     if(layout.footerVisible){
       assert(layout.launcherHidden,'Shortlist must not obscure a visible footer: '+JSON.stringify(layout));

@@ -204,6 +204,7 @@ html[data-theme="dark"] .top #themeToggle .themeIconMoon {
 <link rel="stylesheet" href="responsive-fit.css?v=20261113responsive1">
 <link rel="stylesheet" href="explore-layout-fixes.css?v=20261120a">
 <link rel="stylesheet" href="atlas-grid-performance.css?v=20261120d">
+<link rel="stylesheet" href="explore-efficiency.css?v=20261120hero1">
 </head>
 <body>
 <div class="shell">
@@ -238,6 +239,10 @@ html[data-theme="dark"] .top #themeToggle .themeIconMoon {
         <p class="smallnote" id="uxHomePostcodeStatus">Used to assess a typical weekday 08:00 journey to every training site, including each site in split programmes. A full postcode is most precise; an area or station gives a broader starting point. Programme pins stay unchanged. Saved in this browser; route requests are sent to TfL.</p>
       </div>
       <div class="grid2"><label class="field"><span>Max hours</span><select id="hours"><option value="">Any</option><option>35</option><option>37.5</option><option>40</option><option>42.5</option></select></label><label class="field"><span>Minimum salary</span><select id="salary"><option value="">Any</option><option value="26000">£26k</option><option value="28000">£28k</option><option value="30000">£30k</option><option value="32000">£32k</option><option value="36000">£36k</option></select></label></div>
+       <div class="atlasSidebarToggleRow" id="atlasSidebarToggleRow" role="group" aria-label="Show or hide saved programme decisions">
+         <button class="btn uxCompactBtn" type="button" id="uxHideExcludedBtn" aria-pressed="true" aria-controls="results">✓ Showing excluded</button>
+         <button class="btn uxCompactBtn" type="button" id="uxHideShortlistedBtn" aria-pressed="false" aria-controls="results">○ Hide shortlisted</button>
+       </div>
       <label class="field"><span>Decisions</span><select id="decision"><option value="all">All decisions</option><option value="active">Hide No / Absolutely not</option><option value="shortlist">My shortlist</option><option value="unmarked">Not decided yet</option><option value="excluded">Excluded</option></select></label><label class="field"><span>Skilled Worker visa sponsorship</span><select id="visa"><option value="">All programmes</option><option value="yes">Advertised sponsorship only</option><option value="no">Sponsorship not offered</option><option value="unknown">Not confirmed in Oriel export</option></select></label><label class="check"><input type="checkbox" id="hideAvoid"> Hide avoided areas entirely (all split sites)</label><label class="check"><input type="checkbox" id="hideOuterLondon"> Hide far-out London towns (e.g. Orpington)</label><label class="check"><input type="checkbox" id="hideExcluded"> Hide excluded programmes</label><label class="check uxHideCheck"><input type="checkbox" id="hideShortlisted"> Hide already-shortlisted programmes</label><fieldset class="uxSpecialistFilters" aria-label="Specialist setting exclusions"><legend>Specialist settings</legend>
   <p class="uxSpecialistIntro">Hide programmes linked to specialist settings you want to avoid.</p><details class="uxSpecialistMethod"><summary>How we classify</summary><p>We check the Oriel programme title, employer and named settings—not every specialist ward in an ordinary hospital.</p></details>
   <label class="check"><input type="checkbox" id="hideJustice"> Hide prison, custody &amp; justice settings</label>
@@ -262,13 +267,12 @@ html[data-theme="dark"] .top #themeToggle .themeIconMoon {
 </label>
 <span id="mapStyleStatus" class="map-style-status" aria-live="polite" hidden></span>
 <button class="btn" id="fitMap">Fit results</button><button class="btn uxMapScopeToggle" id="uxMapScopeToggle" type="button" aria-pressed="false" title="Show every programme matching your filters on the map">Show all matching</button></div></div><div id="placementMap" aria-label="Interactive placement map"></div><div class="map-caption"><span id="mapStatus" role="status">Loading map locations…</span></div><div id="mapSelection"></div></section><div class="uxExploreToolbar" id="uxExploreToolbar" aria-label="Programme browsing tools">
-  <div class="uxToolbarLead"><b>Programme results</b><small>Choose a layout to browse programmes.</small></div>
+  <div class="uxToolbarLead"><b>Programme results shown:</b><div id="atlasActiveFilters" class="atlasActiveFilters" role="group" aria-label="Active filters for programme results and map"><span class="atlasNoFilters">All programmes · no filters applied</span></div></div>
   <button class="btn uxCompactBtn" type="button" id="uxToolbarFilters" aria-expanded="true" aria-controls="uxFilterSidebar">☷ Hide filters</button><label class="uxResultsSortControl" for="uxResultsSort">Sort results <select id="uxResultsSort" aria-label="Sort filtered results"><option value="fit">Best fit</option><option value="salary">Highest salary</option><option value="hourly">Best hourly pay</option><option value="hours">Shortest week</option><option value="name">Name A–Z</option></select></label><div class="uxLayoutControls" role="group" aria-label="Programme card layout">
     <button type="button" class="btn uxLayoutBtn" data-ux-layout="list" aria-pressed="true" title="Detailed list view">☰ <span>List</span></button>
     <button type="button" class="btn uxLayoutBtn" data-ux-layout="grid" aria-pressed="false" title="Compact grid view">▦ <span>Grid</span></button>
   </div>
-  <button class="btn uxCompactBtn" type="button" id="uxHideExcludedBtn" aria-pressed="false">○ Show excluded</button><button class="btn uxCompactBtn" type="button" id="uxHideShortlistedBtn" aria-pressed="false">○ Hide shortlisted</button>
-  <button class="btn uxCompactBtn" type="button" data-ux-open-drawer>My shortlist <span data-ux-shortlist-count></span></button>
+   <button class="btn uxCompactBtn" type="button" data-ux-open-drawer>My shortlist <span data-ux-shortlist-count></span></button>
 </div><div class="results" id="results"><div class="card loading"><div class="spinner"></div>Loading placement data…</div></div><div id="uxExplorePager" class="uxExplorePager" aria-label="Programme result pages"></div></div>
   </div>
 </section>
@@ -430,5 +434,6 @@ html[data-theme="dark"] .top #themeToggle .themeIconMoon {
 <script src="member-profile.js?v=20261113experience1"></script>
 <script src="offer-journey.js?v=20261113experience1"></script>
 <script src="explore-map-resize.js?v=20261120a"></script>
+<script src="explore-efficiency.js?v=20261120hero1"></script>
 </body>
 </html>

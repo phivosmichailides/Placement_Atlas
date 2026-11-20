@@ -1,5 +1,5 @@
 'use strict';
-const CACHE_NAME='placement-atlas-shell-2026-11-20-v99-local-plus-jakarta';
+const CACHE_NAME='placement-atlas-shell-2026-11-20-v100-local-font-globe';
 const ROOT=new URL('./',self.registration.scope).href;
 const EXTRA_ASSETS=[
   'member-profile.js?v=20261113experience1','member-profile.css?v=20261113experience1','atlas-experience.css?v=20261113navigationfix1','responsive-fit.css?v=20261113responsive1','footer-viewport.js?v=20261113responsive1','offer-journey.js?v=20261113experience1','cloud-auth.css?v=20261112members1','cloud-password-auth.css?v=20261113turnstile1',
@@ -12,7 +12,7 @@ const EXTRA_ASSETS=[
   'placement-refinements.css?v=20261111mobile3','placement-profile.css?v=20261113security2',
   'placement-makeover.css?v=20261111cards2','placement-fixes.css?v=20261111final2','placement-fixes.js?v=20261111fix3','placement-mobile-navigation.js?v=20261113identity1',
   'placement-profile.js?v=20261113turnstile1','placement-titles.js?v=20261111titles2',
-  'placement-atlas-globe.svg',  'placement-atlas-compass-pin.webp?v=20261111logo2','manifest.webmanifest',
+  'placement-atlas-globe.svg','favicon.svg','placement-atlas-compass-pin.webp?v=20261111logo2','manifest.webmanifest',
   'pwa.js?v=20261114vector1',
   'atlas-turnstile.js?v=20261113turnstile1','cloud-password-auth.js?v=20261113turnstile1','supabase-cloud.js?v=20261113turnstile1','google-identity.js?v=20261113turnstile1','supabase-config.js?v=20261112gsi2','app.js?v=20261120perf2','app-base.js?v=20261120perf2','app-product.js?v=20261120perf2','generic-public.js?v=20261111neutral5',
   'sector-map.js?v=20261119viewport1','onboarding.js?v=20261119swv1','deadline-dates.js?v=20261112firstpaint1',

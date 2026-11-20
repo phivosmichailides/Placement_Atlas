@@ -70,7 +70,9 @@ test('Placement Atlas branding and install assets are complete', () => {
   assert.match(html,/<title>Placement Atlas - Independent Oriel Placement Desk<\/title>/);
   assert.ok(html.includes('name="description" content="Placement Atlas is an independent Oriel placement desk for UK MPharm students.'));
   assert.match(html,/<link rel="icon" type="image\/png" sizes="192x192" href="\/icons\/placement-atlas-192\.png">/);
-  assert.doesNotMatch(html,/<link rel="icon" type="image\/svg\+xml"/);
+  assert(html.includes('<link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg" media="(prefers-color-scheme: dark)">'));
+  assert(html.indexOf('type="image/png"')<html.indexOf('type="image/svg+xml"'));
+  assert(read('sw.js').includes("'favicon.svg'"));
   assert.doesNotMatch(html,/fonts\.googleapis\.com|fonts\.gstatic\.com/);
   assert.match(html,/preload[^>]+PlusJakartaSans-VariableFont_wght\.ttf/);
   const typography=read('design-refresh.css');

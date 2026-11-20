@@ -40,19 +40,24 @@ const waitForCount=(page,count)=>page.waitForFunction(value=>{
   await page.goto(url+'/?qa=shortlist',{waitUntil:'domcontentloaded'});
   await page.locator('#results .placement').first().waitFor({state:'visible',timeout:60000});
   await page.locator('#uxDrawerLauncher [data-ux-shortlist-count]').waitFor({state:'attached',timeout:20000});
+  await page.locator('#undoDesk').waitFor({state:'attached',timeout:20000});
   await waitForCount(page,'(0)');
   const first=page.locator('#results .placement').first();
   await first.locator('[data-action=prefer]').click();
   await waitForCount(page,'(1)');
+  await page.waitForFunction(()=>!!document.getElementById('undoDesk')&&!document.getElementById('undoDesk').disabled,null,{timeout:10000});
   assert.equal(await page.locator('#uxDrawerLauncher [data-ux-shortlist-count]').innerText(),'(1)',
     'Bottom-right shortlist count did not update after adding a programme');
   await page.locator('.atlasHistoryDisclosure > summary').click();
+  await page.waitForFunction(()=>!!document.getElementById('undoDesk')&&!document.getElementById('undoDesk').disabled,null,{timeout:10000});
   await page.locator('#undoDesk').click();
   await waitForCount(page,'(0)');
+  await page.waitForFunction(()=>!!document.getElementById('redoDesk')&&!document.getElementById('redoDesk').disabled,null,{timeout:10000});
   assert.equal(await page.locator('#uxDrawerLauncher [data-ux-shortlist-count]').innerText(),'(0)',
     'Bottom-right shortlist count did not update after undo');
   await page.locator('#redoDesk').click();
   await waitForCount(page,'(1)');
+  await page.waitForFunction(()=>!!document.getElementById('undoDesk')&&!document.getElementById('undoDesk').disabled,null,{timeout:10000});
   await first.locator('[data-action=prefer]').click();
   await waitForCount(page,'(0)');
   assert.equal(await page.locator('#uxDrawerLauncher [data-ux-shortlist-count]').innerText(),'(0)',

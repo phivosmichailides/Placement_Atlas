@@ -14,7 +14,7 @@
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="preload" href="/fonts/PlusJakartaSans-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
 <meta name="application-name" content="Placement Atlas">
-<meta name="atlas-release" content="2026-11-20-plus-jakarta-globe-dark-tab">
+<meta name="atlas-release" content="2026-11-20-preferences-pagination-layout-fix">
 <meta name="description" content="Placement Atlas is an independent Oriel placement desk for UK MPharm students. Compare 4,064 foundation pharmacist training programmes across England and Wales with interactive maps, pay and hours insights, personalised fit scores, filters, shortlist management and swipe-based discovery.">
 <link rel="canonical" href="https://placementatlas.co.uk/">
 <meta name="robots" content="index, follow, max-image-preview:large">
@@ -203,7 +203,7 @@ html[data-theme="dark"] .top #themeToggle .themeIconMoon {
 <link rel="stylesheet" href="atlas-experience.css?v=20261113navigationfix1">
 <link rel="stylesheet" href="responsive-fit.css?v=20261113responsive1">
 <link rel="stylesheet" href="explore-layout-fixes.css?v=20261120a">
-<link rel="stylesheet" href="atlas-grid-performance.css?v=20261120b">
+<link rel="stylesheet" href="atlas-grid-performance.css?v=20261120c">
 </head>
 <body>
 <div class="shell">
@@ -314,7 +314,7 @@ html[data-theme="dark"] .top #themeToggle .themeIconMoon {
   <div class="card outcomeComparison"><div class="eyebrow">DECISION SUPPORT</div><h3>Compare with your shortlist</h3><p class="muted">Your locally saved ranking is shown for context. It doesn't indicate available vacancies or change your official preferences.</p><div id="outcomeCompareResults">Once programme data loads, your leading shortlisted programmes will appear here.</div></div>
 </section>
 <section class="panel" id="compare"><div class="sectionHero card"><div><div class="eyebrow">SIDE BY SIDE</div><h2>Compare programmes</h2><p>Add up to five from Explore.</p></div><button class="btn" id="clearCompare">Clear comparison</button></div><div class="compareWrap" id="compareArea"></div></section>
-<section class="panel" id="prefs"><div class="settings"><div class="settingsCard card"><div class="eyebrow">YOUR PROFILE</div><h2>Your priorities</h2><p class="muted">Your setup sets the starting point. Fine-tune how each factor affects programme matches below.</p><div id="weights"></div><div class="atlasVisaPreference"><label class="field" for="visaPriorityPreference"><span>Skilled Worker visa sponsorship</span><select id="visaPriorityPreference"><option value="none">Not needed / no preference</option><option value="prefer">Prefer programmes offering sponsorship</option><option value="require">Require advertised sponsorship</option></select></label><p class="smallnote">Programme sponsorship status comes from the dated Oriel export. An advertised offer does not guarantee individual visa eligibility. <a href="https://www.london.wtepharmacy.nhs.uk/national-recruitment/preferencing/" target="_blank" rel="noopener noreferrer">Official Oriel guidance</a>.</p></div></div><div class="settingsCard card><div class="eyebrow">LOCATIONS</div><h2>Area preferences</h2><label class="field"><span>Areas you like</span><textarea id="likes"></textarea></label><label class="field"><span>Areas you’d rather avoid</span><textarea id="avoids"></textarea></label><button class="btn primary" id="savePrefs">Save preferences</button></div><div class="settingsCard card uxAppearanceSettings">
+<section class="panel" id="prefs"><div class="settings"><div class="settingsCard card"><div class="eyebrow">YOUR PROFILE</div><h2>Your priorities</h2><p class="muted">Your setup sets the starting point. Fine-tune how each factor affects programme matches below.</p><div id="weights"></div><div class="atlasVisaPreference"><label class="field" for="visaPriorityPreference"><span>Skilled Worker visa sponsorship</span><select id="visaPriorityPreference"><option value="none">Not needed / no preference</option><option value="prefer">Prefer programmes offering sponsorship</option><option value="require">Require advertised sponsorship</option></select></label><p class="smallnote">Programme sponsorship status comes from the dated Oriel export. An advertised offer does not guarantee individual visa eligibility. <a href="https://www.london.wtepharmacy.nhs.uk/national-recruitment/preferencing/" target="_blank" rel="noopener noreferrer">Official Oriel guidance</a>.</p></div></div><div class="settingsCard card"><div class="eyebrow">LOCATIONS</div><h2>Area preferences</h2><label class="field"><span>Areas you like</span><textarea id="likes"></textarea></label><label class="field"><span>Areas you’d rather avoid</span><textarea id="avoids"></textarea></label><button class="btn primary" id="savePrefs">Save preferences</button></div><div class="settingsCard card uxAppearanceSettings">
   <div class="eyebrow">WHOLE-SITE APPEARANCE · NOT MAP PINS</div>
   <h2>Interface colours</h2>
   <p class="muted">Choose a colour theme for the whole interface. Map pin colours can be adjusted separately.</p>
@@ -409,7 +409,7 @@ html[data-theme="dark"] .top #themeToggle .themeIconMoon {
 <script src="app.js?v=20261120perf2"></script>
 <script src="preferences-ui.js?v=20261111slider2"></script>
 <script src="theme-outcome.js?v=20261106i"></script>
-<script src="workspace-ux.js?v=20261120perf1"></script>
+<script src="workspace-ux.js?v=20261120perf2"></script>
 <script src="simulator.js?v=20261113navigationfix1"></script>
 <script src="tinder-mode.js?v=20261120sparkle1"></script>
 <script src="motion-effects.js?v=20261107a"></script>

@@ -151,9 +151,10 @@
    if(open){filterSnapshots.push(snapshotFilters());if(filterSnapshots.length>3)filterSnapshots.shift();backBtn.hidden=false}
  },true);
 
- const PAGE_SIZE_KEY='oriel-desk-page-size-v1';
+ const PAGE_SIZE_KEY='oriel-desk-page-size-v2';
  let page=1,lastFilterKey='',skipResetOnce=false;
- // Keep the initial DOM light. Larger page sizes remain available on demand.
+ // Start with 36 results even if an older browser saved the previous 'All' default.
+ // New manual selections are saved under v2 and remain persistent.
  let pageSize=read(PAGE_SIZE_KEY,'36');
  if(!['36','72','100','200','500','all'].includes(pageSize))pageSize='36';
  const pageLimit=total=>pageSize==='all'?Math.max(1,total):Number(pageSize);

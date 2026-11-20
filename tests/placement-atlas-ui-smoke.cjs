@@ -18,6 +18,7 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   await page.addInitScript(()=>{
    localStorage.clear();
    localStorage.setItem('phivos-onboarding-v1','1');
+   localStorage.setItem('oriel-desk-page-size-v1','all');
   });
   await page.goto(base,{waitUntil:'domcontentloaded',timeout:60000});
   // The primary navigation must be visibly present immediately, without waiting
@@ -91,6 +92,28 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
     'Programme highlights and potential trade-offs should be equal width: '+JSON.stringify(fitPanelMetrics));
   assert(Math.abs(fitPanelMetrics.boxes[0].height-fitPanelMetrics.boxes[1].height)<=2,
     'Programme highlights and potential trade-offs should be equal height: '+JSON.stringify(fitPanelMetrics));
+  const bulletMetrics=await firstGridCard.locator('.fitColumn .fitPoint').evaluateAll(points=>points.map(point=>{
+    const style=getComputedStyle(point),marker=getComputedStyle(point,'::before');
+    const range=document.createRange();range.selectNodeContents(point);
+    const textRects=[...range.getClientRects()].filter(rect=>rect.width>0&&rect.height>0);
+    return {
+      display:style.display,alignItems:style.alignItems,
+      markerContent:marker.content,markerMarginTop:marker.marginTop,
+      pointLeft:point.getBoundingClientRect().left,
+      textLefts:textRects.map(rect=>rect.left)
+    };
+  }));
+  assert(bulletMetrics.length>0,'Expanded programme details should contain fit bullets');
+  for(const metric of bulletMetrics){
+    assert.equal(metric.display,'flex','Fit bullet and text must share one horizontal row: '+JSON.stringify(metric));
+    assert.equal(metric.alignItems,'baseline','Fit bullet must align with the first text baseline: '+JSON.stringify(metric));
+    assert.equal(metric.markerMarginTop,'0px','Fit bullet must not be pushed below its words: '+JSON.stringify(metric));
+    assert.notEqual(metric.markerContent,'none','Fit bullet marker is missing: '+JSON.stringify(metric));
+    assert(metric.textLefts.length>0,'Fit point text has no measurable line boxes: '+JSON.stringify(metric));
+    assert(metric.textLefts[0]>=metric.pointLeft+14,'Fit point text must begin after its bullet column: '+JSON.stringify(metric));
+    assert(metric.textLefts.every(left=>Math.abs(left-metric.textLefts[0])<=1),
+      'Wrapped fit text must remain aligned beneath its first line: '+JSON.stringify(metric));
+  }
   await firstGridCard.locator('[data-ux-expand]').click();
   await page.locator('#uxMapScopeToggle').click();
   assert.equal(await page.locator('#uxMapScopeToggle').getAttribute('aria-pressed'),'true',
@@ -106,6 +129,52 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   const firstTitle=page.locator('#results .placement .placementTop h3').first();
   const titleMetrics=await firstTitle.evaluate(el=>({letterSpacing:getComputedStyle(el).letterSpacing,text:el.innerText}));
   assert(parseFloat(titleMetrics.letterSpacing)>=-.5,'Programme title tracking is still too compressed: '+JSON.stringify(titleMetrics));
+
+  // Preferences: area search and exclusion controls must stay inside their own
+  // card, alongside the priorities card on wide screens and stacked on compact screens.
+  await page.locator('header.top nav.tabs [data-tab="prefs"]').click();
+  await page.waitForFunction(()=>!!document.querySelector('#prefs .geoLikesPane')&&
+    !!document.querySelector('#prefs .geoBlacklistPane'),null,{timeout:20000});
+  const widePreferences=await page.evaluate(()=>{
+    const grid=document.querySelector('#prefs .settings');
+    const cards=[...grid.querySelectorAll(':scope > .settingsCard')];
+    const priority=cards.find(card=>card.querySelector(':scope > h2')?.textContent.trim()==='Your priorities');
+    const area=cards.find(card=>card.querySelector(':scope > h2')?.textContent.trim()==='Area preferences');
+    if(!priority||!area)return {found:false};
+    const rect=el=>{const r=el.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom}};
+    return {
+      found:true,priority:rect(priority),area:rect(area),
+      likesInside:area.contains(grid.querySelector('.geoLikesPane')),
+      exclusionsInside:area.contains(grid.querySelector('.geoBlacklistPane')),
+      looseLikes:grid.querySelectorAll(':scope > .geoLikesPane').length,
+      looseExclusions:grid.querySelectorAll(':scope > .geoBlacklistPane').length
+    };
+  });
+  assert(widePreferences.found,'Your priorities and Area preferences must each be a real settings card');
+  assert(widePreferences.likesInside&&widePreferences.exclusionsInside,
+    'Both area controls must remain inside the Area preferences card: '+JSON.stringify(widePreferences));
+  assert.equal(widePreferences.looseLikes,0,'Preferred areas must not escape the Area preferences card');
+  assert.equal(widePreferences.looseExclusions,0,'Areas to exclude must not escape the Area preferences card');
+  assert(Math.abs(widePreferences.priority.top-widePreferences.area.top)<=4,
+    'Your priorities and Area preferences should align across the same desktop row: '+JSON.stringify(widePreferences));
+  assert(widePreferences.area.left>=widePreferences.priority.right-2,
+    'Area preferences should sit beside Your priorities on a wide desktop: '+JSON.stringify(widePreferences));
+  await page.setViewportSize({width:1100,height:960});
+  await wait(120);
+  const compactPreferences=await page.evaluate(()=>{
+    const grid=document.querySelector('#prefs .settings');
+    const cards=[...grid.querySelectorAll(':scope > .settingsCard')];
+    const priority=cards.find(card=>card.querySelector(':scope > h2')?.textContent.trim()==='Your priorities');
+    const area=cards.find(card=>card.querySelector(':scope > h2')?.textContent.trim()==='Area preferences');
+    const a=area.getBoundingClientRect(),p=priority.getBoundingClientRect();
+    return {priorityLeft:p.left,priorityBottom:p.bottom,areaLeft:a.left,areaTop:a.top};
+  });
+  assert(Math.abs(compactPreferences.areaLeft-compactPreferences.priorityLeft)<=3,
+    'Area preferences should align to the same left edge when stacked: '+JSON.stringify(compactPreferences));
+  assert(compactPreferences.areaTop>=compactPreferences.priorityBottom-1,
+    'Area preferences should stack beneath priorities on compact screens: '+JSON.stringify(compactPreferences));
+  await page.setViewportSize({width:1440,height:960});
+  await page.locator('header.top nav.tabs [data-tab="explore"]').click();
 
   // Dynamic navigation must have one readable label, not icon-span duplicates.
   for(const [id,label] of [['simulator','Oriel Simulation'],['tinderMode','Swipe Mode']]){

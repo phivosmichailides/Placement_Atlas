@@ -378,3 +378,17 @@ test('discovery redesign uses progressive disclosure and concise, evidence-led s
     'A training setting is factual, not inherently a positive recommendation');
   assert.match(cardCss,/atlasCompactTakeHome/,'Compact take-home needs a readable secondary style');
 });
+
+
+test('preferences remain grouped and the first Explore page stays lightweight', () => {
+  const html=read('index.html'),pager=read('workspace-ux.js'),sw=read('sw.js');
+  assert.match(html,/<div class="settingsCard card"><div class="eyebrow">LOCATIONS<\/div><h2>Area preferences<\/h2>/);
+  assert.doesNotMatch(html,/<div class="settingsCard card><div class="eyebrow">LOCATIONS/);
+  assert.match(pager,/const PAGE_SIZE_KEY='oriel-desk-page-size-v2'/);
+  assert.match(pager,/let pageSize=read\(PAGE_SIZE_KEY,'36'\)/);
+  assert.match(pager, /\['all','All \(may be slower\)'\]/);
+  assertAssetSynced(html,sw,'workspace-ux.js');
+  assertAssetSynced(html,sw,'atlas-grid-performance.css');
+  assert.match(read('atlas-grid-performance.css'),/align-items:baseline!important/);
+  assert.match(read('atlas-grid-performance.css'),/margin-top:0!important/);
+});

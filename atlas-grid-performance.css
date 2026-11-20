@@ -248,3 +248,28 @@ html.atlasPremiumPreview .uxMapScopeToggle:focus-visible {
   outline: 2px solid var(--ux-accent-ink) !important;
   outline-offset: 3px !important;
 }
+
+
+/* Expanded programme signals: align bullets with the first text baseline.
+   Wrapped lines stay beneath the words rather than beneath the bullet. */
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit .fitColumn .fitPoint,
+html.atlasPremiumPreview #results .placement.atlasSampleCard .atlasTabbedFit .fitColumn .fitPoint,
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.uxExpanded .atlasTabbedFit .fitColumn .fitPoint {
+  display:flex!important;
+  align-items:baseline!important;
+  gap:8px!important;
+  min-width:0!important;
+  width:100%!important;
+  text-align:left!important;
+  white-space:normal!important;
+  overflow-wrap:anywhere!important;
+}
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit .fitColumn .fitPoint::before,
+html.atlasPremiumPreview #results .placement.atlasSampleCard .atlasTabbedFit .fitColumn .fitPoint::before,
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.uxExpanded .atlasTabbedFit .fitColumn .fitPoint::before {
+  flex:0 0 auto!important;
+  align-self:auto!important;
+  margin-top:0!important;
+  font-size:1.05em!important;
+  line-height:inherit!important;
+}

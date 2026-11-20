@@ -12,8 +12,9 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  const context=await browser.newContext({viewport:{width:1440,height:960},deviceScaleFactor:1});
  const page=await context.newPage();
- const errors=[];
+ const errors=[],consoleErrors=[];
  page.on('pageerror',error=>errors.push(error.message));
+ page.on('console',message=>{if(message.type()==='error')consoleErrors.push(message.text());});
  try{
   await page.addInitScript(()=>{
    localStorage.clear();
@@ -30,8 +31,24 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
     assert.equal(await page.locator('header.top nav.tabs > .tab[data-tab="'+id+'"]').count(),1,
       'Missing or duplicate first-paint navigation: '+id);
   }
-  await page.waitForFunction(()=>typeof placements!=='undefined'&&placements.length===4064&&
+  try{
+   await page.waitForFunction(()=>typeof placements!=='undefined'&&placements.length===4064&&
     !!document.getElementById('results')&&!!document.querySelector('#uxExplorePager select'),null,{timeout:90000});
+  }catch(error){
+   const diagnostics=await page.evaluate(()=>({
+    title:document.title,
+    readyState:document.readyState,
+    rootClass:document.documentElement.className,
+    placements:typeof placements==='undefined'?'undefined':placements.length,
+    count:document.getElementById('count')?.textContent,
+    results:document.getElementById('results')?.innerText?.slice(0,700),
+    pager:document.getElementById('uxExplorePager')?.outerHTML?.slice(0,1400),
+    scripts:[...document.scripts].map(script=>script.src).filter(Boolean),
+    body:document.body.innerText.slice(0,1200)
+   }));
+   await page.screenshot({path:output+'/boot-failure.png'}).catch(()=>{});
+   throw new Error('Initial catalogue did not render: '+JSON.stringify({diagnostics,pageErrors:errors,consoleErrors})+'; '+error.message);
+  }
 
   // First visit is monochrome and the default results page is a manageable 100.
   assert.equal(await page.locator('html').getAttribute('data-palette'),'mono','New visitors should start in the monochrome palette');

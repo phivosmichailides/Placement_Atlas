@@ -14,6 +14,7 @@ on:
       - 'tests/map-theme-smoke.cjs'
       - 'tests/reliable-map-smoke.cjs'
       - 'tests/placement-atlas-ui-smoke.cjs'
+      - 'tests/explore-grid-ux-smoke.cjs'
       - 'tests/shortlist-badge-smoke.cjs'
       - 'tests/catalogue-parser.test.cjs'
       - 'tests/independence.test.cjs'
@@ -36,6 +37,7 @@ on:
       - 'tests/map-theme-smoke.cjs'
       - 'tests/reliable-map-smoke.cjs'
       - 'tests/placement-atlas-ui-smoke.cjs'
+      - 'tests/explore-grid-ux-smoke.cjs'
       - 'tests/shortlist-badge-smoke.cjs'
       - 'tests/catalogue-parser.test.cjs'
       - 'tests/independence.test.cjs'
@@ -64,17 +66,19 @@ jobs:
         run: node --test tests/catalogue-parser.test.cjs tests/independence.test.cjs tests/location-guidance.test.cjs tests/research.test.js tests/shortlist.test.js
       - name: Check JavaScript syntax for the app and browser tests
         run: |
-          for file in app.js atlas-navigation.js workspace-ux.js placement-mobile-navigation.js member-profile.js premium-discovery-preview.js onboarding.js tinder-mode.js simulator.js placement-profile.js placement-fixes.js map-basemap.js programme-preview.js learning-library.js shortlist-refinement.js tests/placement-atlas-ui-smoke.cjs; do node --check "$file"; done
+          for file in app.js app-product.js sector-map.js pwa.js sw.js atlas-navigation.js workspace-ux.js tests/placement-atlas-ui-smoke.cjs tests/explore-grid-ux-smoke.cjs placement-mobile-navigation.js member-profile.js premium-discovery-preview.js onboarding.js tinder-mode.js simulator.js placement-profile.js placement-fixes.js map-basemap.js programme-preview.js learning-library.js shortlist-refinement.js tests/placement-atlas-ui-smoke.cjs; do node --check "$file"; done
       - name: Install browser testing dependency
         run: npm install --no-save playwright@1.56.1
       - name: Install test browser and dependencies
         run: npx playwright install --with-deps chromium
-      - name: Validate live shortlist count and undo/redo
-        run: node tests/shortlist-badge-smoke.cjs
       - name: Serve current checkout for browser tests
         run: python3 -m http.server 8000 --bind 127.0.0.1 > /tmp/placement-atlas-http.log 2>&1 &
       - name: Validate checkout UI in desktop and mobile Chromium
         run: node tests/placement-atlas-ui-smoke.cjs
+        env:
+          TARGET: http://127.0.0.1:8000/
+      - name: Validate Grid cards, collapsed map and filter layout
+        run: node tests/explore-grid-ux-smoke.cjs
         env:
           TARGET: http://127.0.0.1:8000/
       - name: Upload screenshots
@@ -99,7 +103,7 @@ jobs:
           node-version: '22'
       - name: Check JavaScript syntax for the app and browser tests
         run: |
-          for file in app.js atlas-navigation.js workspace-ux.js placement-mobile-navigation.js member-profile.js premium-discovery-preview.js onboarding.js tinder-mode.js simulator.js placement-profile.js placement-fixes.js map-basemap.js programme-preview.js learning-library.js shortlist-refinement.js tests/placement-atlas-ui-smoke.cjs; do node --check "$file"; done
+          for file in app.js app-product.js sector-map.js pwa.js sw.js atlas-navigation.js workspace-ux.js tests/placement-atlas-ui-smoke.cjs tests/explore-grid-ux-smoke.cjs placement-mobile-navigation.js member-profile.js premium-discovery-preview.js onboarding.js tinder-mode.js simulator.js placement-profile.js placement-fixes.js map-basemap.js programme-preview.js learning-library.js shortlist-refinement.js tests/placement-atlas-ui-smoke.cjs; do node --check "$file"; done
       - name: Install browser testing dependency
         run: npm install --no-save playwright@1.56.1
       - name: Install test browser and dependencies
@@ -124,8 +128,16 @@ jobs:
           done
           echo "Timed out waiting for GitHub Pages deployment for $GITHUB_SHA."
           exit 1
+      - name: Verify deployed shortlist count and undo/redo
+        run: node tests/shortlist-badge-smoke.cjs
+        env:
+          TARGET: https://placementatlas.co.uk/
       - name: Verify deployed Placement Atlas in a real Chromium browser
         run: node tests/placement-atlas-ui-smoke.cjs
+        env:
+          TARGET: https://placementatlas.co.uk/
+      - name: Verify deployed Grid cards, collapsed map and filter layout
+        run: node tests/explore-grid-ux-smoke.cjs
         env:
           TARGET: https://placementatlas.co.uk/
       - name: Upload deployed screenshots

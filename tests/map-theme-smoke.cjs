@@ -86,8 +86,8 @@ const sleep = t=>new Promise(resolve=>setTimeout(resolve,t));
     await page.waitForFunction(()=>Array.isArray(window.ORIEL_RAIL_STATIONS)&&window.ORIEL_RAIL_STATIONS.length>=2000,null,{timeout:20000});
     const pwaAudit=await page.evaluate(async()=>{
       const manifestLink=document.querySelector('link[rel="manifest"]');
-      const faviconLink=document.querySelector('link[rel="icon"][type="image/svg+xml"]');
-      if(!manifestLink||!faviconLink)throw Error('Manifest or SVG favicon link is missing');
+      const faviconLink=document.querySelector('link[rel="icon"][type="image/png"][sizes="192x192"]');
+      if(!manifestLink||!faviconLink)throw Error('Manifest or 192px PNG favicon link is missing');
       const registration=await navigator.serviceWorker.ready;
       return {title:document.title,manifestHref:manifestLink.href,faviconHref:faviconLink.href,
         swScope:registration?.scope||null,swState:registration?.active?.state||null,
@@ -105,14 +105,18 @@ const sleep = t=>new Promise(resolve=>setTimeout(resolve,t));
       return {sizes:icon.sizes,ok:response.ok(),type:contentType.split(';')[0],bytes:body.length};
     }));
     const faviconResponse=await page.request.get(pwaAudit.faviconHref,{headers:{'cache-control':'no-cache'}});
-    const favicon=await faviconResponse.text();
+    const faviconBody=await faviconResponse.body();
+    const faviconPng=faviconBody.length>500&&faviconBody.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10]));
+    const faviconWidth=faviconPng?faviconBody.readUInt32BE(16):0;
+    const faviconHeight=faviconPng?faviconBody.readUInt32BE(20):0;
     Object.assign(pwaAudit,{manifestName:manifest.name,shortName:manifest.short_name,display:manifest.display,
-      icons,faviconOk:faviconResponse.ok(),faviconGlobe:favicon.includes('class="atlas-globe"')&&favicon.includes('<circle')});
+      icons,faviconOk:faviconResponse.ok(),faviconPng,faviconWidth,faviconHeight});
     assert.equal(pwaAudit.title,'Placement Atlas','Browser tab title is not branded Placement Atlas');
     assert.equal(pwaAudit.manifestName,'Placement Atlas','PWA app name is not Placement Atlas');
     assert.equal(pwaAudit.shortName,'Placement Atlas','PWA short name is not Placement Atlas');
     assert.equal(pwaAudit.display,'standalone','PWA is not configured for standalone app display');
-    assert(pwaAudit.faviconOk&&pwaAudit.faviconGlobe,'Tab favicon is not the matching Placement Atlas globe');
+    assert(pwaAudit.faviconOk&&pwaAudit.faviconPng&&pwaAudit.faviconWidth>=48&&pwaAudit.faviconWidth===pwaAudit.faviconHeight,
+      'Search favicon must be a crawlable square PNG of at least 48px');
     assert(pwaAudit.icons.length>=2&&pwaAudit.icons.every(icon=>icon.ok&&icon.type==='image/png'&&icon.bytes>500),
       'One or more PWA PNG icons are missing or invalid: '+JSON.stringify(pwaAudit.icons));
     assert.equal(pwaAudit.swScope,pwaAudit.expectedScope,'Service worker scope does not match the Placement Atlas app path');
@@ -128,7 +132,7 @@ const sleep = t=>new Promise(resolve=>setTimeout(resolve,t));
         controllerChange:pwaSource.includes('controllerchange'),
        reloadOnControllerChange:pwaSource.includes('window.location.reload()'),
         uncachedWorkerUpdate:pwaSource.includes("updateViaCache:'none'"),
-        versionedCache:swSource.includes('placement-atlas-shell-2026-11-14-v93-maplibre'),
+        versionedCache:swSource.includes('placement-atlas-shell-2026-11-20-v98-favicon-system-fonts'),
         cachedPwaAsset:swSource.includes("pwa.js?v=20261114vector1")};
     assert(pwaUpdateAudit.pwaStatus===200&&pwaUpdateAudit.swStatus===200&&pwaUpdateAudit.controllerChange&&pwaUpdateAudit.reloadOnControllerChange&&pwaUpdateAudit.uncachedWorkerUpdate&&pwaUpdateAudit.versionedCache&&pwaUpdateAudit.cachedPwaAsset,
       'Placement Atlas automatic update / cache invalidation checks failed: '+JSON.stringify(pwaUpdateAudit));

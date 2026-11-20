@@ -711,7 +711,7 @@
       }
       cardSlot.append(card);
       const existing=prefs()?.marks?.[p.id]?.status||'';
-      const status=$('tinderExisting');status.textContent=existing?'Current decision: '+({love:'Love',yes:'Strong yes',maybe:'Maybe',backup:'Only if needed',no:'No',never:'Absolutely not'}[existing]||'Unmarked'):'Not yet decided';
+      const status=$('tinderExisting');status.textContent=existing?'Current decision: '+({love:'Love',yes:'Strong yes',maybe:'Maybe',backup:'Only if needed',no:'No',never:'Absolutely not'}[existing]||'No Ranking'):'Not yet decided';
       void resolvePlaces(p,p.id);
     }
     refreshHints();

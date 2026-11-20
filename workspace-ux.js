@@ -152,7 +152,7 @@
  },true);
 
  const PAGE_SIZE_KEY='oriel-desk-page-size-v1';
- let page=1,lastFilterKey='',skipResetOnce=false;
+ let page=1,lastFilterKey='',skipResetOnce=false,optionsCache=[],optionsCacheKey='';
  let pageSize=read(PAGE_SIZE_KEY,'100');
  if(!['100','200','500','all'].includes(pageSize))pageSize='100';
  const pageLimit=total=>pageSize==='all'?Math.max(1,total):Number(pageSize);
@@ -193,25 +193,47 @@
    pagination.append(controls);
  };
  const results=$('results');
- let mapPending=0;
+ let mapPending=0,lastMapSignature=null;
+ const exploreStateKey=()=>{
+  try{
+   const current=typeof state!=='undefined'?state:{};
+   return JSON.stringify({
+    prefs:current.prefs||{},
+    marks:current.marks||{},
+    excluded:current.excluded||current.exclusions||[]
+   });
+  }catch{return ''}
+ };
+ const mapSignatureFor=options=>options.map(p=>
+  String(p.id)+'\\u001f'+String(mark(p)?.status||'')+'\\u001f'+(isExcluded(p)?'1':'0')
+ ).sort().join('\\u001e');
  function renderExplore(){
-   if(!results||typeof sorted!=='function'||typeof matches!=='function')return;
-   let options=[];
-   try{options=sorted(getData().filter(matches))}catch{return}
-   const newKey=JSON.stringify({s:$('search')?.value,sect:$('sector')?.value,reg:$('region')?.value,hrs:$('hours')?.value,sal:$('salary')?.value,sort:$('sort')?.value,dec:$('decision')?.value,visa:$('visa')?.value,hideAvoid:$('hideAvoid')?.checked,hideExcluded:excludedFilter?.checked,hideOuterLondon:$('hideOuterLondon')?.checked,hideShortlisted:filter?.checked,hideJustice:$('hideJustice')?.checked,hideMental:$('hideMental')?.checked,hideOtherSpecialist:$('hideOtherSpecialist')?.checked,specialistView:$('specialistView')?.value,
-    qs:typeof quick!=='undefined'?[...quick]:[]});
-   if(newKey!==lastFilterKey){if(!skipResetOnce)page=1;lastFilterKey=newKey}skipResetOnce=false;
-   const total=options.length,catalogueTotal=getData().length,size=pageLimit(total),pages=Math.max(1,Math.ceil(total/size));
-   window.OrielFilteredProgrammes=options;
-   page=Math.min(Math.max(1,page),pages);
-   const shown=options.slice((page-1)*size,page*size);
-   $('count').textContent=catalogueTotal.toLocaleString('en-GB')+' total programmes · '+total.toLocaleString('en-GB')+' shown';
-   cleanupMiniMaps();
-   results.innerHTML=shown.length?shown.map(p=>card(p)).join(''):'<div class="card empty uxEmptyState">No placements match those filters. Try broadening your criteria.</div>';
-   pager(shown.length,total);
-   enhanceCards(results);
+  if(!results||typeof sorted!=='function'||typeof matches!=='function')return;
+  const filterKey=JSON.stringify({s:$('search')?.value,sect:$('sector')?.value,reg:$('region')?.value,hrs:$('hours')?.value,sal:$('salary')?.value,sort:$('sort')?.value,dec:$('decision')?.value,visa:$('visa')?.value,hideAvoid:$('hideAvoid')?.checked,hideExcluded:excludedFilter?.checked,hideOuterLondon:$('hideOuterLondon')?.checked,hideShortlisted:filter?.checked,hideJustice:$('hideJustice')?.checked,hideMental:$('hideMental')?.checked,hideOtherSpecialist:$('hideOtherSpecialist')?.checked,specialistView:$('specialistView')?.value,
+   qs:typeof quick!=='undefined'?[...quick]:[]});
+  if(filterKey!==lastFilterKey){if(!skipResetOnce)page=1;lastFilterKey=filterKey}
+  skipResetOnce=false;
+  const optionsKey=filterKey+'|'+exploreStateKey();
+  if(optionsKey!==optionsCacheKey){
+   try{optionsCache=sorted(getData().filter(matches))}catch{return}
+   optionsCacheKey=optionsKey;
+  }
+  const options=optionsCache;
+  const total=options.length,catalogueTotal=getData().length,size=pageLimit(total),pages=Math.max(1,Math.ceil(total/size));
+  window.OrielFilteredProgrammes=options;
+  page=Math.min(Math.max(1,page),pages);
+  const shown=options.slice((page-1)*size,page*size);
+  $('count').textContent=catalogueTotal.toLocaleString('en-GB')+' total programmes · '+total.toLocaleString('en-GB')+' shown';
+  cleanupMiniMaps();
+  results.innerHTML=shown.length?shown.map(p=>card(p)).join(''):'<div class="card empty uxEmptyState">No placements match those filters. Try broadening your criteria.</div>';
+  pager(shown.length,total);
+  enhanceCards(results);
+  const mapKey=mapSignatureFor(options);
+  if(mapKey!==lastMapSignature){
+   lastMapSignature=mapKey;
    clearTimeout(mapPending);
-   mapPending=setTimeout(()=>{try{drawMap(options)}catch(e){console.warn('Map could not refresh:',e)}},160);
+   mapPending=setTimeout(()=>{try{drawMap(options)}catch(e){console.warn('Map could not refresh:',e)}},220);
+  }
  }
  // The core app sees this hook before any future Explore rerender; it cannot change saved decisions.
  window.uxWorkspaceRenderExplore=renderExplore;
@@ -225,10 +247,10 @@
    const count=getData().reduce((total,p)=>total+(isShortlisted(p)?1:0),0);
    document.querySelectorAll('[data-ux-shortlist-count]').forEach(n=>n.textContent='('+count+')');
  };
- document.addEventListener('desk:action',()=>{updateCounts();if(drawer?.classList.contains('uxOpen'))renderDrawer();});
- document.addEventListener('desk:state-saved',updateCounts);
+ document.addEventListener('desk:action',()=>{optionsCacheKey='';updateCounts();if(drawer?.classList.contains('uxOpen'))renderDrawer();});
+ document.addEventListener('desk:state-saved',()=>{optionsCacheKey='';updateCounts();});
  window.addEventListener('focus',updateCounts);
- window.addEventListener('storage',event=>{if(event.key!=='phivos-desk-v2'||!event.newValue)return;try{const latest=JSON.parse(event.newValue);if(latest.marks&&typeof latest.marks==='object')state.marks=latest.marks;updateCounts();if(drawer?.classList.contains('uxOpen'))renderDrawer();}catch{}});
+ window.addEventListener('storage',event=>{if(event.key!=='phivos-desk-v2'||!event.newValue)return;try{const latest=JSON.parse(event.newValue);if(latest.marks&&typeof latest.marks==='object')state.marks=latest.marks;optionsCacheKey='';lastMapSignature=null;updateCounts();renderExplore();if(drawer?.classList.contains('uxOpen'))renderDrawer();}catch{}});
  const renderDrawer=()=>{
    if(!drawerItems)return;
    const query=(drawerSearch?.value||'').toLowerCase().trim();
@@ -778,7 +800,7 @@
  }
  document.addEventListener('desk:pay-settings',refreshAllPay);
  document.addEventListener('desk:dataset',()=>{
-   byId.previous=null;lastFilterKey='';
+   byId.previous=null;lastFilterKey='';optionsCacheKey='';lastMapSignature=null;
    page=1;explore();enhanceCards($('shortlistList'));updateCounts();
  });
  document.addEventListener('click',e=>{

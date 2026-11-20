@@ -272,6 +272,14 @@ test('finishing pass keeps learning, device theme and map colour placement wired
   assert.match(read('tinder-mode.js'),/detailsButton\.textContent='Show details'/);
 });
 
+test('fit sorting analyses each programme once instead of recalculating inside the comparator',()=>{
+  const source=read('app-base.js');
+  const sorted=source.match(/function sorted\\(a\\)\\{[\\s\\S]*?\\n\\}/)?.[0]||'';
+  assert.match(sorted,/const scored=a\\.map\\(\\(programme,index\\)=>\\(\\{programme,score:analyse\\(programme\\)\\.score,index\\}\\)\\)/);
+  assert.match(sorted,/scored\\.sort\\(\\(x,y\\)=>y\\.score-x\\.score/);
+  assert.doesNotMatch(sorted,/sort\\(\\(x,y\\)=>analyse\\(/);
+});
+
 test('premium discovery prototype is reversible and keeps the original programme logic',()=>{
   const html=read('index.html');
   const css=read('premium-discovery-preview.css');

@@ -44,7 +44,7 @@
   const statusLabel=status=>({
     love:'Love',yes:'Strong yes',maybe:'Maybe',backup:'Only if needed',
     no:'No',never:'Absolutely not'
-  }[status]||'Unmarked');
+  }[status]||'No Ranking');
 
   const polishCard=card=>{
     let programme=null;

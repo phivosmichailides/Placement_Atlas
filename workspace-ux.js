@@ -215,7 +215,7 @@
   skipResetOnce=false;
   const optionsKey=filterKey+'|'+exploreStateKey();
   if(optionsKey!==optionsCacheKey){
-   try{optionsCache=sorted(getData().filter(matches))}catch{return}
+   try{optionsCache=sorted(getData().filter(matches))}catch(error){console.error('Explore filter failed:',error);return}
    optionsCacheKey=optionsKey;
   }
   const options=optionsCache;

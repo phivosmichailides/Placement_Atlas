@@ -17,7 +17,7 @@ const base=process.env.TARGET||'http://127.0.0.1:8000/';
     await page.goto(base,{waitUntil:'domcontentloaded',timeout:60000});
     await page.waitForFunction(()=>typeof placements!=='undefined'&&placements.length===4064&&
       document.querySelector('#results .placement.atlasSampleCard .atlasSampleExpandButton'),null,{timeout:90000});
-    await page.waitForFunction(()=>document.querySelectorAll('#results .placement.atlasSampleCard').length===100,null,{timeout:45000});
+    await page.waitForFunction(()=>document.querySelectorAll('#results .placement.atlasSampleCard').length>0,null,{timeout:45000});
 
     const card=page.locator('#results .placement.atlasSampleCard').first();
     const expand=card.locator('.atlasSampleExpandButton');

@@ -69,8 +69,9 @@ test('Placement Atlas branding and install assets are complete', () => {
   const html=read('index.html');
   assert.match(html,/<title>Placement Atlas - Independent Oriel Placement Desk<\/title>/);
   assert.ok(html.includes('name="description" content="Placement Atlas is an independent Oriel placement desk for UK MPharm students.'));
-  assert.match(html,/<link rel="icon" type="image\/png" sizes="192x192" href="\/icons\/placement-atlas-192\.png\?v=[^\"]+">/);
-  assert.match(html,/<link rel="icon" type="image\/svg\+xml"[^>]+href="\/favicon\.svg\?v=[^\"]+">/);
+  assert.match(html,/<link rel="icon" type="image\/png" sizes="192x192" href="\/icons\/placement-atlas-192\.png">/);
+  assert.doesNotMatch(html,/<link rel="icon" type="image\/svg\+xml"/);
+  assert.doesNotMatch(html,/fonts\.googleapis\.com|fonts\.gstatic\.com/);
   assert.match(html,/rel="manifest"[^>]+manifest\.webmanifest/);
   assert.match(html,/id="installAppBtn"/);
   assert.match(html,/pwa\.js\?v=/);
@@ -78,8 +79,8 @@ test('Placement Atlas branding and install assets are complete', () => {
   assert.equal(manifest.name,'Placement Atlas');
   assert.equal(manifest.short_name,'Placement Atlas');
   assert.equal(manifest.display,'standalone');
-  assert(manifest.icons.some(icon=>icon.sizes==='192x192'));
-  assert(manifest.icons.some(icon=>icon.sizes==='512x512'));
+  assert(manifest.icons.some(icon=>icon.sizes==='192x192'&&icon.src==='icons/placement-atlas-192.png'));
+  assert(manifest.icons.some(icon=>icon.sizes==='512x512'&&icon.src==='icons/placement-atlas-512.png'));
   assert.match(read('favicon.svg'),/<svg[\s\S]*?<\/svg>/);
   for(const file of ['icons/placement-atlas-192.png','icons/placement-atlas-512.png']){
     const bytes=fs.readFileSync(path.join(root,file));

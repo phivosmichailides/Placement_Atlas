@@ -152,6 +152,14 @@
     const panel=document.querySelector('.panel.active');
     const history=document.querySelector('.historyControls');
     if(!panel||!history)return;
+    const sidebar=panel.id==='explore'?panel.querySelector('#uxFilterSidebar'):null;
+    if(sidebar){
+      // Keep Undo/Redo inside Explore's filters, rather than above the map.
+      const heading=sidebar.querySelector('.secthead');
+      if(heading)heading.insertAdjacentElement('afterend',history);
+      else sidebar.prepend(history);
+      return;
+    }
     const subnav=panel.querySelector(':scope > .atlasExploreSubnav');
     if(subnav)subnav.insertAdjacentElement('afterend',history);
     else panel.prepend(history);

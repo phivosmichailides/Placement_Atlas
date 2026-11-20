@@ -2,9 +2,11 @@
   <img src='icons/placement-atlas-192.png' width='88' alt='Placement Atlas logo'>
   <h1>Placement Atlas</h1>
   <p><strong>Explore more clearly. Compare what matters. Rank with confidence.</strong></p>
-  <p>An independent decision-support platform for exploring, personalising and comparing Foundation Pharmacist Training programmes across England and Wales.</p>
+  <p>An independent Oriel pharmacy foundation programme comparison tool for UK MPharm students and applicants, with searchable training programmes across England and Wales.</p>
   <p>
     <a href='https://placementatlas.co.uk/'><strong>Open Placement Atlas</strong></a>
+    &nbsp;·&nbsp;
+    <a href='https://placementatlas.co.uk/about.html'>About the project</a>
     &nbsp;·&nbsp;
     <a href='https://placementatlas.co.uk/guide.html'>Explore the comparison guide</a>
     &nbsp;·&nbsp;
@@ -26,7 +28,7 @@ Placement Atlas turns that process into an interactive workspace. Applicants can
 | --- | --- | --- | --- |
 | **4,064 programmes** | **12 regions** across England and Wales | Explore, personalise, shortlist, compare and simulate | Responsive, installable web app |
 
-The built-in catalogue is based on an **Oriel data export supplied to the project on 7 November 2026**. It is a dated snapshot, not a live vacancy feed or a statement of current offer availability.
+The built-in catalogue is based on an **October 2026 Oriel CSV export supplied to the project on 7 November 2026**. It is a dated snapshot, not a live vacancy feed or a statement of current offer availability.
 
 ## What you can do
 

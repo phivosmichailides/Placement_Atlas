@@ -18,6 +18,11 @@
     'oriel-desk-layout-v1',
     'oriel-desk-outcome-v1',
     'oriel-shortlist-view-order-v1',
+    'placement-atlas-shortlist-display-order-v1',
+    'oriel-desk-page-size-v2',
+    'oriel-onboarding-applied-quick-v1',
+    'oriel-tinder-swipe-hints-seen-v1',
+    'oriel-tinder-sounds-v1',
     'oriel-desk-sidebar-collapsed-v1',
     'oriel-desk-page-zoom-v1',
     'oriel-research-v1'
@@ -44,18 +49,30 @@
     KEYS.forEach(key=>{const value=read(key);if(value!==null)storage[key]=value});
     return storage;
   };
+  // A skipped quiz or a neutral placeholder is not a user's chosen preference.
+  const hasChosenProfile=(p)=>!!p&&typeof p==='object'&&(
+    ['region','environment','salary','hours','community','homePostcode'].some(k=>String(p[k]||'').trim()!=='')||
+    (Array.isArray(p.priorities)&&p.priorities.length>0)||
+    ['prefer','require'].includes(p.visaPriority)
+  );
   const meaningfulLocalData=()=>{
     try{
       const desk=JSON.parse(read('phivos-desk-v2')||'null');
-      if(desk&&((desk.marks&&Object.keys(desk.marks).length)||(Array.isArray(desk.compare)&&desk.compare.length)||(desk.prefs&&desk.prefs.onboarding)||(desk.prefs?.locationLikes?.length)||(desk.prefs?.locationBlacklist?.length)||(desk.prefs?.preferredAreasOnly)))return true;
+      if(desk&&((desk.marks&&Object.keys(desk.marks).length)||(Array.isArray(desk.compare)&&desk.compare.length)||(desk.prefs&&hasChosenProfile(desk.prefs.onboarding))||(desk.prefs?.locationLikes?.length)||(desk.prefs?.locationBlacklist?.length)||(desk.prefs?.preferredAreasOnly)))return true;
       if(desk?.filters){const f=desk.filters;if(f.search||f.sector||f.region||f.hours||f.salary||f.visa||f.decision&&f.decision!=='all'||f.sort&&f.sort!=='fit'||f.quick?.length||['hideAvoid','hideOuterLondon','hideExcluded','hideShortlisted','hideJustice','hideMental','hideOtherSpecialist'].some(key=>f[key]===true)||f.specialistView&&f.specialistView!=='all')return true;}
-      if(desk&&desk.prefs&&desk.prefs.weights&&Object.keys(desk.prefs.weights).some(key=>Number(desk.prefs.weights[key])!==({money:5,hospital:5,gp:5,lifestyle:4,location:4,progression:5,independence:4,communityPenalty:4}[key])))return true;
+      if(desk&&desk.prefs&&desk.prefs.weights){
+        const weights=desk.prefs.weights;
+        const defaults=[{money:5,hospital:5,gp:5,lifestyle:4,location:4,progression:5,independence:4,communityPenalty:4},
+          {money:3,hospital:3,gp:3,lifestyle:3,location:3,progression:3,independence:3,communityPenalty:2}];
+        if(!defaults.some(baseline=>Object.keys(weights).every(key=>Number(weights[key])===baseline[key])))return true;
+      }
       if(desk&&desk.prefs){
         if(desk.prefs.likes&&desk.prefs.likes!=='London Bridge, Southwark, Borough, Waterloo, Holborn, Bloomsbury, Clerkenwell, Angel, Islington, Shoreditch, Camden, Fitzrovia, Westminster, Vauxhall, Battersea, Kensington, Chelsea, Hammersmith, Fulham, Ealing, Wembley')return true;
         if(desk.prefs.avoids&&desk.prefs.avoids!=='Croydon, Barnet, Wood Green, Morden, New Addington, Romford, Dagenham, Enfield, Lewisham')return true;
       }
     }catch{}
-    if(['phivos-desk-csv-v2','phivos-onboarding-v1','phivos-onboarding-profile-v1','oriel-desk-home-postcode-v1','oriel-desk-outcome-v1','oriel-research-v1','oriel-desk-theme-v1','oriel-desk-palette-v1','oriel-desk-layout-v1','oriel-shortlist-view-order-v1','oriel-desk-sidebar-collapsed-v1','oriel-desk-page-zoom-v1'].some(key=>read(key)!==null))return true;
+    try{if(hasChosenProfile(JSON.parse(read('phivos-onboarding-profile-v1')||'null')))return true;}catch{}
+    if(['phivos-desk-csv-v2','oriel-desk-home-postcode-v1','oriel-desk-outcome-v1','oriel-research-v1','oriel-desk-theme-v1','oriel-desk-palette-v1','oriel-desk-layout-v1','oriel-shortlist-view-order-v1','oriel-desk-sidebar-collapsed-v1','oriel-desk-page-zoom-v1'].some(key=>read(key)!==null))return true;
     try{
       const sim=JSON.parse(read('oriel-simulator-v1')||'null');
       if(sim&&['preferred','neutral','unwanted'].some(key=>Array.isArray(sim[key])&&sim[key].length))return true;
@@ -166,7 +183,7 @@
   };
   const chooseFirstImport=()=>new Promise(resolve=>{
     const overlay=element('div','cloudOverlay');
-    overlay.innerHTML='<section class="cloudDialog" role="dialog" aria-modal="true" aria-labelledby="cloudFirstTitle"><div class="cloudEyebrow">FIRST SIGN-IN</div><h2 id="cloudFirstTitle">Import this browser’s saved choices?</h2><p class="cloudLead">We found existing Placement Desk preferences and decisions on this browser. Choose whether to save them to your new account or start with an empty personal workspace.</p><div class="cloudConflictChoices"><button type="button" class="btn primary" id="cloudImportLocal">Import my browser choices</button><button type="button" class="btn" id="cloudStartEmpty">Start with a new workspace</button></div><p class="cloudPrivacy">Nothing will be taken from another signed-in account.</p></section>';
+    overlay.innerHTML='<section class="cloudDialog" role="dialog" aria-modal="true" aria-labelledby="cloudFirstTitle"><div class="cloudEyebrow">FIRST SIGN-IN</div><h2 id="cloudFirstTitle">Import this browser’s saved choices?</h2><p class="cloudLead">We found existing Placement Desk preferences and decisions on this browser. Choose whether to save them to your new account or start with an empty personal workspace.</p><div class="cloudConflictChoices"><button type="button" class="btn primary" id="cloudStartEmpty">Start with an empty workspace</button><button type="button" class="btn" id="cloudImportLocal">Import my browser choices</button></div><p class="cloudPrivacy">Nothing will be taken from another signed-in account.</p></section>';
     document.body.append(overlay);
     overlay.querySelector('#cloudImportLocal').addEventListener('click',()=>{overlay.remove();resolve('local')});
     overlay.querySelector('#cloudStartEmpty').addEventListener('click',()=>{overlay.remove();resolve('empty')});
@@ -209,12 +226,19 @@
         // Never migrate another applicant's cached choices into a new account.
         applyWorkspace({version:VERSION,storage:{}},user.id,isoNow());
       }else if(meaningfulLocalData()){
+        // Importing guest choices is opt-in: the primary action starts empty.
         const choice=await chooseFirstImport();
         if(choice==='empty')applyWorkspace({version:VERSION,storage:{}},user.id,isoNow());
+      }else{
+        // Remove neutral boot placeholders so every new account is truly empty.
+        applyWorkspace({version:VERSION,storage:{}},user.id,isoNow());
       }
       await writeWorkspace(user,'Your new private workspace is ready.');
       bootUserId=user.id;
       document.dispatchEvent(new CustomEvent('placement:auth-changed'));
+      // A sign-in may happen after Explore and Shortlist have already rendered.
+      // The disk workspace alone cannot clear their old in-memory choices.
+      if(syncActive){window.location.reload();return;}
       return;
     }
     const remoteWorkspace=row.workspace||{};
@@ -339,6 +363,13 @@
         setTimeout(()=>showAuthModal('recovery'),0);
       }
     }else{
+      // If a session expired outside the normal sign-out path, never expose its
+      // cached shortlist to the next unauthenticated visitor on this device.
+      if(read(MARKER)){
+        suppress=true;
+        try{KEYS.forEach(rawRemove);rawRemove(MARKER);rawRemove(LAST_SYNC);rawRemove(LOCAL_CHANGE);}
+        finally{suppress=false;}
+      }
       currentUser=null;renderAccount();
       status('','neutral');
     }
@@ -357,7 +388,7 @@
         const wasAuthenticated=!!currentUser;
         currentUser=null;syncActive=false;conflictBlocked=false;bootUserId='';
         if(saveTimer){clearTimeout(saveTimer);saveTimer=null;}
-        if(wasAuthenticated){
+        if(wasAuthenticated||read(MARKER)){
           // Clear visible account data on sign-out, to avoid exposing it to the
           // next applicant who uses this browser. The cloud copy is retained.
           suppress=true;

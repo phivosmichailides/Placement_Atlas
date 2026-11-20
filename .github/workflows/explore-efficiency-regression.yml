@@ -10,6 +10,9 @@ on:
       - 'workspace-ux.js'
       - 'explore-efficiency.js'
       - 'explore-efficiency.css'
+      - 'app-product.js'
+      - 'shortlist-refinement.js'
+      - 'tinder-mode.js'
       - 'app.js'
       - 'sw.js'
       - 'tests/explore-efficiency.test.cjs'
@@ -23,6 +26,9 @@ on:
       - 'workspace-ux.js'
       - 'explore-efficiency.js'
       - 'explore-efficiency.css'
+      - 'app-product.js'
+      - 'shortlist-refinement.js'
+      - 'tinder-mode.js'
       - 'app.js'
       - 'sw.js'
       - 'tests/explore-efficiency.test.cjs'
@@ -41,7 +47,7 @@ jobs:
           node-version: '22'
       - name: Check script syntax
         run: |
-          for file in deadline-dates.js offer-journey.js atlas-navigation.js workspace-ux.js explore-efficiency.js app.js sw.js tests/explore-efficiency.test.cjs; do
+          for file in deadline-dates.js offer-journey.js atlas-navigation.js workspace-ux.js explore-efficiency.js app-product.js shortlist-refinement.js tinder-mode.js app.js sw.js tests/explore-efficiency.test.cjs; do
             node --check "$file"
           done
       - name: Verify compact hero, sidebar controls and clickable filter chips

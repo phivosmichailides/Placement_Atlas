@@ -19,7 +19,12 @@
     window.__genericPublicInstalled=true;
 
     const profile=state.prefs.onboarding||readJSON(PROFILE_KEY);
-    if(profile&&has(DONE_KEY))state.prefs.onboarding=profile;
+    const hasChosenProfile=p=>!!p&&typeof p==='object'&&(
+      ['region','environment','salary','hours','community','homePostcode'].some(k=>String(p[k]||'').trim()!=='')||
+      (Array.isArray(p.priorities)&&p.priorities.length>0)||['prefer','require'].includes(p.visaPriority)
+    );
+    if(profile&&has(DONE_KEY)&&hasChosenProfile(profile))state.prefs.onboarding=profile;
+    else if(state.prefs.onboarding&&!hasChosenProfile(state.prefs.onboarding))delete state.prefs.onboarding;
     const onboardingDone=has(DONE_KEY);
     const uploaded=has(DATAKEY);
     const wasFresh=window.__placementDeskWasFresh===true;
@@ -36,8 +41,8 @@
       // Mark the old embedded snapshot as handled so app-base does not re-import it next visit.
       try{if(typeof ORIEL_SNAPSHOT!=='undefined')state.orielSnapshot=ORIEL_SNAPSHOT.version}catch{}
       try{save()}catch{}
-      // Seed neutral answers so the first-time questionnaire itself is not London-biased.
-      try{localStorage.setItem(PROFILE_KEY,JSON.stringify({region:'',environment:'',priorities:[],salary:'',hours:'',community:''}))}catch{}
+      // The onboarding questionnaire already supplies neutral defaults in memory.
+      // Do not persist a dummy profile: it looks like a completed personalisation.
     }
 
     // Public identity: authored by Phivos, but designed for any applicant.
@@ -109,21 +114,14 @@
     // Reset should mean "show me the whole product", not "restore Phivos's London view".
     const reset=document.getElementById('resetBtn');
     if(reset)reset.onclick=()=>{
-      document.getElementById('decision').value='all';
-      document.getElementById('visa').value='';
-      document.getElementById('hideAvoid').checked=false;
-      document.getElementById('search').value='';
-      document.getElementById('sector').value='';
-      document.getElementById('region').value='';
-      document.getElementById('hours').value='';
-      document.getElementById('salary').value='';
-      document.getElementById('sort').value='fit';
-      pageLimit=40;
-      quick.clear();
-      document.querySelectorAll('.chip[data-q]').forEach(x=>x.classList.remove('on'));
+      // Reset every filter, including hidden specialist exclusions, and persist
+      // the cleared values so old choices cannot reappear on the next render.
+      state.filters=clone(FILTER_DEFAULTS);
+      applySavedFilters();
+      pageLimit=36;
+      persistFilters();
       document.getElementById('allRegionsBtn')?.classList.add('on');
       try{renderAll()}catch{try{explore();stats();reco()}catch{}}
-      // Use the bundled geocoded postcodes immediately; do not launch a full-country lookup.
       requestAnimationFrame(()=>{try{placementMap?.invalidateSize(false)}catch{}});
     };
 

@@ -1,0 +1,250 @@
+/* Placement Atlas — stable grid cards, compact specialist filters and faster map browsing.
+   Final, scoped overrides: do not alter programme data, ranking or saved decisions. */
+
+html.atlasPremiumPreview[data-layout="grid"] #results {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  grid-auto-rows: auto !important;
+  align-items: stretch !important;
+  gap: 14px !important;
+}
+
+/* Let CSS Grid size each row naturally. A fixed 100% card height combined
+   with overflow:hidden was clipping the final details control. */
+html.atlasPremiumPreview[data-layout="grid"] #results > .placement.atlasDiscoveryCard {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  align-self: stretch !important;
+  overflow: visible !important;
+  min-width: 0 !important;
+}
+
+/* The compact footer has three equal decision controls and one full-width
+   details control. This also neutralises the old negative-margin alignment. */
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.atlasSampleCard .decision-quick.atlasCardFooter {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  grid-template-rows: minmax(44px, auto) minmax(44px, auto) !important;
+  align-items: stretch !important;
+  justify-content: stretch !important;
+  gap: 8px !important;
+  width: 100% !important;
+  margin: auto 0 0 !important;
+  padding: 13px 16px !important;
+  border-top: 1px solid var(--line) !important;
+  border-radius: 0 0 18px 18px !important;
+}
+
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.atlasSampleCard .decision-quick.atlasCardFooter > [data-action="prefer"],
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.atlasSampleCard .decision-quick.atlasCardFooter > [data-action="compare"],
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.atlasSampleCard .decision-quick.atlasCardFooter > [data-action="exclude"] {
+  display: flex !important;
+  grid-row: 1 !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 44px !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 8px 9px !important;
+  text-align: center !important;
+  white-space: normal !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  line-height: 1.25 !important;
+  font-size: 11.5px !important;
+}
+
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.atlasSampleCard .decision-quick.atlasCardFooter > .atlasSampleExpandButton,
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.atlasSampleCard .decision-quick.atlasCardFooter > .atlasDetailsButtonPremium {
+  display: flex !important;
+  grid-column: 1 / -1 !important;
+  grid-row: 2 !important;
+  align-items: center !important;
+  justify-content: center !important;
+  align-self: stretch !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 44px !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 10px 14px !important;
+  border: 1px solid var(--ux-accent-border) !important;
+  border-radius: 10px !important;
+  background: var(--ux-accent-soft) !important;
+  color: var(--ux-accent-ink) !important;
+  box-shadow: none !important;
+  text-align: center !important;
+  white-space: normal !important;
+  line-height: 1.3 !important;
+  font-size: 12.5px !important;
+  font-weight: 780 !important;
+}
+
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.atlasSampleCard .decision-quick.atlasCardFooter > .atlasFooterDecisionStatus {
+  display: none !important;
+}
+
+/* Safe fallback if the detail-tab enhancement has not initialised yet. */
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard:not(.atlasSampleCard) > .decision-quick {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  align-items: stretch !important;
+  gap: 8px !important;
+  margin-top: auto !important;
+}
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard:not(.atlasSampleCard) > .uxDetailButton {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-height: 44px !important;
+  height: auto !important;
+  margin: 9px 0 0 !important;
+  align-self: stretch !important;
+}
+
+/* Expanded cards occupy the full grid width; the two explanation panels share
+   the available width and height instead of becoming tall, narrow columns. */
+html.atlasPremiumPreview[data-layout="grid"] #results > .placement.atlasDiscoveryCard.uxExpanded {
+  grid-column: 1 / -1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  align-self: start !important;
+  overflow: visible !important;
+}
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.uxExpanded .atlasCardSections,
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.uxExpanded .atlasCardPages,
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.uxExpanded .atlasCardPage {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  overflow: visible !important;
+}
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.uxExpanded .fit.fitExpanded.atlasTabbedFit {
+  display: grid !important;
+  grid-template-columns: minmax(150px, .78fr) minmax(0, 2fr) !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  height: auto !important;
+  min-width: 0 !important;
+  overflow: visible !important;
+}
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.uxExpanded .atlasTabbedFit > .fitBreakdown {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  align-items: stretch !important;
+  gap: 12px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+}
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.uxExpanded .atlasTabbedFit .fitColumn,
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.uxExpanded .atlasTabbedFit .fitColumn:first-child,
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.uxExpanded .atlasTabbedFit .fitColumn:last-child {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  min-height: 100% !important;
+  height: 100% !important;
+  align-self: stretch !important;
+  justify-self: stretch !important;
+  text-align: left !important;
+  overflow-wrap: anywhere !important;
+}
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.uxExpanded .atlasTabbedFit .fitColumn .fitPoint {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 8px !important;
+  min-width: 0 !important;
+  text-align: left !important;
+  line-height: 1.48 !important;
+  overflow-wrap: anywhere !important;
+}
+@media (max-width: 900px) {
+  html.atlasPremiumPreview[data-layout="grid"] #results {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.uxExpanded .fit.fitExpanded.atlasTabbedFit {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+@media (max-width: 680px) {
+  html.atlasPremiumPreview[data-layout="grid"] #results {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.uxExpanded .atlasTabbedFit > .fitBreakdown {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+/* Keep specialist-setting filters readable without hiding the classification caveat. */
+html.atlasPremiumPreview #uxFilterSidebar .uxSpecialistFilters {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  padding: 12px 13px !important;
+  border-radius: 12px !important;
+}
+html.atlasPremiumPreview #uxFilterSidebar .uxSpecialistFilters > legend {
+  font-size: 12.5px !important;
+  font-weight: 760 !important;
+}
+html.atlasPremiumPreview #uxFilterSidebar .uxSpecialistIntro {
+  max-width: 38ch !important;
+  margin: 4px 0 8px !important;
+  color: var(--mut) !important;
+  font-size: 11.5px !important;
+  line-height: 1.4 !important;
+}
+html.atlasPremiumPreview #uxFilterSidebar .uxSpecialistMethod {
+  margin: 0 0 8px !important;
+}
+html.atlasPremiumPreview #uxFilterSidebar .uxSpecialistMethod > summary {
+  width: fit-content;
+  color: var(--ux-accent-ink);
+  font-size: 11px;
+  font-weight: 730;
+  line-height: 1.35;
+  cursor: pointer;
+}
+html.atlasPremiumPreview #uxFilterSidebar .uxSpecialistMethod > p {
+  max-width: 42ch;
+  margin: 6px 0 8px;
+  color: var(--mut);
+  font-size: 11px;
+  line-height: 1.4;
+}
+html.atlasPremiumPreview #uxFilterSidebar .uxSpecialistFilters .check {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 8px !important;
+  margin: 8px 0 !important;
+  font-size: 12.5px !important;
+  line-height: 1.35 !important;
+}
+html.atlasPremiumPreview #uxFilterSidebar .uxSpecialistFilters .check input {
+  flex: 0 0 auto !important;
+  margin-top: .18em !important;
+}
+
+/* The map is a complementary view; the current page is the fast default.
+   Users can explicitly request all filtered programmes when they need them. */
+html.atlasPremiumPreview .uxMapScopeToggle[aria-pressed="true"] {
+  background: var(--ux-accent-soft) !important;
+  color: var(--ux-accent-ink) !important;
+  border-color: var(--ux-accent-border) !important;
+}
+html.atlasPremiumPreview .map-heading-tools .uxMapScopeToggle {
+  white-space: nowrap;
+}
+html.atlasPremiumPreview .uxMapScopeToggle:focus-visible {
+  outline: 2px solid var(--ux-accent-ink) !important;
+  outline-offset: 3px !important;
+}

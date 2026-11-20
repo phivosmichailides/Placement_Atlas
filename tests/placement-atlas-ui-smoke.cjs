@@ -79,6 +79,31 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   const firstGridCard=page.locator('#results > .placement.atlasSampleCard').first();
   await firstGridCard.locator('[data-ux-expand]').click();
   await page.waitForFunction(()=>document.querySelector('#results > .placement.atlasSampleCard')?.classList.contains('uxExpanded'),null,{timeout:10000});
+  // An open decision menu must overhang the rounded programme card rather
+  // than disappear behind the next card in either list or grid layout.
+  await firstGridCard.locator('[data-atlas-card-tab="assessment"]').click();
+  const picker=firstGridCard.locator('.decisionPicker').first();
+  assert((await picker.locator('summary').innerText()).includes('No Ranking'),
+    'Default decision should say No Ranking rather than Unmarked');
+  assert.equal(await picker.locator('.decisionChoice').first().innerText().then(x=>x.trim().includes('No Ranking')),true,
+    'First decision menu choice should be labelled No Ranking');
+  await picker.locator('summary').click();
+  const dropdown=await picker.evaluate(element=>{
+    const card=element.closest('#results > .placement');
+    const menu=element.querySelector('.decisionChoices');
+    const r=card.getBoundingClientRect(),m=menu.getBoundingClientRect();
+    return {open:element.open,overflow:getComputedStyle(card).overflow,
+      zIndex:Number(getComputedStyle(card).zIndex),
+      menuZ:Number(getComputedStyle(menu).zIndex),
+      cardBottom:r.bottom,menuBottom:m.bottom,
+      panelOverflow:getComputedStyle(element.closest('.atlasCardPages')).overflow};
+  });
+  assert(dropdown.open&&dropdown.overflow==='visible'&&dropdown.panelOverflow==='visible',
+    'An open decision menu is still clipped by programme-card overflow: '+JSON.stringify(dropdown));
+  assert(dropdown.zIndex>=100&&dropdown.menuZ>dropdown.zIndex,
+    'Ranking menu is not layered above neighbouring programme cards: '+JSON.stringify(dropdown));
+  await picker.locator('summary').press('Escape');
+  await firstGridCard.locator('[data-atlas-card-tab="overview"]').click();
   const fitPanelMetrics=await firstGridCard.locator('.fitBreakdown').evaluate(el=>{
     const boxes=[...el.querySelectorAll(':scope > .fitColumn')].map(node=>{
       const r=node.getBoundingClientRect();return {width:r.width,height:r.height};

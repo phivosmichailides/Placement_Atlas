@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f5f1">
+  <meta name="description" content="Placement Atlas is an independent planning tool for MPharm students comparing foundation pharmacist training programmes across England and Wales. Explore locations, pay, hours, visa sponsorship and shortlist options.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://placementatlas.co.uk/about.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/icons/placement-atlas-192.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Placement Atlas">
+  <meta property="og:url" content="https://placementatlas.co.uk/about.html">
+  <meta property="og:title" content="About Placement Atlas | Foundation Pharmacist Placement Explorer">
+  <meta property="og:description" content="Compare foundation pharmacist training programmes, locations, salary, hours and personal priorities with Placement Atlas.">
+  <meta property="og:image" content="https://placementatlas.co.uk/placement-atlas-compass-pin.webp">
+  <meta name="twitter:card" content="summary">
+  <title>About Placement Atlas | Foundation Pharmacist Placement Explorer</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f5f1;
+      --panel: #fff;
+      --ink: #202722;
+      --muted: #626b65;
+      --line: #e2e6df;
+      --green: #285442;
+      --green-dark: #1e4032;
+      --green-soft: #eaf1eb;
+      --sand: #eee9df;
+      --shadow: 0 18px 55px rgba(31, 48, 38, .07);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 16px/1.7 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    a { color: var(--green); text-underline-offset: 3px; }
+    a:hover { text-decoration-thickness: 2px; }
+    a:focus-visible { outline: 3px solid #4c8066; outline-offset: 4px; border-radius: 4px; }
+    .skip-link { position: absolute; left: 12px; top: -60px; z-index: 10; padding: 9px 13px; background: white; border-radius: 8px; }
+    .skip-link:focus { top: 12px; }
+    .wrap { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+    header { border-bottom: 1px solid var(--line); background: rgba(255,255,255,.88); }
+    .topbar { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; color: var(--ink); text-decoration: none; font-size: 19px; font-weight: 850; letter-spacing: -.04em; }
+    .brand img { width: 42px; height: 42px; object-fit: contain; }
+    nav { display: flex; align-items: center; justify-content: flex-end; gap: 20px; flex-wrap: wrap; }
+    nav a { color: #46544b; font-size: 13px; font-weight: 700; text-decoration: none; }
+    nav a:hover { color: var(--green); text-decoration: underline; }
+    .button {
+      display: inline-flex; min-height: 46px; align-items: center; justify-content: center;
+      padding: 11px 18px; border: 1px solid var(--green); border-radius: 12px;
+      background: var(--green); color: #fff; font-weight: 760; text-decoration: none;
+      box-shadow: 0 5px 15px rgba(40,84,66,.13);
+    }
+    .button:hover { background: var(--green-dark); color: #fff; text-decoration: none; }
+    .button.secondary { background: #fff; color: var(--green); box-shadow: none; border-color: #cbd8cd; }
+    .hero { padding: 76px 0 52px; }
+    .eyebrow { color: var(--green); font-size: 11px; font-weight: 850; letter-spacing: .14em; text-transform: uppercase; }
+    h1 { max-width: 850px; margin: 13px 0 17px; font-size: clamp(38px, 6.2vw, 68px); line-height: 1.04; letter-spacing: -.065em; }
+    .lead { max-width: 790px; margin: 0; color: #536057; font-size: clamp(18px, 2vw, 21px); line-height: 1.65; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 11px; margin-top: 27px; }
+    .assurance { display: flex; align-items: flex-start; gap: 12px; max-width: 850px; margin-top: 25px; padding: 15px 17px; border: 1px solid #dce7dd; border-radius: 14px; background: var(--green-soft); color: #435449; font-size: 14px; }
+    .assurance strong { color: var(--green-dark); }
+    .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 0 0 68px; }
+    .fact { min-height: 112px; padding: 19px; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); box-shadow: var(--shadow); }
+    .fact b { display: block; margin-bottom: 3px; font-size: 25px; line-height: 1.2; letter-spacing: -.04em; }
+    .fact span { color: var(--muted); font-size: 13px; }
+    section { margin: 0 0 68px; }
+    .section-heading { max-width: 760px; margin-bottom: 22px; }
+    h2 { margin: 8px 0 9px; font-size: clamp(27px, 3.7vw, 38px); line-height: 1.18; letter-spacing: -.045em; }
+    .section-heading p { margin: 0; color: var(--muted); }
+    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; }
+    .feature { min-height: 190px; padding: 22px; border: 1px solid var(--line); border-radius: 17px; background: var(--panel); box-shadow: var(--shadow); }
+    .feature .number { display: inline-grid; width: 30px; height: 30px; place-items: center; margin-bottom: 15px; border-radius: 9px; background: var(--green-soft); color: var(--green); font-size: 12px; font-weight: 850; }
+    h3 { margin: 0 0 7px; font-size: 17px; letter-spacing: -.02em; }
+    .feature p, .panel p { margin: 0; color: var(--muted); font-size: 14px; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .panel { padding: 25px; border: 1px solid var(--line); border-radius: 18px; background: var(--panel); box-shadow: var(--shadow); }
+    .panel h3 { margin-bottom: 9px; }
+    .panel p + p { margin-top: 12px; }
+    .panel ul { margin: 12px 0 0; padding-left: 21px; color: var(--muted); font-size: 14px; }
+    .panel li { margin: 7px 0; }
+    .callout { padding: 28px; border: 1px solid #d8e2d8; border-radius: 18px; background: linear-gradient(135deg, #edf3ed, #f8f7f1); }
+    .callout p { max-width: 850px; color: #4e5b51; }
+    .callout a { font-weight: 750; }
+    .disclaimer { padding: 20px 22px; border-left: 4px solid #8a9d88; border-radius: 0 13px 13px 0; background: #eeece4; color: #53594f; font-size: 14px; }
+    footer { margin-top: 72px; padding: 27px 0 35px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+    .footer-inner { display: flex; align-items: flex-start; justify-content: space-between; gap: 25px; flex-wrap: wrap; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 15px; }
+    .footer-links a { color: #46544b; font-weight: 700; }
+    @media (max-width: 800px) {
+      .features { grid-template-columns: repeat(2, 1fr); }
+      .facts { grid-template-columns: repeat(2, 1fr); }
+      .two-col { grid-template-columns: 1fr; }
+      .hero { padding-top: 55px; }
+    }
+    @media (max-width: 560px) {
+      .wrap { width: min(100% - 28px, 1120px); }
+      .topbar { align-items: flex-start; flex-direction: column; justify-content: center; gap: 10px; padding: 13px 0 15px; }
+      nav { justify-content: flex-start; gap: 14px; }
+      .hero { padding: 45px 0 35px; }
+      .facts { gap: 8px; margin-bottom: 54px; }
+      .fact { min-height: 100px; padding: 14px; }
+      .fact b { font-size: 21px; }
+      .features { grid-template-columns: 1fr; }
+      section { margin-bottom: 54px; }
+      .panel, .callout { padding: 20px; }
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Placement Atlas",
+    "url": "https://placementatlas.co.uk/",
+    "description": "An independent planning tool for MPharm students comparing foundation pharmacist training programmes across England and Wales.",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "Any modern web browser",
+    "isAccessibleForFree": true,
+    "creator": {
+      "@type": "Person",
+      "name": "Phivos Michailides"
+    }
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header>
+    <div class="wrap topbar">
+      <a class="brand" href="/" aria-label="Placement Atlas">
+        <img src="/placement-atlas-compass-pin.webp" alt="" width="42" height="42">
+        <span>Placement Atlas</span>
+      </a>
+      <nav aria-label="Main navigation">
+        <a href="#features">What it does</a>
+        <a href="/guide.html">How it works</a>
+        <a href="/privacy.html">Privacy policy</a>
+        <a href="/terms.html">Terms</a>
+        <a class="button" href="/">Open the explorer</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="wrap">
+    <div class="hero">
+      <div class="eyebrow">Independent planning for foundation pharmacist applicants</div>
+      <h1>Find the foundation training programme that fits your next step.</h1>
+      <p class="lead">Placement Atlas helps MPharm students explore and compare foundation pharmacist training programmes across England and Wales, understand the trade-offs between options and organise a shortlist before making their official Oriel preferences.</p>
+      <div class="hero-actions">
+        <a class="button" href="/">Explore programmes</a>
+        <a class="button secondary" href="/guide.html">See how it works</a>
+      </div>
+      <div class="assurance">
+        <span aria-hidden="true">✓</span>
+        <div><strong>You can explore without an account.</strong> The programme catalogue and planning tools are available without Google sign-in. An account is optional and is used for private workspace synchronisation across devices.</div>
+      </div>
+    </div>
+
+    <div class="facts" aria-label="Placement Atlas overview">
+      <div class="fact"><b>4,064</b><span>programmes in the built-in catalogue</span></div>
+      <div class="fact"><b>England &amp; Wales</b><span>the regions covered by this dataset</span></div>
+      <div class="fact"><b>October 2026</b><span>date of the Oriel data snapshot</span></div>
+      <div class="fact"><b>No account</b><span>required to browse and compare</span></div>
+    </div>
+
+    <section id="features">
+      <div class="section-heading">
+        <div class="eyebrow">Explore with more context</div>
+        <h2>One place to compare the details that matter.</h2>
+        <p>Placement Atlas brings programme information and practical decision tools together, so applicants can investigate options in a consistent way.</p>
+      </div>
+      <div class="features">
+        <article class="feature">
+          <span class="number">01</span>
+          <h3>Explore the programme catalogue</h3>
+          <p>Browse and filter programmes by region, employer, training setting, salary, weekly hours and advertised Skilled Worker sponsorship information.</p>
+        </article>
+        <article class="feature">
+          <span class="number">02</span>
+          <h3>Understand locations</h3>
+          <p>Use the interactive map and available site details to investigate where training may take place and consider the practicalities of travel.</p>
+        </article>
+        <article class="feature">
+          <span class="number">03</span>
+          <h3>Compare pay and hours</h3>
+          <p>Review advertised annual pay alongside contracted hours, effective hourly comparisons and indicative take-home estimates with visible assumptions.</p>
+        </article>
+        <article class="feature">
+          <span class="number">04</span>
+          <h3>Personalise your comparisons</h3>
+          <p>Set priorities such as pay, location, training setting and independence. Fit scores explain how listed programme details relate to those choices.</p>
+        </article>
+        <article class="feature">
+          <span class="number">05</span>
+          <h3>Build and organise a shortlist</h3>
+          <p>Record decisions and notes, compare options side by side, reorder your shortlist and export or back up your work.</p>
+        </article>
+        <article class="feature">
+          <span class="number">06</span>
+          <h3>Practise and learn</h3>
+          <p>Use Swipe Mode, the independent Oriel Simulation and the Learning Hub to explore decisions and understand the foundation training process.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-heading">
+        <div class="eyebrow">Accounts and Google sign-in</div>
+        <h2>Sign-in is optional. Your Google account is not used to browse the catalogue.</h2>
+        <p>The main explorer works without an account. If you choose to sign in, the account features help keep your saved workspace available when you use another device.</p>
+      </div>
+      <div class="two-col">
+        <article class="panel">
+          <h3>What Google sign-in is used for</h3>
+          <p>When you choose Continue with Google, Placement Atlas uses basic Google account identity information made available during sign-in, such as your account identifier, email address, name and profile picture if available. This is used to authenticate you, display your signed-in identity and associate your private saved workspace with your account.</p>
+          <p>Google sign-in is optional. You can browse and use the programme tools without connecting a Google account.</p>
+        </article>
+        <article class="panel">
+          <h3>What Placement Atlas does not access</h3>
+          <p>Placement Atlas does not request access to your Gmail messages, Google Drive files, contacts or calendars. Google sign-in is for identity authentication, not permission to read those services.</p>
+          <p>Account authentication and optional cloud-workspace storage are provided through Supabase. The <a href="/privacy.html">Privacy Policy</a> explains the information processed, how saved workspaces are handled, the service providers involved and how to request account deletion.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-heading">
+        <div class="eyebrow">How saved information works</div>
+        <h2>Keep control of your planning workspace.</h2>
+      </div>
+      <div class="two-col">
+        <article class="panel">
+          <h3>Without an account</h3>
+          <p>Your programme decisions, filters, preferences and other supported workspace choices are saved in your current browser. They normally remain on that device unless you clear browser data or export them.</p>
+        </article>
+        <article class="panel">
+          <h3>With an optional account</h3>
+          <p>If you sign in and choose to save or import a workspace, supported choices can be synchronised to a private account record so you can restore your work on another device. See the <a href="/privacy.html">Privacy Policy</a> for details, including the information that may be included.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="callout">
+        <div class="eyebrow">Independent project</div>
+        <h2>Built to support applicants, not replace official recruitment.</h2>
+        <p>Placement Atlas is an independent project created and maintained by <strong>Phivos Michailides</strong>. It is not operated, sponsored or endorsed by Oriel, NHS England, the General Pharmaceutical Council or individual training providers. The app does not submit, change or validate official Oriel preferences or applications.</p>
+        <p><a href="/guide.html">Read the programme comparison guide</a> or <a href="mailto:phivmich1@gmail.com">contact the developer</a>.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-heading">
+        <div class="eyebrow">Data and limitations</div>
+        <h2>Use the information as decision support, then verify the details.</h2>
+      </div>
+      <div class="disclaimer">
+        The built-in catalogue is based on an October 2026 Oriel export containing 4,064 programmes across England and Wales; it is a dated snapshot, not a live vacancy feed. Programme descriptions, salary, hours, training sites, sponsorship information, eligibility and recruitment dates can change. Fit scores are generated from available programme fields and user-selected priorities; they are not verified workplace reviews or guarantees of culture, autonomy or workload. Map locations may not show every rotation site, and straight-line distance is not a journey time. Take-home estimates depend on stated tax, pension and student-loan assumptions. The Oriel Simulation is an independent practice tool, not the official Oriel allocation algorithm or a prediction of an offer. Always check current information with official Oriel and the relevant employer.
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap footer-inner">
+      <div><strong>Placement Atlas</strong><br>Explore clearly. Compare what matters. Choose with confidence.<br>© 2026 Placement Atlas · Created by Phivos Michailides.</div>
+      <nav class="footer-links" aria-label="Legal and support links">
+        <a href="/">Open the explorer</a>
+        <a href="/guide.html">Comparison guide</a>
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/terms.html">Terms of Service</a>
+        <a href="mailto:phivmich1@gmail.com">Contact</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,31 @@
+# Placement Atlas
+
+> Placement Atlas (https://placementatlas.co.uk/) is a free, independent decision-support web application for UK MPharm students and foundation pharmacist applicants comparing Oriel foundation training programmes in England and Wales.
+
+## What the application does
+
+- Explore a dated catalogue of 4,064 foundation pharmacist training programmes with searchable programme details.
+- Compare listed training settings, salaries, weekly hours, rotation locations, visa sponsorship information and map-based location context.
+- Personalise programme fit explanations, shortlist programmes, add notes and preferences, and compare choices.
+- Practise an Oriel-style programme ranking separately from the official application system.
+
+## Data provenance and limitations
+
+The built-in catalogue is drawn from an October 2026 Oriel CSV export supplied to the project on 7 November 2026. It is a historical snapshot, not a live vacancy or offer feed. All salary, sponsorship, eligibility, hours, training-site and recruitment information must be checked with the current official Oriel listing and employer. Fit scores, commute examples and take-home estimates are illustrative.
+
+Placement Atlas is not operated or endorsed by the Oriel recruitment service, NHS England, the GPhC or any training provider. It cannot submit or change an applicant's official Oriel preferences.
+
+## Pages and primary sources
+
+- [Application homepage](https://placementatlas.co.uk/): Explore the programmes and comparison tools.
+- [About Placement Atlas](https://placementatlas.co.uk/about.html): Purpose, features, creator and source limitations.
+- [Programme comparison guide](https://placementatlas.co.uk/guide.html): Practical advice for comparing foundation pharmacist training programmes.
+- [Privacy policy](https://placementatlas.co.uk/privacy.html): Data handling.
+- [Terms](https://placementatlas.co.uk/terms.html): Terms of use.
+- [GitHub repository](https://github.com/phivosmichailides/Placement_Atlas): Technical implementation, data provenance and project documentation.
+
+## Creator
+
+Created and maintained by Phivos Michailides, a UCL MPharm student. [Project and development details](https://github.com/phivosmichailides/Placement_Atlas#why-i-built-it).
+
+This optional llms.txt is a human-readable site summary. It is not an official Google AI Mode indexing requirement or a guarantee of AI citations.

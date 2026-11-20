@@ -152,7 +152,7 @@
  },true);
 
  const PAGE_SIZE_KEY='oriel-desk-page-size-v1';
- let page=1,lastFilterKey='',skipResetOnce=false,optionsCache=[],optionsCacheKey='';
+ let page=1,lastFilterKey='',skipResetOnce=false,optionsCache=[],optionsCacheKey='',optionsCacheData=null,optionsCacheMatcher=null,optionsCacheSorter=null;
  let pageSize=read(PAGE_SIZE_KEY,'100');
  if(!['100','200','500','all'].includes(pageSize))pageSize='100';
  const pageLimit=total=>pageSize==='all'?Math.max(1,total):Number(pageSize);
@@ -214,11 +214,11 @@
   if(filterKey!==lastFilterKey){if(!skipResetOnce)page=1;lastFilterKey=filterKey}
   skipResetOnce=false;
   const data=getData();
-  if(!data||!data.length){optionsCache=[];optionsCacheKey='';return}
+  if(!data||!data.length){optionsCache=[];optionsCacheKey='';optionsCacheData=null;optionsCacheMatcher=null;optionsCacheSorter=null;return}
   const optionsKey=filterKey+'|'+exploreStateKey();
-  if(optionsKey!==optionsCacheKey){
+  if(optionsKey!==optionsCacheKey||data!==optionsCacheData||matches!==optionsCacheMatcher||sorted!==optionsCacheSorter){
    try{optionsCache=sorted(data.filter(matches))}catch(error){optionsCacheKey='';console.error('Explore filter failed:',error);return}
-   optionsCacheKey=optionsKey;
+   optionsCacheKey=optionsKey;optionsCacheData=data;optionsCacheMatcher=matches;optionsCacheSorter=sorted;
   }
   const options=optionsCache;
   const total=options.length,catalogueTotal=data.length,size=pageLimit(total),pages=Math.max(1,Math.ceil(total/size));

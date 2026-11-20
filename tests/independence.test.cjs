@@ -267,7 +267,8 @@ test('finishing pass keeps learning, device theme and map colour placement wired
   assert.match(map,/prefsGrid\.insertBefore\(settings,resetCard\|\|null\)/);
   assert.match(map,/paMapColourReset/);
   assert.match(css,/#prefs \.atlasMapColourSettings \.paMapColourReset/);
-  assert.match(read('workspace-ux.js'),/\['100','100'\],\['200','200'\],\['500','500'\],\['all','All'\]/);
+  const pager=read('workspace-ux.js');
+  for(const option of ["['36','36']","['72','72']","['100','100']","['200','200']","['500','500']","['all','All (may be slower)']"])assert.ok(pager.includes(option),`Missing page-size option ${option}`);
   assert.match(read('tinder-mode.js'),/detailsButton\.textContent='Show details'/);
 });
 

@@ -251,6 +251,7 @@
  };
  document.addEventListener('desk:action',()=>{optionsCacheKey='';updateCounts();if(drawer?.classList.contains('uxOpen'))renderDrawer();});
  document.addEventListener('desk:state-saved',()=>{optionsCacheKey='';updateCounts();});
+ document.addEventListener('desk:geo-blacklist-changed',()=>{optionsCacheKey='';lastMapSignature=null;renderExplore();});
  window.addEventListener('focus',updateCounts);
  window.addEventListener('storage',event=>{if(event.key!=='phivos-desk-v2'||!event.newValue)return;try{const latest=JSON.parse(event.newValue);if(latest.marks&&typeof latest.marks==='object')state.marks=latest.marks;optionsCacheKey='';lastMapSignature=null;updateCounts();renderExplore();if(drawer?.classList.contains('uxOpen'))renderDrawer();}catch{}});
  const renderDrawer=()=>{

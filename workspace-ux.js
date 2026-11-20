@@ -193,7 +193,7 @@
    pagination.append(controls);
  };
  const results=$('results');
- let mapPending=0,lastMapSignature=null;
+ let mapPending=0,lastMapSignature=null,lastMapOptions=null,lastMapOptionsKey='';
  const exploreStateKey=()=>{
   try{
    const current=typeof state!=='undefined'?state:{};
@@ -230,11 +230,14 @@
   results.innerHTML=shown.length?shown.map(p=>card(p)).join(''):'<div class="card empty uxEmptyState">No placements match those filters. Try broadening your criteria.</div>';
   pager(shown.length,total);
   enhanceCards(results);
-  const mapKey=mapSignatureFor(options);
-  if(mapKey!==lastMapSignature){
-   lastMapSignature=mapKey;
-   clearTimeout(mapPending);
-   mapPending=setTimeout(()=>{try{drawMap(options)}catch(e){console.warn('Map could not refresh:',e)}},220);
+  if(options!==lastMapOptions||optionsKey!==lastMapOptionsKey){
+   const mapKey=mapSignatureFor(options);
+   if(mapKey!==lastMapSignature){
+    lastMapSignature=mapKey;
+    clearTimeout(mapPending);
+    mapPending=setTimeout(()=>{try{drawMap(options)}catch(e){console.warn('Map could not refresh:',e)}},220);
+   }
+   lastMapOptions=options;lastMapOptionsKey=optionsKey;
   }
  }
  // The core app sees this hook before any future Explore rerender; it cannot change saved decisions.
@@ -251,9 +254,9 @@
  };
  document.addEventListener('desk:action',()=>{optionsCacheKey='';updateCounts();if(drawer?.classList.contains('uxOpen'))renderDrawer();});
  document.addEventListener('desk:state-saved',()=>{optionsCacheKey='';updateCounts();});
- document.addEventListener('desk:geo-blacklist-changed',()=>{optionsCacheKey='';lastMapSignature=null;renderExplore();});
+ document.addEventListener('desk:geo-blacklist-changed',()=>{optionsCacheKey='';lastMapSignature=null;lastMapOptions=null;lastMapOptionsKey='';renderExplore();});
  window.addEventListener('focus',updateCounts);
- window.addEventListener('storage',event=>{if(event.key!=='phivos-desk-v2'||!event.newValue)return;try{const latest=JSON.parse(event.newValue);if(latest.marks&&typeof latest.marks==='object')state.marks=latest.marks;optionsCacheKey='';lastMapSignature=null;updateCounts();renderExplore();if(drawer?.classList.contains('uxOpen'))renderDrawer();}catch{}});
+ window.addEventListener('storage',event=>{if(event.key!=='phivos-desk-v2'||!event.newValue)return;try{const latest=JSON.parse(event.newValue);if(latest.marks&&typeof latest.marks==='object')state.marks=latest.marks;optionsCacheKey='';lastMapSignature=null;lastMapOptions=null;lastMapOptionsKey='';updateCounts();renderExplore();if(drawer?.classList.contains('uxOpen'))renderDrawer();}catch{}});
  const renderDrawer=()=>{
    if(!drawerItems)return;
    const query=(drawerSearch?.value||'').toLowerCase().trim();
@@ -803,7 +806,7 @@
  }
  document.addEventListener('desk:pay-settings',refreshAllPay);
  document.addEventListener('desk:dataset',()=>{
-   byId.previous=null;lastFilterKey='';optionsCacheKey='';lastMapSignature=null;
+   byId.previous=null;lastFilterKey='';optionsCacheKey='';lastMapSignature=null;lastMapOptions=null;lastMapOptionsKey='';
    page=1;explore();enhanceCards($('shortlistList'));updateCounts();
  });
  document.addEventListener('click',e=>{

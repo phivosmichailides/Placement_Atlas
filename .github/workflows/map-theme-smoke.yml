@@ -71,8 +71,6 @@ jobs:
         run: npm install --no-save playwright@1.56.1
       - name: Install test browser and dependencies
         run: npx playwright install --with-deps chromium
-      - name: Validate live shortlist count and undo/redo
-        run: node tests/shortlist-badge-smoke.cjs
       - name: Serve current checkout for browser tests
         run: python3 -m http.server 8000 --bind 127.0.0.1 > /tmp/placement-atlas-http.log 2>&1 &
       - name: Validate checkout UI in desktop and mobile Chromium
@@ -130,6 +128,10 @@ jobs:
           done
           echo "Timed out waiting for GitHub Pages deployment for $GITHUB_SHA."
           exit 1
+      - name: Verify deployed shortlist count and undo/redo
+        run: node tests/shortlist-badge-smoke.cjs
+        env:
+          TARGET: https://placementatlas.co.uk/
       - name: Verify deployed Placement Atlas in a real Chromium browser
         run: node tests/placement-atlas-ui-smoke.cjs
         env:

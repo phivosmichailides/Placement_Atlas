@@ -12,9 +12,9 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  const context=await browser.newContext({viewport:{width:1440,height:960},deviceScaleFactor:1});
  const page=await context.newPage();
- const errors=[];
+ const errors=[],consoleErrors=[];
  page.on('pageerror',error=>errors.push(error.message));
- page.on('console',message=>{if(message.type()==='error')errors.push('console: '+message.text());});
+ page.on('console',message=>{if(message.type()==='error')consoleErrors.push(message.text());});
  try{
   await page.addInitScript(()=>{
    localStorage.clear();
@@ -47,7 +47,7 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
     body:document.body.innerText.slice(0,1200)
    }));
    await page.screenshot({path:output+'/boot-failure.png'}).catch(()=>{});
-   throw new Error('Initial catalogue did not render: '+JSON.stringify({diagnostics,pageErrors:errors})+'; '+error.message);
+   throw new Error('Initial catalogue did not render: '+JSON.stringify({diagnostics,pageErrors:errors,consoleErrors})+'; '+error.message);
   }
 
   // First visit is monochrome and the default results page is a manageable 100.

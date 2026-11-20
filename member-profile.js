@@ -34,6 +34,9 @@
     /[\\p{L}]{3,}/u.test(v)&&!/(https?:|www\\.|@|\\b(?:test|asdf|qwerty|fake|joke|poop|idiot|stupid|fuck|shit|bitch)\\b)/i.test(v)&&
     !/(.)\\1{5,}/iu.test(v);
  };
+ const normaliseUsername=value=>String(value||'').normalize('NFC').trim().toLowerCase();
+ const validUsername=value=>/^[a-zà-öø-ÿā-ɏḁ-ỿ][a-zà-öø-ÿā-ɏḁ-ỿ0-9_]{4,14}$/u.test(value);
+ const usernameHelp='5–15 Latin letters, numbers or underscores. Begin with a letter. Capitals become lowercase; usernames are case-insensitive.';
  const publicDetails=()=>details?{firstName:details.first_name,lastName:details.last_name,username:details.username}:null;
  window.PlacementAtlasMemberProfile={current:publicDetails,open:()=>show()};
  function notify(){
@@ -86,7 +89,7 @@
     '<form id="atlasMemberForm" novalidate><div class="atlasMemberFields">'+
     '<div class="atlasMemberField"><label>First name '+tip('First name','Your chosen first name. Any language is welcome.')+'</label><input name="first" autocomplete="given-name" placeholder="First name" maxlength="80" required></div>'+
     '<div class="atlasMemberField"><label>Last name '+tip('Last name','Your surname, in any language.')+'</label><input name="last" autocomplete="family-name" placeholder="Last name" maxlength="80" required></div>'+
-    '<div class="atlasMemberField wide"><label>Unique username '+tip('Username','Your unique public @handle. Use 5–15 English lowercase letters, numbers or underscores, starting with a letter.')+'</label><input name="username" autocomplete="off" spellcheck="false" autocapitalize="none" placeholder="e.g. pharmacyexplorer" minlength="5" maxlength="15" required><small id="atlasHandleStatus" aria-live="polite">5–15 lowercase letters, numbers or underscores</small><div id="atlasHandleSuggestions" class="atlasHandleSuggestions"></div></div>'+
+    '<div class="atlasMemberField wide"><label>Unique username '+tip('Username','Your unique public @handle. Use 5–15 Latin letters (including accented Latin letters), numbers or underscores, starting with a letter. Uppercase and lowercase are treated as the same username.')+'</label><input name="username" autocomplete="off" spellcheck="false" autocapitalize="none" placeholder="e.g. pharmacyexplorer" minlength="5" maxlength="15" required><small id="atlasHandleStatus" aria-live="polite">5–15 Latin letters, numbers or underscores · Case-insensitive</small><div id="atlasHandleSuggestions" class="atlasHandleSuggestions"></div></div>'+
     '<div class="atlasMemberField"><label for="atlasBirthDay">Date of birth '+tip('Date of birth','Private account information; not displayed publicly.')+'</label><div class="atlasBirthParts" role="group" aria-label="Date of birth"><select name="birth_day" id="atlasBirthDay" aria-label="Day" required><option value="">Day</option></select><select name="birth_month" aria-label="Month" required><option value="">Month</option></select><select name="birth_year" aria-label="Year" required><option value="">Year</option></select></div></div>'+ 
     '<div class="atlasMemberField atlasUniField"><label for="atlasUniversityInput">University '+tip('University','Choose a university offering an MPharm, or use Other for a different provider or overseas qualification.')+'</label><div class="atlasUniControl"><input name="university" id="atlasUniversityInput" type="text" placeholder="Search universities" maxlength="120" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="atlasUniversityList" autocomplete="off" required><button type="button" id="atlasUniversityExpand" aria-label="Show all universities" aria-controls="atlasUniversityList">⌄</button></div><div class="atlasUniOptions" id="atlasUniversityList" role="listbox" hidden></div><div id="atlasUniversityOther" class="atlasUniOther" hidden><label for="atlasOtherUniversity">University or training provider</label><input id="atlasOtherUniversity" name="university_other" type="text" maxlength="120" placeholder="Enter the institution name" autocomplete="organization"><small>Please use the institution’s proper name.</small></div></div>'+ 
     '<div class="atlasMemberField wide"><label>Current stage</label><div class="atlasMemberYears">'+
@@ -166,37 +169,52 @@
    const alternatives=value=>{
      suggestions.replaceChildren();
      const choices=[value.slice(0,14)+'1',value.slice(0,12)+'_uk',value.slice(0,11)+'2026'];
-     choices.filter((x,i)=>choices.indexOf(x)===i&&/^[a-z][a-z0-9_]{4,14}$/.test(x)).forEach(v=>{
+     choices.filter((x,i)=>choices.indexOf(x)===i&&validUsername(x)).forEach(v=>{
        const btn=document.createElement('button');btn.type='button';btn.textContent='@'+v;
        btn.addEventListener('click',()=>{input.value=v;input.dispatchEvent(new Event('input'))});suggestions.append(btn);
      });
    };
    async function check(){
-     const username=input.value.trim().toLowerCase(),id=++checkId;
+     const username=normaliseUsername(input.value),id=++checkId;
      input.value=username;suggestions.replaceChildren();
-     if(!/^[a-z][a-z0-9_]{4,14}$/.test(username)){set('× Start with a letter; use 5–15 lowercase letters, numbers or underscores.','error');return}
-     if(username===details?.username){set('✓ This username belongs to you.','success');return}
+     if(!validUsername(username)){set('× '+usernameHelp,'error');return}
+     if(username===normaliseUsername(details?.username)){set('✓ This username belongs to you.','success');return}
      set('Checking availability…');
      const client=bridge().getClient?.();if(!client)return;
      const result=await client.from('atlas_member_handles').select('username').eq('username',username).maybeSingle();
      if(id!==checkId||!dialog?.isConnected)return;
      if(result.error){set('Availability unavailable; we’ll check on save.','error');return}
-     if(result.data){set('× Username taken. Try one of these:','error');alternatives(username)}
-     else set('✓ Available right now.','success');
+     if(result.data){set('× This username is already taken. Choose another:','error');alternatives(username)}
+     else set('✓ Username available right now.','success');
    }
-   input.addEventListener('input',()=>{clearTimeout(debounce);set('Checking…');debounce=setTimeout(check,330)});
+   input.addEventListener('input',()=>{
+     // Canonicalise as the member types: Phivos, PHIVOS and phivos all use @phivos.
+     const next=input.value.normalize('NFC').toLowerCase();
+     if(next!==input.value){
+       const caret=input.selectionStart;
+       input.value=next;
+       if(caret!=null)try{input.setSelectionRange(Math.min(caret,next.length),Math.min(caret,next.length))}catch{}
+     }
+     ++checkId;clearTimeout(debounce);suggestions.replaceChildren();
+     if(!validUsername(normaliseUsername(next))){
+       set('5–15 Latin letters, digits or underscores; start with a letter. Case-insensitive.','');
+       return;
+     }
+     set('Checking username availability…');
+     debounce=setTimeout(check,330);
+   });
    if(details)check();
    form.addEventListener('submit',async e=>{
      e.preventDefault();
      const error=$('atlasMemberError'),button=$('atlasMemberSave');
      const first=String(field('first').value||'').trim(),last=String(field('last').value||'').trim();
-     const username=String(input.value||'').trim().toLowerCase();
+     const username=normaliseUsername(input.value);
      const birth=yearSelect.value&&monthSelect.value&&daySelect.value?[yearSelect.value,monthSelect.value,daySelect.value].join('-'):'';
      const university=otherSelected?otherInput.value.trim():selectedSchool;
      const year=form.querySelector('[name="study_year"]:checked')?.value||'';
      error.textContent='';
      if(Array.from(first).length<2||Array.from(last).length<2){error.textContent='First and last names must have at least two characters.';return}
-     if(!/^[a-z][a-z0-9_]{4,14}$/.test(username)){error.textContent='Choose a valid username.';input.focus();return}
+     if(!validUsername(username)){error.textContent=usernameHelp;input.focus();return}
      const date=birth?new Date(birth+'T12:00:00Z'):null;
      if(!birth||!date||isNaN(date.getTime())||date.toISOString().slice(0,10)!==birth||birth>new Date().toISOString().slice(0,10)){
        error.textContent='Choose a valid date of birth.';return;
@@ -213,7 +231,7 @@
      });
      button.disabled=false;button.textContent='Save my profile';
      if(result.error){
-       if(result.error.code==='23505'){set('× Username just taken. Please choose another.','error');alternatives(username);input.focus()}
+       if(result.error.code==='23505'){set('× This username is already in use. Please choose another.','error');alternatives(username);input.focus()}
        else error.textContent='Could not save: '+(result.error.message||'Try again.');
        return;
      }

@@ -17,7 +17,6 @@
       try{
         if(typeof placementMap!=='undefined'&&placementMap){
           placementMap.invalidateSize(false);
-          window.OrielFitMapToScope?.();
         }
       }catch(error){console.debug('Explore map resize deferred.',error);}
     });

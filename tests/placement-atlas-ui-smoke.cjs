@@ -114,11 +114,31 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
    assert.equal((await button.locator('.atlasTabLabel').innerText()).trim(),label,'Duplicated or overlapping navigation text for '+id);
   }
   assert.equal(await page.locator('header.top nav.tabs [data-tab=learn]').count(),1,'Learn navigation tab is missing');
-  assert.equal(await page.locator('.atlasFooterMark').count(),1,'Footer compass-pin logo is missing');
-  const footerLogo=await page.locator('.atlasFooterMark').getAttribute('src');
-  const headerLogo=await page.locator('.brand .logo img').getAttribute('src');
-  assert(footerLogo.includes('placement-atlas-compass-pin.webp'));
-  assert(headerLogo.includes('placement-atlas-compass-pin.webp'),'Header and footer must use the same compass-pin mark');
+  const headerLogo=page.locator('.brand .logo svg.atlasGlobeMark');
+  const footerLogo=page.locator('.atlasFooterMark.atlasGlobeMark');
+  assert.equal(await headerLogo.count(),1,'Header globe mark is missing');
+  assert.equal(await footerLogo.count(),1,'Footer globe mark is missing');
+  const headerArtwork=await headerLogo.evaluate(el=>({
+    viewBox:el.getAttribute('viewBox'),
+    stroke:el.getAttribute('stroke'),
+    circles:el.querySelectorAll('circle').length,
+    paths:el.querySelectorAll('path').length,
+    markup:el.innerHTML
+  }));
+  const footerArtwork=await footerLogo.evaluate(el=>({
+    viewBox:el.getAttribute('viewBox'),
+    stroke:el.getAttribute('stroke'),
+    circles:el.querySelectorAll('circle').length,
+    paths:el.querySelectorAll('path').length,
+    markup:el.innerHTML
+  }));
+  assert.deepEqual(headerArtwork,footerArtwork,'Header and footer must use identical palette-aware globe artwork');
+  assert.equal(headerArtwork.viewBox,'0 0 64 64','Globe viewBox has changed unexpectedly');
+  assert.equal(headerArtwork.stroke,'currentColor','Globe must follow the active app theme');
+  assert.equal(headerArtwork.circles,1,'Globe outline is missing');
+  assert.equal(headerArtwork.paths,2,'Globe latitude/longitude lines are missing');
+  assert(await headerLogo.isVisible(),'Header globe must remain visible');
+  assert(await footerLogo.isVisible(),'Footer globe must remain visible');
   const strayMiniMapCloses=await page.locator('#results .placement').evaluateAll(cards=>cards.reduce((total,card)=>total+[...card.querySelectorAll('button')].filter(button=>{
    const text=button.textContent.trim(),label=((button.getAttribute('aria-label')||'')+' '+(button.className||'')).toLowerCase();
    return ['×','x','✕','✖'].includes(text)||/map[-_ ]close|close[-_ ]map|popup-close-button/.test(label);

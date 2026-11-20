@@ -67,6 +67,15 @@ test('new files and changed scripts are versioned consistently for the PWA',()=>
   assert.ok(sw.includes('deadline-dates.js?v=20261120compacthero1'));
 });
 
+
+test('normal map previews stay compact without shrinking the expanded map',()=>{
+  assert.match(css,/#explore:not\\(\\.uxFiltersCollapsed\\) #placementMap/);
+  assert.match(css,/height:clamp\\(245px,30vh,330px\\)!important/);
+  assert.match(css,/#explore\\.uxFiltersCollapsed #placementMap/);
+  assert.match(css,/\\.atlasMapFocusStage #placementMap/);
+  assert.match(css,/height:100%!important;min-height:0!important/);
+});
+
 test('HTML static IDs are unique and active-filter script parses',()=>{
   const ids=[...html.matchAll(/\bid=["']([^"']+)["']/g)].map(x=>x[1]);
   assert.equal(ids.length,new Set(ids).size,'Duplicate IDs found');

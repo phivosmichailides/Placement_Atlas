@@ -77,6 +77,22 @@ test('normal map previews stay compact without shrinking the expanded map',()=>{
   assert.ok(css.includes('height:100%!important;min-height:0!important'));
 });
 
+test('decision labels and dropdown layering preserve existing ranking state',()=>{
+  const product=read('app-product.js'),shortlist=read('shortlist-refinement.js'),
+    swipe=read('tinder-mode.js');
+  assert.ok(product.includes("['','○','No Ranking']"),
+    'Empty saved decision must display No Ranking');
+  assert.ok(product.includes("decision-${status||'unmarked'}"),
+    'Internal decision state identifiers must remain unchanged');
+  assert.ok(shortlist.includes("||'No Ranking'"));
+  assert.ok(swipe.includes("||'No Ranking'"));
+  assert.ok(css.includes('.atlasSampleCard:has(.decisionPicker[open])'));
+  assert.ok(css.includes('overflow:visible!important'));
+  assert.ok(css.includes('z-index:1000!important'));
+  assert.ok(css.includes('.atlasCardPages'));
+  assert.ok(css.includes('.decisionChoices'));
+});
+
 test('HTML static IDs are unique and active-filter script parses',()=>{
   const ids=[...html.matchAll(/\bid=["']([^"']+)["']/g)].map(x=>x[1]);
   assert.equal(ids.length,new Set(ids).size,'Duplicate IDs found');

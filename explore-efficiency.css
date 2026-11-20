@@ -221,3 +221,28 @@ html.atlasPremiumPreview body #uxExploreToolbar .atlasNoFilters{
 @media(prefers-reduced-motion:reduce){
   html.atlasPremiumPreview body #uxExploreToolbar .atlasFilterChip{transition:none!important}
 }
+
+
+/* The standard map is a browseable preview: keep first programme cards within
+   reach of the first viewport. Expanded map remains a separate, full-size view. */
+html.atlasPremiumPreview body #explore:not(.uxFiltersCollapsed) #placementMap{
+  height:clamp(245px,30vh,330px)!important;
+  min-height:245px!important;
+}
+html.atlasPremiumPreview body #explore.uxFiltersCollapsed #placementMap{
+  height:clamp(285px,37vh,410px)!important;
+  min-height:285px!important;
+}
+@media(max-width:860px){
+  html.atlasPremiumPreview body #explore #placementMap,
+  html.atlasPremiumPreview body #explore.uxFiltersCollapsed #placementMap{
+    height:clamp(285px,39vh,380px)!important;
+    min-height:285px!important;
+  }
+}
+@media(max-width:550px){
+  html.atlasPremiumPreview body #explore #placementMap,
+  html.atlasPremiumPreview body #explore.uxFiltersCollapsed #placementMap{
+    height:310px!important;min-height:310px!important;
+  }
+}

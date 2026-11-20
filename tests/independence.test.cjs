@@ -115,7 +115,10 @@ test('theme-aware header and muted map remain purely visual changes', () => {
   const theme=read('atlas-map-tones.css'),app=read('desk-enhancements.js');
   assertAssetSynced(html,read('sw.js'),'atlas-map-tones.css');
   assert.match(nav,/headerTools\.append\(headerActions\)/);
-  assert.match(nav,/logo\.replaceChildren\(mark\)/);
+  assert.match(html,/<svg class="atlasGlobeMark" viewBox="0 0 64 64"[^>]*stroke="currentColor"/);
+  assert.match(html,/<svg class="atlasGlobeMark atlasFooterMark" viewBox="0 0 64 64"[^>]*stroke="currentColor"/);
+  assert.doesNotMatch(nav,/logo\.replaceChildren\(mark\)/);
+  assert.doesNotMatch(nav,/placement-atlas-compass-pin\.webp/);
   assert.match(nav,/placeHistory\(\)/);
   assert.match(app,/desk:history-ready/);
   assert.match(theme,/streets-editorial-light/);

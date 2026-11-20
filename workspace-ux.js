@@ -153,9 +153,11 @@
 
  const PAGE_SIZE_KEY='oriel-desk-page-size-v1';
  let page=1,lastFilterKey='',skipResetOnce=false;
- let pageSize=read(PAGE_SIZE_KEY,'100');
- if(!['100','200','500','all'].includes(pageSize))pageSize='100';
+ // Keep the initial DOM light. Larger page sizes remain available on demand.
+ let pageSize=read(PAGE_SIZE_KEY,'36');
+ if(!['36','72','100','200','500','all'].includes(pageSize))pageSize='36';
  const pageLimit=total=>pageSize==='all'?Math.max(1,total):Number(pageSize);
+ let mapScopeAll=false;
  window.uxGetExplorePage=()=>page;
  window.uxGetExplorePageSize=()=>pageSize;
  window.uxSetExplorePage=value=>{const n=Number(value);if(!Number.isInteger(n)||n<1)return;page=n;skipResetOnce=true;if(typeof explore==='function')explore()};
@@ -170,7 +172,7 @@
    const sizeLabel=document.createElement('label');sizeLabel.className='uxPagerSize';
    sizeLabel.append(document.createTextNode('Per page'));
    const select=document.createElement('select');select.setAttribute('aria-label','Programmes per page');
-   for(const [value,label] of [['100','100'],['200','200'],['500','500'],['all','All']]){
+   for(const [value,label] of [['36','36'],['72','72'],['100','100'],['200','200'],['500','500'],['all','All (may be slower)']]){
      const option=document.createElement('option');option.value=value;option.textContent=label;option.selected=pageSize===value;select.append(option);
    }
    select.addEventListener('change',()=>{
@@ -194,13 +196,48 @@
  };
  const results=$('results');
  let mapPending=0;
+ const mapScopeButton=$('uxMapScopeToggle');
+ const syncMapScopeButton=()=>{
+   if(!mapScopeButton)return;
+   mapScopeButton.textContent=mapScopeAll?'Show current page':'Show all matching';
+   mapScopeButton.setAttribute('aria-pressed',String(mapScopeAll));
+   mapScopeButton.title=mapScopeAll
+     ?'Return the map to the programmes on the current results page'
+     :'Plot every programme matching the active filters on the map';
+ };
+ const redrawMapScope=()=>{
+   clearTimeout(mapPending);
+   const options=window.OrielFilteredProgrammes||[];
+   const size=pageLimit(options.length);
+   const shown=options.slice((page-1)*size,page*size);
+   drawMap(mapScopeAll?options:shown,{scopeLabel:mapScopeAll?'all filtered results':'current page'});
+ };
+ syncMapScopeButton();
+ mapScopeButton?.addEventListener('click',()=>{
+   mapScopeAll=!mapScopeAll;
+   syncMapScopeButton();
+   redrawMapScope();
+ });
+ document.addEventListener('click',event=>{
+   if(event.target.closest('#locateBtn')){
+     mapScopeAll=true;
+     syncMapScopeButton();
+   }
+ });
+ window.OrielRefreshMapScope=redrawMapScope;
  function renderExplore(){
    if(!results||typeof sorted!=='function'||typeof matches!=='function')return;
    let options=[];
    try{options=sorted(getData().filter(matches))}catch{return}
    const newKey=JSON.stringify({s:$('search')?.value,sect:$('sector')?.value,reg:$('region')?.value,hrs:$('hours')?.value,sal:$('salary')?.value,sort:$('sort')?.value,dec:$('decision')?.value,visa:$('visa')?.value,hideAvoid:$('hideAvoid')?.checked,hideExcluded:excludedFilter?.checked,hideOuterLondon:$('hideOuterLondon')?.checked,hideShortlisted:filter?.checked,hideJustice:$('hideJustice')?.checked,hideMental:$('hideMental')?.checked,hideOtherSpecialist:$('hideOtherSpecialist')?.checked,specialistView:$('specialistView')?.value,
     qs:typeof quick!=='undefined'?[...quick]:[]});
-   if(newKey!==lastFilterKey){if(!skipResetOnce)page=1;lastFilterKey=newKey}skipResetOnce=false;
+   if(newKey!==lastFilterKey){
+     if(!skipResetOnce)page=1;
+     lastFilterKey=newKey;
+     mapScopeAll=false;
+     syncMapScopeButton();
+   }
+   skipResetOnce=false;
    const total=options.length,catalogueTotal=getData().length,size=pageLimit(total),pages=Math.max(1,Math.ceil(total/size));
    window.OrielFilteredProgrammes=options;
    page=Math.min(Math.max(1,page),pages);
@@ -211,7 +248,9 @@
    pager(shown.length,total);
    enhanceCards(results);
    clearTimeout(mapPending);
-   mapPending=setTimeout(()=>{try{drawMap(options)}catch(e){console.warn('Map could not refresh:',e)}},160);
+   const mapItems=mapScopeAll?options:shown;
+   const mapLabel=mapScopeAll?'all filtered results':'current page';
+   mapPending=setTimeout(()=>{try{drawMap(mapItems,{scopeLabel:mapLabel})}catch(e){console.warn('Map could not refresh:',e)}},120);
  }
  // The core app sees this hook before any future Explore rerender; it cannot change saved decisions.
  window.uxWorkspaceRenderExplore=renderExplore;

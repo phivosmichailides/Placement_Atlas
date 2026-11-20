@@ -96,5 +96,5 @@ test('guest recommendations avoid wasteful scoring and private Oriel defaults',(
     'Guest recommendations must return before scoring the full catalogue');
   assert.match(product,/let fitStatsCache=/);
   assert.doesNotMatch(core,/2026-10-13-2126/);
-  assert.match(core,/ORIEL_SNAPSHOT=\\{version:'public-neutral-20261120'/);
+  assert.ok(core.includes("ORIEL_SNAPSHOT={version:'public-neutral-20261120'"));
 });

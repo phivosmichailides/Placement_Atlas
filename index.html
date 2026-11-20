@@ -15,26 +15,30 @@
 <link rel="preload" href="/fonts/PlusJakartaSans-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
 <meta name="application-name" content="Placement Atlas">
 <meta name="atlas-release" content="2026-11-20-card-salary-title-shortlist-repairs">
-<meta name="description" content="Placement Atlas is an independent Oriel placement desk for UK MPharm students. Compare 4,064 foundation pharmacist training programmes across England and Wales with interactive maps, pay and hours insights, personalised fit scores, filters, shortlist management and swipe-based discovery.">
+<meta name="description" content="Placement Atlas helps UK MPharm students compare Oriel foundation pharmacist programmes by salary, hours, location, visa sponsorship and training setting.">
 <link rel="canonical" href="https://placementatlas.co.uk/">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Placement Atlas">
 <meta property="og:locale" content="en_GB">
 <meta property="og:url" content="https://placementatlas.co.uk/">
-<meta property="og:title" content="Placement Atlas - Independent Oriel Placement Desk">
-<meta property="og:description" content="Placement Atlas is an independent Oriel placement desk for UK MPharm students. Compare 4,064 foundation pharmacist training programmes across England and Wales with interactive maps, pay and hours insights, personalised fit scores, filters, shortlist management and swipe-based discovery.">
+<meta property="og:title" content="Placement Atlas | Independent Oriel Pharmacy Placement Tool">
+<meta property="og:description" content="Placement Atlas helps UK MPharm students compare Oriel foundation pharmacist programmes by salary, hours, location, visa sponsorship and training setting.">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Placement Atlas - Independent Oriel Placement Desk">
-<meta name="twitter:description" content="Placement Atlas is an independent Oriel placement desk for UK MPharm students. Compare 4,064 foundation pharmacist training programmes across England and Wales with interactive maps, pay and hours insights, personalised fit scores, filters, shortlist management and swipe-based discovery.">
+<meta name="twitter:title" content="Placement Atlas | Independent Oriel Pharmacy Placement Tool">
+<meta name="twitter:description" content="Placement Atlas helps UK MPharm students compare Oriel foundation pharmacist programmes by salary, hours, location, visa sponsorship and training setting.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "WebSite",
+  "@id": "https://placementatlas.co.uk/#website",
   "name": "Placement Atlas",
-  "alternateName": ["Placement Atlas Pharmacy", "Independent Oriel Placement Desk"],
+  "alternateName": [
+    "Placement Atlas Pharmacy",
+    "Independent Oriel Placement Tool"
+  ],
   "url": "https://placementatlas.co.uk/",
-  "description": "Placement Atlas is an independent Oriel placement desk for UK MPharm students. Compare 4,064 foundation pharmacist training programmes across England and Wales with interactive maps, pay and hours insights, personalised fit scores, filters, shortlist management and swipe-based discovery.",
+  "description": "Placement Atlas helps UK MPharm students compare Oriel foundation pharmacist programmes by salary, hours, location, visa sponsorship and training setting.",
   "inLanguage": "en-GB"
 }
 </script>
@@ -42,16 +46,30 @@
 {
   "@context": "https://schema.org",
   "@type": "WebApplication",
+  "@id": "https://placementatlas.co.uk/#app",
   "name": "Placement Atlas",
-  "alternateName": "Independent Oriel Placement Desk",
   "url": "https://placementatlas.co.uk/",
-  "description": "Placement Atlas is an independent Oriel placement desk for UK MPharm students. Compare 4,064 foundation pharmacist training programmes across England and Wales with interactive maps, pay and hours insights, personalised fit scores, filters, shortlist management and swipe-based discovery.",
+  "description": "Placement Atlas is an independent Oriel foundation pharmacist training programme comparison tool for UK MPharm students. Its dated catalogue covers 4,064 programmes across England and Wales, with pay, hours, locations, training settings, visa sponsorship and applicant-controlled shortlisting.",
   "applicationCategory": "EducationalApplication",
   "operatingSystem": "Any modern web browser",
+  "isAccessibleForFree": true,
+  "creator": {
+    "@type": "Person",
+    "@id": "https://placementatlas.co.uk/#creator",
+    "name": "Phivos Michailides",
+    "url": "https://www.linkedin.com/in/phivos-michailides-601b0329b/"
+  },
+  "isPartOf": {
+    "@id": "https://placementatlas.co.uk/#website"
+  },
   "offers": {
     "@type": "Offer",
     "price": "0",
     "priceCurrency": "GBP"
+  },
+  "audience": {
+    "@type": "EducationalAudience",
+    "audienceType": "UK MPharm students and foundation pharmacist applicants"
   }
 }
 </script>
@@ -60,7 +78,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="map-focus.css?v=20261109fix3">
 <link rel="stylesheet" href="pwa.css?v=20261108atlas1">
-<title>Placement Atlas - Independent Oriel Placement Desk</title>
+<title>Placement Atlas | Independent Oriel Pharmacy Placement Tool</title>
 <script>
 (function(){
   var saved=null;
@@ -206,6 +224,14 @@ html[data-theme="dark"] .top #themeToggle .themeIconMoon {
 <link rel="stylesheet" href="atlas-grid-performance.css?v=20261120d">
 <link rel="stylesheet" href="explore-efficiency.css?v=20261120ranking-menu1">
 <link rel="stylesheet" href="atlas-card-repairs.css?v=20261120cardfix1">
+<style id="atlasStaticSearchStyles">
+.atlasStaticExplainer{margin:26px 0 16px;padding:22px 24px;border:1px solid var(--line);border-radius:16px;background:var(--panel);color:var(--ink)}
+.atlasStaticExplainer h2{margin:0 0 8px;font-size:17px;line-height:1.35;font-weight:800;letter-spacing:-.02em}
+.atlasStaticExplainer p{margin:7px 0;color:var(--mut);line-height:1.6;font-size:12.5px;max-width:106ch}
+.atlasStaticExplainerLinks{display:flex;flex-wrap:wrap;gap:8px 24px;margin-top:12px!important}
+.atlasStaticExplainerLinks a{color:var(--ink);font-weight:750;text-decoration:underline;text-underline-offset:3px}
+@media(max-width:650px){.atlasStaticExplainer{padding:18px 16px;margin-top:18px}}
+</style>
 </head>
 <body>
 <div class="shell">
@@ -348,6 +374,12 @@ html[data-theme="dark"] .top #themeToggle .themeIconMoon {
   <div class="uxDrawerItems" id="uxDrawerItems"></div>
 </aside><div class="uxFloatingTools" id="uxFloatingTools" aria-label="Quick filtering and navigation"><button class="uxFloatHandle" type="button" id="uxFloatToggle" title="Toggle quick filters" aria-label="Toggle quick filter controls" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 7h16M7 12h10m-7 5h4"/><circle cx="9" cy="7" r="2" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="2" fill="currentColor" stroke="none"/></svg></button><div class="uxFloatInner" id="uxFloatInner" hidden><button class="uxFloatRow" type="button" id="uxOpenFilters">☷ <span>Show all filters</span></button><label class="uxFloatRow"><input id="uxFloatHideShortlisted" type="checkbox"><span>Hide shortlisted</span></label><label class="uxFloatRow"><span>Salary from</span><select id="uxFloatSalary"><option value="">Any</option><option value="28000">£28k</option><option value="30000">£30k</option><option value="32000">£32k</option><option value="36000">£36k</option></select></label><label class="uxFloatRow"><span>Sort</span><select id="uxFloatSort"><option value="fit">Fit</option><option value="salary">Pay</option><option value="hourly">Hourly</option><option value="hours">Hours</option><option value="name">Name</option></select></label></div></div>
 <button class="uxBackTop" type="button" id="uxBackTop" aria-label="Scroll to the top" title="Back to top">↑ <span>Top</span></button>
+<section class="atlasStaticExplainer" aria-labelledby="atlasStaticExplainerTitle">
+  <h2 id="atlasStaticExplainerTitle">What is Placement Atlas?</h2>
+  <p>Placement Atlas is a free, independent Oriel foundation pharmacist training programme comparison tool for UK MPharm students and applicants. Browse a dated catalogue of 4,064 programmes across England and Wales, compare pay, working hours, training settings, listed locations and Skilled Worker visa sponsorship information, then organise your own shortlist.</p>
+  <p>The catalogue is based on an October 2026 Oriel CSV export supplied to the project on 7 November 2026. It is not a live vacancy or offer feed. Placement Atlas is not affiliated with Oriel or NHS England and cannot submit or change official preferences.</p>
+  <p class="atlasStaticExplainerLinks"><a href="/about.html">About the project and its creator</a><a href="/guide.html">How to compare foundation training programmes</a></p>
+</section>
 <footer class="app-footer atlasFooter" aria-label="Placement Atlas site information">
   <div class="atlasFooterGrid">
     <div class="atlasFooterIdentity">

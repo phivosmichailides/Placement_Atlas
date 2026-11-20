@@ -132,7 +132,7 @@ function download(name,text,type){const a=document.createElement('a');a.href=URL
 function exportDecisions(){const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"',rows=[['Programme ID','Priority','Status','Employer','Programme','Region','Postcodes','Salary','Hours','For You','Note']];[...placements].sort((a,b)=>(Number(mark(a).priority)||999999)-(Number(mark(b).priority)||999999)).forEach(p=>{const m=mark(p);if(m.status||m.note||m.priority)rows.push([p.id,m.priority,STATUSES.find(x=>x[0]===m.status)?.[1]||'',p.employer,p.title,p.region,p.postcodes.join('; '),p.salary,p.hours,analyse(p).score,m.note])});download('phivos-oriel-decisions.csv',rows.map(r=>r.map(q).join(',')).join('\n'),'text/csv')}
 function backup(){download('phivos-placement-desk-backup.json',JSON.stringify({v:2,exportedAt:new Date().toISOString(),state,uploaded:localStorage.getItem(DATAKEY)?JSON.parse(localStorage.getItem(DATAKEY)):null},null,2),'application/json')}
 function bind(){const visaPriorityControl=$('visaPriorityPreference');if(visaPriorityControl)visaPriorityControl.addEventListener('change',()=>{state.prefs.visaPriority=visaPriorityControl.value;if(state.prefs.onboarding)state.prefs.onboarding.visaPriority=visaPriorityControl.value;try{const previous=JSON.parse(localStorage.getItem('phivos-onboarding-profile-v1')||'null');if(previous)localStorage.setItem('phivos-onboarding-profile-v1',JSON.stringify({...previous,visaPriority:visaPriorityControl.value}));}catch{}save();if(visaPriorityControl.value==='require')$('visa').value='yes';persistFilters();renderAll();});document.querySelectorAll('.tab').forEach(x=>x.onclick=()=>switchTab(x.dataset.tab));['search','sector','region','hours','salary','sort','decision','visa','hideAvoid','hideOuterLondon','hideExcluded','hideShortlisted','hideJustice','hideMental','hideOtherSpecialist','specialistView'].forEach(id=>$(id).addEventListener(id==='search'?'input':'change',()=>{persistFilters();explore()}));$('quick').onclick=e=>{const b=e.target.closest('[data-q]');if(!b)return;quick.has(b.dataset.q)?quick.delete(b.dataset.q):quick.add(b.dataset.q);b.classList.toggle('on');persistFilters();explore()};$('resetBtn').onclick=()=>{$('decision').value='all';$('visa').value='';$('hideAvoid').checked=false;$('hideOuterLondon').checked=false;$('hideExcluded').checked=false;$('hideShortlisted').checked=false;$('hideJustice').checked=false;$('hideMental').checked=false;$('hideOtherSpecialist').checked=false;$('specialistView').value='all';$('search').value='';$('sector').value='';$('region').value='';$('hours').value='';$('salary').value='';$('sort').value='fit';quick=new Set();document.querySelectorAll('.chip[data-q]').forEach(x=>x.classList.remove('on'));persistFilters();explore()};$('uploadBtn').onclick=()=>$('fileInput').click();$('fileInput').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const csv=await f.text();const test=rowsToPlacements(csv);placements=test;localStorage.setItem(DATAKEY,JSON.stringify({csv,name:f.name,date:new Date().toISOString()}));populate();renderAll();document.dispatchEvent(new CustomEvent('desk:dataset'));toast(`Loaded ${placements.length.toLocaleString()} placements`)}catch(err){alert(err.message)}e.target.value=''};$('exportBtn').onclick=exportDecisions;$('backupBtn').onclick=backup;$('savePrefs').onclick=()=>{state.prefs.likes=$('likes').value;state.prefs.avoids=$('avoids').value;save();renderAll();toast('Preferences saved ')};$('clearData').onclick=()=>{if(confirm('Clear your saved Placement Desk data on this browser?')){localStorage.removeItem(KEY);localStorage.removeItem(DATAKEY);localStorage.removeItem('phivos-onboarding-v1');localStorage.removeItem('phivos-onboarding-profile-v1');localStorage.removeItem('oriel-research-v1');sessionStorage.removeItem('phivos-onboarding-skip-session');location.reload()}};$('clearCompare').onclick=()=>{state.compare=[];save();compare();explore()};document.body.addEventListener('input',e=>{if(e.target.dataset.weight){state.prefs.weights[e.target.dataset.weight]=Number(e.target.value);e.target.nextElementSibling.textContent=e.target.value;save()}const c=e.target.closest('.placement');if(!c)return;const p=placements.find(x=>x.id===c.dataset.id);if(!p)return;if(e.target.dataset.action==='note')setMark(p,{note:e.target.value},false);if(e.target.dataset.action==='priority')setMark(p,{priority:e.target.value},false)});document.body.addEventListener('change',e=>{if(e.target.dataset.weight){stats();explore();reco();shortlist();compare();return}const c=e.target.closest('.placement');if(!c)return;const p=placements.find(x=>x.id===c.dataset.id);if(!p)return;if(e.target.dataset.action==='priority'){shortlist();return}if(e.target.dataset.action==='status')setMark(p,{status:e.target.value})});document.body.addEventListener('click',e=>{const move=e.target.closest('[data-move]');if(move){moveRank(move.dataset.id,move.dataset.move);return}const o=e.target.closest('[data-open]');if(o){const p=placements.find(x=>x.id===o.dataset.open);switchTab('explore');$('search').value=p?.id||'';$('sector').value='';$('region').value='';$('hours').value='';$('salary').value='';$('visa').value='';$('decision').value='all';$('hideAvoid').checked=false;$('hideOuterLondon').checked=false;$('hideExcluded').checked=false;$('hideShortlisted').checked=false;$('hideJustice').checked=false;$('hideMental').checked=false;$('hideOtherSpecialist').checked=false;$('specialistView').value='all';quick.clear();document.querySelectorAll('.chip[data-q]').forEach(x=>x.classList.remove('on'));persistFilters();renderAll();document.dispatchEvent(new CustomEvent('desk:action',{detail:{name:'programme_opened'}}));scrollTo({top:0,behavior:'smooth'});return}const c=e.target.closest('.placement');if(!c)return;const p=placements.find(x=>x.id===c.dataset.id);if(!p)return;const a=e.target.closest('[data-action]');if(!a)return;if(a.dataset.action==='prefer'){setMark(p,{status:SHORT.has(mark(p).status)?'':'yes'});return}if(a.dataset.action==='exclude'){setMark(p,{status:isExcluded(p)?'':'no'});return}if(a.dataset.action==='more'){c.classList.toggle('open');a.textContent=c.classList.contains('open')?'Show less':'Read more';return}if(a.dataset.action==='compare'){const i=state.compare.indexOf(p.id);if(i>=0)state.compare.splice(i,1);else if(state.compare.length<5)state.compare.push(p.id);else return toast('Compare up to five placements');save();explore();compare()}})}
-let placementMap=null,mapLayer=null,geo={},geoBusy=false,mapTileFailed=false;
+let placementMap=null,mapLayer=null,geo={},geoBusy=false,mapTileFailed=false,mapDrawRevision=0;
 const pcKey=p=>p.replace(/\s/g,'').toUpperCase();
 function isExcluded(p){return ['no','never'].includes(mark(p).status)}
 function visaMatches(p){return !$('visa').value||($('visa').value==='yes'?p.visa===true:$('visa').value==='no'?p.visa===false:p.visa===null)}
@@ -170,7 +170,7 @@ async function initMap(){
     if(cached&&typeof cached==='object'&&!Array.isArray(cached))Object.assign(geo,cached);
   }catch{}
   placementMap=L.map('placementMap',{
-    zoomControl:false,minZoom:3,maxZoom:19,preferCanvas:false,scrollWheelZoom:false,zoomAnimation:true,fadeAnimation:true,zoomSnap:0.1,zoomDelta:1
+    zoomControl:false,minZoom:3,maxZoom:19,preferCanvas:true,scrollWheelZoom:false,zoomAnimation:true,fadeAnimation:true,zoomSnap:0.1,zoomDelta:1
   }).setView([51.5074,-.1278],10.4);
   if(mapHost){
     mapHost.dataset.loading='true';
@@ -195,7 +195,79 @@ async function initMap(){
   window.setTimeout(markMapReady,2500);
   requestAnimationFrame(()=>placementMap?.invalidateSize(false));
 }
-function drawMap(list){if(!placementMap)return;$('mapSelection').innerHTML='';mapLayer.clearLayers();const groups=new Map();let located=0;list.forEach(p=>{let found=false;new Set(p.postcodes.map(pcKey)).forEach(pc=>{const c=geo[pc];if(!c)return;found=true;const k=c.join(',');if(!groups.has(k))groups.set(k,{c,entries:[]});groups.get(k).entries.push(p)});if(found)located++});for(const {c,entries} of groups.values()){const preferred=entries.some(p=>SHORT.has(mark(p).status)),excluded=entries.every(isExcluded),colour=preferred?'#13795b':excluded?'#b74444':'#4a69bd';const pin=L.circleMarker(c,{radius:entries.length>1?9:6,color:'#fff',weight:2,fillColor:colour,fillOpacity:.95}).addTo(mapLayer).bindTooltip(`${entries.length} programme${entries.length===1?'':'s'} · ${entries[0].postcodes.join(', ')}`);const openPin=()=>{$('mapSelection').innerHTML=`<div class="map-selection-head"><b>${entries.length} programme${entries.length===1?'':'s'} at this location</b><button class="textbtn" id="closeSelection">Close</button></div>`+sorted([...entries]).map(p=>card(p)).join('');$('closeSelection').onclick=()=>$('mapSelection').innerHTML='';$('mapSelection').scrollIntoView({behavior:'smooth',block:'nearest'})};pin.on('click',openPin);const el=pin.getElement();if(el){el.setAttribute('tabindex','0');el.setAttribute('role','button');el.setAttribute('aria-label',`Show ${entries.length} programmes at ${entries[0].postcodes.join(', ')}`);el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openPin()}})}}if(!mapTileFailed)$('mapStatus').textContent=`${located} of ${list.length} matching programmes mapped · ${groups.size} locations${located<list.length?' · Unlocated programmes remain in the list':''}`;}
+function drawMap(list,options={}){
+  if(!placementMap||!mapLayer)return;
+  const revision=++mapDrawRevision;
+  const selection=$('mapSelection');
+  if(selection)selection.replaceChildren();
+  mapLayer.clearLayers();
+
+  const programmes=Array.isArray(list)?list:[];
+  const groups=new Map();
+  let located=0;
+  for(const p of programmes){
+    let found=false;
+    const postcodes=new Set((Array.isArray(p.postcodes)?p.postcodes:[]).map(pcKey));
+    for(const pc of postcodes){
+      const coordinate=geo[pc];
+      if(!coordinate)continue;
+      found=true;
+      const key=coordinate.join(',');
+      let group=groups.get(key);
+      if(!group){group={c:coordinate,entries:[]};groups.set(key,group);}
+      group.entries.push(p);
+    }
+    if(found)located++;
+  }
+
+  const grouped=[...groups.values()];
+  const status=$('mapStatus');
+  const scopeLabel=options.scopeLabel?' · '+options.scopeLabel:'';
+  if(status&&!mapTileFailed)status.textContent='Preparing '+grouped.length.toLocaleString()+' map locations…';
+  let cursor=0;
+  const drawBatch=()=>{
+    if(revision!==mapDrawRevision)return;
+    const stop=Math.min(cursor+80,grouped.length);
+    for(;cursor<stop;cursor++){
+      const {c,entries}=grouped[cursor];
+      const preferred=entries.some(p=>SHORT.has(mark(p).status));
+      const excluded=entries.every(isExcluded);
+      const colour=preferred?'#13795b':excluded?'#b74444':'#4a69bd';
+      const pin=L.circleMarker(c,{
+        radius:entries.length>1?9:6,
+        color:'#fff',weight:2,fillColor:colour,fillOpacity:.95
+      }).addTo(mapLayer).bindTooltip(
+        entries.length+' programme'+(entries.length===1?'':'s')+' · '+entries[0].postcodes.join(', ')
+      );
+      const openPin=()=>{
+        if(!selection)return;
+        selection.innerHTML='<div class="map-selection-head"><b>'+entries.length+' programme'+(entries.length===1?'':'s')+' at this location</b><button class="textbtn" id="closeSelection">Close</button></div>'+sorted([...entries]).map(p=>card(p)).join('');
+        const close=$('closeSelection');
+        if(close)close.onclick=()=>selection.replaceChildren();
+        selection.scrollIntoView({behavior:'smooth',block:'nearest'});
+      };
+      pin.on('click',openPin);
+      // SVG fallbacks still expose focusable marker elements; Canvas mode
+      // keeps the primary map lightweight while the programme cards remain
+      // the keyboard-accessible route to every result.
+      const element=pin.getElement?.();
+      if(element){
+        element.setAttribute('tabindex','0');
+        element.setAttribute('role','button');
+        element.setAttribute('aria-label','Show '+entries.length+' programmes at '+entries[0].postcodes.join(', '));
+        element.addEventListener('keydown',event=>{
+          if(event.key==='Enter'||event.key===' '){event.preventDefault();openPin();}
+        });
+      }
+    }
+    if(cursor<grouped.length){requestAnimationFrame(drawBatch);return;}
+    if(!mapTileFailed&&status){
+      status.textContent=located+' of '+programmes.length+' programmes mapped · '+groups.size+' locations'+(located<programmes.length?' · Unlocated programmes remain in the list':'')+scopeLabel;
+    }
+  };
+  if(grouped.length)requestAnimationFrame(drawBatch);
+  else if(!mapTileFailed&&status)status.textContent='0 of '+programmes.length+' programmes mapped · 0 locations'+scopeLabel;
+}
 async function locateMissing(){if(geoBusy)return;const pcs=[...new Set(placements.filter(matches).flatMap(p=>p.postcodes.map(pcKey)))].filter(pc=>!geo[pc]);if(!pcs.length)return toast('All available postcodes are mapped.');geoBusy=true;$('locateBtn').disabled=true;try{for(let i=0;i<pcs.length;i+=100){$('mapStatus').textContent=`Locating ${Math.min(i+100,pcs.length)} of ${pcs.length} postcodes…`;const r=await fetch('https://api.postcodes.io/postcodes',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({postcodes:pcs.slice(i,i+100)}),signal:AbortSignal.timeout(15000)});if(!r.ok)throw Error();const j=await r.json();j.result.forEach(x=>{if(x.result)geo[pcKey(x.query)]=[x.result.latitude,x.result.longitude]})}try{localStorage.setItem('phivos-geo-v1',JSON.stringify(geo))}catch{}drawMap(placements.filter(matches));toast('Locations updated.')}catch{$('mapStatus').textContent='Postcode lookup unavailable. Existing pins and all list results remain usable.'}finally{geoBusy=false;$('locateBtn').disabled=false}}
 function validBackup(j){if(!j||j.v!==2||!j.state||typeof j.state.marks!=='object'||Array.isArray(j.state.marks)||!j.state.marks||!Array.isArray(j.state.compare))throw Error('Choose a Placement Atlas v2 backup JSON file.');const allowed=new Set(STATUSES.map(x=>x[0]));for(const m of Object.values(j.state.marks)){if(!m||!allowed.has(m.status||'')||!Number.isFinite(Number(m.rating||0))||Number(m.rating||0)<0||Number(m.rating||0)>5||typeof(m.note||'')!=='string')throw Error('Backup contains invalid decisions.')}if(j.uploaded)rowsToPlacements(j.uploaded.csv);const prefs={...clone(DEFAULT),...j.state.prefs,weights:{...DEFAULT.weights,...j.state.prefs?.weights},locationLikes:Array.isArray(j.state.prefs?.locationLikes)?j.state.prefs.locationLikes:[],locationBlacklist:Array.isArray(j.state.prefs?.locationBlacklist)?j.state.prefs.locationBlacklist:[]};for(const [k,v] of Object.entries(prefs.weights))if(!(k in DEFAULT.weights)||!Number.isFinite(v)||v<0||v>5)throw Error('Backup contains invalid weights.');if(typeof prefs.likes!=='string'||typeof prefs.avoids!=='string')throw Error('Backup contains invalid areas.');if(prefs.onboarding){const p=prefs.onboarding;if(typeof p!=='object'||typeof p.region!=='string'||!['hospital','gp','mixed','industry','community','unsure'].includes(p.environment)||!Array.isArray(p.priorities)||p.priorities.length>3||p.priorities.some(x=>!['money','lifestyle','progression','location','independence','clinical'].includes(x))||!['','26000','28000','30000','32000','36000'].includes(p.salary)||!['','35','37.5','40','42.5'].includes(p.hours)||!['happy','some','less','avoid'].includes(p.community))throw Error('Backup contains invalid setup answers.');}if(prefs.mapColours&&(typeof prefs.mapColours!=='object'||Object.values(prefs.mapColours).some(c=>typeof c!=='string'||!/^#[0-9a-f]{6}$/i.test(c))))throw Error('Backup contains invalid map colours.');const filters={...FILTER_DEFAULTS,...(j.state.filters||{}),quick:Array.isArray(j.state.filters?.quick)?j.state.filters.quick.filter(key=>FILTER_QUICK_KEYS.has(key)):[]};return {prefs,filters,marks:j.state.marks,compare:j.state.compare.filter(x=>typeof x==='string').slice(0,5)}}
 function bindUpgrade(){
@@ -229,7 +301,8 @@ $('exportRanked').onclick=exportRanked;$('fitMap').onclick=()=>{if(!mapLayer||!p
   // the initial result list has painted.
   try{
     await initMap();
-    drawMap(placements.filter(matches));
+    if(typeof window.OrielRefreshMapScope==='function')window.OrielRefreshMapScope();
+    else drawMap(placements.filter(matches).slice(0,36),{scopeLabel:'current page'});
   }catch(err){
     $('mapStatus').textContent='Map unavailable. Programme results and saved decisions remain accessible.';
     console.error('Main map initialisation failed',err);

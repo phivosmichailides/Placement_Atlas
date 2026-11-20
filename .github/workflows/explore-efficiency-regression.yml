@@ -1,0 +1,48 @@
+name: Explore layout and filter regression
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'deadline-dates.js'
+      - 'offer-journey.js'
+      - 'atlas-navigation.js'
+      - 'workspace-ux.js'
+      - 'explore-efficiency.js'
+      - 'explore-efficiency.css'
+      - 'app.js'
+      - 'sw.js'
+      - 'tests/explore-efficiency.test.cjs'
+      - '.github/workflows/explore-efficiency-regression.yml'
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'deadline-dates.js'
+      - 'offer-journey.js'
+      - 'atlas-navigation.js'
+      - 'workspace-ux.js'
+      - 'explore-efficiency.js'
+      - 'explore-efficiency.css'
+      - 'app.js'
+      - 'sw.js'
+      - 'tests/explore-efficiency.test.cjs'
+      - '.github/workflows/explore-efficiency-regression.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check-explore-controls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check script syntax
+        run: |
+          for file in deadline-dates.js offer-journey.js atlas-navigation.js workspace-ux.js explore-efficiency.js app.js sw.js tests/explore-efficiency.test.cjs; do
+            node --check "$file"
+          done
+      - name: Verify compact hero, sidebar controls and clickable filter chips
+        run: node --test tests/explore-efficiency.test.cjs

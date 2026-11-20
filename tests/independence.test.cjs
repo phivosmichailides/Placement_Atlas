@@ -67,8 +67,8 @@ test('public files document historical provenance, not a fictional authorship cl
 
 test('Placement Atlas branding and install assets are complete', () => {
   const html=read('index.html');
-  assert.match(html,/<title>Placement Atlas - Independent Oriel Placement Desk<\/title>/);
-  assert.ok(html.includes('name="description" content="Placement Atlas is an independent Oriel placement desk for UK MPharm students.'));
+  assert.match(html,/<title>Placement Atlas \| Independent Oriel Pharmacy Placement Tool<\/title>/);
+  assert.ok(html.includes('name="description" content="Placement Atlas helps UK MPharm students compare Oriel'));
   assert.match(html,/<link rel="icon" type="image\/png" sizes="192x192" href="\/icons\/placement-atlas-192\.png">/);
   assert(html.includes('<link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg" media="(prefers-color-scheme: dark)">'));
   assert(html.indexOf('type="image/png"')<html.indexOf('type="image/svg+xml"'));

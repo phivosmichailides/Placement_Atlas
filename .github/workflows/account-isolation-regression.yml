@@ -1,0 +1,33 @@
+name: Account isolation regression
+on:
+  push:
+    paths:
+      - 'supabase-cloud.js'
+      - 'generic-public.js'
+      - 'onboarding.js'
+      - 'app.js'
+      - 'index.html'
+      - 'sw.js'
+      - 'tests/account-isolation-regression.test.cjs'
+      - '.github/workflows/account-isolation-regression.yml'
+  pull_request:
+    paths:
+      - 'supabase-cloud.js'
+      - 'generic-public.js'
+      - 'onboarding.js'
+      - 'app.js'
+      - 'index.html'
+      - 'sw.js'
+      - 'tests/account-isolation-regression.test.cjs'
+      - '.github/workflows/account-isolation-regression.yml'
+  workflow_dispatch:
+jobs:
+  check-clean-account-start:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run account privacy and fresh-state regressions
+        run: node --test tests/account-isolation-regression.test.cjs

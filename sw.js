@@ -1,17 +1,17 @@
 'use strict';
-const CACHE_NAME='placement-atlas-shell-2026-11-20-v113-ranking-overlay';
+const CACHE_NAME='placement-atlas-shell-2026-11-20-v114-card-layout-repairs';
 const ROOT=new URL('./',self.registration.scope).href;
 const EXTRA_ASSETS=[
   'member-profile.js?v=20261113experience1','member-profile.css?v=20261113experience1','atlas-experience.css?v=20261113navigationfix1','responsive-fit.css?v=20261113responsive1','atlas-grid-performance.css?v=20261120d','footer-viewport.js?v=20261113responsive1','offer-journey.js?v=20261120compacthero1','cloud-auth.css?v=20261112members1','cloud-password-auth.css?v=20261113turnstile1',
   'atlas-navigation.js?v=20261120compacthero2','atlas-navigation.css?v=20261111logo1','atlas-map-tones.css?v=20261111tone2',
   'atlas-completion.css?v=20261112firstpaint1','shortlist-refinement.css?v=20261112shortlist1','shortlist-refinement.js?v=20261120ranking-menu1','learning-library.js?v=20261113navigationfix1',
   'atlas-interactions.js?v=20261110reset1','atlas-interactions.css?v=20261110ux1','atlas-footer.css?v=20261113responsive1',
-  'premium-discovery-preview.js?v=20261120compacthero1','premium-discovery-preview.css?v=20261111makeover5',
+  'premium-discovery-preview.js?v=20261120cardfix1','premium-discovery-preview.css?v=20261111makeover5',
   'premium-card-tabs.js?v=20261119swv1','premium-card-tabs.css?v=20261111makeover5',
   'premium-editorial-palettes.css?v=20261111makeover5','premium-workspace.css?v=20261120for-you-cta1','premium-quiet-interface.css?v=20261111quiet5','premium-workspace.js?v=20261111workspace2',
   'placement-refinements.css?v=20261111mobile3','placement-profile.css?v=20261113security2',
   'placement-makeover.css?v=20261111cards2','placement-fixes.css?v=20261111final2','placement-fixes.js?v=20261111fix3','placement-mobile-navigation.js?v=20261113identity1',
-  'placement-profile.js?v=20261113turnstile1','placement-titles.js?v=20261120titlefix1',
+  'placement-profile.js?v=20261113turnstile1','placement-titles.js?v=20261120cardfix1',
   'placement-atlas-globe.svg','favicon.svg','placement-atlas-compass-pin.webp?v=20261111logo2','manifest.webmanifest',
   'pwa.js?v=20261114vector1',
   'atlas-turnstile.js?v=20261113turnstile1','cloud-password-auth.js?v=20261113turnstile1','supabase-cloud.js?v=20261120accountaudit1','google-identity.js?v=20261113turnstile1','supabase-config.js?v=20261112gsi2','app.js?v=20261120ranking-menu1','app-base.js?v=20261120auditperf2','app-product.js?v=20261120ranking-menu1','generic-public.js?v=20261120accountaudit1',
@@ -26,6 +26,7 @@ const EXTRA_ASSETS=[
   'preferences-ui.js?v=20261111slider2','preferences-ui.css?v=20261111slider1','theme-outcome.js?v=20261106i',
   'simulator.js?v=20261120simnav1','motion-effects.js?v=20261107a',
   'explore-efficiency.js?v=20261120hero1','explore-efficiency.css?v=20261120ranking-menu1',
+  'atlas-card-repairs.css?v=20261120cardfix1','atlas-card-repairs.js?v=20261120cardfix1',
   'session-ui.js?v=20261113responsive1','interface-polish.js?v=20261107responsive2',
   'data/oriel-2026.part-01.txt','data/oriel-2026.part-02.txt','data/oriel-2026.part-03.txt',
   'data/oriel-2026.part-04.txt','data/oriel-2026.part-05.txt',

@@ -278,12 +278,14 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
       const header=document.querySelector('header.top.atlasStickyHeader');
       const brand=header.querySelector(':scope > .brand'),nav=header.querySelector(':scope > nav.tabs');
       const utility=header.querySelector(':scope > .atlasHeaderUtilities');
-      const icon=brand.querySelector('.logo img'),title=brand.querySelector('h1');
+      const icon=brand.querySelector('.logo .atlasGlobeMark'),title=brand.querySelector('h1');
       const intro=document.querySelector('.productIntro'),deadline=document.getElementById('orielDeadline');
       const launcher=document.getElementById('uxDrawerLauncher');
       return {vw:innerWidth,vh:innerHeight,pageWidth:document.documentElement.scrollWidth,
         header:bounds(header),brand:bounds(brand),nav:bounds(nav),utility:bounds(utility),
-        icon:bounds(icon),iconLoaded:icon.complete&&icon.naturalWidth>0,
+        icon:icon?bounds(icon):null,
+        iconVisible:Boolean(icon&&getComputedStyle(icon).display!=='none'&&icon.getBoundingClientRect().width>0&&icon.getBoundingClientRect().height>0),
+        iconArtwork:Boolean(icon&&icon.querySelectorAll('circle').length===1&&icon.querySelectorAll('path').length===2),
         title:bounds(title),deadline:bounds(deadline),intro:bounds(intro),
         deadlineInHeader:header.contains(deadline),deadlineParent:deadline.parentElement?.id,deadlinePrecedesIntro:Boolean(deadline.compareDocumentPosition(intro)&Node.DOCUMENT_POSITION_FOLLOWING),
         launcher:bounds(launcher),launcherPosition:getComputedStyle(launcher).position,
@@ -295,8 +297,8 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
         navOverflow:nav.scrollWidth-nav.clientWidth};
     });
     const intersects=(a,b)=>a.left<b.right-2&&a.right>b.left+2&&a.top<b.bottom-2&&a.bottom>b.top+2;
-    assert(layout.iconLoaded,'Header logo failed to load: '+JSON.stringify(layout));
-    assert(layout.icon.right<=layout.title.left+2,'Compass logo is not to the left of the title: '+JSON.stringify(layout));
+    assert(layout.iconVisible&&layout.iconArtwork,'Header globe SVG is missing or incomplete: '+JSON.stringify(layout));
+    assert(layout.icon.right<=layout.title.left+2,'Globe mark is not to the left of the title: '+JSON.stringify(layout));
     assert(layout.brand.left<=layout.header.left+40,'Brand is no longer left aligned: '+JSON.stringify(layout));
     assert(!intersects(layout.brand,layout.nav),'Brand and navigation overlap: '+JSON.stringify(layout));
     assert(!intersects(layout.brand,layout.utility),'Brand and utility controls overlap: '+JSON.stringify(layout));

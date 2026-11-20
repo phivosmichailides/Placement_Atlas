@@ -252,3 +252,38 @@ html.atlasPremiumPreview body #explore .atlasMapFocusStage #placementMap,
 html.atlasPremiumPreview body #explore.uxFiltersCollapsed .atlasMapFocusStage #placementMap{
   height:100%!important;min-height:0!important;
 }
+
+
+/* Decision dropdown must float above the NEXT programme card. Premium
+   cards clip their children for rounded corners; that also clips the
+   original absolutely-positioned decision menu. Temporarily release the
+   clipping only for the card with an open decision picker. */
+html.atlasPremiumPreview #results > .placement.atlasSampleCard:has(.decisionPicker[open]),
+html.atlasPremiumPreview #results > .placement.atlasDiscoveryCard:has(.decisionPicker[open]){
+  position:relative!important;
+  overflow:visible!important;
+  z-index:1000!important;
+}
+html.atlasPremiumPreview #results > .placement:has(.decisionPicker[open]) .atlasCardSections,
+html.atlasPremiumPreview #results > .placement:has(.decisionPicker[open]) .atlasCardPages,
+html.atlasPremiumPreview #results > .placement:has(.decisionPicker[open]) .atlasCardPage:not([hidden]),
+html.atlasPremiumPreview #results > .placement:has(.decisionPicker[open]) .controls,
+html.atlasPremiumPreview #results > .placement:has(.decisionPicker[open]) .decisionPicker{
+  overflow:visible!important;
+}
+html.atlasPremiumPreview #results > .placement:has(.decisionPicker[open]) .decisionPicker[open]{
+  position:relative!important;
+  z-index:1001!important;
+}
+html.atlasPremiumPreview #results > .placement:has(.decisionPicker[open]) .decisionChoices{
+  position:absolute!important;
+  z-index:1002!important;
+}
+/* Preserve the same layering for cards rendered in map previews and the
+   shortlist, without changing any decision or ranking data. */
+html.atlasPremiumPreview #mapSelection .placement:has(.decisionPicker[open]),
+html.atlasPremiumPreview #shortlistList .placement:has(.decisionPicker[open]){
+  position:relative!important;
+  overflow:visible!important;
+  z-index:1000!important;
+}

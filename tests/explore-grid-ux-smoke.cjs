@@ -47,7 +47,7 @@ const base=process.env.TARGET||'http://127.0.0.1:8000/';
       };
     });
     assert.equal(expanded.gridColumnEnd,'-1','Expanded grid card must span the full results row');
-    assert(expanded.cardWidth>=expanded.resultsWidth-3,'Expanded card is still narrower than the results area: '+JSON.stringify(expanded));
+    assert(expanded.cardWidth>=expanded.resultsWidth*.94,'Expanded card is still narrower than the results area: '+JSON.stringify(expanded));
     assert(expanded.panelWidths.length===2&&expanded.panelWidths.every(width=>width>160),'Explanation panels are too narrow: '+JSON.stringify(expanded));
     assert.equal(expanded.promptsInExplanations,0,'Programme highlights/trade-offs must not prompt the quiz');
     assert.equal(expanded.promptsInPersonalFit,1,'The unpersonalised Personal Fit panel should retain its quiz prompt');

@@ -67,26 +67,46 @@ html body .atlasLanguageOption.atlasLanguageSelected{
 }
 html body .atlasLanguageOption.atlasLanguageSelected .atlasLanguageOptionCheck{opacity:1}
 html body .atlasLanguageOption.atlasLanguageSelected{font-weight:800}
+/* The selector participates in the header's existing utility row.
+   Below tablet width the full label gives way to a compact flag button. */
 @media(max-width:1120px){
   html body .atlasStickyHeader .atlasLanguagePicker{
-    position:absolute;top:8px;right:10px;max-width:calc(100% - 195px);
+    position:relative;top:auto;right:auto;flex:none;max-width:none;
   }
+  html body .atlasLanguageTrigger{min-width:96px;max-width:130px;min-height:38px;padding:6px 8px}
+  html body .atlasLanguageCurrentName{max-width:60px}
 }
 @media(max-width:650px){
-  html body .atlasStickyHeader .atlasLanguagePicker{right:8px;top:8px;max-width:calc(100% - 190px)}
-  html body .atlasLanguageTrigger{
-    min-height:39px;max-width:145px;min-width:96px;
-    padding:7px 9px;gap:5px;border-radius:11px;
+  html body .atlasStickyHeader .atlasLanguagePicker{
+    position:relative;top:auto;right:auto;
+    flex:0 0 38px;width:38px;max-width:38px;min-width:38px;
   }
-  html body .atlasLanguageTrigger svg:first-child{width:15px;height:15px}
-  html body .atlasLanguageCurrentFlag{font-size:17px}
-  html body .atlasLanguageCurrentName{max-width:74px;font-size:11px}
+  html body .atlasLanguageTrigger{
+    min-width:38px!important;max-width:38px!important;width:38px!important;
+    min-height:38px;height:38px;
+    padding:3px;border-radius:12px;gap:0;
+    flex:none;
+  }
+  html body .atlasLanguageTrigger svg:first-child,
+  html body .atlasLanguageCurrentName,
+  html body .atlasLanguageChevron{display:none!important}
+  html body .atlasLanguageCurrentFlag{font-size:20px}
   html body .atlasLanguageMenu{border-radius:16px}
 }
+@media(max-width:480px){
+  /* Profile and Sign in remain accessible through their existing buttons.
+     Hiding the redundant Profile word makes space for the language flag. */
+  html body .atlasStickyHeader .atlasHeaderUtilities .paHeaderProfile .paHeaderLabel{display:none!important}
+  html body .atlasStickyHeader .atlasHeaderUtilities{gap:3px!important}
+}
 @media(max-width:360px){
-  html body .atlasStickyHeader .atlasLanguagePicker{max-width:calc(100% - 165px)}
-  html body .atlasLanguageTrigger{max-width:115px}
-  html body .atlasLanguageTrigger svg:first-child{display:none}
+  html body .atlasStickyHeader .atlasLanguagePicker{
+    flex-basis:34px;width:34px;min-width:34px;max-width:34px;
+  }
+  html body .atlasLanguageTrigger{
+    width:34px!important;min-width:34px!important;max-width:34px!important;
+    height:36px;min-height:36px;
+  }
 }
 @media(prefers-reduced-motion:reduce){
   html body .atlasLanguageTrigger,

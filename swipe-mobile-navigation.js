@@ -11,7 +11,9 @@ const reveal=()=>{
 const hide=()=>{
   if(!isMobile()||!isSwipe())return;
   if(document.querySelector('.atlasLanguageMenu:not([hidden])'))return scheduleHide();
-  if(document.querySelector('.shell > header.top:focus-within'))return scheduleHide();
+  // Tapping the Swipe Mode tab may leave focus on the tab on iOS/Chromium.
+  // Only genuine keyboard focus should prevent the automatic collapse.
+  if(document.querySelector('.shell > header.top :focus-visible'))return scheduleHide();
   document.body.classList.add('tdMobileHeaderHidden');
 };
 const scheduleHide=()=>{

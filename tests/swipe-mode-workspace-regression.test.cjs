@@ -29,7 +29,7 @@ test('swipe card and shortcuts are contained and comfortable rather than oversiz
 });
 
 test('the workspace stylesheet is versioned in the page and PWA cache',()=>{
-  const asset='swipe-mode-workspace.css?v=20261121swipe-layout2';
+  const asset='swipe-mode-workspace.css?v=20261121swipe-layout3';
   assert.ok(html.includes(asset),'Homepage must load the workspace stylesheet');
   assert.ok(sw.includes(asset),'Offline cache must include the workspace stylesheet');
   assert.match(sw,/CACHE_NAME='placement-atlas-shell-2026-11-21-v\d+-[^']+'/);

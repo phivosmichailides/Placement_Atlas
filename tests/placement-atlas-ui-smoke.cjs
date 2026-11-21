@@ -21,6 +21,8 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
    localStorage.setItem('oriel-desk-page-size-v1','all');
   });
   await page.goto(base,{waitUntil:'domcontentloaded',timeout:60000});
+  const rejectButton=page.locator('#atlasCookieNotice .atlasCookieReject');
+  if(await rejectButton.count())await rejectButton.click();
   // The primary navigation must be visibly present immediately, without waiting
   // for dataset or asynchronously built simulation/learning modules.
   assert.equal(await page.locator('html').evaluate(el=>el.classList.contains('atlasNavLoading')),false,
@@ -671,7 +673,7 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   assert.equal(await page.locator('#atlasUniversityInput').inputValue(),'University College London','University picker should resolve UCL alias to official name');
   assert.equal(await page.locator('.atlasMemberYears label').last().innerText(),'Foundation training year','Foundation training label should not say Pre-Reg!');
   await page.locator('.atlasMemberDialog input[name="study_year"][value="year4"]').check();
-  await page.waitForFunction(()=>document.querySelector('#atlasHandleStatus')?.textContent?.includes('Available'),null,{timeout:6000});
+  await page.waitForFunction(()=>document.querySelector('#atlasHandleStatus')?.dataset?.tone==='success',null,{timeout:6000});
   await page.locator('#atlasMemberSave').click();
   await page.waitForFunction(()=>!document.querySelector('.atlasMemberDialog'),null,{timeout:6000});
   assert.equal(await page.locator('.atlasStickyHeader .paHeaderLabel').innerText(),'Hi, Φοίβος','Header should greet the saved first name');

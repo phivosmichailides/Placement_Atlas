@@ -374,9 +374,20 @@
     card.append(layer);
     return ()=>layer.remove();
   };
+  // A fixed-to-deck badge remains visible on a short phone screen while the
+  // underlying card scrolls or animates out. The existing desktop card stamps
+  // remain unchanged; mobile CSS selects this clearer top-level label.
+  const feedbackBadge=kind=>{
+    const badge=$('tinderSwipeBadge');
+    if(!badge)return;
+    const token=kind==='no'?'No':kind==='yes'?'Yes':kind==='love'?'Super':'';
+    badge.className='tdSwipeBadge'+(token?' tdSwipeBadge'+token+' tdSwipeBadgeShow':'');
+    badge.textContent=token==='No'?'LIKE NO':token==='Yes'?'LIKE':token==='Super'?'SUPER LIKE':'';
+  };
   const commit=(p,status,vector)=>{
     if(animating)return;
     playDecisionSound(status);
+    feedbackBadge(status);
     animating=true;
     dismissHints();
     const card=$('tinderActiveCard');
@@ -448,15 +459,16 @@
     let startX=0,startY=0,deltaX=0,tracking=false;
     card.addEventListener('pointerdown',e=>{
       if(animating||e.button!==0||e.target.closest('button, a, input, select, textarea'))return;
-      startX=e.clientX;startY=e.clientY;deltaX=0;tracking=true;
+      startX=e.clientX;startY=e.clientY;deltaX=0;tracking=true;feedbackBadge('');
       try{card.setPointerCapture(e.pointerId)}catch{}
       card.style.transition='none';
     });
     card.addEventListener('pointermove',e=>{
       if(!tracking)return;
       const dx=e.clientX-startX,dy=e.clientY-startY;
-      if(Math.abs(dy)>Math.abs(dx)&&Math.abs(dy)>14)return;
+      if(Math.abs(dy)>Math.abs(dx)&&Math.abs(dy)>14){feedbackBadge('');return;}
       deltaX=dx;
+      feedbackBadge(dx< -50?'no':dx>50?'yes':'');
       card.classList.toggle('tdDragNo',dx< -18);
       card.classList.toggle('tdDragYes',dx>18);
       card.style.setProperty('--td-drag-strength',String(Math.min(1,Math.abs(dx)/130)));
@@ -470,6 +482,7 @@
       tracking=false;
       if(deltaX>85){commit(p,'yes',1);return;}
       if(deltaX< -85){commit(p,'no',-1);return;}
+      feedbackBadge('');
       card.classList.remove('tdDragNo','tdDragYes');
       card.style.removeProperty('--td-drag-strength');
       card.style.transition='transform .28s cubic-bezier(.22,1,.36,1)';
@@ -667,6 +680,7 @@
     const remaining=$('tinderRemaining');if(remaining)remaining.textContent=(pool.length-seen)+' remaining in '+(game.region==='all'?'all regions':formatRegion(game.region));
     const cardSlot=$('tinderCardSlot');if(!cardSlot)return;
     cardSlot.replaceChildren();
+    feedbackBadge('');
     const p=nextProgramme();activeId=p?.id||'';
     if(!p){
       const done=document.createElement('div');done.className='tdFinished';
@@ -744,7 +758,7 @@
      '<label class="tdFilterCheck"><input id="tdSplitOnly" type="checkbox"><span>Split placements only</span></label>'+
      '<label class="tdFilterCheck"><input id="tdHideDecided" type="checkbox"><span>Hide already-decided programmes</span></label>'+
      '<button type="button" id="tdFiltersReset" class="tdFilterReset">Clear game filters</button></div>'+
-     '<div class="tdBoard"><div id="tinderSwipeHints" class="tdSwipeHints" hidden><span class="tdSwipeHint tdSwipeHintLeft"><span class="tdHintArrow" aria-hidden="true">←</span><span>Swipe left to exclude a programme</span></span><span class="tdSwipeHint tdSwipeHintRight"><span>Swipe right to shortlist a programme</span><span class="tdHintArrow" aria-hidden="true">→</span></span></div><div class="tdCardDeck"><div id="tinderCardSlot" class="tdCardSlot" aria-live="polite"></div></div>'+
+     '<div class="tdBoard"><div id="tinderSwipeHints" class="tdSwipeHints" hidden><span class="tdSwipeHint tdSwipeHintLeft"><span class="tdHintArrow" aria-hidden="true">←</span><span>Swipe left to exclude a programme</span></span><span class="tdSwipeHint tdSwipeHintRight"><span>Swipe right to shortlist a programme</span><span class="tdHintArrow" aria-hidden="true">→</span></span></div><div class="tdCardDeck"><div id="tinderCardSlot" class="tdCardSlot" aria-live="polite"></div><div id="tinderSwipeBadge" class="tdSwipeBadge" aria-hidden="true"></div></div>'+
      '<div class="tdActions"><button id="tinderUndo" class="tdAction tdAction-undo" title="Undo last swipe" aria-label="Undo last swipe">'+icon.undo+'</button><button id="tinderNo" class="tdAction tdAction-no" title="Like No — not for me" aria-label="Like No — not for me">'+icon.no+'</button><button id="tinderYes" class="tdAction tdAction-yes" title="Like" aria-label="Like programme">'+icon.yes+'</button><button id="tinderSuper" class="tdAction tdAction-super" title="Super Like" aria-label="Super Like programme">'+icon.super+'</button></div>'+
      '<div class="tdActionLegend"><span>Undo</span><span>Like No</span><span>Like</span><span>Super Like</span></div>'+
      '<p class="tdExisting" id="tinderExisting">Not yet decided</p><p class="tdNotice" id="tinderNotice" role="status" aria-live="polite">Tip: ← Like No · → Like · ↑ Super Like · Backspace Undo</p>'+

@@ -1,0 +1,139 @@
+/* Placement Atlas language selector — rounded, touch-friendly, keyboard accessible */
+html body .atlasStickyHeader .atlasLanguagePicker{
+  display:flex;align-items:center;justify-content:flex-end;
+  min-width:0;position:relative;z-index:2;direction:ltr;
+}
+html body .atlasLanguageTrigger{
+  display:inline-flex;align-items:center;justify-content:center;
+  gap:7px;min-width:112px;max-width:180px;min-height:42px;
+  padding:7px 11px;border-radius:13px;border:1px solid var(--line,#e7e5df);
+  background:var(--panel,#fff);color:var(--ink,#171717);
+  box-shadow:0 2px 7px rgba(0,0,0,.045);
+  font:inherit;font-size:12px;font-weight:780;white-space:nowrap;cursor:pointer;
+  transition:border-color .16s ease,box-shadow .16s ease,background .16s ease;
+}
+html body .atlasLanguageTrigger:hover,
+html body .atlasLanguageOpen .atlasLanguageTrigger{
+  border-color:var(--ux-accent-border,var(--line));
+  background:var(--ux-accent-soft,var(--panel));
+}
+html body .atlasLanguageTrigger svg{width:17px;height:17px;flex:none}
+html body .atlasLanguageTrigger .atlasLanguageChevron{width:13px;height:13px;margin-left:1px;transition:transform .16s ease}
+html body .atlasLanguageOpen .atlasLanguageChevron{transform:rotate(180deg)}
+html body .atlasLanguageCurrentFlag,
+html body .atlasLanguageOptionFlag{font-size:19px;line-height:1;flex:none}
+html body .atlasLanguageCurrentName{
+  overflow:hidden;text-overflow:ellipsis;min-width:0;
+  max-width:82px;text-align:left;direction:auto;
+}
+html body .atlasLanguageTrigger:focus-visible,
+html body .atlasLanguageOption:focus-visible{
+  outline:3px solid var(--ux-accent-ink,#285442);
+  outline-offset:2px;
+}
+html body .atlasLanguageMenu{
+  box-sizing:border-box;position:fixed;z-index:3200;
+  display:flex;flex-direction:column;
+  border:1px solid var(--line,#e7e5df);border-radius:18px;
+  background:var(--panel,#fff);color:var(--ink,#171717);
+  box-shadow:0 18px 48px rgba(16,13,24,.19);
+  overflow:hidden;direction:ltr;
+  -webkit-overflow-scrolling:touch;
+}
+html body .atlasLanguageMenu[hidden]{display:none!important}
+html body .atlasLanguageMenuTitle{
+  flex:none;font-size:11px;font-weight:850;letter-spacing:.075em;
+  text-transform:uppercase;color:var(--mut,#6f706d);
+  padding:15px 17px 11px;border-bottom:1px solid var(--line,#e7e5df);
+}
+html body .atlasLanguageOptions{
+  overflow-y:auto;overscroll-behavior:contain;min-height:0;
+  max-height:100%;padding:6px;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;
+}
+html body .atlasLanguageOption{
+  display:flex;align-items:center;width:100%;min-height:44px;gap:12px;
+  border:0;border-radius:12px;padding:10px 11px;
+  background:transparent;color:var(--ink,#171717);text-align:left;
+  font:inherit;font-size:14px;font-weight:650;cursor:pointer;
+  transition:background .12s ease;
+}
+html body .atlasLanguageOptionName{min-width:0;flex:1;line-height:1.45}
+html body .atlasLanguageOptionCheck{font-size:16px;font-weight:900;opacity:0;color:var(--ux-accent-ink,#285442)}
+html body .atlasLanguageOption:hover,
+html body .atlasLanguageOption.atlasLanguageSelected{
+  background:var(--ux-accent-soft,var(--soft,#f3f3f0));
+}
+html body .atlasLanguageOption.atlasLanguageSelected .atlasLanguageOptionCheck{opacity:1}
+html body .atlasLanguageOption.atlasLanguageSelected{font-weight:800}
+/* The selector participates in the header's existing utility row.
+   Below tablet width the full label gives way to a compact flag button. */
+@media(max-width:1120px){
+  html body .atlasStickyHeader .atlasLanguagePicker{
+    position:relative;top:auto;right:auto;flex:none;max-width:none;
+  }
+  html body .atlasLanguageTrigger{min-width:96px;max-width:130px;min-height:38px;padding:6px 8px}
+  html body .atlasLanguageCurrentName{max-width:60px}
+}
+@media(max-width:650px){
+  html body .atlasStickyHeader .atlasLanguagePicker{
+    position:relative;top:auto;right:auto;
+    flex:0 0 38px;width:38px;max-width:38px;min-width:38px;
+  }
+  html body .atlasLanguageTrigger{
+    min-width:38px!important;max-width:38px!important;width:38px!important;
+    min-height:38px;height:38px;
+    padding:3px;border-radius:12px;gap:0;
+    flex:none;
+  }
+  html body .atlasLanguageTrigger svg:first-child,
+  html body .atlasLanguageCurrentName,
+  html body .atlasLanguageChevron{display:none!important}
+  html body .atlasLanguageCurrentFlag{font-size:20px}
+  html body .atlasLanguageMenu{border-radius:16px}
+}
+@media(max-width:480px){
+  /* Profile and Sign in remain accessible through their existing buttons.
+     Hiding the redundant Profile word makes space for the language flag. */
+  html body .atlasStickyHeader .atlasHeaderUtilities .paHeaderProfile .paHeaderLabel{display:none!important}
+  html body .atlasStickyHeader .atlasHeaderUtilities{gap:3px!important}
+}
+@media(max-width:360px){
+  html body .atlasStickyHeader .atlasLanguagePicker{
+    flex-basis:34px;width:34px;min-width:34px;max-width:34px;
+  }
+  html body .atlasLanguageTrigger{
+    width:34px!important;min-width:34px!important;max-width:34px!important;
+    height:36px;min-height:36px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  html body .atlasLanguageTrigger,
+  html body .atlasLanguageOption,
+  html body .atlasLanguageChevron{transition:none!important}
+}
+/* RTL text reading order, keeping programme titles, locations, IDs and maps
+   left-to-right. Translation never modifies official programme data. */
+html[dir="rtl"] body{direction:rtl}
+html[dir="rtl"] .atlasLanguagePicker,
+html[dir="rtl"] .atlasLanguageMenu,
+html[dir="rtl"] #placementMap,
+html[dir="rtl"] .leaflet-container,
+html[dir="rtl"] .leaflet-popup,
+html[dir="rtl"] .map-heading-tools,
+html[dir="rtl"] #results,
+html[dir="rtl"] #reco,
+html[dir="rtl"] #shortlistList,
+html[dir="rtl"] #compareArea,
+html[dir="rtl"] .placement,
+html[dir="rtl"] .rank-row,
+html[dir="rtl"] .recoGrid,
+html[dir="rtl"] .atlasWorkspaceTitleOriginal,
+html[dir="rtl"] .atlasWorkspaceTitleConcise{
+  direction:ltr;unicode-bidi:isolate;
+}
+html[dir="rtl"] input[type="number"],
+html[dir="rtl"] input[inputmode="numeric"],
+html[dir="rtl"] .salary,
+html[dir="rtl"] .hourly{direction:ltr;unicode-bidi:isolate}

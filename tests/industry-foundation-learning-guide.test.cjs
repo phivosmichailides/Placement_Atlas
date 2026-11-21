@@ -67,5 +67,5 @@ test('New guide scripts, styles and public article are synchronised with PWA',()
     assert.ok(sw.includes(asset),'Offline cache missing '+asset);
   }
   assert.match(sw,/industry-foundation-training.html/);
-  assert.match(page,/learning-industry-guide.css\?v=20261121industry1/);
+  assert.match(page,/learning-industry-guide.css\?v=20261121industry2/);
 });

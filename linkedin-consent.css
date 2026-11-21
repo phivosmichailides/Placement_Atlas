@@ -1,45 +1,83 @@
-/* Isolated, responsive consent notice. No third-party scripts or fonts. */
+/* Compact, non-modal LinkedIn consent notice; tracking still requires explicit opt-in.
+   Stay below the onboarding/sync dialogs (z-index 5000+) so first-time visitors
+   complete personalisation without competing prompts. */
 #atlasCookieNotice {
   box-sizing: border-box;
   position: fixed;
-  z-index: 2147483600;
-  bottom: max(16px, env(safe-area-inset-bottom));
-  left: 16px;
-  width: min(580px, calc(100vw - 32px));
-  max-height: calc(100dvh - 32px);
+  z-index: 4200;
+  right: max(14px, env(safe-area-inset-right));
+  bottom: max(14px, env(safe-area-inset-bottom));
+  left: auto;
+  width: min(390px, calc(100vw - 28px));
+  max-height: calc(100dvh - 28px);
   overflow-y: auto;
-  padding: 22px;
+  padding: 15px 16px 14px;
   border: 1px solid #dbe2dc;
-  border-radius: 18px;
+  border-radius: 15px;
   background: #ffffff;
   color: #1d2824;
-  box-shadow: 0 18px 60px rgba(18, 32, 26, .20);
-  font: 14px/1.5 ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  box-shadow: 0 12px 38px rgba(18, 32, 26, .18);
+  font: 13px/1.45 ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 #atlasCookieNotice, #atlasCookieNotice * { box-sizing: border-box; }
-#atlasCookieNotice .atlasCookieTop { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; }
-#atlasCookieNotice .atlasCookieEyebrow { display: block; margin-bottom: 4px; color: #356c55; font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
-#atlasCookieNotice h2 { margin: 0; color: inherit; font: 750 19px/1.3 ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; letter-spacing: -.02em; }
-#atlasCookieNotice p { margin: 12px 0 18px; color: #4c5a52; font: inherit; }
-#atlasCookieNotice .atlasCookieActions { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+#atlasCookieNotice .atlasCookieTop { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+#atlasCookieNotice .atlasCookieEyebrow {
+  display: block;
+  margin-bottom: 3px;
+  color: #356c55;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+#atlasCookieNotice h2 {
+  margin: 0;
+  color: inherit;
+  font: 750 16px/1.27 ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: -.018em;
+}
+#atlasCookieNotice p { margin: 9px 0 12px; color: #4c5a52; font: inherit; }
+#atlasCookieNotice .atlasCookieActions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
 #atlasCookieNotice .atlasCookieActions button {
-  min-height: 45px; width: 100%; padding: 10px 12px;
-  border: 1.5px solid #285941; border-radius: 10px;
-  font: 750 13px/1.3 ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  cursor: pointer; white-space: normal;
+  min-height: 40px;
+  width: 100%;
+  padding: 8px;
+  border: 1.5px solid #285941;
+  border-radius: 9px;
+  font: 750 12px/1.3 ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  cursor: pointer;
+  white-space: normal;
 }
 #atlasCookieNotice .atlasCookieReject { background: #ffffff; color: #285941; }
 #atlasCookieNotice .atlasCookieAllow { background: #285941; color: #ffffff; }
-#atlasCookieNotice .atlasCookieActions button:hover { filter: brightness(.93); }
+#atlasCookieNotice .atlasCookieActions button:hover { filter: brightness(.94); }
 #atlasCookieNotice .atlasCookieActions button:focus-visible,
 #atlasCookieNotice a:focus-visible,
-#atlasCookieNotice .atlasCookieClose:focus-visible { outline: 3px solid #76bda1; outline-offset: 3px; }
-#atlasCookieNotice .atlasCookieFooter { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 14px; margin-top: 13px; color: #65746d; font-size: 12px; }
+#atlasCookieNotice .atlasCookieClose:focus-visible { outline: 3px solid #76bda1; outline-offset: 2px; }
+#atlasCookieNotice .atlasCookieFooter {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 12px;
+  margin-top: 9px;
+  color: #65746d;
+  font-size: 11px;
+}
 #atlasCookieNotice .atlasCookieFooter a { color: #285941; text-decoration: underline; text-underline-offset: 2px; }
-#atlasCookieNotice .atlasCookieClose { background: transparent; color: inherit; border: 0; border-radius: 8px; font-size: 23px; line-height: 1; padding: 3px 7px; cursor: pointer; }
+#atlasCookieNotice .atlasCookieClose {
+  flex: none;
+  background: transparent;
+  color: inherit;
+  border: 0;
+  border-radius: 8px;
+  font-size: 21px;
+  line-height: 1;
+  padding: 0 4px;
+  cursor: pointer;
+}
 html[data-theme="dark"] #atlasCookieNotice {
   background: #222a26; color: #f5f7f4; border-color: #46584d;
-  box-shadow: 0 18px 60px rgba(0, 0, 0, .45);
+  box-shadow: 0 12px 38px rgba(0, 0, 0, .42);
 }
 html[data-theme="dark"] #atlasCookieNotice p,
 html[data-theme="dark"] #atlasCookieNotice .atlasCookieFooter { color: #c2d0c7; }
@@ -48,7 +86,14 @@ html[data-theme="dark"] #atlasCookieNotice .atlasCookieFooter a { color: #a5ddbe
 html[data-theme="dark"] #atlasCookieNotice .atlasCookieReject { background: #2d3e34; border-color: #a5ddbe; color: #f5f7f4; }
 html[data-theme="dark"] #atlasCookieNotice .atlasCookieAllow { background: #a5ddbe; border-color: #a5ddbe; color: #173124; }
 @media (max-width: 480px) {
-  #atlasCookieNotice { padding: 18px; bottom: max(8px, env(safe-area-inset-bottom)); left: 8px; width: calc(100vw - 16px); border-radius: 16px; }
-  #atlasCookieNotice .atlasCookieActions { grid-template-columns: 1fr; }
+  #atlasCookieNotice {
+    right: max(8px, env(safe-area-inset-right));
+    left: max(8px, env(safe-area-inset-left));
+    bottom: max(8px, env(safe-area-inset-bottom));
+    width: auto;
+    padding: 13px 14px 12px;
+    border-radius: 14px;
+  }
+  #atlasCookieNotice .atlasCookieActions button { min-height: 42px; }
 }
 @media (prefers-reduced-motion: reduce) { #atlasCookieNotice * { scroll-behavior: auto; } }

@@ -90,7 +90,7 @@ test('programme snapshot contains crawler-readable data, no JS dependency and ca
   assert.match(snapshot,/877/);
   assert.match(snapshot,/55 of the 786 London entries/);
   assert.match(snapshot,/snapshot, not current vacancies/i);
-  assert.match(snapshot,/not a complete list of the 877 entries/i);
+  assert.match(snapshot,/not recommendations or a complete list of the 877 entries/i);
   assert.equal((snapshot.match(/<tr><th scope="row">/g)||[]).length,12);
   assert.equal((snapshot.match(/class="listing"/g)||[]).length,12);
   assert.ok(!snapshot.includes('<script src="/app.js"'),'Static page should not need app bundles');

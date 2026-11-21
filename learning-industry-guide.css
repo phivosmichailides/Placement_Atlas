@@ -1,0 +1,90 @@
+/* Placement Atlas Learning Hub — evidence-led industry foundation placement guide.
+   Scoped to the Learning Hub and independent, static reading page. */
+#learn .atlasIndustryHubTeaser{
+  display:flex;gap:clamp(14px,2.5vw,25px);align-items:center;justify-content:space-between;
+  margin:0 0 17px;padding:clamp(18px,2.5vw,26px);
+  border:1px solid var(--ux-accent-border,var(--line));border-radius:20px;
+  background:var(--ux-accent-soft,var(--panel));
+  color:var(--ink);min-width:0;
+}
+#learn .atlasIndustryHubTeaser>div{min-width:0;flex:1}
+#learn .atlasIndustryHubTeaser h3{font-size:clamp(18px,2vw,24px);line-height:1.23;letter-spacing:-.03em;margin:7px 0}
+#learn .atlasIndustryHubTeaser p{max-width:70ch;margin:0;color:var(--mut);font-size:13px;line-height:1.55}
+#learn .atlasIndustryHubTeaser .btn{flex:none;min-height:43px;white-space:normal;max-width:100%}
+.atlasIndustryGuide{scroll-margin-top:100px}
+.atlasIndustryGuide h3{max-width:950px;letter-spacing:-.032em!important}
+.atlasIndustryGuide .atlasIndustryGuideSubtitle{max-width:850px;font-size:14px!important;line-height:1.6!important}
+.atlasIndustryGuideIntro{padding:17px 19px;border:1px solid var(--line);border-radius:15px;
+  background:var(--soft);margin:10px 0 18px;color:var(--ink);line-height:1.7}
+.atlasIndustryGuideIntro p{font-size:13px;max-width:95ch;margin:0 0 9px;color:var(--ink)}
+.atlasIndustryGuideIntro p:last-child{margin-bottom:0;color:var(--mut)}
+.atlasIndustryTools{display:flex;flex-wrap:wrap;gap:8px;margin:15px 0}
+.atlasIndustryTools .btn{border-radius:11px;min-height:38px;font-size:12px;line-height:1.3;white-space:normal}
+.atlasIndustryAnswers{display:grid;gap:10px;min-width:0}
+.atlasIndustryAnswer{min-width:0;overflow:hidden;border:1px solid var(--line);
+  border-radius:15px;background:var(--panel);color:var(--ink)}
+.atlasIndustryAnswer[open]{border-color:var(--ux-accent-border,var(--line));box-shadow:0 4px 18px #00000008}
+.atlasIndustryAnswer summary{
+  display:flex;align-items:flex-start;gap:13px;padding:16px 17px;
+  cursor:pointer;list-style:none;font-size:clamp(13px,1.2vw,15px);font-weight:790;
+  line-height:1.45;color:var(--ink);transition:background .15s ease;
+}
+.atlasIndustryAnswer summary::-webkit-details-marker{display:none}
+.atlasIndustryAnswer summary:hover{background:var(--soft)}
+.atlasIndustryAnswer summary:focus-visible{outline:3px solid var(--ux-accent-ink,#365e4b);outline-offset:-4px}
+.atlasIndustryAnswer summary:after{content:"+";font-weight:750;flex:none;font-size:20px;line-height:1;margin-left:auto;color:var(--mut)}
+.atlasIndustryAnswer[open] summary:after{content:"−"}
+.atlasIndustryQuestionNumber{font-size:11px;font-weight:850;padding-top:3px;min-width:23px;color:var(--ux-accent-ink,var(--ink))}
+.atlasIndustryAnswerBody{padding:0 clamp(16px,2.5vw,26px) 21px;margin-left:25px;
+  max-width:93ch;color:var(--ink);font-size:13px;line-height:1.78}
+.atlasIndustryAnswerBody p{margin:0 0 13px;line-height:inherit;overflow-wrap:anywhere}
+.atlasIndustryAnswerBody strong{font-weight:780;color:var(--ink)}
+.atlasIndustryAnswerBody em{font-style:italic}
+.atlasIndustryCitations{margin-top:18px!important;padding-top:11px;border-top:1px solid var(--line);
+  font-size:11px!important;color:var(--mut)!important;line-height:1.8!important}
+.atlasIndustryCitations a{color:var(--ux-accent-ink,var(--ink));text-decoration:underline;
+  text-underline-offset:3px;overflow-wrap:anywhere}
+.atlasIndustryCitations a:hover{color:var(--ink)}
+@media(max-width:700px){
+ #learn .atlasIndustryHubTeaser{flex-direction:column;align-items:stretch;gap:13px}
+ #learn .atlasIndustryHubTeaser .btn{width:100%}
+ .atlasIndustryGuide .atlasIndustryGuideSubtitle{font-size:13px!important}
+ .atlasIndustryGuideIntro{padding:14px}
+ .atlasIndustryAnswer summary{padding:13px;gap:8px;font-size:13px}
+ .atlasIndustryQuestionNumber{min-width:19px;font-size:10px}
+ .atlasIndustryAnswerBody{padding:0 14px 16px;margin-left:0;font-size:12px;line-height:1.68}
+ .atlasIndustryTools .btn{flex:1 1 145px}
+}
+@media(prefers-reduced-motion:reduce){.atlasIndustryAnswer summary{transition:none}}
+
+/* Self-contained, crawlable public article with the same guide text. */
+.industryStandalone{--panel:#fff;--soft:#f5f7f4;--ink:#26352d;--mut:#59635c;
+  --line:#dce4db;--ux-accent-ink:#315847;--ux-accent-border:#a6c7b5;
+  --ux-accent-soft:#eaf4ee;background:#f6f7f4;color:var(--ink);
+  margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}
+.industryStandalone *{box-sizing:border-box}
+.industryStandalone .atlasIndustrySiteHead{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  padding:15px clamp(16px,5vw,48px);border-bottom:1px solid var(--line);background:var(--panel)}
+.industryStandalone .atlasIndustrySiteHead strong{font-weight:850;letter-spacing:-.025em;color:var(--ux-accent-ink)}
+.industryStandalone .atlasIndustrySiteHead a{color:var(--ux-accent-ink);font-size:13px;font-weight:750;text-decoration:none}
+.industryStandalone .atlasIndustrySiteHead a:focus-visible,.industryStandalone .atlasIndustrySiteHead a:hover{text-decoration:underline}
+.industryStandalone main{width:min(1080px,calc(100% - 28px));margin:26px auto 60px;padding:0}
+.industryStandalone .atlasIndustryPublicHero{padding:clamp(22px,3vw,40px);
+  border:1px solid var(--line);border-radius:22px;background:var(--panel);margin-bottom:17px}
+.industryStandalone .atlasIndustryPublicHero .eyebrow{font-size:11px;font-weight:850;letter-spacing:.09em;color:var(--mut)}
+.industryStandalone .atlasIndustryPublicHero h1{font-size:clamp(27px,4vw,46px);
+  letter-spacing:-.05em;line-height:1.12;margin:10px 0}
+.industryStandalone .atlasIndustryPublicHero>p{max-width:85ch;color:var(--mut);font-size:15px;line-height:1.65}
+.industryStandalone .atlasIndustryPublicHero .atlasIndustryMetadata{font-size:11px;color:var(--mut)}
+.industryStandalone .atlasIndustryGuide{background:var(--panel);padding:clamp(16px,3vw,30px);
+  border-radius:22px;border:1px solid var(--line)}
+.industryStandalone .atlasIndustryGuide h2{font-size:clamp(20px,2.5vw,26px);letter-spacing:-.03em}
+.industryStandalone .atlasIndustrySectionIndex{margin:17px 0 23px;padding:18px;border:1px solid var(--line);
+  border-radius:16px;background:var(--soft)}
+.industryStandalone .atlasIndustrySectionIndex strong{display:block;margin-bottom:8px}
+.industryStandalone .atlasIndustrySectionIndex ol{columns:2;margin:0;padding-left:20px}
+.industryStandalone .atlasIndustrySectionIndex li{font-size:12px;margin:4px 0 8px;break-inside:avoid}
+.industryStandalone .atlasIndustrySectionIndex a{color:var(--ux-accent-ink);text-underline-offset:3px}
+.industryStandalone .atlasIndustryAnswer{scroll-margin-top:15px}
+.industryStandalone footer{width:min(1080px,calc(100% - 28px));margin:0 auto 30px;color:var(--mut);font-size:11px}
+@media(max-width:640px){.industryStandalone .atlasIndustrySectionIndex ol{columns:1}}

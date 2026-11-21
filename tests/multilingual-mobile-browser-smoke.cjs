@@ -115,7 +115,26 @@ const base = process.env.TARGET || 'http://127.0.0.1:8000/';
       'Swiping right must reveal the persistent LIKE badge: '+JSON.stringify(badgeStatus));
     assert(!errors.some(msg=>/atlasLanguage|i18n|tinderSwipeBadge/i.test(msg)),
       'New language or swipe feature raised a browser error: '+errors.join('; '));
-    console.log('PASS: 25-language picker, Greek/Arabic/English switching, contextual Greek selects, typography, mobile swipe layout and feedback');
+    // Regression: translated tabs must not be pushed underneath the brand
+    // by flex-end alignment when their labels exceed the navigation width.
+    const desktopContext = await browser.newContext({viewport:{width:1512,height:950},serviceWorkers:'block'});
+    await desktopContext.addInitScript(()=>{
+      localStorage.setItem('placement-atlas-language-v1','el');
+      localStorage.setItem('phivos-onboarding-v1','1');
+    });
+    const desktopPage = await desktopContext.newPage();
+    await desktopPage.goto(base,{waitUntil:'domcontentloaded',timeout:60000});
+    await desktopPage.waitForFunction(()=>document.documentElement.lang==='el');
+    const desktopWelcome = desktopPage.locator('.onboardClose');
+    if(await desktopWelcome.count()) await desktopWelcome.first().click().catch(()=>{});
+    const navBox=await desktopPage.locator('header.top nav.tabs').boundingBox();
+    const exploreBox=await desktopPage.locator('header.top nav.tabs [data-tab="explore"]').boundingBox();
+    assert(navBox&&exploreBox&&exploreBox.left>=navBox.left-2,
+      'Greek Explore tab must not overlap the brand: '+JSON.stringify({navBox,exploreBox}));
+    await desktopPage.locator('header.top nav.tabs [data-tab="shortlist"]').click({timeout:15000});
+    await desktopPage.locator('header.top nav.tabs [data-tab="explore"]').click({timeout:15000});
+    await desktopContext.close();
+    console.log('PASS: 25-language picker, Greek/Arabic/English switching, contextual Greek selects, typography, mobile swipe layout, clickable desktop navigation and feedback');
   } finally {
     await browser.close();
   }

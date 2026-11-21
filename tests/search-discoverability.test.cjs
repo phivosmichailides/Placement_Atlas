@@ -5,7 +5,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const read=file=>fs.readFileSync(path.join(__dirname,'..',file),'utf8');
-const index=read('index.html'),about=read('about.html'),sitemap=read('sitemap.xml');
+const index=read('index.html'),about=read('about.html'),guide=read('guide.html'),snapshot=read('programme-snapshot.html'),sitemap=read('sitemap.xml');
 const readme=read('README.md'),llms=read('llms.txt'),robots=read('robots.txt');
 const tag=(html,pattern)=>html.match(pattern)?.[1]||'';
 const jsonLd=html=>[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1]));
@@ -32,6 +32,7 @@ test('homepage explanation is real static HTML, visible without executing JavaSc
   assert.match(content,/not a live vacancy or offer feed/i);
   assert.match(content,/href="\/about\.html"/);
   assert.match(content,/href="\/guide\.html"/);
+  assert.match(content,/href="\/programme-snapshot\.html"/);
   assert.ok(!/display:\s*none|hidden(?:="|>|\s)/i.test(content),'Site explanation should not be hidden');
 });
 test('WebApplication schema has truthful source description, author and free access',()=>{
@@ -60,19 +61,49 @@ test('About is a separately indexable static HTML page with consistent identity'
 });
 test('canonical indexable pages and sitemap are consistent',()=>{
   for(const url of ['https://placementatlas.co.uk/','https://placementatlas.co.uk/about.html',
-    'https://placementatlas.co.uk/guide.html','https://placementatlas.co.uk/privacy.html',
+    'https://placementatlas.co.uk/guide.html','https://placementatlas.co.uk/programme-snapshot.html',
+    'https://placementatlas.co.uk/privacy.html',
     'https://placementatlas.co.uk/terms.html']){
     assert.ok(sitemap.includes('<loc>'+url+'</loc>'),'Missing canonical sitemap URL: '+url);
   }
-  assert.match(sitemap,/<loc>https:\/\/placementatlas\.co\.uk\/<\/loc>\s*<lastmod>2026-11-20<\/lastmod>/);
+  assert.match(sitemap,/<loc>https:\/\/placementatlas\.co\.uk\/<\/loc>\s*<lastmod>2026-11-21<\/lastmod>/);
   assert.match(robots,/User-agent: \*/);
   assert.match(robots,/Allow: \//);
   assert.match(robots,/Sitemap: https:\/\/placementatlas\.co\.uk\/sitemap\.xml/);
 });
 test('optional machine-readable summary links to canonical pages without promises',()=>{
   assert.match(llms,/https:\/\/placementatlas\.co\.uk\/about\.html/);
+  assert.match(llms,/https:\/\/placementatlas\.co\.uk\/programme-snapshot\.html/);
   assert.match(llms,/October 2026 Oriel CSV export/);
   assert.match(llms,/not an official Google AI Mode indexing requirement/);
   assert.match(readme,/Oriel pharmacy foundation programme comparison tool for UK MPharm students/);
   assert.match(readme,/https:\/\/placementatlas\.co\.uk\/about\.html/);
+});
+
+test('programme snapshot contains crawler-readable data, no JS dependency and careful caveats',()=>{
+  assert.equal(canonical(snapshot),'https://placementatlas.co.uk/programme-snapshot.html');
+  assert.ok(desc(snapshot).length>=120&&desc(snapshot).length<=160);
+  assert.match(snapshot,/<table>/);
+  assert.match(snapshot,/<tbody>[\s\S]*<\/tbody>/);
+  assert.match(snapshot,/4,064/);
+  assert.match(snapshot,/3,187/);
+  assert.match(snapshot,/877/);
+  assert.match(snapshot,/55 of the 786 London entries/);
+  assert.match(snapshot,/snapshot, not current vacancies/i);
+  assert.match(snapshot,/not a complete list of the 877 entries/i);
+  assert.equal((snapshot.match(/<tr><th scope="row">/g)||[]).length,12);
+  assert.equal((snapshot.match(/class="listing"/g)||[]).length,12);
+  assert.ok(!snapshot.includes('<script src="/app.js"'),'Static page should not need app bundles');
+  assert.ok(jsonLd(snapshot).some(x=>x['@type']==='WebPage'));
+});
+test('public Guide and About contain actual answers and links to static data',()=>{
+  assert.match(guide,/How do I compare Oriel foundation pharmacist programmes effectively/);
+  assert.match(guide,/Which programmes offer Skilled Worker visa sponsorship/);
+  assert.match(guide,/877 programmes/);
+  assert.match(guide,/snapshot by region|regional breakdown/i);
+  assert.match(about,/877 programmes/);
+  assert.match(about,/55 of 786 London programmes/);
+  assert.match(about,/href="\/programme-snapshot\.html"/);
+  assert.match(index,/<noscript>/);
+  assert.match(index,/href="\/programme-snapshot\.html"/);
 });

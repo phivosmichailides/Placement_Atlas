@@ -41,8 +41,25 @@ const base = process.env.TARGET || 'http://127.0.0.1:8000/';
     await el.click();
     await page.waitForFunction(()=>document.documentElement.lang==='el');
     await page.waitForFunction(()=>document.querySelector('nav.tabs .tab[data-tab="explore"]')?.textContent?.includes('Εξερεύνηση'));
-    assert((await page.locator('nav.tabs .tab[data-tab="tinderMode"]').innerText()).includes('Swipe Mode'),
-      'Protected Swipe Mode name must remain English');
+    assert.match(await page.locator('nav.tabs .tab[data-tab="shortlist"]').innerText(),/Λίστα επιλογών/,
+      'The Greek navigation must use the same terminology as the shortlist page');
+    assert.match(await page.locator('nav.tabs .tab[data-tab="tinderMode"]').innerText(),/Σάρωση/,
+      'Swipe Mode must be localised as an interface control');
+    assert.equal(await page.locator('#region option').first().innerText(),'Οποιαδήποτε',
+      'Region is feminine in Greek: Οποιαδήποτε');
+    assert.equal(await page.locator('#hours option').first().innerText(),'Χωρίς όριο');
+    assert.equal(await page.locator('#salary option').first().innerText(),'Χωρίς όριο');
+    assert.match(await page.locator('.map-heading h2').innerText(),/Τοποθεσίες προγραμμάτων/,
+      'Map heading should be translated and concise');
+    const greekUI=await page.evaluate(()=>{
+      const map=document.querySelector('.map-heading h2');
+      return {font:getComputedStyle(map).fontFamily,
+        overflows:document.documentElement.scrollWidth-innerWidth,
+        textWidth:map.scrollWidth,boxWidth:map.clientWidth};
+    });
+    assert(greekUI.font.includes('system-ui'), 'Greek must use a consistent full-script font: '+JSON.stringify(greekUI));
+    assert(greekUI.overflows<=2&&greekUI.textWidth<=greekUI.boxWidth+2,
+      'Longer translated labels must not cause clipping or horizontal scrolling: '+JSON.stringify(greekUI));
     await page.locator('#atlasLanguageTrigger').click();
     await page.locator('#atlasLanguageMenu button[data-language="ar"]').click();
     assert.equal(await page.locator('html').getAttribute('dir'),'rtl');
@@ -98,7 +115,7 @@ const base = process.env.TARGET || 'http://127.0.0.1:8000/';
       'Swiping right must reveal the persistent LIKE badge: '+JSON.stringify(badgeStatus));
     assert(!errors.some(msg=>/atlasLanguage|i18n|tinderSwipeBadge/i.test(msg)),
       'New language or swipe feature raised a browser error: '+errors.join('; '));
-    console.log('PASS: 25-language picker, Greek/Arabic/English switching, protected terminology, mobile swipe layout and feedback');
+    console.log('PASS: 25-language picker, Greek/Arabic/English switching, contextual Greek selects, typography, mobile swipe layout and feedback');
   } finally {
     await browser.close();
   }

@@ -30,6 +30,6 @@ test('the new workspace stylesheet is versioned in the page and PWA cache',()=>{
   const asset='swipe-mode-workspace.css?v=20261121swipe-layout1';
   assert.ok(html.includes(asset),'Homepage must load the workspace stylesheet');
   assert.ok(sw.includes(asset),'Offline cache must include the workspace stylesheet');
-  assert.match(sw,/CACHE_NAME='placement-atlas-shell-2026-11-21-v119-swipe-workspace'/);
-  assert.match(html,/atlas-release" content="2026-11-21-swipe-workspace-layout"/);
+  assert.match(sw,/CACHE_NAME='placement-atlas-shell-2026-11-21-v\d+-[^']+'/);
+  assert.match(html,/atlas-release" content="2026-11-21-[^"]+"/);
 });

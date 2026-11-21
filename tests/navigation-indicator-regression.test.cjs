@@ -26,7 +26,7 @@ test('new versions of both assets are loaded and prefetched by the PWA',()=>{
     assert.ok(html.includes(src),'Homepage missing: '+src);
     assert.ok(sw.includes(src),'Offline shell missing: '+src);
   }
-  const swipeCss='swipe-mode-workspace.css?v=20261121swipe-layout1';
+  const swipeCss='swipe-mode-workspace.css?v=20261121swipe-layout2';
   assert.ok(html.includes(swipeCss),'Homepage missing Swipe Mode workspace stylesheet');
   assert.ok(sw.includes(swipeCss),'Offline shell missing Swipe Mode workspace stylesheet');
   assert.match(sw,/CACHE_NAME='placement-atlas-shell-2026-11-21-v\d+-[^']+'/);

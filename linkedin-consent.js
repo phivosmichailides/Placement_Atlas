@@ -97,16 +97,16 @@
     notice.setAttribute('aria-labelledby', 'atlasCookieHeading');
     notice.innerHTML = [
       '<div class="atlasCookieTop">',
-      '<div><span class="atlasCookieEyebrow">Privacy choices</span>',
-      '<h2 id="atlasCookieHeading">LinkedIn advertising cookies</h2></div>',
+      '<div><span class="atlasCookieEyebrow">Your privacy</span>',
+      '<h2 id="atlasCookieHeading">Optional LinkedIn tracking</h2></div>',
       previous ? '<button class="atlasCookieClose" type="button" aria-label="Close cookie settings">&#215;</button>' : '',
       '</div>',
-      '<p>With your permission, LinkedIn can measure visits from our ads and help us understand campaign performance. This optional tracking may use cookies. You can use Placement Atlas normally without it.</p>',
+      '<p>LinkedIn can measure visits from our ads if you allow optional tracking cookies. Placement Atlas works normally if you reject.</p>',
       '<div class="atlasCookieActions">',
-      '<button type="button" class="atlasCookieReject">Reject optional tracking</button>',
-      '<button type="button" class="atlasCookieAllow">Allow LinkedIn tracking</button>',
+      '<button type="button" class="atlasCookieReject">Reject tracking</button>',
+      '<button type="button" class="atlasCookieAllow">Allow tracking</button>',
       '</div>',
-      '<div class="atlasCookieFooter"><a href="/privacy.html">Read our privacy policy</a>',
+      '<div class="atlasCookieFooter"><a href="/privacy.html">Privacy policy</a>',
       previous ? '<span>Current choice: ' + (previous === 'allow' ? 'Allowed' : 'Rejected') + '</span>' : '',
       '</div>'
     ].join('');

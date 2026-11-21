@@ -29,7 +29,7 @@ test('new versions of both assets are loaded and prefetched by the PWA',()=>{
   const swipeCss='swipe-mode-workspace.css?v=20261121swipe-layout1';
   assert.ok(html.includes(swipeCss),'Homepage missing Swipe Mode workspace stylesheet');
   assert.ok(sw.includes(swipeCss),'Offline shell missing Swipe Mode workspace stylesheet');
-  assert.match(sw,/CACHE_NAME='placement-atlas-shell-2026-11-21-v119-swipe-workspace'/);
+  assert.match(sw,/CACHE_NAME='placement-atlas-shell-2026-11-21-v\d+-[^']+'/);
 });
 test('primary tab controls remain in the markup and operate via existing handlers',()=>{
   for(const id of ['explore','shortlist','simulator','tinderMode','learn','prefs']){

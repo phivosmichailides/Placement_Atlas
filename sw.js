@@ -1,5 +1,5 @@
 'use strict';
-const CACHE_NAME='placement-atlas-shell-2026-11-21-v122-localisation';
+const CACHE_NAME='placement-atlas-shell-2026-11-21-v124-multilingual-quiz';
 const ROOT=new URL('./',self.registration.scope).href;
 const EXTRA_ASSETS=[
   'swipe-mode-workspace.css?v=20261121swipe-layout1',
@@ -17,13 +17,15 @@ const EXTRA_ASSETS=[
   'placement-profile.js?v=20261113turnstile1','placement-titles.js?v=20261120cardfix1',
   'placement-atlas-globe.svg','favicon.svg','placement-atlas-compass-pin.webp?v=20261111logo2','manifest.webmanifest',
   'pwa.js?v=20261114vector1',
-  'atlas-turnstile.js?v=20261113turnstile1','cloud-password-auth.js?v=20261113turnstile1','supabase-cloud.js?v=20261120accountaudit1','google-identity.js?v=20261113turnstile1','supabase-config.js?v=20261112gsi2','app.js?v=20261120ranking-menu1','app-base.js?v=20261120auditperf2','app-product.js?v=20261120ranking-menu1','generic-public.js?v=20261120accountaudit1',
-  'sector-map.js?v=20261119viewport1','onboarding.js?v=20261120accountaudit1','deadline-dates.js?v=20261120compacthero1',
+  'atlas-turnstile.js?v=20261113turnstile1','cloud-password-auth.js?v=20261113turnstile1','supabase-cloud.js?v=20261120accountaudit1','google-identity.js?v=20261113turnstile1','supabase-config.js?v=20261112gsi2','app.js?v=20261121quiz2','app-base.js?v=20261120auditperf2','app-product.js?v=20261120ranking-menu1','generic-public.js?v=20261120accountaudit1',
+  'sector-map.js?v=20261119viewport1','onboarding.js?v=20261121quiz2','deadline-dates.js?v=20261120compacthero1',
   'map-basemap.js?v=20261119roads1','workspace-ux.js?v=20261120compacthero2','rail-stations.js?v=20261109national1',
   'location-blacklist.js?v=20261111copy4','specialist-settings.js','area-rules.js',
   'locations-bundled.js?v=20261106a','tube-stations.js?v=20261108tfl2',
-  'desk-enhancements.js?v=20261111quiet5','tinder-mode.js?v=20261121mobile2','tinder-mode.css?v=20261110deckfix1',
-  'swipe-mobile-viewport.css?v=20261121mobile2','atlas-i18n.js?v=20261121el7','atlas-i18n.css?v=20261121el7',
+  'desk-enhancements.js?v=20261111quiet5','tinder-mode.js?v=20261121mobile3','tinder-mode.css?v=20261110deckfix1',
+  'swipe-mobile-viewport.css?v=20261121mobile2',
+  'swipe-mobile-workspace.css?v=20261121mobile3','swipe-mobile-navigation.js?v=20261121mobile3',
+  'atlas-i18n-parity.js?v=20261121parity1','atlas-i18n-quiz.js?v=20261121quiz1','atlas-i18n.js?v=20261121parity1','atlas-i18n.css?v=20261121el7',
   'commute-guide.js?v=20261106a','commute-profile.js?v=20261106pcfix',
   'programme-preview.js?v=20261111preview2','location-guides.js?v=20261109national1',
   'pay-estimate.js?v=20261105c','research-core.js?v=1','research.js?v=20261015-no-ratings',

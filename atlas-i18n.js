@@ -947,12 +947,58 @@
     "Training site": "Τοποθεσία εκπαίδευσης"
   });
 
+  // Extend every language using the same reviewed UI keys; the existing packs remain intact.
+  const parityPacks = window.PlacementAtlasLocalePacks || {};
+  for (const [language, translations] of Object.entries(parityPacks)) {
+    if (DICTIONARIES[language]) Object.assign(DICTIONARIES[language], translations);
+  }
+  // Official identifiers must remain consistent in every language.
+  const OFFICIAL_TERMS = new Set(['Placement Atlas','Oriel','NHS','MPharm','Swipe Mode','GP','Hospital','General Practice','Skilled Worker visa','England','Wales','London','Wessex','East Midlands','East of England','Kent, Surrey and Sussex','North East','North West','South West','Thames Valley','West Midlands','Yorkshire and the Humber']);
+  const getSavedLanguage = () => {
+    let saved='en';
+    try{saved=localStorage.getItem('placement-atlas-language-v1')||'en';}catch{}
+    try{
+      const requested=new URL(location.href).searchParams.get('lang');
+      if(requested && LANGUAGES.some(([code])=>code===requested))return requested;
+    }catch{}
+    return saved;
+  };
+  const syncURLLanguage = code => {
+    try{
+      const url=new URL(location.href);
+      if(code==='en')url.searchParams.delete('lang'); else url.searchParams.set('lang',code);
+      if(url.href!==location.href)history.replaceState(history.state,'',url.pathname+url.search+url.hash);
+    }catch{}
+  };
+  const parityWords = () => DICTIONARIES[activeLanguage] || {};
+  const dynamicLocale = (key) => {
+    if(activeLanguage==='en') return null;
+    const dict=parityWords();
+    let m;
+    // Preserve the exact count and location name while localising the descriptor.
+    if((m=key.match(/^(\d[\d,]*)\s+programmes?$/i)) && dict['programmes'])
+      return m[1]+' '+dict['programmes'];
+    if((m=key.match(/^(.+?)\s+programmes$/i)) && dict['programmes']) {
+      // Only locations from the selected, official region names are eligible.
+      const areas=new Set(['London','Wales','Wessex','East Midlands','East of England','Kent, Surrey and Sussex','North East','North West','South West','Thames Valley','West Midlands','Yorkshire and the Humber']);
+      if(areas.has(m[1]))return m[1]+' · '+dict['programmes'];
+    }
+    if((m=key.match(/^(\d[\d,]*)\s+total programmes\s*·\s*(\d[\d,]*)\s+shown$/i))
+       && dict['total programmes'] && dict['shown'])
+      return m[1]+' '+dict['total programmes']+' · '+m[2]+' '+dict['shown'];
+    if((m=key.match(/^([←↩○✓☷]+\s*)(.+)$/)) && dict[m[2]])return m[1]+dict[m[2]];
+    if((m=key.match(/^(.+?)\s*([→↓↑]+)$/)) && dict[m[1]])return dict[m[1]]+' '+m[2];
+    if(key==='Done' && dict['Finish'])return dict['Finish'];
+    if((m=key.match(/^(\d[\d,]*)\s+Shortlisted$/i)) && dict['Shortlisted'])return m[1]+' '+dict['Shortlisted'];
+    return null;
+  };
+
   const PROTECTED_SELECTOR = [
     '#placementMap', '.leaflet-container', '.leaflet-popup',
     '.tdProgrammeName', '.tdEmployer',
     '.tdLocationText', '.tdDetailsFacts dd', '.tdDrawerProgrammeTitle',
     '.atlasWorkspaceTitleOriginal', '.atlasWorkspaceTitleConcise',
-    '.atlasTitleOriginal', '.atlasTitleConcise', '.placementTop h3',
+    '.atlasTitleOriginal', '.atlasTitleConcise', '.placementTop h3', '.placementTop .employer', '.placementTop .eyebrow',
     '.tdProgrammeTitle', '.programme-title', '.programme-name', '.recoCard h3',
     '.atlasCardOriginalDescription', '.atlasOriginalDescription',
     '[data-atlas-no-translate]', '[translate="no"]',
@@ -993,9 +1039,10 @@
       originalText.set(node, source);
     }
     const key = source.trim();
+    if(OFFICIAL_TERMS.has(key))return;
     if (!key) return;
     const dict = dictionary();
-    let value = dict[key] || dict[key.replace(/\s+/g, ' ')];
+    let value = dict[key] || dict[key.replace(/\s+/g, ' ')] || dynamicLocale(key);
     // The English "Any" must agree with the field in Greek; translating
     // all four selects to the same masculine form is grammatically wrong.
     if (activeLanguage === 'el' && key === 'Any' && parent.tagName === 'OPTION') {
@@ -1080,7 +1127,7 @@
       const current = element.getAttribute(name);
       if (saved[name] === undefined || (rendered[name] !== undefined && current !== rendered[name])) saved[name] = current;
       const source = saved[name];
-      const translated = activeLanguage === 'en' ? source : (dictionary()[source] || source);
+      const translated = activeLanguage === 'en' || OFFICIAL_TERMS.has(source) ? source : (dictionary()[source] || dynamicLocale(source) || source);
       if (current !== translated) element.setAttribute(name, translated);
       rendered[name] = translated;
     }
@@ -1234,6 +1281,7 @@
     const selectLanguage=code=>{
       if(!buttons.has(code))return;
       try{localStorage.setItem('placement-atlas-language-v1',code);}catch{}
+      syncURLLanguage(code);
       applyLanguage(code);
       updateSelected();
       closePopup(true);
@@ -1279,7 +1327,7 @@
   function init() {
     mountSelector();
     let saved='en';
-    try{saved=localStorage.getItem('placement-atlas-language-v1')||'en';}catch{}
+    saved=getSavedLanguage();
     applyLanguage(saved);
     if(observer)observer.disconnect();
     let pending=[];
@@ -1304,6 +1352,14 @@
     });
     observer.observe(document.body,{childList:true,subtree:true,characterData:true});
     document.addEventListener('desk:after-navigation',()=>walk(document.body));
+    document.addEventListener('placementatlas:refresh-translation',e=>walk(e.detail?.root||document.body));
+    window.PlacementAtlasTranslateUI=root=>walk(root||document.body);
+    window.addEventListener('popstate',()=>{
+      const code=new URL(location.href).searchParams.get('lang');
+      const selected=(code&&LANGUAGES.some(([value])=>value===code))?code:getSavedLanguage();
+      if(selected!==activeLanguage)applyLanguage(selected);
+    });
+
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });

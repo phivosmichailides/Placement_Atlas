@@ -658,6 +658,14 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 
   // The quiz should also fit on a narrow phone viewport.
   await page.setViewportSize({width:390,height:844});
+  // Responsive styles and the automatic viewport/zoom compensation settle
+  // asynchronously after Chromium changes device width. Test the settled
+  // layout, not the transient desktop-width frame during the resize.
+  await page.waitForFunction(()=>{
+    const shell=document.querySelector('.shell');
+    return shell && shell.getBoundingClientRect().right<=innerWidth+2
+      && document.documentElement.scrollWidth<=innerWidth+1;
+  },null,{timeout:6000});
   const horizontal=await page.evaluate(()=>{
     const vw=window.innerWidth;
     const offenders=[...document.body.querySelectorAll('*')].map(node=>{

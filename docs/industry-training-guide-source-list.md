@@ -20,6 +20,8 @@ Editorial review date: 21 November 2026. The Reddit question was a topic prompt,
 - **pharmSupport — Pharmacist Support — industrial placements and work experience:** https://pharmacistsupport.org/i-need-help-managing-my/student-experience/placements-and-working-whilst-studying/
 - **uhb — University Hospitals Birmingham — example foundation programme:** https://www.uhb.nhs.uk/uhb-jobs/career-development/pharmacy-training/
 - **research — Study — cross-sector trainee and supervisor experiences:** https://pmc.ncbi.nlm.nih.gov/articles/PMC10078633/
+- **pj-2017 — The Pharmaceutical Journal — what trainees can expect from industry pre-registration (historical first-person account):** https://pharmaceutical-journal.com/article/feature/what-pharmacy-trainees-can-expect-from-a-preregistration-year-in-the-pharmaceutical-industry
+- **pj-2018 — The Pharmaceutical Journal — day in an industry pre-registration placement (historical first-person account):** https://pharmaceutical-journal.com/article/news/a-day-in-the-life-of-an-industry-preregistration-pharmacist
 - **journal — Pharmaceutical Journal — historical trainee day-in-the-life:** https://pharmaceutical-journal.com/article/news/a-day-in-the-life-of-an-industry-preregistration-pharmacist
 - **GPhC — GPhC — official pharmacy regulator:** https://www.pharmacyregulation.org/
 

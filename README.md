@@ -8,6 +8,8 @@
     &nbsp;·&nbsp;
     <a href='https://placementatlas.co.uk/about.html'>About the project</a>
     &nbsp;·&nbsp;
+    <a href='https://github.com/phivosmichailides/Placement_Atlas/blob/main/docs/BUILD_STORY.md'>How I built it · product case study</a>
+    &nbsp;·&nbsp;
     <a href='https://placementatlas.co.uk/guide.html'>Explore the comparison guide</a>
     &nbsp;·&nbsp;
     <a href='https://placementatlas.co.uk/programme-snapshot.html'>View the 2026 programme data</a>

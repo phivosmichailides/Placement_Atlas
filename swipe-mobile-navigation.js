@@ -3,7 +3,7 @@
 'use strict';
 const isMobile=()=>matchMedia('(max-width:690px) and (pointer:coarse)').matches;
 const isSwipe=()=>document.body.dataset.atlasView==='tinderMode';
-let hideTimer=0,lastY=scrollY,lastTouchY=null;
+let hideTimer=0,lastY=scrollY,lastTouchY=null,lastTouchX=null;
 const reveal=()=>{
   document.body.classList.remove('tdMobileHeaderHidden');
   scheduleHide();
@@ -16,7 +16,7 @@ const hide=()=>{
 };
 const scheduleHide=()=>{
   clearTimeout(hideTimer);
-  if(isMobile()&&isSwipe())hideTimer=setTimeout(hide,2100);
+  if(isMobile()&&isSwipe())hideTimer=setTimeout(hide,1250);
 };
 const sync=()=>{
   clearTimeout(hideTimer);
@@ -38,19 +38,19 @@ const scroll=()=>{
 const touchStart=event=>{
   if(!isMobile()||!isSwipe()||!event.touches?.length)return;
   lastTouchY=event.touches[0].clientY;
+  lastTouchX=event.touches[0].clientX;
 };
 const touchMove=event=>{
   if(!isMobile()||!isSwipe()||lastTouchY==null||!event.touches?.length)return;
   const y=event.touches[0].clientY;
   const delta=y-lastTouchY;
   // Ignore short horizontal card gestures; vertical movement can reveal menu.
-  if(Math.abs(delta)>45){
-    const x=event.touches[0].clientX;
-    const start=event.target?.getBoundingClientRect?.();
-    if(!start||Math.abs(x-(start.left+start.width/2))<9999){
-      if(delta>0)reveal(); else hide();
-    }
+  const dx=event.touches[0].clientX-lastTouchX;
+  if(Math.abs(delta)>38 && Math.abs(delta)>Math.abs(dx)*1.4){
+    if(delta>0)reveal();
+    else hide();
     lastTouchY=y;
+    lastTouchX=event.touches[0].clientX;
   }
 };
 const init=()=>{

@@ -161,8 +161,7 @@
         if(step===-1){
           card.innerHTML=`<button class="onboardClose" aria-label="Close">×</button><div class="onboardStepLabel">PERSONALISE YOUR SEARCH</div><h2>What matters to you?</h2><p class="onboardLead">A few quick answers help prioritise programmes, locations and training settings that suit you.</p><div class="onboardReassure"><span><b>You stay in control.</b> Change your answers anytime in Preferences.</span></div><div class="onboardActions"><button class="btn primary" id="obStart">Set my preferences</button><span class="spacer"></span><button class="textbtn" id="obLater">Not now</button></div><div class="onboardFine">About 30 seconds. You can retake this setup later.</div>`;
           window.PlacementAtlasTranslateUI?.(card);
-          window.PlacementAtlasTranslateUI?.(card);
-        card.querySelector('.onboardClose').onclick=close;card.querySelector('#obLater').onclick=close;card.querySelector('#obStart').onclick=()=>{step=0;render()};return;
+          card.querySelector('.onboardClose').onclick=close;card.querySelector('#obLater').onclick=close;card.querySelector('#obStart').onclick=()=>{step=0;render()};return;
         }
 
         let body='';
@@ -199,6 +198,7 @@
 
         const final=step===5;
         card.innerHTML=`<button class="onboardClose" aria-label="Close">×</button><div class="onboardProgress"><span style="width:${progress()}%"></span></div>${body}<div class="onboardActions">${step>0?'<button class="btn" id="obBack">← Back</button>':''}${step===0?'<button class="btn" id="obBackIntro">← Back</button>':''}<span class="spacer"></span>${step===2||step===3?'<button class="btn primary" id="obNext">Continue →</button>':''}${final?'<button class="btn primary" id="obFinish">Done</button>':''}</div><div class="onboardFine">You can change all of this later under Preferences.</div>`;
+        window.PlacementAtlasTranslateUI?.(card);
         card.querySelector('.onboardClose').onclick=close;
 
         if(step===0){

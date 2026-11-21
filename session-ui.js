@@ -42,6 +42,10 @@
    root.style.setProperty('--ux-page-zoom',String(zoom/100));
    const inverse=100/zoom;
    root.style.setProperty('--ux-shell-width',(inverse*100)+'%');
+   // CSS zoom changes the percentage containing block in Chromium. Use exact
+   // viewport pixels for Swipe Mode's full-width shell, with small gutters.
+   root.style.setProperty('--ux-viewport-compensated-width',
+     (Math.max(320,window.innerWidth-32)*inverse)+'px');
    root.style.setProperty('--ux-shell-max-width',(1540*inverse)+'px');
    if($('uxPageZoomValue'))$('uxPageZoomValue').textContent=zoom+'%';
    if($('uxPageZoomIn'))$('uxPageZoomIn').disabled=zoom>=130;
@@ -61,9 +65,14 @@
  applyZoom(zoom);
  // Only automatic zoom follows a window resize; explicit user choices win.
  window.addEventListener('resize',()=>{
-   if(userChoseZoom)return;
-   const next=recommendedZoom();
-   if(next!==zoom)applyZoom(next);
+   // Always adjust the shell to the actual viewport width. Only the suggested
+   // zoom level adapts automatically; visitors retain their chosen zoom.
+   root.style.setProperty('--ux-viewport-compensated-width',
+     (Math.max(320,window.innerWidth-32)*100/zoom)+'px');
+   if(!userChoseZoom){
+     const next=recommendedZoom();
+     if(next!==zoom)applyZoom(next);
+   }
  },{passive:true});
  const setCollapsed=(value,save=true)=>{
    collapsed=!!value;explorePanel?.classList.toggle('uxFiltersCollapsed',collapsed);

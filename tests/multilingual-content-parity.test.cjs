@@ -50,3 +50,11 @@ test('translation packs are loaded before interface translator',()=>{
   const i18nIndex=html.indexOf('atlas-i18n.js?v=20261121englishfast1');
   assert.ok(parityIndex>0&&quizIndex>parityIndex&&asiaIndex>quizIndex&&i18nIndex>asiaIndex);
 });
+
+test('English startup skips an unnecessary page-wide translation pass without disabling language restoration',()=>{
+  assert.match(i18n,/hasAppliedLanguage\s*=\s*false/);
+  assert.match(i18n,/activeLanguage\s*!==\s*'en'\s*\|\|\s*\(hasAppliedLanguage\s*&&\s*previousLanguage\s*!==\s*'en'\)/);
+  assert.match(i18n,/if\(activeLanguage==='en'\)return;/);
+  assert.match(i18n,/const translateIfNeeded=root=>\{if\(activeLanguage!=='en'\)walk/);
+  assert.match(i18n,/document\.dispatchEvent\(new CustomEvent\('placementatlas:languagechange'/);
+});

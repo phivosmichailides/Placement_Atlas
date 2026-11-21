@@ -1,5 +1,5 @@
 'use strict';
-const CACHE_NAME='placement-atlas-shell-2026-11-21-v120-localisation';
+const CACHE_NAME='placement-atlas-shell-2026-11-21-v121-localisation';
 const ROOT=new URL('./',self.registration.scope).href;
 const EXTRA_ASSETS=[
   'swipe-mode-workspace.css?v=20261121swipe-layout1',
@@ -23,7 +23,7 @@ const EXTRA_ASSETS=[
   'location-blacklist.js?v=20261111copy4','specialist-settings.js','area-rules.js',
   'locations-bundled.js?v=20261106a','tube-stations.js?v=20261108tfl2',
   'desk-enhancements.js?v=20261111quiet5','tinder-mode.js?v=20261121mobile2','tinder-mode.css?v=20261110deckfix1',
-  'swipe-mobile-viewport.css?v=20261121mobile2','atlas-i18n.js?v=20261121el5','atlas-i18n.css?v=20261121el5',
+  'swipe-mobile-viewport.css?v=20261121mobile2','atlas-i18n.js?v=20261121el6','atlas-i18n.css?v=20261121el6',
   'commute-guide.js?v=20261106a','commute-profile.js?v=20261106pcfix',
   'programme-preview.js?v=20261111preview2','location-guides.js?v=20261109national1',
   'pay-estimate.js?v=20261105c','research-core.js?v=1','research.js?v=20261015-no-ratings',

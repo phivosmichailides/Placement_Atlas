@@ -8,6 +8,7 @@ on:
       - 'index.html'
       - 'about.html'
       - 'guide.html'
+      - 'programme-snapshot.html'
       - 'privacy.html'
       - 'terms.html'
       - 'sitemap.xml'

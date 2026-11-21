@@ -73,6 +73,10 @@ jobs:
         run: node tests/shortlist-badge-smoke.cjs
       - name: Serve current checkout for browser tests
         run: python3 -m http.server 8000 --bind 127.0.0.1 > /tmp/placement-atlas-http.log 2>&1 &
+      - name: Validate language picker and compact mobile Swipe Mode in Chromium
+        run: node tests/multilingual-mobile-browser-smoke.cjs
+        env:
+          TARGET: http://127.0.0.1:8000/
       - name: Validate checkout UI in desktop and mobile Chromium
         run: node tests/placement-atlas-ui-smoke.cjs
         env:

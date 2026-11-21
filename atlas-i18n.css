@@ -1,0 +1,75 @@
+/* Placement Atlas multilingual selector and RTL safeguards */
+.atlasLanguagePicker{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  flex:0 0 auto;
+  margin-inline-start:auto;
+  padding:5px 8px;
+  border:1px solid var(--line,#e7e5df);
+  border-radius:12px;
+  background:var(--panel,#fff);
+  color:var(--mut,#6f706d);
+  white-space:nowrap;
+  direction:ltr;
+}
+.atlasLanguagePicker span{
+  font-size:11px;
+  line-height:1;
+  font-weight:800;
+  letter-spacing:.02em;
+}
+.atlasLanguagePicker select{
+  min-width:142px;
+  max-width:190px;
+  min-height:34px;
+  padding:6px 25px 6px 9px;
+  border:1px solid var(--line,#e7e5df);
+  border-radius:9px;
+  background:var(--panel,#fff);
+  color:var(--ink,#171717);
+  font:inherit;
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+}
+.atlasLanguagePicker select:focus-visible{
+  outline:2px solid var(--green,#146b49);
+  outline-offset:2px;
+}
+@media(max-width:900px){
+  .atlasLanguagePicker{margin-inline-start:0}
+}
+@media(max-width:650px){
+  .atlasLanguagePicker{order:2;max-width:100%;padding:4px 7px}
+  .atlasLanguagePicker select{min-width:132px;max-width:165px}
+}
+
+/* RTL applies to interface reading order, while maps and source programme data
+   remain LTR so coordinates, codes, numbers and employer names are not reversed. */
+html[dir="rtl"] body{direction:rtl}
+html[dir="rtl"] .atlasLanguagePicker,
+html[dir="rtl"] #placementMap,
+html[dir="rtl"] .leaflet-container,
+html[dir="rtl"] .leaflet-popup,
+html[dir="rtl"] .map-card,
+html[dir="rtl"] .map-heading-tools,
+html[dir="rtl"] #results,
+html[dir="rtl"] #reco,
+html[dir="rtl"] #shortlistList,
+html[dir="rtl"] .placement,
+html[dir="rtl"] .rank-row,
+html[dir="rtl"] .recoGrid,
+html[dir="rtl"] .atlasWorkspaceTitleOriginal,
+html[dir="rtl"] .atlasWorkspaceTitleConcise{
+  direction:ltr;
+  unicode-bidi:isolate;
+}
+html[dir="rtl"] .atlasLanguagePicker select{direction:ltr;text-align:left}
+html[dir="rtl"] input[type="number"],
+html[dir="rtl"] input[inputmode="numeric"],
+html[dir="rtl"] .salary,
+html[dir="rtl"] .hourly{
+  direction:ltr;
+  unicode-bidi:isolate;
+}

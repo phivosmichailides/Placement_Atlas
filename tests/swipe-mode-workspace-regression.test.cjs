@@ -29,12 +29,12 @@ test('swipe card and shortcuts are contained and comfortable rather than oversiz
 });
 
 test('desktop swipe card is naturally sized with compact, readable vertical spacing',()=>{
-  assert.match(css,/\\.tdCardTop\\s*\\{\\s*margin-bottom:7px!important/);
-  assert.match(css,/\\.tdMetrics > div\\s*\\{\\s*padding:8px 10px!important/);
-  assert.match(css,/\\.tdVerdict ul\\s*\\{\\s*gap:5px!important/);
-  assert.match(css,/\\.tdShowDetails\\s*\\{\\s*margin:3px 0 4px!important/);
-  assert.match(css,/\\.tdSwipeCard\\s*\\{\\s*padding:clamp\\(15px,1\\.05vw,19px\\)!important/);
-  assert.doesNotMatch(css,/\\.tdSwipeCard\\s*\\{[^}]*height:\\d+px/s);
+  assert.match(css,/\.tdCardTop\s*\{\s*margin-bottom:7px!important/);
+  assert.match(css,/\.tdMetrics > div\s*\{\s*padding:8px 10px!important/);
+  assert.match(css,/\.tdVerdict ul\s*\{\s*gap:5px!important/);
+  assert.match(css,/\.tdShowDetails\s*\{\s*margin:3px 0 4px!important/);
+  assert.match(css,/\.tdSwipeCard\s*\{\s*padding:clamp\(15px,1\.05vw,19px\)!important/);
+  assert.doesNotMatch(css,/\.tdSwipeCard\s*\{[^}]*height:\d+px/s);
 });
 
 test('the workspace stylesheet is versioned in the page and PWA cache',()=>{

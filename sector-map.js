@@ -30,8 +30,11 @@
       const count=Array.isArray(window.OrielFilteredProgrammes)?window.OrielFilteredProgrammes.length:placements.filter(matches).length;
       const heading=document.querySelector('.map-heading h2');
       const eyebrow=document.querySelector('.map-heading .eyebrow');
-      if(heading)heading.textContent=count===placements.length?'Explore all programme locations across England & Wales':`Explore ${count.toLocaleString()} matching programme locations`;
-      if(eyebrow)eyebrow.textContent=`${placements.length.toLocaleString()} TOTAL · ${count.toLocaleString()} MATCHING`;
+      if(heading)heading.textContent='Programme map';
+      if(eyebrow){
+        eyebrow.hidden=count===placements.length;
+        eyebrow.textContent=count===placements.length?'':`${count.toLocaleString()} matches`;
+      }
     };
     updateMapScopeHeading();
     const fitScopePins=()=>{

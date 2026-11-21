@@ -16,6 +16,8 @@ test('Learning Hub retains its existing sections and adds an industry guide',()=
     assert.ok(app.includes('id="'+id+'"'),'Missing Learning Hub section '+id);
   }
   assert.match(app,/data-industry-open/);
+  assert.match(app,/pendingLearn/,'Early Learning Hub navigation must be queued');
+  assert.match(app,/checks\+\+<375/);
   assert.match(app,/data-industry-expand="all"/);
   assert.match(app,/data-industry-expand="none"/);
   assert.match(app,/data-atlas-learn-view="guide"/);
@@ -60,7 +62,7 @@ test('Public article is indexable, stand-alone and uses accessible native detail
   assert.match(map,/industry-foundation-training.html/);
 });
 test('New guide scripts, styles and public article are synchronised with PWA',()=>{
-  for(const asset of ['learning-library.js?v=20261121industry1','learning-industry-guide.css?v=20261121industry1']){
+  for(const asset of ['learning-library.js?v=20261121industry2','learning-industry-guide.css?v=20261121industry1']){
     assert.ok(index.includes(asset),'Index missing '+asset);
     assert.ok(sw.includes(asset),'Offline cache missing '+asset);
   }

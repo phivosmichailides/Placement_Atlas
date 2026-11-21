@@ -17,7 +17,9 @@ const base=process.env.TARGET||'http://127.0.0.1:8000/';
     const tab=page.locator('nav.tabs [data-tab="learn"]');
     await tab.waitFor({state:'visible',timeout:30000});
     await tab.click();
-    await page.locator('#learn.active').waitFor({state:'visible',timeout:15000});
+    // On a live connection the app's cloud/data bootstrap may finish after
+    // Learning Hub has already appeared in the navigation. Early taps are queued.
+    await page.locator('#learn.active').waitFor({state:'visible',timeout:85000});
     assert(await page.locator('#atlasLearnHome .atlasIndustryHubTeaser').isVisible(),
       'The Learning Hub home should prominently feature the new guide');
     for(const id of ['atlasLearnSettings','atlasLearnStructure','atlasLearnRegions','atlasLearnPay','atlasLearnResearch']){

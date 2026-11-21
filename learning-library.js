@@ -219,6 +219,28 @@
   const prefs=document.getElementById('prefs');
   if(prefs)prefs.insertAdjacentElement('afterend',panel);
   else document.querySelector('.shell')?.append(panel);
+  // The main application is loaded asynchronously after cloud bootstrap.
+  // An early click must still open Learning Hub once the app is interactive.
+  let pendingLearn=false;
+  nav.addEventListener('click',event=>{
+    const selected=event.target.closest?.('.tab[data-tab]');
+    if(selected&&selected!==tab)pendingLearn=false;
+  },true);
+  tab.addEventListener('click',()=>{
+    if(typeof switchTab==='function')return; // The main app's normal handler opens it.
+    if(pendingLearn)return;
+    pendingLearn=true;
+    let checks=0;
+    const resume=()=>{
+      if(!pendingLearn)return;
+      if(typeof switchTab==='function'){
+        pendingLearn=false;switchTab('learn');return;
+      }
+      if(checks++<375)window.setTimeout(resume,160);
+      else pendingLearn=false;
+    };
+    resume();
+  });
   tab.onclick=()=>{if(typeof switchTab==='function')switchTab('learn')};
   panel.querySelectorAll('[data-learn-jump]').forEach(button=>button.addEventListener('click',()=>{
     panel.querySelector('#atlasLearn'+(button.dataset.learnJump==='settings'?'Settings':'Research'))?.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});

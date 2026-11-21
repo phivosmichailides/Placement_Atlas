@@ -575,7 +575,11 @@
       list.append(option);
       buttons.set(code,option);
     }
-    header.append(picker);
+    // Reuse the existing profile/theme toolbar; never overlap it with an
+    // absolutely positioned language control on narrow phone widths.
+    const utility=header.querySelector('.atlasHeaderUtilities');
+    if(utility)utility.append(picker);
+    else header.append(picker);
     document.body.append(popup);
     let opened=false;
     const updateSelected=()=>{

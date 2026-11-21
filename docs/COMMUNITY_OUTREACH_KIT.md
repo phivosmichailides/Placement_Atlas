@@ -2,7 +2,8 @@
 
 **Official site:** https://placementatlas.co.uk/  
 **What it is:** An independent, free web-based comparison and shortlisting tool for applicants exploring Oriel foundation pharmacist training programmes across England and Wales.  
-**Created and maintained by:** Phivos Michailides, a UCL MPharm student. This is an independent student-built project, **not** a university, NHS England, GPhC or Oriel service.
+**Created and maintained by:** Phivos Michailides, a UCL MPharm student.  
+**Public contact — enquiries, feedback, reviews, media and collaboration:** [placementatlas@hotmail.com](mailto:placementatlas@hotmail.com). This is an independent student-built project, **not** a university, NHS England, GPhC or Oriel service.
 
 ## Shareable links
 

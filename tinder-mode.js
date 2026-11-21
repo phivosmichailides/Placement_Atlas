@@ -13,7 +13,7 @@
   };
   const getData=()=>typeof placements!=='undefined'&&Array.isArray(placements)?placements:[];
   const defaultFilters=()=>({setting:'all',minSalary:'',maxHours:'',splitOnly:false,hideDecided:false});
-  let game={version:1,seen:[],history:[],region:'all',filters:defaultFilters()};
+  let game={version:1,seen:[],history:[],future:[],region:'all',filters:defaultFilters()};
   const hydrateGame=()=>{
     // Run again after the cloud workspace has restored, not just on script
     // evaluation, otherwise old local progress could overwrite cloud data.
@@ -22,6 +22,7 @@
       if(v?.version===1){
         game.seen=Array.isArray(v.seen)?v.seen.filter(x=>typeof x==='string').slice(-5000):[];
         game.history=Array.isArray(v.history)?v.history.filter(x=>x&&typeof x.id==='string').slice(-150):[];
+        game.future=Array.isArray(v.future)?v.future.filter(x=>x&&typeof x.id==='string').slice(-150):[];
         game.region=typeof v.region==='string'?v.region:'all';
         const saved=v.filters&&typeof v.filters==='object'&&!Array.isArray(v.filters)?v.filters:{};
         game.filters={...defaultFilters(),
@@ -394,6 +395,7 @@
     const finish=()=>{
       const prev=prefs()?.marks?.[p.id] ? structuredClone(prefs().marks[p.id]):null;
       game.history.push({id:p.id,prev,at:Date.now(),action:status});
+      game.future=[]; // Any new choice invalidates redo history.
       if(game.history.length>150)game.history.shift();
       if(!game.seen.includes(p.id))game.seen.push(p.id);
       forced=null;
@@ -433,7 +435,11 @@
     const last=game.history.pop();
     if(!last){note('Nothing to undo yet.');return;}
     playUndoSound();
-    const s=prefs();if(s){if(last.prev)s.marks[last.id]=last.prev;else delete s.marks[last.id];save();}
+    const s=prefs();
+    const next=s?.marks?.[last.id]?structuredClone(s.marks[last.id]):null;
+    game.future.push({...last,next});
+    if(game.future.length>150)game.future.shift();
+    if(s){if(last.prev)s.marks[last.id]=last.prev;else delete s.marks[last.id];save();}
     document.dispatchEvent(new CustomEvent('desk:action',{detail:{name:'tinder_undo'}}));
     game.seen=game.seen.filter(x=>x!==last.id);
     forced=last.id;
@@ -443,6 +449,7 @@
     saveGame();
     render();
     note('Undone. Programme restored with its previous decision.');
+    syncMobileHistory();
     if(animateReturn){
       // Lock decisions only while the same card descends; animation is purely
       // decorative and never replays/changes the saved decision.
@@ -451,9 +458,61 @@
         $('tinderCardSlot')?.classList.remove('tdUndoGlowing');
         const current=nextProgramme();
         $('tinderUndo').disabled=!game.history.length;
+        syncMobileHistory();
         for(const id of ['tinderNo','tinderYes','tinderSuper'])$(id).disabled=!current;
       },860);
     }
+  };
+  // True Swipe Mode redo, paired with its own undo stack.
+  // Replays only the saved decision for this programme; it does not touch
+  // rankings, quiz preferences, maps or any other catalogue record.
+  const redo=()=>{
+    if(animating)return;
+    const next=game.future.pop();
+    if(!next){note('Nothing to redo yet.');return;}
+    const data=prefs();
+    if(data){
+      if(next.next)data.marks[next.id]=structuredClone(next.next);
+      else delete data.marks[next.id];
+      save();
+    }
+    if(!game.seen.includes(next.id))game.seen.push(next.id);
+    game.history.push({id:next.id,prev:next.prev,at:Date.now(),action:next.action});
+    if(game.history.length>150)game.history.shift();
+    forced=null;returningId='';
+    saveGame();render();
+    note('Redone. Your previous swipe is restored.');
+    document.dispatchEvent(new CustomEvent('desk:action',{detail:{name:'tinder_redo'}}));
+  };
+  const syncMobileHistory=()=>{
+    const undoButton=$('tdMobileUndo'),redoButton=$('tdMobileRedo');
+    if(undoButton)undoButton.disabled=!game.history.length||animating;
+    if(redoButton)redoButton.disabled=!game.future.length||animating;
+  };
+  const mountMobileHistory=()=>{
+    const panel=$('tinderMode'),float=$('tdFloatingDecisions');
+    if(!panel||!float)return;
+    let controls=$('tdMobileControlRow');
+    if(!controls){
+      controls=document.createElement('div');
+      controls.id='tdMobileControlRow';
+      controls.className='tdMobileControlRow';
+      controls.setAttribute('aria-label','Swipe history and saved programmes');
+      controls.innerHTML='<div class="tdMobileHistory">'+
+        '<button type="button" id="tdMobileUndo" class="tdMobileHistoryButton" aria-label="Undo last swipe" title="Undo last swipe">'+icon.undo+'<span>Undo</span></button>'+
+        '<button type="button" id="tdMobileRedo" class="tdMobileHistoryButton" aria-label="Redo last swipe" title="Redo last swipe">'+icon.undo+'<span>Redo</span></button></div>';
+      const board=panel.querySelector('.tdBoard');
+      board?.before(controls);
+    }
+    const relocate=()=>{
+      if(!float)return;
+      const mobile=window.matchMedia('(max-width:690px) and (pointer:coarse)').matches;
+      const target=mobile?controls:document.body;
+      if(float.parentElement!==target)target.append(float);
+    };
+    relocate();
+    window.addEventListener('resize',relocate,{passive:true});
+    syncMobileHistory();
   };
   function bindGesture(card,p){
     let startX=0,startY=0,deltaX=0,tracking=false;
@@ -731,6 +790,7 @@
     refreshHints();
     refreshDrawerCounts();
     $('tinderUndo').disabled=!game.history.length||animating;
+    syncMobileHistory();
     for(const id of ['tinderNo','tinderYes','tinderSuper'])$(id).disabled=!p||animating;
     if(!p)$('tinderExisting').textContent='Round complete';
   };
@@ -765,6 +825,7 @@
      '<p class="tdDisclosure">Rotation weeks, salary and hours come from the Oriel CSV. Training areas are postcode-based approximations. Cheeky pros and cons are suggestions, not verified employer promises.</p></div>';
     $('simulator')?.after(section);
     mountDecisionDrawers();
+    mountMobileHistory();
     const region=$('tinderRegion');if(region){
       const all=document.createElement('option');all.value='all';all.textContent='All regions — England & Wales';region.append(all);
       for(const r of regionList()){const option=document.createElement('option');option.value=r;option.textContent=formatRegion(r);region.append(option)}
@@ -802,6 +863,8 @@
     const soundToggle=$('tdSoundToggle');if(soundToggle)soundToggle.addEventListener('click',()=>{soundEnabled=!soundEnabled;try{localStorage.setItem(SOUND_KEY,soundEnabled?'on':'off')}catch{}syncSoundToggle()});
     syncSoundToggle();syncFilterToggle();
     $('tinderUndo').onclick=undo;
+    $('tdMobileUndo').onclick=undo;
+    $('tdMobileRedo').onclick=redo;
     $('tinderNo').onclick=()=>{const p=nextProgramme();if(p)commit(p,'no',-1)};
     $('tinderYes').onclick=()=>{const p=nextProgramme();if(p)commit(p,'yes',1)};
     $('tinderSuper').onclick=()=>{const p=nextProgramme();if(p)commit(p,'love',0)};

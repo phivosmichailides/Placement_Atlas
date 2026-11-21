@@ -1,10 +1,10 @@
 'use strict';
-const CACHE_NAME='placement-atlas-shell-2026-11-21-v131-explore-clarity';
+const CACHE_NAME='placement-atlas-shell-2026-11-21-v132-compact-consent';
 const ROOT=new URL('./',self.registration.scope).href;
 const EXTRA_ASSETS=[
   'swipe-mode-workspace.css?v=20261121swipe-layout4',
   'motion-effects.css?v=20261121nav-pill-fix1',
-  'linkedin-consent.js?v=20261121b','linkedin-consent.css?v=20261120a',
+  'linkedin-consent.js?v=20261121compact1','linkedin-consent.css?v=20261121compact1',
   'member-profile.js?v=20261120latin1','member-profile.css?v=20261113experience1','atlas-experience.css?v=20261113navigationfix1','responsive-fit.css?v=20261113responsive1','atlas-grid-performance.css?v=20261120d','footer-viewport.js?v=20261113responsive1','offer-journey.js?v=20261120compacthero1','cloud-auth.css?v=20261112members1','cloud-password-auth.css?v=20261113turnstile1',
   'explore-clarity.css?v=20261121clarity1','atlas-navigation.js?v=20261121clarity1','atlas-navigation.css?v=20261111logo1','atlas-map-tones.css?v=20261111tone2',
   'atlas-completion.css?v=20261112firstpaint1','shortlist-refinement.css?v=20261112shortlist1','shortlist-refinement.js?v=20261120ranking-menu1','learning-library.js?v=20261121industry3','learning-industry-guide.css?v=20261121industry2','industry-foundation-training.html',

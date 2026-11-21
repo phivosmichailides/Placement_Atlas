@@ -937,6 +937,16 @@
     "Remove from shortlist": "Αφαίρεση"
   });
 
+  Object.assign(DICTIONARIES.el,   {
+    "Location & connections": "Τοποθεσία και συγκοινωνίες",
+    "Rail station locations:": "Τοποθεσίες σιδηροδρομικών σταθμών:",
+    "London Underground data: TfL": "Δεδομένα μετρό Λονδίνου: TfL",
+    "Programme start and estimated finish": "Έναρξη και εκτιμώμενη λήξη προγράμματος",
+    "Map loading…": "Ο χάρτης φορτώνει…",
+    "Site directions": "Οδηγίες προς τοποθεσία",
+    "Training site": "Τοποθεσία εκπαίδευσης"
+  });
+
   const PROTECTED_SELECTOR = [
     '#placementMap', '.leaflet-container', '.leaflet-popup',
     '.tdProgrammeName', '.tdEmployer',
@@ -1041,6 +1051,16 @@
       if (value && /^\d+\s+θέσεις εκπαίδευσης$/.test(value) && key.startsWith('1 ')) value = '1 θέση εκπαίδευσης';
       if (!value && (cardMatch = key.match(/^(\d+) training places?$/i))) value = cardMatch[1] + (cardMatch[1] === '1' ? ' θέση εκπαίδευσης' : ' θέσεις εκπαίδευσης');
       if (!value && (cardMatch = key.match(/^(\d+) listed postcodes?$/i))) value = cardMatch[1] + (cardMatch[1] === '1' ? ' ταχ. κώδικας' : ' ταχ. κώδικες');
+      if (!value) {
+        const greekDate = key.match(/^(~?)(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{4})$/);
+        if (greekDate) {
+          const months = {Jan:'Ιανουαρίου',Feb:'Φεβρουαρίου',Mar:'Μαρτίου',
+            Apr:'Απριλίου',May:'Μαΐου',Jun:'Ιουνίου',Jul:'Ιουλίου',
+            Aug:'Αυγούστου',Sep:'Σεπτεμβρίου',Oct:'Οκτωβρίου',
+            Nov:'Νοεμβρίου',Dec:'Δεκεμβρίου'};
+          value = greekDate[1] + greekDate[2] + ' ' + months[greekDate[3]] + ' ' + greekDate[4];
+        }
+      }
       const excludes = key.match(/^(\d+)\s+excluded$/i);
       if (excludes) value = excludes[1] + ' αποκλεισμένα';
     }

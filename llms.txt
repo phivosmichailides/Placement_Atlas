@@ -30,6 +30,10 @@ Placement Atlas is not operated or endorsed by the Oriel recruitment service, NH
 - [Terms](https://placementatlas.co.uk/terms.html): Terms of use.
 - [GitHub repository](https://github.com/phivosmichailides/Placement_Atlas): Technical implementation, data provenance and project documentation.
 
+## Public contact
+
+For questions, feedback, corrections, media enquiries, reviews, collaboration, or to contact the developer: **placementatlas@hotmail.com**.
+
 ## Creator
 
 Created and maintained by Phivos Michailides, a UCL MPharm student. [Project and development details](https://github.com/phivosmichailides/Placement_Atlas#why-i-built-it).

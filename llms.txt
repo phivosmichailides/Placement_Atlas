@@ -9,6 +9,11 @@
 - Personalise programme fit explanations, shortlist programmes, add notes and preferences, and compare choices.
 - Practise an Oriel-style programme ranking separately from the official application system.
 
+## Readable, independent information
+
+- [2026 programme snapshot](https://placementatlas.co.uk/programme-snapshot.html): static HTML containing all 12 regional programme counts, median reported annual gross salaries, advertised Skilled Worker sponsorship counts and one labelled example per region. It is readable without JavaScript. From the October 2026 CSV, 877 of 4,064 rows report 'Yes' for Skilled Worker sponsorship, including 55 of 786 London rows. These historical flags are not guarantees of sponsorship.
+- [Guide: comparing Oriel programmes and visa sponsorship](https://placementatlas.co.uk/guide.html#visa-guide): practical, source-backed questions and limitations, including employer checks and pay-per-hour comparisons.
+
 ## Data provenance and limitations
 
 The built-in catalogue is drawn from an October 2026 Oriel CSV export supplied to the project on 7 November 2026. It is a historical snapshot, not a live vacancy or offer feed. All salary, sponsorship, eligibility, hours, training-site and recruitment information must be checked with the current official Oriel listing and employer. Fit scores, commute examples and take-home estimates are illustrative.
@@ -20,6 +25,7 @@ Placement Atlas is not operated or endorsed by the Oriel recruitment service, NH
 - [Application homepage](https://placementatlas.co.uk/): Explore the programmes and comparison tools.
 - [About Placement Atlas](https://placementatlas.co.uk/about.html): Purpose, features, creator and source limitations.
 - [Programme comparison guide](https://placementatlas.co.uk/guide.html): Practical advice for comparing foundation pharmacist training programmes.
+- [2026 Oriel programme snapshot](https://placementatlas.co.uk/programme-snapshot.html): Non-JavaScript regional data and labelled sponsorship examples.
 - [Privacy policy](https://placementatlas.co.uk/privacy.html): Data handling.
 - [Terms](https://placementatlas.co.uk/terms.html): Terms of use.
 - [GitHub repository](https://github.com/phivosmichailides/Placement_Atlas): Technical implementation, data provenance and project documentation.

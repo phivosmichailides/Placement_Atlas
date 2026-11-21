@@ -853,6 +853,70 @@
     "Not personalised": "Χωρίς εξατομίκευση"
   });
 
+  Object.assign(DICTIONARIES.el,   {
+    "Full name": "Πλήρης ονομασία",
+    "Overview": "Επισκόπηση",
+    "Training & dates": "Εκπαίδευση και ημερομηνίες",
+    "Pay & eligibility": "Αποδοχές και προϋποθέσεις",
+    "My assessment": "Η αξιολόγησή μου",
+    "See if you're a fit — take the quiz": "Δες αν σου ταιριάζει · Κάνε το κουίζ",
+    "Rotation details": "Στοιχεία εκπαίδευσης",
+    "Rotation weeks": "Εβδομάδες εκπαίδευσης",
+    "Take quiz": "Κάνε το κουίζ",
+    "Programme highlights": "Πλεονεκτήματα προγράμματος",
+    "PROGRAMME HIGHLIGHTS": "ΠΛΕΟΝΕΚΤΗΜΑΤΑ ΠΡΟΓΡΑΜΜΑΤΟΣ",
+    "Potential trade-offs": "Πιθανά μειονεκτήματα",
+    "POTENTIAL TRADE-OFFS": "ΠΙΘΑΝΑ ΜΕΙΟΝΕΚΤΗΜΑΤΑ",
+    "Personal fit": "Προσωπική αντιστοίχιση",
+    "PERSONAL FIT": "ΠΡΟΣΩΠΙΚΗ ΑΝΤΙΣΤΟΙΧΙΣΗ",
+    "Strong pay": "Υψηλός μισθός",
+    "Major hospital exposure": "Σημαντική νοσοκομειακή εμπειρία",
+    "Major GP exposure": "Σημαντική εμπειρία σε GP",
+    "Major community exposure": "Σημαντική εμπειρία σε φαρμακείο",
+    "No major trade-offs.": "Δεν προκύπτουν σημαντικά μειονεκτήματα.",
+    "LOCATION & CONNECTIONS": "ΤΟΠΟΘΕΣΙΑ ΚΑΙ ΣΥΓΚΟΙΝΩΝΙΕΣ",
+    "Locations & connections": "Τοποθεσίες και συγκοινωνίες",
+    "Area connections": "Συνδέσεις περιοχής",
+    "General local transport guidance · Use the nearby station and directions above. Add a home postcode only if you want a personalised commute estimate.": "Γενικές οδηγίες μετακίνησης: δες τον κοντινότερο σταθμό και τις διαδρομές παραπάνω. Πρόσθεσε ταχ. κώδικα κατοικίας για εξατομικευμένη εκτίμηση.",
+    "Open selected site ↗": "Άνοιγμα επιλεγμένης τοποθεσίας ↗",
+    "Rail station locations": "Θέσεις σιδηροδρομικών σταθμών",
+    "Exclude": "Αποκλεισμός",
+    "Saved to your shortlist": "Αποθηκεύτηκε στη λίστα επιλογών σου",
+    "Not shortlisted": "Δεν είναι στη λίστα σου",
+    "Strong yes": "Ισχυρή προτίμηση",
+    "Yes": "Ναι",
+    "Maybe": "Ίσως",
+    "Only if needed": "Μόνο αν χρειαστεί",
+    "No": "Όχι",
+    "Absolutely not": "Με τίποτα",
+    "See full details, location & pay": "Δες λεπτομέρειες, τοποθεσία και αποδοχές",
+    "Hours not stated": "Δεν αναφέρονται ώρες",
+    "Salary not stated": "Δεν αναφέρεται μισθός",
+    "Training places": "Θέσεις εκπαίδευσης",
+    "Not stated": "Δεν αναφέρεται",
+    "Skilled Worker visa: not offered": "Βίζα Skilled Worker: δεν προσφέρεται",
+    "Skilled Worker visa: offered": "Βίζα Skilled Worker: προσφέρεται",
+    "Original Oriel name": "Αρχική ονομασία στο Oriel",
+    "Show original Oriel programme name": "Εμφάνιση αρχικής ονομασίας στο Oriel",
+    "Remove programme from shortlist": "Αφαίρεση προγράμματος από τη λίστα",
+    "Move to higher priority, closer to #1": "Μετακίνηση σε υψηλότερη προτεραιότητα",
+    "Move to lower priority, farther from #1": "Μετακίνηση σε χαμηλότερη προτεραιότητα",
+    "Previous training site": "Προηγούμενη τοποθεσία εκπαίδευσης",
+    "Next training site": "Επόμενη τοποθεσία εκπαίδευσης",
+    "Make a PDF of your ranked shortlist": "Αποθήκευση κατάταξης σε PDF",
+    "Open a print-ready shortlist, then choose Save as PDF.": "Άνοιξε τη λίστα για εκτύπωση και επέλεξε Αποθήκευση ως PDF.",
+    "Add to comparison": "Προσθήκη στη σύγκριση",
+    "Remove from comparison": "Αφαίρεση από τη σύγκριση",
+    "Training": "Εκπαίδευση",
+    "Settings": "Ρυθμίσεις",
+    "Total": "Σύνολο",
+    "Your personal fit": "Η προσωπική σου αντιστοίχιση",
+    "More details": "Περισσότερα στοιχεία",
+    "Show full name": "Προβολή πλήρους ονομασίας",
+    "Hide full name": "Απόκρυψη πλήρους ονομασίας",
+    "No major issues detected": "Δεν εντοπίστηκαν σημαντικά προβλήματα"
+  });
+
   const PROTECTED_SELECTOR = [
     '#placementMap', '.leaflet-container', '.leaflet-popup',
     '.tdProgrammeName', '.tdEmployer',
@@ -930,6 +994,21 @@
       if (perWeek) value = perWeek[1] + ' / εβδομάδα';
       const rotation = key.match(/^(.+?)\s*·\s*(\d+)w$/i);
       if (rotation) value = rotation[1] + ' · ' + rotation[2] + ' εβδομ.';
+      let cardMatch;
+      if ((cardMatch = key.match(/^Programme\s+(\d+)\s*·\s*Saved to your shortlist$/i))) value = 'Πρόγραμμα ' + cardMatch[1] + ' · Στη λίστα σου';
+      else if ((cardMatch = key.match(/^(\d+(?:[.,]\d+)?)h?\/week$/i))) value = cardMatch[1] + ' ώρες/εβδομάδα';
+      else if ((cardMatch = key.match(/^(\d+(?:[.,]\d+)?)h\s+week$/i))) value = cardMatch[1] + ' ώρες/εβδομάδα';
+      else if ((cardMatch = key.match(/^£([\d,]+)\/mo\s+gross$/i))) value = '£' + cardMatch[1] + '/μήνα μικτά';
+      else if ((cardMatch = key.match(/^Est\.\s+take-home\s+(£[\d,]+)\/mo\s*·\s*(£[\d,]+)\/yr$/i))) value = 'Καθαρά (εκτ.) ' + cardMatch[1] + '/μήνα · ' + cardMatch[2] + '/έτος';
+      else if ((cardMatch = key.match(/^Site\s+(\d+)\s+of\s+(\d+)\s*·\s*(.+)$/i))) value = 'Θέση ' + cardMatch[1] + ' από ' + cardMatch[2] + ' · ' + cardMatch[3];
+      else if ((cardMatch = key.match(/^Starts\s+(.+)$/i))) value = 'Έναρξη ' + cardMatch[1];
+      else if ((cardMatch = key.match(/^Est\.\s+finish\s+(.+)$/i))) value = 'Εκτ. λήξη ' + cardMatch[1];
+      else if ((cardMatch = key.match(/^(\d+)\s+weeks?\s*·\s*estimated from listed rotation durations$/i))) value = cardMatch[1] + ' εβδομάδες · εκτίμηση από τη διάρκεια των περιόδων';
+      else if ((cardMatch = key.match(/^Directions from\s+(.+)\s+↗$/i))) value = 'Οδηγίες από ' + cardMatch[1] + ' ↗';
+      if (!value && /Nothing shortlisted yet\./i.test(key)) value = 'Δεν έχεις προσθέσει ακόμη προγράμματα. Επίλεξε όσα σε ενδιαφέρουν από την Εξερεύνηση.';
+      if (value && /^\d+\s+θέσεις εκπαίδευσης$/.test(value) && key.startsWith('1 ')) value = '1 θέση εκπαίδευσης';
+      if (!value && (cardMatch = key.match(/^(\d+) training places?$/i))) value = cardMatch[1] + (cardMatch[1] === '1' ? ' θέση εκπαίδευσης' : ' θέσεις εκπαίδευσης');
+      if (!value && (cardMatch = key.match(/^(\d+) listed postcodes?$/i))) value = cardMatch[1] + (cardMatch[1] === '1' ? ' ταχ. κώδικας' : ' ταχ. κώδικες');
       const excludes = key.match(/^(\d+)\s+excluded$/i);
       if (excludes) value = excludes[1] + ' αποκλεισμένα';
     }

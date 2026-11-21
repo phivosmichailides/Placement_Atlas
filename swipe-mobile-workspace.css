@@ -1,0 +1,97 @@
+/* Compact mobile Swipe Mode: only this page changes. */
+#tinderMode .tdMobileControlRow,.tdSwipeHeaderReveal{display:none}
+@media (max-width:690px) and (pointer:coarse){
+  html body[data-atlas-view="tinderMode"] #atlasOfferCongrats{display:none!important}
+  html body[data-atlas-view="tinderMode"] .shell>header.top.atlasStickyHeader{
+    position:fixed!important;
+    z-index:1650!important;
+    top:env(safe-area-inset-top,0px)!important;
+    left:max(6px,env(safe-area-inset-left,0px))!important;
+    right:max(6px,env(safe-area-inset-right,0px))!important;
+    width:auto!important;margin:0!important;
+    transition:transform .24s ease,opacity .24s ease!important;
+    transform:translate3d(0,0,0);
+    will-change:transform,opacity;
+  }
+  html body[data-atlas-view="tinderMode"].tdMobileHeaderHidden .shell>header.top.atlasStickyHeader{
+    transform:translate3d(0,calc(-100% - 24px),0)!important;
+    pointer-events:none!important;
+    opacity:0!important;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode>.historyControls{display:none!important}
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdMobileControlRow{
+    display:flex!important;
+    width:min(100%,440px);
+    margin:4px auto 8px;
+    padding:6px;
+    align-items:center;
+    justify-content:center;
+    gap:clamp(4px,1.8vw,9px);
+    border:1px solid var(--line);
+    border-radius:16px;
+    background:var(--panel);
+    box-shadow:0 4px 16px #0000000b;
+    box-sizing:border-box;
+    direction:ltr;
+    min-width:0;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdMobileHistory{
+    display:flex;align-items:center;justify-content:center;gap:clamp(4px,1.8vw,9px);min-width:0;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdMobileHistoryButton,
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdFloatingDecisions .tdLauncher{
+    appearance:none;
+    display:inline-flex!important;align-items:center;justify-content:center;gap:4px;
+    flex:0 0 auto;min-width:0!important;min-height:43px!important;height:46px!important;
+    padding:5px clamp(5px,1.8vw,10px)!important;
+    border:1px solid var(--line)!important;border-radius:12px!important;
+    color:var(--ink)!important;background:var(--soft,var(--panel))!important;
+    box-shadow:none!important;transform:none!important;
+    font:750 clamp(10px,2.6vw,12px)/1.15 inherit!important;
+    cursor:pointer;touch-action:manipulation;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdMobileHistoryButton svg,
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdFloatingDecisions .tdLauncher svg{
+    width:17px!important;height:17px!important;flex:none;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode #tdMobileRedo svg{transform:scaleX(-1)!important}
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdMobileHistoryButton:disabled{opacity:.38;cursor:not-allowed}
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdFloatingDecisions{
+    position:static!important;inset:auto!important;transform:none!important;
+    display:flex!important;align-items:center;justify-content:center;
+    gap:clamp(4px,1.8vw,9px)!important;
+    width:auto!important;max-width:100%;margin:0!important;padding:0!important;
+    z-index:auto!important;direction:ltr;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode #tdOpenRejected{color:var(--td-red)!important}
+  html body[data-atlas-view="tinderMode"] #tinderMode #tdOpenLiked{color:var(--td-green)!important}
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdLauncher span{font-size:11px!important}
+  html body[data-atlas-view="tinderMode"] .tdSwipeHeaderReveal{
+    display:flex;align-items:center;justify-content:center;
+    position:fixed;z-index:1649;top:env(safe-area-inset-top,0px);
+    left:50%;transform:translateX(-50%);
+    width:auto;min-width:74px;height:26px;
+    border:1px solid var(--line);border-top:none;border-radius:0 0 12px 12px;
+    padding:1px 10px;background:var(--panel);color:var(--ink);
+    box-shadow:0 3px 12px #00000013;font-size:11px;font-weight:700;cursor:pointer;
+  }
+  html body[data-atlas-view="tinderMode"]:not(.tdMobileHeaderHidden) .tdSwipeHeaderReveal{display:none!important}
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdActions{margin-top:7px!important}
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdActions #tinderUndo{display:none!important}
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdActionLegend span:first-child{display:none!important}
+  html body[data-atlas-view="tinderMode"] #tinderMode{
+    --td-mobile-space:clamp(270px,calc(100dvh - 285px - env(safe-area-inset-bottom,0px)),575px);
+  }
+}
+@media (max-width:375px) and (pointer:coarse){
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdMobileControlRow{padding:4px;gap:3px}
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdMobileHistoryButton,
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdFloatingDecisions .tdLauncher{
+    height:42px!important;padding:3px 5px!important;font-size:10px!important
+  }
+}
+@media (prefers-reduced-motion:reduce){
+  html body[data-atlas-view="tinderMode"] .shell>header.top.atlasStickyHeader{
+    transition:none!important
+  }
+}

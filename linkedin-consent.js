@@ -8,6 +8,7 @@
   var PARTNER_ID = '10156098';
   var MAX_AGE_MS = 180 * 24 * 60 * 60 * 1000;
   var loaded = false;
+  var tagState = 'not-requested';
   var memoryChoice = null;
 
   function readChoice() {
@@ -29,10 +30,17 @@
   }
 
   function safePage() {
-    /* The app handles sign-in and potentially private workspace links.
-       Never pass URL query strings or fragments to an advertising vendor. */
-    return !window.location.search && !window.location.hash &&
-      /^\/(?:|index\.html|about\.html|guide\.html|privacy\.html|terms\.html)$/.test(window.location.pathname);
+    /* Only public pages with known non-sensitive campaign parameters qualify.
+       Auth redirects, free-form query strings, and private fragments are excluded. */
+    if (!/^\/(?:|index\.html|about\.html|guide\.html|privacy\.html|terms\.html)$/.test(window.location.pathname)) return false;
+    if (window.location.hash && !/^#(?:top|features|how-it-works|questions|cookies)$/.test(window.location.hash)) return false;
+    var params = new URLSearchParams(window.location.search);
+    var allowed = true;
+    params.forEach(function (value, key) {
+      if (!/^(?:utm_[a-z0-9_]+|li_fat_id|gclid|fbclid)$/i.test(key) ||
+          value.length > 300) allowed = false;
+    });
+    return allowed;
   }
 
   function loadLinkedIn() {
@@ -42,6 +50,7 @@
       return;
     }
     loaded = true;
+    tagState = 'loading';
     window._linkedin_partner_id = PARTNER_ID;
     window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
     if (window._linkedin_data_partner_ids.indexOf(PARTNER_ID) === -1) {
@@ -54,6 +63,8 @@
     var script = document.createElement('script');
     script.id = 'atlas-linkedin-insight-script';
     script.async = true;
+    script.addEventListener('load', function () { tagState = 'loaded'; });
+    script.addEventListener('error', function () { tagState = 'blocked-or-unavailable'; });
     script.src = 'https://snap.licdn.com/li.lms-analytics/insight.min.js';
     document.head.appendChild(script);
     /* Deliberately no noscript image pixel: that would bypass consent. */
@@ -122,7 +133,8 @@
 
   window.PlacementAtlasMarketing = {
     openSettings: openSettings,
-    hasConsent: function () { return readChoice() === 'allow'; }
+    hasConsent: function () { return readChoice() === 'allow'; },
+    tagStatus: function () { return { consent: readChoice(), eligiblePage: safePage(), state: tagState, scriptPresent: !!document.getElementById('atlas-linkedin-insight-script'), partnerId: PARTNER_ID }; }
   };
 
   if (document.readyState === 'loading') {

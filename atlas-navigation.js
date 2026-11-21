@@ -88,15 +88,14 @@
   });
 
   // "For You" is a subview of Explore, not another top-level app destination.
-  const addExploreSubnav=(panelId,title,description)=>{
+  const addExploreSubnav=panelId=>{
     const panel=document.getElementById(panelId);if(!panel)return;
     const bar=document.createElement('div');
     bar.className='atlasExploreSubnav';
     bar.id=panelId==='explore'?'atlasExploreSubnav':'atlasForYouSubnav';
-    bar.innerHTML='<div class="atlasSubnavIntro">'+
-      '<span class="eyebrow">EXPLORE · YOUR DECISION SPACE</span>'+
-      '<span class="atlasSubnavDescription">'+description+'</span></div>'+
-      '<div class="atlasSubnavChoices" role="group" aria-label="Explore views">'+
+    // The controls explain the choice; do not repeat Explore or onboarding
+    // instructions in another banner above the programme statistics.
+    bar.innerHTML='<div class="atlasSubnavChoices" role="group" aria-label="Explore views">'+
       '<button type="button" data-atlas-subtab="explore"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>All programmes</button>'+
       '<button type="button" data-atlas-subtab="foryou"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9Z"/></svg>For You</button>'+
       '</div>';
@@ -114,8 +113,8 @@
     });
     panel.prepend(bar);
   };
-  addExploreSubnav('explore','Explore','Browse every programme, then see which suit your own priorities.');
-  addExploreSubnav('foryou','For You','Personalised matches based on your preferences, quiz and filters.');
+  addExploreSubnav('explore');
+  addExploreSubnav('foryou');
 
   // Comparison remains fully functional through programme cards and the
   // Explore-specific button, but it is not a primary top-level destination.

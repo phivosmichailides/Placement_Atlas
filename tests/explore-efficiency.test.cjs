@@ -71,6 +71,13 @@ test('HTML and service worker agree on cache-busted discovery assets',()=>{
   assert.ok(sw.includes(deadline),'Service worker must cache current countdown script');
 });
 
+test('map scope toggle waits for the asynchronously loaded drawMap',()=>{
+  assert.match(workspace,/const mapReady=\(\)=>typeof drawMap==='function'/);
+  assert.match(workspace,/mapScopeButton\.disabled=!mapReady\(\)/);
+  assert.match(workspace,/const redrawMapScope=\(\)=>\{\s*if\(!mapReady\(\)\)/);
+  assert.match(workspace,/addEventListener\('click',\(\)=>\{\s*if\(!mapReady\(\)\)/);
+});
+
 test('normal map previews stay compact without shrinking the expanded map',()=>{
   assert.ok(css.includes('#explore:not(.uxFiltersCollapsed) #placementMap'));
   assert.ok(css.includes('height:clamp(245px,30vh,330px)!important'));

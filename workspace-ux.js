@@ -203,8 +203,12 @@
  const results=$('results');
  let mapPending=0;
  const mapScopeButton=$('uxMapScopeToggle');
+ // drawMap is declared by app-base.js, which app.js loads asynchronously after
+ // cloud bootstrap. This script runs earlier, so the toggle must wait for it.
+ const mapReady=()=>typeof drawMap==='function';
  const syncMapScopeButton=()=>{
    if(!mapScopeButton)return;
+   mapScopeButton.disabled=!mapReady();
    mapScopeButton.textContent=mapScopeAll?'Show current page':'Show all matching';
    mapScopeButton.setAttribute('aria-pressed',String(mapScopeAll));
    mapScopeButton.title=mapScopeAll
@@ -212,6 +216,7 @@
      :'Plot every programme matching the active filters on the map';
  };
  const redrawMapScope=()=>{
+   if(!mapReady()){syncMapScopeButton();return false}
    clearTimeout(mapPending);
    const options=window.OrielFilteredProgrammes||[];
    const size=pageLimit(options.length);
@@ -220,6 +225,7 @@
  };
  syncMapScopeButton();
  mapScopeButton?.addEventListener('click',()=>{
+   if(!mapReady()){syncMapScopeButton();return}
    mapScopeAll=!mapScopeAll;
    syncMapScopeButton();
    redrawMapScope();
@@ -244,6 +250,7 @@
      syncMapScopeButton();
    }
    skipResetOnce=false;
+   syncMapScopeButton();
    const total=options.length,catalogueTotal=getData().length,size=pageLimit(total),pages=Math.max(1,Math.ceil(total/size));
    window.OrielFilteredProgrammes=options;
    page=Math.min(Math.max(1,page),pages);

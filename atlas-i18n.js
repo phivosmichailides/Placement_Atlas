@@ -855,7 +855,7 @@
 
   const PROTECTED_SELECTOR = [
     '#placementMap', '.leaflet-container', '.leaflet-popup',
-    '.tdProgrammeName', '.tdEmployer', '.tdCardCode', '.tdMetrics strong',
+    '.tdProgrammeName', '.tdEmployer',
     '.tdLocationText', '.tdDetailsFacts dd', '.tdDrawerProgrammeTitle',
     '.atlasWorkspaceTitleOriginal', '.atlasWorkspaceTitleConcise',
     '.atlasTitleOriginal', '.atlasTitleConcise', '.placementTop h3',
@@ -895,7 +895,7 @@
     const key = source.trim();
     if (!key) return;
     const dict = dictionary();
-    let value = dict[key];
+    let value = dict[key] || dict[key.replace(/\s+/g, ' ')];
     // The English "Any" must agree with the field in Greek; translating
     // all four selects to the same masculine form is grammatically wrong.
     if (activeLanguage === 'el' && key === 'Any' && parent.tagName === 'OPTION') {
@@ -926,6 +926,10 @@
       if (reviewed) value = reviewed[1] + ' / ' + reviewed[2] + ' αξιολογήθηκαν';
       const pnum = key.match(/^PROGRAMME\s+(\d+)$/i);
       if (pnum) value = 'ΠΡΟΓΡΑΜΜΑ ' + pnum[1];
+      const perWeek = key.match(/^(\d+(?:[.,]\d+)?)\s*\/\s*week$/i);
+      if (perWeek) value = perWeek[1] + ' / εβδομάδα';
+      const rotation = key.match(/^(.+?)\s*·\s*(\d+)w$/i);
+      if (rotation) value = rotation[1] + ' · ' + rotation[2] + ' εβδομ.';
       const excludes = key.match(/^(\d+)\s+excluded$/i);
       if (excludes) value = excludes[1] + ' αποκλεισμένα';
     }

@@ -62,10 +62,10 @@ test('Public article is indexable, stand-alone and uses accessible native detail
   assert.match(map,/industry-foundation-training.html/);
 });
 test('New guide scripts, styles and public article are synchronised with PWA',()=>{
-  for(const asset of ['learning-library.js?v=20261121industry2','learning-industry-guide.css?v=20261121industry1']){
+  for(const asset of ['learning-library.js?v=20261121industry3','learning-industry-guide.css?v=20261121industry2']){
     assert.ok(index.includes(asset),'Index missing '+asset);
     assert.ok(sw.includes(asset),'Offline cache missing '+asset);
   }
   assert.match(sw,/industry-foundation-training.html/);
-  assert.match(page,/learning-industry-guide.css\?v=20261121industry1/);
+  assert.match(page,/learning-industry-guide.css\?v=20261121industry2/);
 });

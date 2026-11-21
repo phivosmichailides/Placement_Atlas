@@ -36,6 +36,14 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   await page.waitForFunction(()=>typeof placements!=='undefined'&&placements.length===4064&&
     !!document.getElementById('results')&&!!document.querySelector('#uxExplorePager select'),null,{timeout:90000});
 
+  // Verify the new recommended initial zoom before exercising legacy pixel
+  // geometry assertions at an explicit 100%, matching their original baseline.
+  assert.equal(await page.locator('#uxPageZoomValue').innerText(),'70%',
+    'A fresh 1440px laptop must start with the recommended 70% interface zoom');
+  for(let level=70;level<100;level+=5)await page.locator('#uxPageZoomIn').click();
+  assert.equal(await page.locator('#uxPageZoomValue').innerText(),'100%',
+    'Manual zoom must remain adjustable and persist within the test session');
+
   // First visit is monochrome and starts with a lightweight, 36-card results page.
   assert.equal(await page.locator('html').getAttribute('data-palette'),'mono','New visitors should start in the monochrome palette');
   const pageSize=page.locator('#uxExplorePager select');
@@ -62,7 +70,7 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
     const detailRect=details.getBoundingClientRect();
     return {cardHeight:rect.height,cardBottom:rect.bottom,footerWidth:footer.getBoundingClientRect().width,
       buttonHeights:buttons.map(button=>button.getBoundingClientRect().height),
-      detailsWidth:detailRect.width,detailsBottom:detailRect.bottom,detailsHeight:detailRect.height};
+      detailsWidth:detailRect.width,detailsBottom:detailRect.bottom,detailsHeight:detailRect.height,zoom:Number(getComputedStyle(document.querySelector('.shell')).zoom)||1};
   }));
   assert.equal(gridMetrics.length,3,'The first grid row should contain three programme cards');
   assert(Math.max(...gridMetrics.map(x=>x.cardHeight))-Math.min(...gridMetrics.map(x=>x.cardHeight))<=1,
@@ -72,7 +80,7 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
       'Decision controls should have equal heights: '+JSON.stringify(metric));
     assert(metric.detailsWidth>=metric.footerWidth-40,'Full-details control should span the card footer: '+JSON.stringify(metric));
     assert(metric.detailsBottom<=metric.cardBottom+2,'Full-details control is clipped by its programme card: '+JSON.stringify(metric));
-    assert(metric.detailsHeight>=42,'Full-details control should retain a comfortable tap target: '+JSON.stringify(metric));
+    assert(metric.detailsHeight/metric.zoom>=42,'Full-details control should retain a comfortable logical tap target: '+JSON.stringify(metric));
   }
   const specialistIntro=await page.locator('#uxFilterSidebar .uxSpecialistIntro').textContent();
   assert.equal(specialistIntro.trim(),'Hide programmes linked to specialist settings you want to avoid.');
@@ -367,8 +375,9 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   for(const tab of ['explore','shortlist','outcome','simulator','learn','prefs','explore'])await expectExclusivePage(tab);
   // Keep the public landing-page state as the entry point for the rest of the test.
   // Device-viewport regression: ordinary content must fit without a
-  // document-level sideways scroll at the default 100% page zoom.
-  assert.equal(await page.locator('#uxPageZoomValue').innerText(),'100%','The default in-app zoom should start at 100%');
+  // document-level sideways scroll at the device-recommended zoom.
+  assert.equal(await page.locator('#uxPageZoomValue').innerText(),'100%',
+    'Original desktop visual assertions use a deliberately selected 100% app zoom');
   assert.equal(await page.locator('#atlasDataTools').evaluate(el=>el.parentElement?.id),'prefs',
     'Backup/restore controls belong exclusively to Preferences');
   for(const width of [320,390,600,768,1024,1280,1536]){
@@ -536,6 +545,40 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   await page.locator('header.top nav.tabs [data-tab=tinderMode]').click();
   await page.waitForFunction(()=>document.getElementById('tinderMode')?.classList.contains('active')&&
     !!document.querySelector('#tinderCardSlot .tdSwipeCard'),null,{timeout:30000});
+  // Re-enable the recommended laptop zoom before running multi-zoom geometry.
+  await page.locator('#uxPageZoomReset').click();
+  assert.equal(await page.locator('#uxPageZoomValue').innerText(),'70%');
+  // Desktop Swipe Mode should stay centred and fully within the viewport at
+  // the recommended, intermediate and full-sized in-app zoom settings.
+  for(const target of [70,80,100]){
+    while(Number((await page.locator('#uxPageZoomValue').innerText()).replace('%',''))<target){
+      await page.locator('#uxPageZoomIn').click();
+    }
+    await wait(120);
+    const geometry=await page.evaluate(()=>{
+      const rect=selector=>{const element=document.querySelector(selector),r=element?.getBoundingClientRect();return r?{left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width}:null;};
+      return {vw:innerWidth,vh:innerHeight,scrollWidth:document.documentElement.scrollWidth,
+        header:rect('.shell > header.top.atlasStickyHeader'),
+        board:rect('#tinderMode .tdBoard'),
+        card:rect('#tinderCardSlot .tdSwipeCard:not(.tdNextCard)'),
+        actions:rect('#tinderMode .tdActions'),
+        launcher:rect('#tdFloatingDecisions .tdLauncher')};
+    });
+    assert(geometry.scrollWidth<=geometry.vw+2,
+      'Desktop Swipe Mode has sideways scrolling at '+target+'%: '+JSON.stringify(geometry));
+    for(const key of ['header','board','card','actions']){
+      assert(geometry[key]&&geometry[key].left>=-2&&geometry[key].right<=geometry.vw+2,
+        'Swipe '+key+' leaves screen at '+target+'%: '+JSON.stringify(geometry));
+    }
+    assert(Math.abs((geometry.card.left+geometry.card.right)/2-geometry.vw/2)<=geometry.vw*.12,
+      'Swipe card must remain centred at '+target+'%: '+JSON.stringify(geometry));
+    assert(geometry.launcher?.width<=135&&geometry.launcher?.bottom<=geometry.vh+2,
+      'Floating decision shortcut is oversized or clipped at '+target+'%: '+JSON.stringify(geometry));
+    await page.screenshot({path:output+'/swipe-desktop-'+target+'.png',fullPage:false});
+  }
+  // Restore the device default after testing explicit zoom choices.
+  await page.locator('#uxPageZoomReset').click();
+  assert.equal(await page.locator('#uxPageZoomValue').innerText(),'70%');
   const refine=page.locator('#tinderFilterToggle');
   assert.equal((await refine.innerText()).trim(),'Refine','Fresh Swipe Mode should not silently select a region or other filters');
   assert.equal(await page.locator('#tdSoundToggle').innerText().then(x=>x.trim()),'Sound off','Optional sound control should default to off');

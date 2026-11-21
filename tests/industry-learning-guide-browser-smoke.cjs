@@ -29,6 +29,13 @@ const base=process.env.TARGET||'http://127.0.0.1:8000/';
     const section=page.locator('#atlasLearnIndustry');
     await section.waitFor({state:'visible',timeout:15000});
     assert.equal(await section.locator('details.atlasIndustryAnswer').count(),16);
+    assert.equal(await section.locator('.atlasIndustryExperienceGrid a').count(),4,
+      'The embedded guide must link directly to four verified first-person and careers resources');
+    for(const link of await section.locator('.atlasIndustryExperienceGrid a').all()){
+      assert.equal(await link.getAttribute('target'),'_blank');
+      assert((await link.getAttribute('href')).startsWith('https://'),
+        'Reading list should link to verified source pages');
+    }
     const answers=section.locator('details.atlasIndustryAnswer');
     await page.locator('[data-industry-expand="all"]').click();
     assert.equal(await answers.evaluateAll(els=>els.filter(el=>el.open).length),16);
@@ -45,6 +52,8 @@ const base=process.env.TARGET||'http://127.0.0.1:8000/';
       {waitUntil:'domcontentloaded',timeout:30000});
     assert.match(await page.title(),/Industry, hospital and community split/);
     assert.equal(await page.locator('article details.atlasIndustryAnswer').count(),16);
+    assert.equal(await page.locator('article .atlasIndustryExperienceGrid a').count(),4,
+      'Public, searchable guide should expose the same first-hand links');
     assert.equal(await page.locator('.atlasIndustrySectionIndex li').count(),16);
     assert(await page.locator('article .atlasIndustryCitations a').count()>=30);
     await page.setViewportSize({width:390,height:844});

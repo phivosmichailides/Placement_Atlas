@@ -81,6 +81,7 @@ const waitForCount=(page,count)=>page.waitForFunction(value=>{
     const hourly=card.querySelector('.hourly');
     return {
       scoreWidth:score?.getBoundingClientRect().width||0,
+      pageZoom:Number(getComputedStyle(document.querySelector('.shell')).zoom)||1,
       scoreOverflow:score?score.scrollWidth>score.clientWidth+2:false,
       fitWidth:fit?.getBoundingClientRect().width||0,
       mapWidth:map?.getBoundingClientRect().width||0,
@@ -88,7 +89,9 @@ const waitForCount=(page,count)=>page.waitForFunction(value=>{
       hourlyText:hourly?.textContent.trim()||''
     };
   });
-  assert(layoutMetrics.scoreWidth>=145,'Personal Fit panel should have enough width: '+JSON.stringify(layoutMetrics));
+  // Compare unzoomed logical width; the 70% laptop default scales the pixels.
+  assert(layoutMetrics.scoreWidth/layoutMetrics.pageZoom>=145,
+    'Personal Fit panel should have enough logical width: '+JSON.stringify(layoutMetrics));
   assert(!layoutMetrics.scoreOverflow,'Personal Fit content should not overflow: '+JSON.stringify(layoutMetrics));
   assert(layoutMetrics.mapWidth<layoutMetrics.fitWidth*.68,'Location map should not dominate the shortlist card: '+JSON.stringify(layoutMetrics));
   assert(!/\/hr/i.test(layoutMetrics.hourlyText),'Hourly pay should not appear in the shortlist: '+JSON.stringify(layoutMetrics));

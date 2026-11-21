@@ -75,6 +75,8 @@ const base = process.env.TARGET || 'http://127.0.0.1:8000/';
     assert(metrics.actionPosition==='sticky','Actions should stay visible while moving down the page');
     assert(metrics.action.left>=0&&metrics.action.right<=metrics.viewport.width+1,
       'Action buttons are too wide for phone: '+JSON.stringify(metrics));
+    assert(metrics.action.top>=0&&metrics.action.bottom<=metrics.viewport.height+2,
+      'Action buttons must be within the phone viewport without zooming out: '+JSON.stringify(metrics));
     assert(metrics.scrollWidth<=metrics.viewport.width+2,
       'Page should not require horizontal zoom: '+JSON.stringify(metrics));
     for(const id of ['tinderUndo','tinderNo','tinderYes','tinderSuper']){

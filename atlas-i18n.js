@@ -917,6 +917,26 @@
     "No major issues detected": "Δεν εντοπίστηκαν σημαντικά προβλήματα"
   });
 
+  Object.assign(DICTIONARIES.el,   {
+    "Starts": "Έναρξη",
+    "Est. finish": "Εκτ. λήξη",
+    "Full name": "Πλήρης ονομασία",
+    "LOCATION & CONNECTIONS": "ΤΟΠΟΘΕΣΙΕΣ ΚΑΙ ΣΥΓΚΟΙΝΩΝΙΕΣ",
+    "Map loading…": "Ο χάρτης φορτώνει…",
+    "Area connections": "Συγκοινωνίες περιοχής",
+    "Site": "Τοποθεσία",
+    "Station": "Σταθμός",
+    "Directions": "Οδηγίες",
+    "Rail station locations": "Τοποθεσίες σιδηροδρομικών σταθμών",
+    "Open selected site": "Άνοιγμα τοποθεσίας",
+    "Go to map": "Μετάβαση στον χάρτη",
+    "Not offered": "Δεν προσφέρεται",
+    "View original": "Προβολή αρχικής ονομασίας",
+    "Show full name": "Προβολή πλήρους ονομασίας",
+    "Hide full name": "Απόκρυψη πλήρους ονομασίας",
+    "Remove from shortlist": "Αφαίρεση"
+  });
+
   const PROTECTED_SELECTOR = [
     '#placementMap', '.leaflet-container', '.leaflet-popup',
     '.tdProgrammeName', '.tdEmployer',
@@ -937,7 +957,13 @@
   let activeLanguage = 'en';
   let observer = null;
 
-  const isProtected = element => !!element?.closest?.(PROTECTED_SELECTOR);
+  const isProtected = element => {
+    const matched = element?.closest?.(PROTECTED_SELECTOR);
+    // The original programme title is protected, but the small "Full name"
+    // UI control nested inside its heading is not programme data.
+    if (matched?.matches?.('.placementTop h3') && element?.closest?.('button')) return false;
+    return Boolean(matched);
+  };
   const dictionary = () => DICTIONARIES[activeLanguage] || {};
   const preserveWhitespace = (source, translated) => {
     const leading = source.match(/^\s*/)?.[0] || '';
@@ -974,7 +1000,7 @@
       if ((match = key.match(/^My shortlist\s*\((\d+)\)$/))) value = 'Η λίστα μου (' + match[1] + ')';
       else if ((match = key.match(/^(\d[\d,.]*)\s+Shortlisted$/i))) value = match[1] + ' στη λίστα';
       else if ((match = key.match(/^Shortlist\s*#\s*(\d+)$/i))) value = 'Λίστα επιλογών #' + match[1];
-      else if ((match = key.match(/^(\d[\d,.]*)\s+training places?$/i))) value = match[1] + ' θέσεις εκπαίδευσης';
+      else if ((match = key.match(/^(\d[\d,.]*)\s+training places?$/i))) value = match[1] + (Number(match[1].replace(/,/g,'')) === 1 ? ' θέση εκπαίδευσης' : ' θέσεις εκπαίδευσης');
       else if ((match = key.match(/^(\d[\d,.]*)\s+listed postcodes?$/i))) value = match[1] + ' ταχ. κώδικες';
       else if ((match = key.match(/^(\d[\d,.]*)\s+remaining in all regions$/i))) value = match[1] + ' απομένουν σε όλες τις περιοχές';
       else if ((match = key.match(/^(\d[\d,.]*)\s+TOTAL\s*·\s*(\d[\d,.]*)\s+MATCHING$/i))) value = match[1] + ' ΣΥΝΟΛΟ · ' + match[2] + ' ΑΠΟΤΕΛΕΣΜΑΤΑ';
@@ -1005,6 +1031,12 @@
       else if ((cardMatch = key.match(/^Est\.\s+finish\s+(.+)$/i))) value = 'Εκτ. λήξη ' + cardMatch[1];
       else if ((cardMatch = key.match(/^(\d+)\s+weeks?\s*·\s*estimated from listed rotation durations$/i))) value = cardMatch[1] + ' εβδομάδες · εκτίμηση από τη διάρκεια των περιόδων';
       else if ((cardMatch = key.match(/^Directions from\s+(.+)\s+↗$/i))) value = 'Οδηγίες από ' + cardMatch[1] + ' ↗';
+      if (!value && (cardMatch = key.match(/^Rail station locations:\s*(.+)$/i))) value = 'Τοποθεσίες σιδηροδρομικών σταθμών: ' + cardMatch[1];
+      if (!value && (cardMatch = key.match(/^Area connections\s*·\s*(.+)$/i))) {
+        // Preserve place and transport names instead of attempting to re-translate
+        // source-derived routing advice automatically.
+        value = 'Συγκοινωνίες περιοχής · ' + cardMatch[1];
+      }
       if (!value && /Nothing shortlisted yet\./i.test(key)) value = 'Δεν έχεις προσθέσει ακόμη προγράμματα. Επίλεξε όσα σε ενδιαφέρουν από την Εξερεύνηση.';
       if (value && /^\d+\s+θέσεις εκπαίδευσης$/.test(value) && key.startsWith('1 ')) value = '1 θέση εκπαίδευσης';
       if (!value && (cardMatch = key.match(/^(\d+) training places?$/i))) value = cardMatch[1] + (cardMatch[1] === '1' ? ' θέση εκπαίδευσης' : ' θέσεις εκπαίδευσης');
@@ -1042,7 +1074,13 @@
     }
     if (node.nodeType !== Node.ELEMENT_NODE && node !== document.body) return;
     if (node.nodeType === Node.ELEMENT_NODE) {
-      if (isProtected(node)) return;
+      if (isProtected(node)) {
+        if (node.matches?.('.placementTop h3')) {
+          // Only visit nested controls, never the raw employer or programme title.
+          node.querySelectorAll('button').forEach(button => walk(button));
+        }
+        return;
+      }
       translateAttributes(node);
     }
     for (const child of Array.from(node.childNodes || [])) walk(child);

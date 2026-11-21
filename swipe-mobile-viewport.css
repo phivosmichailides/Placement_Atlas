@@ -1,3 +1,6 @@
+/* The mobile-only gesture indicator must never appear as unstyled text on desktop. */
+#tinderMode .tdSwipeBadge{display:none}
+
 /* Placement Atlas · compact Swipe Mode on mobile Safari/Chrome.
    Keep one readable programme card and ALL four actions in the usable viewport.
    Content is scrollable inside the card, never clipped or silently hidden. */
@@ -265,3 +268,8 @@
 @media (prefers-reduced-motion:reduce){
   #tinderMode .tdSwipeBadge{transition:none!important}
 }
+
+/* Official programme names and identifier fragments keep their source reading order. */
+html[dir="rtl"] #tinderMode .tdSwipeCard,
+html[dir="rtl"] #tinderMode .tdProgrammeName,
+html[dir="rtl"] #tinderMode .tdEmployer{direction:ltr;unicode-bidi:isolate}

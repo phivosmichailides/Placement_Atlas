@@ -1404,9 +1404,12 @@
       }
     });
     observer.observe(document.body,{childList:true,subtree:true,characterData:true});
-    document.addEventListener('desk:after-navigation',()=>walk(document.body));
-    document.addEventListener('placementatlas:refresh-translation',e=>walk(e.detail?.root||document.body));
-    window.PlacementAtlasTranslateUI=root=>walk(root||document.body);
+    // Explicit UI refresh requests are also no-ops in the default language.
+    // Switching from another locale back to English is handled by applyLanguage.
+    const translateIfNeeded=root=>{if(activeLanguage!=='en')walk(root||document.body);};
+    document.addEventListener('desk:after-navigation',()=>translateIfNeeded(document.body));
+    document.addEventListener('placementatlas:refresh-translation',e=>translateIfNeeded(e.detail?.root));
+    window.PlacementAtlasTranslateUI=translateIfNeeded;
     window.addEventListener('popstate',()=>{
       const code=new URL(location.href).searchParams.get('lang');
       const selected=(code&&LANGUAGES.some(([value])=>value===code))?code:getSavedLanguage();

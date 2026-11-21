@@ -918,15 +918,15 @@
     }
     // Mixed icon-and-label buttons must translate without losing the icon.
     if (activeLanguage === 'el' && !value) {
-      const prefixed = key.match(/^([←↩○✓☷]\\s*)(.+)$/);
+      const prefixed = key.match(/^([←↩○✓☷]\s*)(.+)$/);
       if (prefixed && dict[prefixed[2]]) value = prefixed[1] + dict[prefixed[2]];
-      const s = key.match(/^(\\d[\\d,.]*)\\s+programmes remain unassigned$/i);
+      const s = key.match(/^(\d[\d,.]*)\s+programmes remain unassigned$/i);
       if (s) value = s[1] + ' προγράμματα χωρίς κατάταξη';
-      const reviewed = key.match(/^(\\d[\\d,.]*)\\s*\/\\s*(\\d[\\d,.]*)\\s+reviewed$/i);
+      const reviewed = key.match(/^(\d[\d,.]*)\s*\/\s*(\d[\d,.]*)\s+reviewed$/i);
       if (reviewed) value = reviewed[1] + ' / ' + reviewed[2] + ' αξιολογήθηκαν';
-      const pnum = key.match(/^PROGRAMME\\s+(\\d+)$/i);
+      const pnum = key.match(/^PROGRAMME\s+(\d+)$/i);
       if (pnum) value = 'ΠΡΟΓΡΑΜΜΑ ' + pnum[1];
-      const excludes = key.match(/^(\\d+)\\s+excluded$/i);
+      const excludes = key.match(/^(\d+)\s+excluded$/i);
       if (excludes) value = excludes[1] + ' αποκλεισμένα';
     }
     const translated = activeLanguage === 'en' ? source : (value ? preserveWhitespace(source, value) : source);

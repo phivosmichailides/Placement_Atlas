@@ -119,6 +119,10 @@ const waitForCount=(page,count)=>page.waitForFunction(value=>{
   await mobile.addInitScript(()=>{localStorage.setItem('phivos-onboarding-v1','1');localStorage.setItem('phivos-onboarding-profile-v1',JSON.stringify({region:'',environment:'mixed',priorities:[],salary:'',hours:'',community:'some'}));});
   await mobile.route('https://**/*',route=>{const u=route.request().url();if(u.includes('api.postcodes.io/postcodes/'))return route.fulfill({json:{result:{latitude:51.501,longitude:-0.142}}});if(u.includes('api.postcodes.io'))return route.fulfill({json:{result:[]}});return route.abort();});
   await mobile.goto(url+'/?qa=shortlist-mobile',{waitUntil:'domcontentloaded'});
+  // Respect the privacy prompt instead of trying to click through its overlay.
+  // The floating shortlist should be tested only after the visitor makes a choice.
+  const rejectTracking=mobile.locator('#atlasCookieNotice .atlasCookieReject');
+  if(await rejectTracking.count())await rejectTracking.click();
   await mobile.locator('#results .placement').first().waitFor({state:'visible',timeout:60000});
   await mobile.locator('#results .placement').first().locator('[data-action=prefer]').click();
   await mobile.waitForFunction(()=>document.querySelector('#uxDrawerLauncher [data-ux-shortlist-count]')?.textContent==='(1)',null,{timeout:15000});

@@ -14,8 +14,13 @@
  // filter sidebar. The visitor can reveal it whenever they want.
  const mobileFirst=window.matchMedia?.('(max-width: 1180px)').matches;
  let collapsed=mobileFirst?true:storage.get(L,COLLAPSE)==='1';
- let zoom=Number(storage.get(L,ZOOM)||100);
- if(!Number.isFinite(zoom)||zoom<70||zoom>130)zoom=100;
+ // Start compact on laptop/desktop, while retaining a visitor's saved choice.
+ // Touch/narrow screens keep native-size controls for accessibility.
+ const isDesktop=window.matchMedia?.('(min-width:950px) and (hover:hover) and (pointer:fine)').matches;
+ const DEFAULT_ZOOM=isDesktop?(window.innerWidth<=1600?70:80):100;
+ const savedZoom=storage.get(L,ZOOM);
+ let zoom=savedZoom===null?DEFAULT_ZOOM:Number(savedZoom);
+ if(!Number.isFinite(zoom)||zoom<70||zoom>130)zoom=DEFAULT_ZOOM;
  function currentFilters(){const fields={};ids.forEach(id=>fields[id]=$(id)?.value??'');return {fields,quick:typeof quick!=='undefined'?[...quick]:[],hideAvoid:!!$('hideAvoid')?.checked,hideExcluded:!!$('hideExcluded')?.checked,hideOuterLondon:!!$('hideOuterLondon')?.checked,hideShortlisted:!!$('hideShortlisted')?.checked,hideJustice:!!$('hideJustice')?.checked,hideMental:!!$('hideMental')?.checked,hideOtherSpecialist:!!$('hideOtherSpecialist')?.checked}}
  const getSaved=()=>{try{const v=JSON.parse(storage.get(S,SESSION)||'null');return v&&v.version===1?v:null}catch{return null}};
  function snapshot(position=true){
@@ -42,7 +47,7 @@
  const adjustScroll=()=>{let y=window.scrollY;requestAnimationFrame(()=>requestAnimationFrame(()=>window.scrollTo({top:y,behavior:'instant'})))};
  $('uxPageZoomIn')?.addEventListener('click',()=>{applyZoom(zoom+5);adjustScroll()});
  $('uxPageZoomOut')?.addEventListener('click',()=>{applyZoom(zoom-5);adjustScroll()});
- $('uxPageZoomReset')?.addEventListener('click',()=>applyZoom(100));
+ $('uxPageZoomReset')?.addEventListener('click',()=>applyZoom(DEFAULT_ZOOM));
  applyZoom(zoom);
  const setCollapsed=(value,save=true)=>{
    collapsed=!!value;explorePanel?.classList.toggle('uxFiltersCollapsed',collapsed);

@@ -1055,6 +1055,7 @@
   const originalAttributes = new WeakMap();
   const lastAttributes = new WeakMap();
   let activeLanguage = 'en';
+  let hasAppliedLanguage = false;
   let observer = null;
 
   const isProtected = element => {
@@ -1198,12 +1199,17 @@
   }
 
   function applyLanguage(language) {
+    const previousLanguage = activeLanguage;
     activeLanguage = LANGUAGES.some(([code]) => code === language) ? language : 'en';
     const rtl = ['ar','ur','fa','ps','ckb'].includes(activeLanguage);
     document.documentElement.lang = activeLanguage;
     document.documentElement.dir = rtl ? 'rtl' : 'ltr';
     document.documentElement.dataset.atlasLanguage = activeLanguage;
-    walk(document.body);
+    // The server-delivered interface is already English. Scanning every card
+    // and option at startup is expensive and does not change the text. A
+    // transition back from another language MUST still restore all originals.
+    if (activeLanguage !== 'en' || (hasAppliedLanguage && previousLanguage !== 'en')) walk(document.body);
+    hasAppliedLanguage = true;
     document.dispatchEvent(new CustomEvent('placementatlas:languagechange', { detail: { language: activeLanguage, direction: rtl ? 'rtl' : 'ltr' } }));
   }
 
@@ -1385,6 +1391,9 @@
       for(const node of new Set(nodes))walk(node);
     };
     observer=new MutationObserver(records=>{
+      // Newly rendered UI comes from English templates. When English is active
+      // there is nothing to translate; skip potentially thousands of nodes.
+      if(activeLanguage==='en')return;
       for(const record of records){
         if(record.type==='characterData')pending.push(record.target);
         else for(const node of record.addedNodes)pending.push(node);

@@ -34,8 +34,13 @@
     min-width: 0;
     max-width: 100%;
     min-height: 38px;
-    font-size: 12px;
+    /* 16px prevents iOS Safari auto-zoom when the region selector is focused. */
+    font-size: 16px;
     padding: 7px;
+  }
+  #tinderMode .tdFilterPanel select,
+  body[data-atlas-view="tinderMode"] #tdDrawerSearch{
+    font-size:16px!important;
   }
   #tinderMode .tdFilterToggle,
   #tinderMode #tdSoundToggle{

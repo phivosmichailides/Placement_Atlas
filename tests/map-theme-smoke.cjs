@@ -52,7 +52,7 @@ const sleep = t=>new Promise(resolve=>setTimeout(resolve,t));
       }else await route.continue();
     });
     const requiredAssets=[
-      'programme-preview.js?v=20261111preview2','workspace-ux.js?v=20261120compacthero2',
+      'programme-preview.js?v=20261111preview2','workspace-ux.js?v=20261121mapready1',
       'tube-stations.js?v=20261108tfl2','rail-stations.js?v=20261109national1','location-guides.js?v=20261109national1','design-refresh.css?v=20261120plusjakarta1',
       'app.js?v=20261120compacthero1','sector-map.js?v=20261119viewport1',
       'map-basemap.js?v=20261119roads1','generic-public.js?v=20261120accountaudit1',

@@ -12,6 +12,7 @@ on:
       - 'robots.txt'
       - 'llms.txt'
       - 'tests/search-discoverability.test.cjs'
+      - 'tests/static_snapshot_consistency.py'
       - '.github/workflows/search-discoverability.yml'
   pull_request:
     paths:
@@ -24,6 +25,7 @@ on:
       - 'robots.txt'
       - 'llms.txt'
       - 'tests/search-discoverability.test.cjs'
+      - 'tests/static_snapshot_consistency.py'
       - '.github/workflows/search-discoverability.yml'
   workflow_dispatch:
 permissions:
@@ -41,3 +43,5 @@ jobs:
         run: node --check tests/search-discoverability.test.cjs
       - name: Check indexable HTML, metadata, schema and sitemap
         run: node --test tests/search-discoverability.test.cjs
+      - name: Confirm programme snapshot matches all source CSV rows
+        run: python3 tests/static_snapshot_consistency.py

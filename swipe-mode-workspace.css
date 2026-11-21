@@ -4,7 +4,7 @@
    and oversized cards when the in-app zoom was changed. Mobile styles untouched. */
 @media (min-width:900px) and (hover:hover) and (pointer:fine){
   html body[data-atlas-view="tinderMode"] .shell{
-    width:var(--ux-shell-width,100%)!important;
+    width:var(--ux-viewport-compensated-width,var(--ux-shell-width,100%))!important;
     max-width:var(--ux-shell-max-width,1540px)!important;
     min-width:0!important;
     margin-inline:auto!important;

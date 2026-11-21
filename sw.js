@@ -1,13 +1,13 @@
 'use strict';
-const CACHE_NAME='placement-atlas-shell-2026-11-21-v127-industry-nav';
+const CACHE_NAME='placement-atlas-shell-2026-11-21-v128-industry-swipe-fit';
 const ROOT=new URL('./',self.registration.scope).href;
 const EXTRA_ASSETS=[
-  'swipe-mode-workspace.css?v=20261121swipe-layout1',
+  'swipe-mode-workspace.css?v=20261121swipe-layout2',
   'motion-effects.css?v=20261121nav-pill-fix1',
   'linkedin-consent.js?v=20261121b','linkedin-consent.css?v=20261120a',
   'member-profile.js?v=20261120latin1','member-profile.css?v=20261113experience1','atlas-experience.css?v=20261113navigationfix1','responsive-fit.css?v=20261113responsive1','atlas-grid-performance.css?v=20261120d','footer-viewport.js?v=20261113responsive1','offer-journey.js?v=20261120compacthero1','cloud-auth.css?v=20261112members1','cloud-password-auth.css?v=20261113turnstile1',
   'atlas-navigation.js?v=20261120compacthero2','atlas-navigation.css?v=20261111logo1','atlas-map-tones.css?v=20261111tone2',
-  'atlas-completion.css?v=20261112firstpaint1','shortlist-refinement.css?v=20261112shortlist1','shortlist-refinement.js?v=20261120ranking-menu1','learning-library.js?v=20261121industry2','learning-industry-guide.css?v=20261121industry1','industry-foundation-training.html',
+  'atlas-completion.css?v=20261112firstpaint1','shortlist-refinement.css?v=20261112shortlist1','shortlist-refinement.js?v=20261120ranking-menu1','learning-library.js?v=20261121industry3','learning-industry-guide.css?v=20261121industry2','industry-foundation-training.html',
   'atlas-interactions.js?v=20261110reset1','atlas-interactions.css?v=20261110ux1','atlas-footer.css?v=20261113responsive1',
   'premium-discovery-preview.js?v=20261120cardfix1','premium-discovery-preview.css?v=20261111makeover5',
   'premium-card-tabs.js?v=20261119swv1','premium-card-tabs.css?v=20261111makeover5',
@@ -33,7 +33,7 @@ const EXTRA_ASSETS=[
   'simulator.js?v=20261120simnav1','motion-effects.js?v=20261121nav-pill-fix1',
   'explore-efficiency.js?v=20261120hero1','explore-efficiency.css?v=20261120ranking-menu1',
   'atlas-card-repairs.css?v=20261120cardfix1','atlas-card-repairs.js?v=20261120cardfix1',
-  'session-ui.js?v=20261113responsive1','interface-polish.js?v=20261107responsive2',
+  'session-ui.js?v=20261121zoom70a','interface-polish.js?v=20261107responsive2',
   'data/oriel-2026.part-01.txt','data/oriel-2026.part-02.txt','data/oriel-2026.part-03.txt',
   'data/oriel-2026.part-04.txt','data/oriel-2026.part-05.txt',
   'data/london-borough-labels.geojson','data/tube-stations.json','data/rail-stations-ew.json?v=20261109national1',

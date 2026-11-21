@@ -65,6 +65,7 @@ const base = process.env.TARGET || 'http://127.0.0.1:8000/';
     await page.waitForFunction(()=>document.querySelector('#results .placement [data-action="prefer"]')?.textContent?.includes('Προσθήκη')||document.querySelector('#results .placement [data-action="prefer"]')?.textContent?.includes('Αφαίρεση'),null,{timeout:20000});
     await page.evaluate(()=>window.openOrielPersonalisation?.());
     await page.locator('.onboardCard').waitFor({state:'visible',timeout:15000});
+    await page.waitForFunction(()=>document.querySelector('.onboardCard h2')?.textContent?.includes('Τι έχει σημασία'),null,{timeout:12000});
     assert.match(await page.locator('.onboardCard h2').innerText(),/Τι έχει σημασία/,'Quiz welcome screen should use Greek');
     await page.locator('#obStart').click();
     // Translation of the newly rendered step is scheduled on the next frame.

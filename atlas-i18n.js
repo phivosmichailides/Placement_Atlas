@@ -4,8 +4,11 @@
 (() => {
   'use strict';
 
+  // English is the default and remains the source of truth for official labels.
+  // Flags indicate a familiar locale, not the only country using a language.
   const LANGUAGES = [
     ['en', '🇬🇧 English'],
+    ['el', '🇬🇷 Ελληνικά'],
     ['ur', '🇵🇰 اردو'],
     ['ar', '🇸🇦 العربية'],
     ['zh-CN', '🇨🇳 简体中文'],
@@ -19,7 +22,16 @@
     ['ro', '🇷🇴 Română'],
     ['es', '🇪🇸 Español'],
     ['fr', '🇫🇷 Français'],
-    ['pt', '🇵🇹 Português']
+    ['pt', '🇵🇹 Português'],
+    ['it', '🇮🇹 Italiano'],
+    ['de', '🇩🇪 Deutsch'],
+    ['nl', '🇳🇱 Nederlands'],
+    ['fa', '🇮🇷 فارسی'],
+    ['tr', '🇹🇷 Türkçe'],
+    ['ps', '🇦🇫 پښتو'],
+    ['ckb', '🇮🇶 سۆرانی'],
+    ['so', '🇸🇴 Soomaali'],
+    ['uk', '🇺🇦 Українська']
   ];
 
   const DICTIONARIES = {
@@ -245,6 +257,178 @@
     }
   };
 
+  // These language packs cover the high-frequency interface. Unknown strings
+  // safely fall back to the original English; never invent translated data.
+  Object.assign(DICTIONARIES, {
+    el: {
+      'Language':'Γλώσσα','Explore':'Εξερεύνηση','For You':'Για εσένα','Shortlist':'Λίστα επιλογών',
+      'Learning Hub':'Κέντρο μάθησης','My Outcome':'Το αποτέλεσμά μου','Compare':'Σύγκριση','Preferences':'Προτιμήσεις',
+      'Your filters':'Τα φίλτρα σου','Reset':'Επαναφορά','Search':'Αναζήτηση','Sector':'Τομέας','Region':'Περιοχή',
+      'Any':'Οποιοδήποτε','Max hours':'Μέγιστες ώρες','Minimum salary':'Ελάχιστος μισθός',
+      'Decisions':'Αποφάσεις','All decisions':'Όλες οι αποφάσεις','My shortlist':'Η λίστα μου','Excluded':'Εξαιρούμενα',
+      'Skilled Worker visa sponsorship':'Χορηγία βίζας Skilled Worker','All programmes':'Όλα τα προγράμματα',
+      'Specialist settings':'Εξειδικευμένοι χώροι','Sort by':'Ταξινόμηση κατά','Salary':'Μισθός',
+      'Effective hourly pay':'Πραγματική ωριαία αμοιβή','Shortest week':'Λιγότερες ώρες την εβδομάδα',
+      'List':'Λίστα','Grid':'Πλέγμα','About & support':'Σχετικά και υποστήριξη',
+      'Find your foundation placement.':'Βρες τη θέση πρακτικής εκπαίδευσης που σου ταιριάζει.',
+      'Explore all programme locations across England & Wales':'Εξερεύνησε τις τοποθεσίες των προγραμμάτων σε Αγγλία και Ουαλία',
+      'Map style':'Στυλ χάρτη','Fit results':'Εστίαση στα αποτελέσματα','Hide filters':'Απόκρυψη φίλτρων',
+      'Best fit':'Καλύτερη αντιστοίχιση','Highest salary':'Υψηλότερος μισθός',
+      'Export decisions':'Εξαγωγή αποφάσεων','Backup':'Αντίγραφο ασφαλείας',
+      'Restore backup':'Επαναφορά αντιγράφου','No results found':'Δεν βρέθηκαν αποτελέσματα'
+    },
+    it: {
+      'Language':'Lingua','Explore':'Esplora','For You':'Per te','Shortlist':'Lista di preferiti',
+      'Learning Hub':'Centro di apprendimento','My Outcome':'Il mio risultato','Compare':'Confronta','Preferences':'Preferenze',
+      'Your filters':'I tuoi filtri','Reset':'Reimposta','Search':'Cerca','Sector':'Settore','Region':'Regione',
+      'Any':'Qualsiasi','Max hours':'Ore massime','Minimum salary':'Stipendio minimo','Decisions':'Decisioni',
+      'All decisions':'Tutte le decisioni','My shortlist':'La mia lista','Excluded':'Esclusi',
+      'Skilled Worker visa sponsorship':'Sponsorizzazione del visto Skilled Worker',
+      'All programmes':'Tutti i programmi','Specialist settings':'Settori specialistici',
+      'Sort by':'Ordina per','Salary':'Stipendio','Effective hourly pay':'Paga oraria effettiva',
+      'Shortest week':'Settimana più breve','List':'Elenco','Grid':'Griglia',
+      'About & support':'Informazioni e assistenza','Find your foundation placement.':'Trova il tuo posto di formazione.',
+      'Explore all programme locations across England & Wales':'Esplora le sedi dei programmi in Inghilterra e Galles',
+      'Map style':'Stile mappa','Fit results':'Inquadra i risultati','Hide filters':'Nascondi filtri',
+      'Best fit':'Migliore corrispondenza','Highest salary':'Stipendio più alto',
+      'Export decisions':'Esporta decisioni','Backup':'Backup','Restore backup':'Ripristina backup',
+      'No results found':'Nessun risultato trovato'
+    },
+    de: {
+      'Language':'Sprache','Explore':'Entdecken','For You':'Für dich','Shortlist':'Merkliste',
+      'Learning Hub':'Lernzentrum','My Outcome':'Mein Ergebnis','Compare':'Vergleichen','Preferences':'Einstellungen',
+      'Your filters':'Deine Filter','Reset':'Zurücksetzen','Search':'Suchen','Sector':'Sektor','Region':'Region',
+      'Any':'Alle','Max hours':'Maximale Stunden','Minimum salary':'Mindestgehalt','Decisions':'Entscheidungen',
+      'All decisions':'Alle Entscheidungen','My shortlist':'Meine Merkliste','Excluded':'Ausgeschlossen',
+      'Skilled Worker visa sponsorship':'Sponsoring für das Skilled Worker-Visum',
+      'All programmes':'Alle Programme','Specialist settings':'Spezialisierte Einrichtungen',
+      'Sort by':'Sortieren nach','Salary':'Gehalt','Effective hourly pay':'Effektiver Stundenlohn',
+      'Shortest week':'Kürzeste Arbeitswoche','List':'Liste','Grid':'Raster',
+      'About & support':'Über uns und Hilfe','Find your foundation placement.':'Finde deinen passenden Ausbildungsplatz.',
+      'Explore all programme locations across England & Wales':'Entdecke alle Programmstandorte in England und Wales',
+      'Map style':'Kartenstil','Fit results':'Ergebnisse auf Karte anzeigen','Hide filters':'Filter ausblenden',
+      'Best fit':'Beste Übereinstimmung','Highest salary':'Höchstes Gehalt',
+      'Export decisions':'Entscheidungen exportieren','Backup':'Sicherung','Restore backup':'Sicherung wiederherstellen',
+      'No results found':'Keine Ergebnisse gefunden'
+    },
+    nl: {
+      'Language':'Taal','Explore':'Verkennen','For You':'Voor jou','Shortlist':'Favorietenlijst',
+      'Learning Hub':'Leercentrum','My Outcome':'Mijn resultaat','Compare':'Vergelijken','Preferences':'Voorkeuren',
+      'Your filters':'Je filters','Reset':'Resetten','Search':'Zoeken','Sector':'Sector','Region':'Regio',
+      'Any':'Alle','Max hours':'Maximaal aantal uren','Minimum salary':'Minimumsalaris','Decisions':'Keuzes',
+      'All decisions':'Alle keuzes','My shortlist':'Mijn favorieten','Excluded':'Uitgesloten',
+      'Skilled Worker visa sponsorship':'Sponsoring voor een Skilled Worker-visum',
+      'All programmes':'Alle programma’s','Specialist settings':'Gespecialiseerde instellingen',
+      'Sort by':'Sorteren op','Salary':'Salaris','Effective hourly pay':'Effectief uurloon',
+      'Shortest week':'Kortste werkweek','List':'Lijst','Grid':'Raster',
+      'About & support':'Over en ondersteuning','Find your foundation placement.':'Vind je opleidingsplek.',
+      'Explore all programme locations across England & Wales':'Bekijk alle programmalocaties in Engeland en Wales',
+      'Map style':'Kaartstijl','Fit results':'Resultaten in beeld','Hide filters':'Filters verbergen',
+      'Best fit':'Beste match','Highest salary':'Hoogste salaris','Export decisions':'Keuzes exporteren',
+      'Backup':'Back-up','Restore backup':'Back-up herstellen','No results found':'Geen resultaten gevonden'
+    },
+    fa: {
+      'Language':'زبان','Explore':'کاوش','For You':'برای شما','Shortlist':'فهرست منتخب',
+      'Learning Hub':'مرکز یادگیری','My Outcome':'نتیجه من','Compare':'مقایسه','Preferences':'ترجیحات',
+      'Your filters':'فیلترهای شما','Reset':'بازنشانی','Search':'جستجو','Sector':'بخش','Region':'منطقه',
+      'Any':'همه','Max hours':'حداکثر ساعت','Minimum salary':'حداقل حقوق','Decisions':'تصمیم‌ها',
+      'All decisions':'همه تصمیم‌ها','My shortlist':'فهرست منتخب من','Excluded':'حذف‌شده',
+      'Skilled Worker visa sponsorship':'حمایت مالی ویزای Skilled Worker',
+      'All programmes':'همه برنامه‌ها','Specialist settings':'بخش‌های تخصصی','Sort by':'مرتب‌سازی بر اساس',
+      'Salary':'حقوق','Effective hourly pay':'دستمزد ساعتی مؤثر','Shortest week':'کوتاه‌ترین هفته کاری',
+      'List':'فهرست','Grid':'شبکه','About & support':'درباره و پشتیبانی',
+      'Find your foundation placement.':'محل آموزش پایه مناسب خود را پیدا کنید.',
+      'Explore all programme locations across England & Wales':'مکان همه برنامه‌ها در انگلستان و ولز را ببینید',
+      'Map style':'سبک نقشه','Fit results':'نمایش نتایج روی نقشه','Hide filters':'پنهان کردن فیلترها',
+      'Best fit':'بهترین تطابق','Highest salary':'بالاترین حقوق','Export decisions':'خروجی گرفتن از تصمیم‌ها',
+      'Backup':'پشتیبان‌گیری','Restore backup':'بازیابی پشتیبان','No results found':'نتیجه‌ای پیدا نشد'
+    },
+    tr: {
+      'Language':'Dil','Explore':'Keşfet','For You':'Sizin için','Shortlist':'Kısa liste',
+      'Learning Hub':'Öğrenme merkezi','My Outcome':'Sonucum','Compare':'Karşılaştır','Preferences':'Tercihler',
+      'Your filters':'Filtreleriniz','Reset':'Sıfırla','Search':'Ara','Sector':'Sektör','Region':'Bölge',
+      'Any':'Tümü','Max hours':'Azami saat','Minimum salary':'Asgari maaş','Decisions':'Kararlar',
+      'All decisions':'Tüm kararlar','My shortlist':'Kısa listem','Excluded':'Hariç tutulanlar',
+      'Skilled Worker visa sponsorship':'Skilled Worker vizesi sponsorluğu','All programmes':'Tüm programlar',
+      'Specialist settings':'Uzmanlık alanları','Sort by':'Sırala','Salary':'Maaş',
+      'Effective hourly pay':'Efektif saatlik ücret','Shortest week':'En kısa çalışma haftası',
+      'List':'Liste','Grid':'Izgara','About & support':'Hakkında ve destek',
+      'Find your foundation placement.':'Temel eğitim yerinizi bulun.',
+      'Explore all programme locations across England & Wales':'İngiltere ve Galler’deki tüm program konumlarını keşfedin',
+      'Map style':'Harita stili','Fit results':'Sonuçlara odaklan','Hide filters':'Filtreleri gizle',
+      'Best fit':'En iyi eşleşme','Highest salary':'En yüksek maaş','Export decisions':'Kararları dışa aktar',
+      'Backup':'Yedekle','Restore backup':'Yedeği geri yükle','No results found':'Sonuç bulunamadı'
+    },
+    ps: {
+      'Language':'ژبه','Explore':'وپلټئ','For You':'ستاسو لپاره','Shortlist':'لنډ لېست',
+      'Learning Hub':'د زده‌کړې مرکز','My Outcome':'زما پایله','Compare':'پرتله','Preferences':'غوره‌توبونه',
+      'Your filters':'ستاسو چاڼګرونه','Reset':'بیا تنظیم','Search':'لټون','Sector':'څانګه','Region':'سیمه',
+      'Any':'هر یو','Max hours':'تر ټولو ډېر ساعتونه','Minimum salary':'لږترلږه معاش',
+      'Decisions':'پرېکړې','All decisions':'ټولې پرېکړې','My shortlist':'زما لنډ لېست','Excluded':'ایستل شوي',
+      'Skilled Worker visa sponsorship':'د Skilled Worker ویزې سپانسرشيپ',
+      'All programmes':'ټول پروګرامونه','Specialist settings':'ځانګړي څانګې','Sort by':'ترتیب',
+      'Salary':'معاش','Effective hourly pay':'اغېزمن ساعتي معاش','Shortest week':'تر ټولو لنډه کاري اونۍ',
+      'List':'لېست','Grid':'شبکه','About & support':'په اړه او مرسته',
+      'Find your foundation placement.':'د خپلې بنسټیزې روزنې ځای ومومئ.',
+      'Explore all programme locations across England & Wales':'په انګلستان او وېلز کې د پروګرامونو ځایونه وګورئ',
+      'Map style':'د نقشې بڼه','Fit results':'پایلې په نقشه کې ښکاره کړئ','Hide filters':'چاڼګرونه پټ کړئ',
+      'Best fit':'غوره برابرون','Highest salary':'تر ټولو لوړ معاش','Export decisions':'پرېکړې صادرې کړئ',
+      'Backup':'شاتړ','Restore backup':'شاتړ بېرته راولئ','No results found':'پایلې ونه موندل شوې'
+    },
+    ckb: {
+      'Language':'زمان','Explore':'گەڕان','For You':'بۆ تۆ','Shortlist':'لیستی کورتکراوە',
+      'Learning Hub':'ناوەندی فێربوون','My Outcome':'ئەنجامی من','Compare':'بەراورد','Preferences':'هەڵبژاردەکان',
+      'Your filters':'فلتەرەکانت','Reset':'ڕێکخستنەوە','Search':'گەڕان','Sector':'بوار','Region':'ناوچە',
+      'Any':'هەرکام','Max hours':'زۆرترین کاتژمێر','Minimum salary':'کەمترین مووچە',
+      'Decisions':'بڕیارەکان','All decisions':'هەموو بڕیارەکان','My shortlist':'لیستی من','Excluded':'لابراو',
+      'Skilled Worker visa sponsorship':'سپۆنسەری ڤیزای Skilled Worker',
+      'All programmes':'هەموو بەرنامەکان','Specialist settings':'بوارە تایبەتەکان',
+      'Sort by':'ڕیزکردن بەپێی','Salary':'مووچە','Effective hourly pay':'مووچەی کاریگەر بۆ هەر کاتژمێر',
+      'Shortest week':'کورتترین هەفتەی کار','List':'لیست','Grid':'تۆڕ','About & support':'دەربارە و پشتگیری',
+      'Find your foundation placement.':'شوێنی ڕاهێنانی بنەڕەتی خۆت بدۆزەوە.',
+      'Explore all programme locations across England & Wales':'شوێنی هەموو بەرنامەکان لە ئینگلتەرا و وێڵز ببینە',
+      'Map style':'شێوازی نەخشە','Fit results':'نیشاندانی ئەنجامەکان لەسەر نەخشە',
+      'Hide filters':'شاردنەوەی فلتەرەکان','Best fit':'باشترین گونجان','Highest salary':'بەرزترین مووچە',
+      'Export decisions':'هەناردەکردنی بڕیارەکان','Backup':'پاڵپشت','Restore backup':'گەڕاندنەوەی پاڵپشت',
+      'No results found':'هیچ ئەنجامێک نەدۆزرایەوە'
+    },
+    so: {
+      'Language':'Luqad','Explore':'Sahami','For You':'Adiga kuu gaar ah','Shortlist':'Liiska xulashada',
+      'Learning Hub':'Xarunta waxbarashada','My Outcome':'Natiijadayda','Compare':'Isbarbardhig','Preferences':'Doorbidyada',
+      'Your filters':'Shaandhooyinkaaga','Reset':'Dib u deji','Search':'Raadi','Sector':'Qaybta','Region':'Gobolka',
+      'Any':'Dhammaan','Max hours':'Saacadaha ugu badan','Minimum salary':'Mushaharka ugu yar',
+      'Decisions':'Go’aannada','All decisions':'Dhammaan go’aannada','My shortlist':'Liiskayga','Excluded':'Laga reebay',
+      'Skilled Worker visa sponsorship':'Taageerada fiisaha Skilled Worker',
+      'All programmes':'Dhammaan barnaamijyada','Specialist settings':'Goobaha takhasuska',
+      'Sort by':'U kala saar','Salary':'Mushahar','Effective hourly pay':'Mushaharka saacaddii',
+      'Shortest week':'Toddobaadka shaqo ee ugu gaaban','List':'Liis','Grid':'Shabag',
+      'About & support':'Ku saabsan iyo caawimo','Find your foundation placement.':'Hel goobta tababarkaaga aasaasiga ah.',
+      'Explore all programme locations across England & Wales':'Eeg goobaha barnaamijyada England iyo Wales',
+      'Map style':'Qaabka khariidadda','Fit results':'Muujinta natiijooyinka khariidadda',
+      'Hide filters':'Qari shaandhooyinka','Best fit':'Ugu habboon','Highest salary':'Mushaharka ugu sarreeya',
+      'Export decisions':'Dhoofinta go’aannada','Backup':'Kayd','Restore backup':'Soo celi kaydka',
+      'No results found':'Wax natiijo ah lama helin'
+    },
+    uk: {
+      'Language':'Мова','Explore':'Огляд','For You':'Для вас','Shortlist':'Короткий список',
+      'Learning Hub':'Навчальний центр','My Outcome':'Мій результат','Compare':'Порівняти','Preferences':'Налаштування',
+      'Your filters':'Ваші фільтри','Reset':'Скинути','Search':'Пошук','Sector':'Сектор','Region':'Регіон',
+      'Any':'Будь-який','Max hours':'Максимум годин','Minimum salary':'Мінімальна зарплата',
+      'Decisions':'Рішення','All decisions':'Усі рішення','My shortlist':'Мій список','Excluded':'Виключені',
+      'Skilled Worker visa sponsorship':'Спонсорство візи Skilled Worker',
+      'All programmes':'Усі програми','Specialist settings':'Спеціалізовані заклади',
+      'Sort by':'Сортувати за','Salary':'Зарплата','Effective hourly pay':'Фактична оплата за годину',
+      'Shortest week':'Найкоротший робочий тиждень','List':'Список','Grid':'Сітка',
+      'About & support':'Про нас і підтримка','Find your foundation placement.':'Знайдіть місце для базової підготовки.',
+      'Explore all programme locations across England & Wales':'Перегляньте розташування всіх програм в Англії та Уельсі',
+      'Map style':'Стиль карти','Fit results':'Показати результати на карті',
+      'Hide filters':'Приховати фільтри','Best fit':'Найкраща відповідність',
+      'Highest salary':'Найвища зарплата','Export decisions':'Експортувати рішення',
+      'Backup':'Резервна копія','Restore backup':'Відновити копію',
+      'No results found':'Результатів не знайдено'
+    }
+  });
+
   const PROTECTED_SELECTOR = [
     '#results', '#reco', '#shortlistList', '#compareArea', '#placementMap', '#mapSelection',
     '.placement', '.rank-row', '.recoGrid', '.leaflet-container',
@@ -320,7 +504,7 @@
 
   function applyLanguage(language) {
     activeLanguage = LANGUAGES.some(([code]) => code === language) ? language : 'en';
-    const rtl = activeLanguage === 'ar' || activeLanguage === 'ur';
+    const rtl = ['ar','ur','fa','ps','ckb'].includes(activeLanguage);
     document.documentElement.lang = activeLanguage;
     document.documentElement.dir = rtl ? 'rtl' : 'ltr';
     document.documentElement.dataset.atlasLanguage = activeLanguage;
@@ -328,51 +512,190 @@
     document.dispatchEvent(new CustomEvent('placementatlas:languagechange', { detail: { language: activeLanguage, direction: rtl ? 'rtl' : 'ltr' } }));
   }
 
+  // Body-level popover avoids clipping inside the scrollable sticky header.
   function mountSelector() {
     const header = document.querySelector('.shell > header.top');
     const nav = header?.querySelector('nav.tabs');
-    if (!header || !nav || document.getElementById('atlasLanguagePicker')) return;
-    const label = document.createElement('label');
-    label.className = 'atlasLanguagePicker';
-    label.id = 'atlasLanguagePicker';
-    
-    label.innerHTML = '<span>Language</span><select id="atlasLanguageSelect" aria-label="Choose interface language"></select>';
-    const select = label.querySelector('select');
-    for (const [code, name] of LANGUAGES) {
-      const option = document.createElement('option');
-      option.value = code;
-      option.textContent = name;
-      select.append(option);
+    if (!header || !nav || document.getElementById('atlasLanguagePicker')) return null;
+    const picker = document.createElement('div');
+    picker.id = 'atlasLanguagePicker';
+    picker.className = 'atlasLanguagePicker';
+    picker.setAttribute('translate', 'no');
+    picker.setAttribute('data-atlas-no-translate', '');
+    picker.innerHTML = '<button type="button" class="atlasLanguageTrigger" id="atlasLanguageTrigger" aria-haspopup="menu" aria-controls="atlasLanguageMenu" aria-expanded="false">' +
+      '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c-3 3-4.5 6-4.5 9s1.5 6 4.5 9M12 3c3 3 4.5 6 4.5 9s-1.5 6-4.5 9"/></svg>' +
+      '<span class="atlasLanguageCurrentFlag" aria-hidden="true">🇬🇧</span>' +
+      '<span class="atlasLanguageCurrentName">English</span>' +
+      '<svg class="atlasLanguageChevron" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></button>';
+    const trigger = picker.querySelector('#atlasLanguageTrigger');
+    const popup = document.createElement('div');
+    popup.id = 'atlasLanguageMenu';
+    popup.className = 'atlasLanguageMenu';
+    popup.hidden = true;
+    popup.setAttribute('role','menu');
+    popup.setAttribute('aria-label','Choose website language');
+    popup.setAttribute('data-atlas-no-translate','');
+    popup.setAttribute('translate','no');
+    const title = document.createElement('div');
+    title.className = 'atlasLanguageMenuTitle';
+    title.textContent = 'Choose language';
+    const list = document.createElement('div');
+    list.className = 'atlasLanguageOptions';
+    popup.append(title,list);
+    const buttons = new Map();
+    const parseLabel = label => {
+      const index = label.indexOf(' ');
+      return {flag:label.slice(0,index),name:label.slice(index+1)};
+    };
+    for (const [code,label] of LANGUAGES) {
+      const {flag,name}=parseLabel(label);
+      const option = document.createElement('button');
+      option.type='button';
+      option.className='atlasLanguageOption';
+      option.dataset.language=code;
+      option.setAttribute('role','menuitemradio');
+      option.setAttribute('aria-checked','false');
+      option.tabIndex=-1;
+      const flagSpan=document.createElement('span');
+      flagSpan.className='atlasLanguageOptionFlag';
+      flagSpan.setAttribute('aria-hidden','true');
+      flagSpan.textContent=flag;
+      const nameSpan=document.createElement('span');
+      nameSpan.className='atlasLanguageOptionName';
+      nameSpan.textContent=name;
+      nameSpan.lang=code;
+      if(['ar','ur','fa','ps','ckb'].includes(code))nameSpan.dir='rtl';
+      const tick=document.createElement('span');
+      tick.className='atlasLanguageOptionCheck';
+      tick.setAttribute('aria-hidden','true');
+      tick.textContent='✓';
+      option.append(flagSpan,nameSpan,tick);
+      list.append(option);
+      buttons.set(code,option);
     }
-    let saved = 'en';
-    try { saved = localStorage.getItem('placement-atlas-language-v1') || 'en'; } catch {}
-    if (!LANGUAGES.some(([code]) => code === saved)) saved = 'en';
-    select.value = saved;
-    select.addEventListener('change', () => {
-      const language = select.value;
-      try { localStorage.setItem('placement-atlas-language-v1', language); } catch {}
-      applyLanguage(language);
+    header.append(picker);
+    document.body.append(popup);
+    let opened=false;
+    const updateSelected=()=>{
+      const [code,label]=LANGUAGES.find(([entry])=>entry===activeLanguage)||LANGUAGES[0];
+      const {flag,name}=parseLabel(label);
+      trigger.querySelector('.atlasLanguageCurrentFlag').textContent=flag;
+      trigger.querySelector('.atlasLanguageCurrentName').textContent=name;
+      trigger.setAttribute('aria-label','Website language: '+name+'. Change language');
+      for(const [entry,button] of buttons) {
+        const selected=entry===code;
+        button.setAttribute('aria-checked',String(selected));
+        button.classList.toggle('atlasLanguageSelected',selected);
+      }
+    };
+    const positionPopup=()=>{
+      if(!opened)return;
+      const r=trigger.getBoundingClientRect();
+      const vw=window.innerWidth,vh=window.innerHeight;
+      const width=Math.min(310,vw-24);
+      popup.style.width=width+'px';
+      const left=Math.max(12,Math.min(vw-width-12,r.right-width));
+      const maxHeight=Math.min(420,Math.max(160,vh-24));
+      const below=vh-r.bottom-12;
+      const above=r.top-12;
+      const useAbove=below<Math.min(260,maxHeight)&&above>below;
+      const height=Math.min(maxHeight,Math.max(140,useAbove?above:below));
+      popup.style.left=left+'px';
+      popup.style.maxHeight=height+'px';
+      popup.style.top=(useAbove?Math.max(12,r.top-height-5):Math.min(vh-height-12,r.bottom+5))+'px';
+    };
+    const closePopup=(restoreFocus=false)=>{
+      if(!opened)return;
+      opened=false;
+      popup.hidden=true;
+      trigger.setAttribute('aria-expanded','false');
+      picker.classList.remove('atlasLanguageOpen');
+      if(restoreFocus)trigger.focus();
+    };
+    const openPopup=()=>{
+      if(opened)return;
+      opened=true;
+      popup.hidden=false;
+      trigger.setAttribute('aria-expanded','true');
+      picker.classList.add('atlasLanguageOpen');
+      positionPopup();
+      const chosen=buttons.get(activeLanguage)||buttons.get('en');
+      chosen?.focus();
+      chosen?.scrollIntoView({block:'nearest'});
+    };
+    const selectLanguage=code=>{
+      if(!buttons.has(code))return;
+      try{localStorage.setItem('placement-atlas-language-v1',code);}catch{}
+      applyLanguage(code);
+      updateSelected();
+      closePopup(true);
+    };
+    trigger.addEventListener('click',()=>opened?closePopup():openPopup());
+    trigger.addEventListener('keydown',event=>{
+      if(['ArrowDown','ArrowUp','Enter',' '].includes(event.key)){
+        event.preventDefault();
+        if(!opened)openPopup();
+        if(event.key==='ArrowUp')buttons.get(LANGUAGES[LANGUAGES.length-1][0])?.focus();
+      }
     });
-    header.append(label);
-    return select;
+    list.addEventListener('click',event=>{
+      const option=event.target.closest('button[data-language]');
+      if(option)selectLanguage(option.dataset.language);
+    });
+    list.addEventListener('keydown',event=>{
+      if(event.key==='Escape'){event.preventDefault();closePopup(true);return;}
+      if(event.key==='Tab'){closePopup();return;}
+      if(!['ArrowDown','ArrowUp','Home','End'].includes(event.key))return;
+      event.preventDefault();
+      const focused=event.target.closest('button[data-language]');
+      const i=LANGUAGES.findIndex(([code])=>code===focused?.dataset.language);
+      let next=0;
+      if(event.key==='Home')next=0;
+      else if(event.key==='End')next=LANGUAGES.length-1;
+      else next=(i+(event.key==='ArrowUp'?-1:1)+LANGUAGES.length)%LANGUAGES.length;
+      buttons.get(LANGUAGES[next][0])?.focus();
+    });
+    document.addEventListener('pointerdown',event=>{
+      if(opened&&!picker.contains(event.target)&&!popup.contains(event.target))closePopup();
+    },true);
+    document.addEventListener('keydown',event=>{
+      if(opened&&event.key==='Escape'){event.preventDefault();closePopup(true);}
+    });
+    window.addEventListener('resize',positionPopup,{passive:true});
+    window.addEventListener('scroll',positionPopup,{passive:true,capture:true});
+    document.addEventListener('placementatlas:languagechange',updateSelected);
+    updateSelected();
+    return picker;
   }
 
   function init() {
-    const select = mountSelector();
-    let saved = 'en';
-    try { saved = localStorage.getItem('placement-atlas-language-v1') || 'en'; } catch {}
-    if (select) select.value = LANGUAGES.some(([code]) => code === saved) ? saved : 'en';
+    mountSelector();
+    let saved='en';
+    try{saved=localStorage.getItem('placement-atlas-language-v1')||'en';}catch{}
     applyLanguage(saved);
-    if (observer) observer.disconnect();
-    observer = new MutationObserver(records => {
-      for (const record of records) {
-        if (record.type === 'characterData') translateTextNode(record.target);
-        for (const node of record.addedNodes) walk(node);
+    if(observer)observer.disconnect();
+    let pending=[];
+    let scheduled=false;
+    const flush=()=>{
+      scheduled=false;
+      const nodes=pending;
+      pending=[];
+      // One pass per unique changed node to avoid repeatedly traversing
+      // dynamic programme content in the same animation frame.
+      for(const node of new Set(nodes))walk(node);
+    };
+    observer=new MutationObserver(records=>{
+      for(const record of records){
+        if(record.type==='characterData')pending.push(record.target);
+        else for(const node of record.addedNodes)pending.push(node);
+      }
+      if(pending.length&&!scheduled){
+        scheduled=true;
+        requestAnimationFrame(flush);
       }
     });
-    observer.observe(document.body, { childList: true, subtree: true, characterData: true });
-    document.addEventListener('desk:after-navigation', () => walk(document.body));
-    document.addEventListener('desk:dataset', () => walk(document.body));
+    observer.observe(document.body,{childList:true,subtree:true,characterData:true});
+    document.addEventListener('desk:after-navigation',()=>walk(document.body));
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });

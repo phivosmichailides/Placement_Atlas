@@ -225,3 +225,9 @@ html[data-atlas-language]:not([data-atlas-language="en"]) body .atlasStickyHeade
 html[data-atlas-language]:not([data-atlas-language="en"]) body .atlasStickyHeader > nav.tabs > .tab{
   flex:0 0 auto;
 }
+
+/* Match the high-specificity sticky-header rule used by the base theme. */
+html[data-atlas-language]:not([data-atlas-language="en"]) body .shell > header.top.atlasStickyHeader > nav.tabs{
+  justify-content:flex-start!important;
+  overflow-x:auto!important;
+}

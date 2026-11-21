@@ -1,146 +1,165 @@
-/* Placement Atlas · full-viewport Swipe Mode workspace
-   Scoped to the desktop Swipe Mode view so other tabs and mobile layouts keep
-   their existing sizing. The shell zoom compensation is reused, but its old
-   fixed 1,540px cap is removed for this view. */
+/* Swipe Mode desktop fit.
+   Keep the same zoom-compensated, centred shell as every other page.
+   The previous full-bleed shell plus 1,120px deck produced horizontal overflow
+   and oversized cards when the in-app zoom was changed. Mobile styles untouched. */
 @media (min-width:900px) and (hover:hover) and (pointer:fine){
   html body[data-atlas-view="tinderMode"] .shell{
     width:var(--ux-shell-width,100%)!important;
-    max-width:none!important;
-    min-height:100svh!important;
-    min-height:calc(100svh / var(--ux-page-zoom,1))!important;
-    margin:0!important;
-    padding-inline:clamp(18px,2.2vw,54px)!important;
+    max-width:var(--ux-shell-max-width,1540px)!important;
+    min-width:0!important;
+    margin-inline:auto!important;
+    box-sizing:border-box!important;
+    padding-inline:clamp(12px,1.7vw,26px)!important;
   }
-
-  /* A full-width application banner, with more legible desktop navigation. */
-  html body[data-atlas-view="tinderMode"] .shell>.atlasStickyHeader{
+  html body[data-atlas-view="tinderMode"] .shell > header.top.atlasStickyHeader{
+    box-sizing:border-box!important;
+    max-width:100%!important;
+    min-width:0!important;
     width:100%!important;
-    min-height:clamp(68px,3vw,94px)!important;
-    padding-block:clamp(10px,.7vw,22px)!important;
   }
-  html body[data-atlas-view="tinderMode"] .atlasStickyHeader .brand .logo,
-  html body[data-atlas-view="tinderMode"] .atlasStickyHeader .brand .logo img{
-    width:clamp(42px,1.8vw,56px)!important;
-    height:clamp(42px,1.8vw,56px)!important;
-    min-width:clamp(42px,1.8vw,56px)!important;
-  }
-  html body[data-atlas-view="tinderMode"] .atlasStickyHeader .brand h1{
-    font-size:clamp(22px,1.15vw,36px)!important;
-  }
-  html body[data-atlas-view="tinderMode"] .atlasStickyHeader>nav.tabs>.tab{
-    min-height:clamp(42px,2vw,52px)!important;
-    padding-inline:clamp(10px,.6vw,18px)!important;
-    font-size:clamp(12px,.6vw,18px)!important;
-  }
-
-  /* Let the swipe workspace own the remaining page height. */
   html body[data-atlas-view="tinderMode"] #tinderMode.active{
     display:flex!important;
     flex-direction:column!important;
     width:100%!important;
-    max-width:none!important;
-    min-height:calc(100svh - 150px)!important;
-    min-height:calc((100svh - 150px) / var(--ux-page-zoom,1))!important;
+    max-width:100%!important;
+    min-width:0!important;
+    /* Keep the footer below the main app rather than immediately under
+       a short card, without forcing unnecessary scrolling. */
+    min-height:calc(100svh / var(--ux-page-zoom,1) - 135px)!important;
   }
   html body[data-atlas-view="tinderMode"] #tinderMode .tdSettings{
     flex:0 0 auto!important;
+    max-width:100%!important;
     width:100%!important;
-    max-width:none!important;
-    margin-inline:auto!important;
-    padding:clamp(14px,.9vw,26px) clamp(0px,.8vw,20px)!important;
-    font-size:clamp(13px,.6vw,17px)!important;
+    min-width:0!important;
+    margin:0 auto!important;
+    padding:12px clamp(4px,.85vw,14px)!important;
+    gap:12px!important;
+    box-sizing:border-box!important;
   }
   html body[data-atlas-view="tinderMode"] #tinderMode .tdBoard{
     flex:1 1 auto!important;
     display:flex!important;
     flex-direction:column!important;
+    align-items:center!important;
     justify-content:center!important;
-    width:min(100%,clamp(760px,70vw,1360px))!important;
-    max-width:1360px!important;
+    width:min(100%,920px)!important;
+    max-width:920px!important;
+    min-width:0!important;
     margin:0 auto!important;
-    padding:clamp(10px,1vw,24px) 0 clamp(24px,2vw,42px)!important;
+    padding:8px 0 24px!important;
+    box-sizing:border-box!important;
   }
   html body[data-atlas-view="tinderMode"] #tinderMode .tdCardDeck{
-    width:min(100%,clamp(680px,54vw,1120px))!important;
-    max-width:1120px!important;
-    min-height:clamp(520px,40svh,700px)!important;
-    padding-inline:clamp(10px,.8vw,20px)!important;
+    width:min(100%,780px)!important;
+    max-width:780px!important;
+    min-width:0!important;
+    min-height:0!important;
+    margin-inline:auto!important;
+    padding:0 7px 5px!important;
+    box-sizing:border-box!important;
   }
   html body[data-atlas-view="tinderMode"] #tinderMode .tdCardSlot{
-    min-height:clamp(480px,38svh,650px)!important;
+    width:100%!important;
+    min-height:0!important;
   }
   html body[data-atlas-view="tinderMode"] #tinderMode .tdSwipeCard{
-    padding:clamp(24px,1.5vw,40px)!important;
-    border-radius:clamp(22px,1.3vw,30px)!important;
+    padding:clamp(17px,1.5vw,25px)!important;
+    border-radius:22px!important;
+    max-width:100%!important;
+    box-sizing:border-box!important;
   }
-
-  /* Scale the card's information with the available desktop viewport. */
   html body[data-atlas-view="tinderMode"] #tinderMode .tdProgrammeName{
-    font-size:clamp(24px,1.25vw,38px)!important;
+    font-size:clamp(22px,1.6vw,29px)!important;
+    line-height:1.2!important;
   }
   html body[data-atlas-view="tinderMode"] #tinderMode .tdEmployer{
-    font-size:clamp(14px,.7vw,20px)!important;
+    font-size:13px!important;margin-bottom:12px!important;
   }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdMetrics{
+    margin-bottom:12px!important;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdMetrics > div{
+    padding:10px 11px!important;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdMetrics span,
   html body[data-atlas-view="tinderMode"] #tinderMode .tdCardCode,
   html body[data-atlas-view="tinderMode"] #tinderMode .tdSectionLabel{
-    font-size:clamp(11px,.5vw,15px)!important;
-  }
-  html body[data-atlas-view="tinderMode"] #tinderMode .tdFitScore{
-    font-size:clamp(12px,.52vw,16px)!important;
-  }
-  html body[data-atlas-view="tinderMode"] #tinderMode .tdMetrics span{
-    font-size:clamp(11px,.5vw,15px)!important;
+    font-size:10px!important;
   }
   html body[data-atlas-view="tinderMode"] #tinderMode .tdMetrics strong{
-    font-size:clamp(16px,.75vw,22px)!important;
+    font-size:15px!important;
   }
   html body[data-atlas-view="tinderMode"] #tinderMode .tdLocationText{
-    font-size:clamp(15px,.75vw,22px)!important;
+    font-size:14px!important;
   }
-  html body[data-atlas-view="tinderMode"] #tinderMode .tdRotations span{
-    font-size:clamp(11px,.52vw,16px)!important;
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdSites{
+    padding:10px 12px!important;
+    margin-bottom:10px!important;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdRotations{
+    margin-bottom:11px!important;
   }
   html body[data-atlas-view="tinderMode"] #tinderMode .tdVerdict{
-    padding:clamp(14px,.8vw,22px)!important;
+    padding:11px 12px!important;
   }
   html body[data-atlas-view="tinderMode"] #tinderMode .tdVerdict h4{
-    font-size:clamp(13px,.6vw,18px)!important;
+    font-size:12px!important;
   }
   html body[data-atlas-view="tinderMode"] #tinderMode .tdVerdict li{
-    font-size:clamp(12px,.55vw,17px)!important;
+    font-size:11px!important;
   }
-
-  /* Larger, easier-to-hit swipe controls and readable supporting text. */
   html body[data-atlas-view="tinderMode"] #tinderMode .tdActions{
-    gap:clamp(14px,1.2vw,24px)!important;
-    margin:clamp(16px,1vw,24px) 0 8px!important;
+    gap:14px!important;
+    margin:13px 0 6px!important;
   }
   html body[data-atlas-view="tinderMode"] #tinderMode .tdAction{
-    width:clamp(66px,2.8vw,86px)!important;
-    height:clamp(66px,2.8vw,86px)!important;
-    padding:clamp(15px,.7vw,22px)!important;
+    width:61px!important;height:61px!important;padding:15px!important;
   }
   html body[data-atlas-view="tinderMode"] #tinderMode .tdAction-undo{
-    width:clamp(52px,2.2vw,68px)!important;
-    height:clamp(52px,2.2vw,68px)!important;
-    padding:clamp(12px,.55vw,18px)!important;
+    width:49px!important;height:49px!important;padding:12px!important;
   }
   html body[data-atlas-view="tinderMode"] #tinderMode .tdActionLegend{
-    gap:clamp(14px,1.2vw,24px)!important;
-    font-size:clamp(11px,.5vw,15px)!important;
+    gap:14px!important;font-size:11px!important;
   }
   html body[data-atlas-view="tinderMode"] #tinderMode .tdActionLegend span{
-    width:clamp(66px,2.8vw,86px)!important;
+    width:61px!important;
   }
   html body[data-atlas-view="tinderMode"] #tinderMode .tdActionLegend span:first-child{
-    width:clamp(52px,2.2vw,68px)!important;
+    width:49px!important;
   }
-  html body[data-atlas-view="tinderMode"] #tinderMode .tdExisting,
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdExisting{
+    font-size:12px!important;margin-top:9px!important;
+  }
   html body[data-atlas-view="tinderMode"] #tinderMode .tdNotice{
-    font-size:clamp(12px,.5vw,16px)!important;
+    font-size:11px!important;margin-top:6px!important;
   }
   html body[data-atlas-view="tinderMode"] #tinderMode .tdDisclosure{
-    max-width:min(900px,90%)!important;
-    font-size:clamp(11px,.48vw,15px)!important;
+    font-size:10.5px!important;
+    max-width:min(100%,660px)!important;
+    margin-top:11px!important;
+  }
+  /* Fixed shortlist / exclude shortcuts should not dominate a desktop page. */
+  html body[data-atlas-view="tinderMode"] .tdFloatingDecisions{
+    gap:8px!important;right:14px!important;bottom:14px!important;
+  }
+  html body[data-atlas-view="tinderMode"] .tdFloatingDecisions .tdLauncher{
+    min-width:67px!important;min-height:43px!important;
+    font-size:14px!important;padding:9px 12px!important;
+    gap:6px!important;
+  }
+  html body[data-atlas-view="tinderMode"] .tdFloatingDecisions .tdLauncher svg{
+    width:17px!important;height:17px!important;
+  }
+}
+@media (min-width:900px) and (max-height:800px) and (hover:hover) and (pointer:fine){
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdBoard{
+    padding:3px 0 16px!important;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdSwipeCard{
+    padding:15px 18px!important;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdSettings{
+    padding-block:7px!important;
   }
 }

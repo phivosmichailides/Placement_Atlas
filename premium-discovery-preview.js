@@ -137,7 +137,8 @@
     root.dataset.atlasPrototype='1';
     const toolbar=document.createElement('div');
     toolbar.className='atlasStatToolbarPremium';
-    toolbar.innerHTML='<div><b>Your placement workspace</b><span>Start broad, then narrow your choices.</span></div>';
+    // Stats already describe themselves; keep the expand action without a
+    // third introductory heading and another repeated instruction.
     const show=document.createElement('button');
     show.type='button';show.className='atlasStatTogglePremium';show.textContent='More statistics';
     show.setAttribute('aria-expanded','false');

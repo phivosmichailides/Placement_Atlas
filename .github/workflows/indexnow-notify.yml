@@ -1,0 +1,33 @@
+name: IndexNow site discovery
+on:
+  workflow_run:
+    workflows:
+      - pages build and deployment
+    types:
+      - completed
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  notify-participating-search-engines:
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && github.sha || github.event.workflow_run.head_sha }}
+          fetch-depth: 2
+      - name: Verify public IndexNow payload and URL allowlist
+        run: |
+          python3 -m py_compile scripts/indexnow_notify.py
+          python3 scripts/indexnow_notify.py --dry-run --all
+      - name: Notify engines about newly deployed canonical pages
+        env:
+          DEPLOY_SHA: ${{ github.event_name == 'workflow_dispatch' && github.sha || github.event.workflow_run.head_sha }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            python3 scripts/indexnow_notify.py --all
+          else
+            python3 scripts/indexnow_notify.py --commit "$DEPLOY_SHA"
+          fi

@@ -11,13 +11,14 @@ const swipe=read('tinder-mode.js');
 const html=read('index.html');
 const sw=read('sw.js');
 
-test('25 language options have country flags, with English first and defaults',()=>{
+test('28 ordered language options have country flags and English as default',()=>{
   const choices=[...i18n.matchAll(/^\s*\['([^']+)',\s*'([^']+)'\],?$/gm)]
     .filter(match=>match.index<i18n.indexOf('const DICTIONARIES'));
   const codes=choices.map(m=>m[1]);
-  assert.equal(codes.length,25,'the language list should include 25 options');
+  assert.equal(codes.length,28,'the language list should include 28 options');
+  assert.deepEqual(codes.slice(0,13),['en','el','fr','es','it','nl','de','zh-CN','yue-HK','ja','ko','hi','ar'],'honour the requested menu order');
   assert.equal(codes[0],'en','English is the default');
-  for(const code of ['el','ar','ur','zh-CN','zh-TW','pa','bn','hi','gu','ta','pl','ro','es','fr','pt','it','de','nl','fa','tr','ps','ckb','so','uk']){
+  for(const code of ['el','ar','ur','zh-CN','yue-HK','ja','ko','zh-TW','pa','bn','hi','gu','ta','pl','ro','es','fr','pt','it','de','nl','fa','tr','ps','ckb','so','uk']){
     assert.ok(codes.includes(code),'missing language '+code);
   }
   for(const m of choices){
@@ -79,7 +80,8 @@ test('Like, Like No and Super Like feedback stays anchored above scrollable card
 
 test('updated assets load in the website and offline application',()=>{
   for(const asset of [
-    "atlas-i18n.js?v=20261121parity1",
+    "atlas-i18n.js?v=20261121langorder1",
+    "atlas-i18n-east-asia.js?v=20261121eastasia1",
     "atlas-i18n-parity.js?v=20261121parity1",
     "atlas-i18n-quiz.js?v=20261121quiz1",
     "atlas-i18n.css?v=20261121el7",

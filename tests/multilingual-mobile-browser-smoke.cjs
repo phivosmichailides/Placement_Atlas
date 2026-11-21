@@ -29,7 +29,9 @@ const base = process.env.TARGET || 'http://127.0.0.1:8000/';
     await page.locator('#atlasLanguageTrigger').click();
     const menu = page.locator('#atlasLanguageMenu');
     assert(await menu.isVisible(),'Language options must open');
-    assert.equal(await menu.locator('[role=menuitemradio]').count(),25);
+    assert.equal(await menu.locator('[role=menuitemradio]').count(),28);
+    const menuOrder=await menu.locator('[role=menuitemradio]').evaluateAll(items=>items.map(el=>el.dataset.language));
+    assert.deepEqual(menuOrder.slice(0,13),['en','el','fr','es','it','nl','de','zh-CN','yue-HK','ja','ko','hi','ar']);
     const menuRect = await menu.boundingBox();
     assert(menuRect && menuRect.x >= 0 &&
       menuRect.x+menuRect.width <= 431 &&
@@ -81,6 +83,22 @@ const base = process.env.TARGET || 'http://127.0.0.1:8000/';
     assert.equal(await page.locator('html').getAttribute('dir'),'ltr');
     assert.equal(await page.locator('html').getAttribute('lang'),'en');
     assert.equal(new URL(page.url()).searchParams.has('lang'),false,'English should use the canonical URL');
+    // Each new language must change real interface labels, not just the flag.
+    for(const [code,explore] of [['yue-HK','探索'],['ja','探す'],['ko','탐색']]){
+      await page.locator('#atlasLanguageTrigger').click();
+      await page.locator('#atlasLanguageMenu button[data-language="'+code+'"]').click();
+      await page.waitForFunction(([language,label])=>
+        document.documentElement.lang===language &&
+        document.querySelector('nav.tabs .tab[data-tab="explore"]')?.textContent?.includes(label),
+        [code,explore],{timeout:15000});
+      assert.equal(new URL(page.url()).searchParams.get('lang'),code);
+      assert.match(await page.locator('nav.tabs .tab[data-tab="tinderMode"]').innerText(),/Swipe Mode/,
+        'Official mode name remains unchanged in '+code);
+    }
+    await page.locator('#atlasLanguageTrigger').click();
+    await page.locator('#atlasLanguageMenu button[data-language="en"]').click();
+    await page.waitForFunction(()=>document.documentElement.lang==='en');
+
 
     await page.waitForFunction(()=>typeof placements!=='undefined'&&placements.length===4064,null,{timeout:90000});
     const swipeTab=page.locator('header.top nav.tabs [data-tab="tinderMode"]');

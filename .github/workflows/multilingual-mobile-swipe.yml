@@ -8,6 +8,7 @@ on:
       - 'atlas-i18n.js'
       - 'atlas-i18n-parity.js'
       - 'atlas-i18n-quiz.js'
+      - 'atlas-i18n-east-asia.js'
       - 'swipe-mobile-navigation.js'
       - 'swipe-mobile-workspace.css'
       - 'tests/multilingual-content-parity.test.cjs'
@@ -24,6 +25,7 @@ on:
       - 'atlas-i18n.js'
       - 'atlas-i18n-parity.js'
       - 'atlas-i18n-quiz.js'
+      - 'atlas-i18n-east-asia.js'
       - 'swipe-mobile-navigation.js'
       - 'swipe-mobile-workspace.css'
       - 'tests/multilingual-content-parity.test.cjs'
@@ -44,6 +46,6 @@ jobs:
         with:
           node-version: '22'
       - name: Verify JavaScript syntax
-        run: node --check atlas-i18n.js && node --check atlas-i18n-parity.js && node --check atlas-i18n-quiz.js && node --check swipe-mobile-navigation.js && node --check tinder-mode.js && node --check sw.js
+        run: node --check atlas-i18n.js && node --check atlas-i18n-parity.js && node --check atlas-i18n-quiz.js && node --check atlas-i18n-east-asia.js && node --check swipe-mobile-navigation.js && node --check tinder-mode.js && node --check sw.js
       - name: Verify language selector, swipe gestures and offline assets
         run: node --test tests/multilingual-mobile-swipe.test.cjs tests/multilingual-content-parity.test.cjs tests/swipe-mode-workspace-regression.test.cjs

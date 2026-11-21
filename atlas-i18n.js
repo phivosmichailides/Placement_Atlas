@@ -859,7 +859,7 @@
     if (DICTIONARIES[language]) Object.assign(DICTIONARIES[language], translations);
   }
   // Official identifiers must remain consistent in every language.
-  const OFFICIAL_TERMS = new Set(['Placement Atlas','Oriel','NHS','MPharm','Swipe Mode','GP','Hospital','General Practice','Skilled Worker visa']);
+  const OFFICIAL_TERMS = new Set(['Placement Atlas','Oriel','NHS','MPharm','Swipe Mode','GP','Hospital','General Practice','Skilled Worker visa','England','Wales','London','Wessex','East Midlands','East of England','Kent, Surrey and Sussex','North East','North West','South West','Thames Valley','West Midlands','Yorkshire and the Humber']);
   const getSavedLanguage = () => {
     let saved='en';
     try{saved=localStorage.getItem('placement-atlas-language-v1')||'en';}catch{}
@@ -902,7 +902,7 @@
     '.tdProgrammeName', '.tdEmployer',
     '.tdLocationText', '.tdDetailsFacts dd', '.tdDrawerProgrammeTitle',
     '.atlasWorkspaceTitleOriginal', '.atlasWorkspaceTitleConcise',
-    '.atlasTitleOriginal', '.atlasTitleConcise', '.placementTop h3',
+    '.atlasTitleOriginal', '.atlasTitleConcise', '.placementTop h3', '.placementTop .employer', '.placementTop .eyebrow',
     '.tdProgrammeTitle', '.programme-title', '.programme-name', '.recoCard h3',
     '.atlasCardOriginalDescription', '.atlasOriginalDescription',
     '[data-atlas-no-translate]', '[translate="no"]',
@@ -939,7 +939,7 @@
     const key = source.trim();
     if (!key || OFFICIAL_TERMS.has(key)) return;
     const dict = dictionary();
-    let value = dict[key] || dict[key.replace(/\s+/g, ' ')];
+    let value = dict[key] || dict[key.replace(/\s+/g, ' ')] || dynamicLocale(key);
     // The English "Any" must agree with the field in Greek; translating
     // all four selects to the same masculine form is grammatically wrong.
     if (activeLanguage === 'el' && key === 'Any' && parent.tagName === 'OPTION') {

@@ -14,6 +14,8 @@
     &nbsp;·&nbsp;
     <a href='https://placementatlas.co.uk/programme-snapshot.html'>View the 2026 programme data</a>
     &nbsp;·&nbsp;
+    <a href='mailto:placementatlas@hotmail.com'>Email the developer</a>
+    &nbsp;·&nbsp;
     <a href='https://github.com/phivosmichailides/Placement_Atlas/discussions'>Share feedback</a>
   </p>
 </div>
@@ -194,8 +196,11 @@ Placement Atlas is a working, actively refined independent product. The core exp
 
 Feedback is welcome — particularly from foundation-training applicants, pharmacists, educators and people working in product, data or software. Suggestions, usability observations and bug reports help identify what should improve next.
 
+**Project enquiries, feedback, reviews, press, collaboration or developer contact:** [placementatlas@hotmail.com](mailto:placementatlas@hotmail.com). This is the project's public contact inbox. For non-sensitive bug reports and feature requests, you can also use GitHub Discussions; please send private account or personal-data enquiries by email.
+
 - [Try the live application](https://placementatlas.co.uk/)
 - [Read the comparison guide](https://placementatlas.co.uk/guide.html)
+- **[Contact the developer — placementatlas@hotmail.com](mailto:placementatlas@hotmail.com)**
 - [Open GitHub Discussions](https://github.com/phivosmichailides/Placement_Atlas/discussions)
 - [Connect on LinkedIn](https://www.linkedin.com/in/phivos-michailides-601b0329b/)
 

@@ -129,7 +129,7 @@ const base = process.env.TARGET || 'http://127.0.0.1:8000/';
     if(await desktopWelcome.count()) await desktopWelcome.first().click().catch(()=>{});
     const navBox=await desktopPage.locator('header.top nav.tabs').boundingBox();
     const exploreBox=await desktopPage.locator('header.top nav.tabs [data-tab="explore"]').boundingBox();
-    assert(navBox&&exploreBox&&exploreBox.left>=navBox.left-2,
+    assert(navBox&&exploreBox&&exploreBox.x>=navBox.x-2,
       'Greek Explore tab must not overlap the brand: '+JSON.stringify({navBox,exploreBox}));
     await desktopPage.locator('header.top nav.tabs [data-tab="shortlist"]').click({timeout:15000});
     await desktopPage.locator('header.top nav.tabs [data-tab="explore"]').click({timeout:15000});

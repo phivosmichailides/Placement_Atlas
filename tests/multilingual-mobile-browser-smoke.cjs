@@ -51,7 +51,7 @@ const base = process.env.TARGET || 'http://127.0.0.1:8000/';
       'Region is feminine in Greek: Οποιαδήποτε');
     assert.equal(await page.locator('#hours option').first().innerText(),'Χωρίς όριο');
     assert.equal(await page.locator('#salary option').first().innerText(),'Χωρίς όριο');
-    assert.match(await page.locator('.map-heading h2').innerText(),/Τοποθεσίες προγραμμάτων/,
+    assert.match(await page.locator('.map-heading h2').innerText(),/Χάρτης προγραμμάτων/,
       'Map heading should be translated and concise');
     const greekUI=await page.evaluate(()=>{
       const map=document.querySelector('.map-heading h2');

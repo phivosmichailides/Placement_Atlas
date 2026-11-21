@@ -1,30 +1,71 @@
 name: IndexNow site discovery
 on:
-  workflow_run:
-    workflows:
-      - pages build and deployment
-    types:
-      - completed
+  # GitHub Pages' built-in "pages build and deployment" runs do not reliably
+  # emit workflow_run events, so use the actual branch update as the trigger.
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'about.html'
+      - 'guide.html'
+      - 'privacy.html'
+      - 'terms.html'
+      - 'sitemap.xml'
+      - 'robots.txt'
+      - '7e2c5b8a1d409f63a4b0c92e6d8f1753.txt'
+      - 'scripts/indexnow_notify.py'
+      - '.github/workflows/indexnow-notify.yml'
   workflow_dispatch:
+
 permissions:
   contents: read
+
+concurrency:
+  group: indexnow-public-pages
+  cancel-in-progress: false
+
 jobs:
   notify-participating-search-engines:
-    if: ${{ github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main') }}
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event_name == 'workflow_dispatch' && github.sha || github.event.workflow_run.head_sha }}
           fetch-depth: 2
-      - name: Verify public IndexNow payload and URL allowlist
+
+      - name: Validate canonical URLs and IndexNow payload
         run: |
           python3 -m py_compile scripts/indexnow_notify.py
           python3 scripts/indexnow_notify.py --dry-run --all
-      - name: Notify engines about newly deployed canonical pages
+
+      - name: Verify public ownership key and allow Pages to deploy
+        shell: bash
+        run: |
+          set -euo pipefail
+          KEY=7e2c5b8a1d409f63a4b0c92e6d8f1753
+          URL="https://placementatlas.co.uk/${KEY}.txt"
+          verified=0
+          for attempt in $(seq 1 20); do
+            body="$(curl --location --fail --silent --max-time 12 "$URL" || true)"
+            if [ "$body" = "$KEY" ]; then
+              echo "IndexNow ownership key is publicly accessible."
+              verified=1
+              break
+            fi
+            echo "Verification file not yet public (attempt $attempt/20)."
+            sleep 12
+          done
+          if [ "$verified" -ne 1 ]; then
+            echo "IndexNow verification URL unavailable. Refusing to notify with an unverified key."
+            exit 1
+          fi
+          # The key may have been live from an older deployment. Give GitHub
+          # Pages time to publish the HTML from this push before notifying.
+          sleep 45
+
+      - name: Submit changed public pages to IndexNow
         env:
-          DEPLOY_SHA: ${{ github.event_name == 'workflow_dispatch' && github.sha || github.event.workflow_run.head_sha }}
+          DEPLOY_SHA: ${{ github.sha }}
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             python3 scripts/indexnow_notify.py --all

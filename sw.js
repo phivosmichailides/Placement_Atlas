@@ -52,9 +52,22 @@ const REMOTE_MAP_ASSETS=[
  'https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-leaflet@0.1.4/leaflet-maplibre-gl.js'
 ];
 const MAP_TILE_HOSTS=new Set(['api.maptiler.com','tile.openstreetmap.org']);
+const MAP_TILE_CACHE_LIMIT=700;
+const MAP_TILE_TRIM_BATCH=32;
+let mapTilesCachedSinceTrim=0;
 const trimMapTileCache=async cache=>{
  const keys=await cache.keys();
- for(let i=0;i<keys.length-700;i++)await cache.delete(keys[i]);
+ const excess=Math.max(0,keys.length-MAP_TILE_CACHE_LIMIT);
+ for(let i=0;i<excess;i++)await cache.delete(keys[i]);
+};
+// CacheStorage.keys() enumerates the entire map-tile cache. Calling it for
+// each tile causes unnecessary work during map panning/zooming. Prune only
+// after a small batch of successful writes; this keeps the cache bounded to
+// roughly the previous limit, with at most 31 extra entries between trims.
+const maybeTrimMapTileCache=async cache=>{
+ if(++mapTilesCachedSinceTrim<MAP_TILE_TRIM_BATCH)return;
+ mapTilesCachedSinceTrim=0;
+ await trimMapTileCache(cache);
 };
 self.addEventListener('install',event=>{
   event.waitUntil((async()=>{
@@ -110,7 +123,7 @@ self.addEventListener('fetch',event=>{
       try{
         const response=await fetch(request);
         if(response.ok||response.type==='opaque'){
-          try{await cache.put(request,response.clone());await trimMapTileCache(cache)}catch{}
+          try{await cache.put(request,response.clone());await maybeTrimMapTileCache(cache)}catch{}
         }
         return response;
       }catch{return Response.error();}

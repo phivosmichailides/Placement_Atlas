@@ -893,6 +893,8 @@
        && dict['total programmes'] && dict['shown'])
       return m[1]+' '+dict['total programmes']+' · '+m[2]+' '+dict['shown'];
     if((m=key.match(/^([←↩○✓☷]+\s*)(.+)$/)) && dict[m[2]])return m[1]+dict[m[2]];
+    if((m=key.match(/^(.+?)\s*([→↓↑]+)$/)) && dict[m[1]])return dict[m[1]]+' '+m[2];
+    if(key==='Done' && dict['Finish'])return dict['Finish'];
     if((m=key.match(/^(\d[\d,]*)\s+Shortlisted$/i)) && dict['Shortlisted'])return m[1]+' '+dict['Shortlisted'];
     return null;
   };

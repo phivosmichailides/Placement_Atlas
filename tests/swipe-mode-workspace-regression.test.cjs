@@ -11,7 +11,7 @@ const html=read('index.html'),css=read('swipe-mode-workspace.css'),sw=read('sw.j
 test('viewport-compensated shell is scoped to desktop Swipe Mode',()=>{
   assert.match(css,/@media\s*\(min-width:900px\)\s*and\s*\(hover:hover\)\s*and\s*\(pointer:fine\)/);
   assert.match(css,/body\[data-atlas-view="tinderMode"\] \.shell/);
-  assert.match(css,/width:var\(--ux-shell-width,100%\)!important/);
+  assert.match(css,/width:var\(--ux-viewport-compensated-width,var\(--ux-shell-width,100%\)\)!important/);
   assert.match(css,/max-width:var\(--ux-shell-max-width,1540px\)!important/);
   assert.match(css,/margin-inline:auto!important/);
   assert.match(css,/body\[data-atlas-view="tinderMode"\] #tinderMode\.active/);

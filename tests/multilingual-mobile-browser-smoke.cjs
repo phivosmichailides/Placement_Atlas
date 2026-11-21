@@ -67,6 +67,8 @@ const base = process.env.TARGET || 'http://127.0.0.1:8000/';
     await page.locator('.onboardCard').waitFor({state:'visible',timeout:15000});
     assert.match(await page.locator('.onboardCard h2').innerText(),/Τι έχει σημασία/,'Quiz welcome screen should use Greek');
     await page.locator('#obStart').click();
+    // Translation of the newly rendered step is scheduled on the next frame.
+    await page.waitForFunction(()=>document.querySelector('.onboardCard h3')?.textContent?.includes('Πού αναζητάς'),null,{timeout:12000});
     assert.match(await page.locator('.onboardCard h3').innerText(),/Πού αναζητάς/,'Quiz location prompt should be Greek');
     await page.locator('.onboardClose').click();
     await page.locator('#atlasLanguageTrigger').click();

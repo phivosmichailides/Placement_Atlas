@@ -16,11 +16,16 @@
  let collapsed=mobileFirst?true:storage.get(L,COLLAPSE)==='1';
  // Start compact on laptop/desktop, while retaining a visitor's saved choice.
  // Touch/narrow screens keep native-size controls for accessibility.
- const isDesktop=window.matchMedia?.('(min-width:950px) and (hover:hover) and (pointer:fine)').matches;
- const DEFAULT_ZOOM=isDesktop?(window.innerWidth<=1600?70:80):100;
+ const recommendedZoom=()=>{
+   const desktop=window.matchMedia?.('(min-width:950px) and (hover:hover) and (pointer:fine)').matches;
+   return desktop?(window.innerWidth<=1600?70:80):100;
+ };
  const savedZoom=storage.get(L,ZOOM);
- let zoom=savedZoom===null?DEFAULT_ZOOM:Number(savedZoom);
- if(!Number.isFinite(zoom)||zoom<70||zoom>130)zoom=DEFAULT_ZOOM;
+ let userChoseZoom=savedZoom!==null;
+ let zoom=userChoseZoom?Number(savedZoom):recommendedZoom();
+ if(!Number.isFinite(zoom)||zoom<70||zoom>130){
+   zoom=recommendedZoom();userChoseZoom=false;
+ }
  function currentFilters(){const fields={};ids.forEach(id=>fields[id]=$(id)?.value??'');return {fields,quick:typeof quick!=='undefined'?[...quick]:[],hideAvoid:!!$('hideAvoid')?.checked,hideExcluded:!!$('hideExcluded')?.checked,hideOuterLondon:!!$('hideOuterLondon')?.checked,hideShortlisted:!!$('hideShortlisted')?.checked,hideJustice:!!$('hideJustice')?.checked,hideMental:!!$('hideMental')?.checked,hideOtherSpecialist:!!$('hideOtherSpecialist')?.checked}}
  const getSaved=()=>{try{const v=JSON.parse(storage.get(S,SESSION)||'null');return v&&v.version===1?v:null}catch{return null}};
  function snapshot(position=true){
@@ -31,7 +36,8 @@
    if(position)positions[tab]=Math.max(0,Math.round(window.scrollY||0));
    storage.set(S,SESSION,JSON.stringify({version:1,tab,positions,filters:currentFilters(),explorePage:window.uxGetExplorePage?.()||1,savedAt:Date.now()}));
  }
- function applyZoom(next){
+ function applyZoom(next,manual=false){
+   if(manual)userChoseZoom=true;
    zoom=Math.max(70,Math.min(130,Math.round(next/5)*5));
    root.style.setProperty('--ux-page-zoom',String(zoom/100));
    const inverse=100/zoom;
@@ -40,15 +46,25 @@
    if($('uxPageZoomValue'))$('uxPageZoomValue').textContent=zoom+'%';
    if($('uxPageZoomIn'))$('uxPageZoomIn').disabled=zoom>=130;
    if($('uxPageZoomOut'))$('uxPageZoomOut').disabled=zoom<=70;
-   storage.set(L,ZOOM,String(zoom));
+   if(userChoseZoom)storage.set(L,ZOOM,String(zoom));
    document.dispatchEvent(new CustomEvent('desk:zoom-change',{detail:{zoom}}));
    requestAnimationFrame(()=>{try{placementMap?.invalidateSize(false)}catch{}});
  }
  const adjustScroll=()=>{let y=window.scrollY;requestAnimationFrame(()=>requestAnimationFrame(()=>window.scrollTo({top:y,behavior:'instant'})))};
- $('uxPageZoomIn')?.addEventListener('click',()=>{applyZoom(zoom+5);adjustScroll()});
- $('uxPageZoomOut')?.addEventListener('click',()=>{applyZoom(zoom-5);adjustScroll()});
- $('uxPageZoomReset')?.addEventListener('click',()=>applyZoom(DEFAULT_ZOOM));
+ $('uxPageZoomIn')?.addEventListener('click',()=>{applyZoom(zoom+5,true);adjustScroll()});
+ $('uxPageZoomOut')?.addEventListener('click',()=>{applyZoom(zoom-5,true);adjustScroll()});
+ $('uxPageZoomReset')?.addEventListener('click',()=>{
+   userChoseZoom=false;
+   try{L.removeItem(ZOOM)}catch{}
+   applyZoom(recommendedZoom());
+ });
  applyZoom(zoom);
+ // Only automatic zoom follows a window resize; explicit user choices win.
+ window.addEventListener('resize',()=>{
+   if(userChoseZoom)return;
+   const next=recommendedZoom();
+   if(next!==zoom)applyZoom(next);
+ },{passive:true});
  const setCollapsed=(value,save=true)=>{
    collapsed=!!value;explorePanel?.classList.toggle('uxFiltersCollapsed',collapsed);
    const b=$('uxCollapseFilters');if(b){b.setAttribute('aria-expanded',String(!collapsed));b.setAttribute('aria-label',collapsed?'Show filter sidebar':'Collapse filter sidebar');b.title=collapsed?'Show filters':'Hide filters'}

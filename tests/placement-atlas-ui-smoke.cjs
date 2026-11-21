@@ -367,8 +367,8 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   for(const tab of ['explore','shortlist','outcome','simulator','learn','prefs','explore'])await expectExclusivePage(tab);
   // Keep the public landing-page state as the entry point for the rest of the test.
   // Device-viewport regression: ordinary content must fit without a
-  // document-level sideways scroll at the default 100% page zoom.
-  assert.equal(await page.locator('#uxPageZoomValue').innerText(),'100%','The default in-app zoom should start at 100%');
+  // document-level sideways scroll at the device-recommended zoom.
+  assert.equal(await page.locator('#uxPageZoomValue').innerText(),'70%','A 1440px laptop should start at the compact 70% app zoom');
   assert.equal(await page.locator('#atlasDataTools').evaluate(el=>el.parentElement?.id),'prefs',
     'Backup/restore controls belong exclusively to Preferences');
   for(const width of [320,390,600,768,1024,1280,1536]){
@@ -536,6 +536,37 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   await page.locator('header.top nav.tabs [data-tab=tinderMode]').click();
   await page.waitForFunction(()=>document.getElementById('tinderMode')?.classList.contains('active')&&
     !!document.querySelector('#tinderCardSlot .tdSwipeCard'),null,{timeout:30000});
+  // Desktop Swipe Mode should stay centred and fully within the viewport at
+  // the recommended, intermediate and full-sized in-app zoom settings.
+  for(const target of [70,80,100]){
+    while(Number((await page.locator('#uxPageZoomValue').innerText()).replace('%',''))<target){
+      await page.locator('#uxPageZoomIn').click();
+    }
+    await wait(120);
+    const geometry=await page.evaluate(()=>{
+      const rect=selector=>{const element=document.querySelector(selector),r=element?.getBoundingClientRect();return r?{left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width}:null;};
+      return {vw:innerWidth,vh:innerHeight,scrollWidth:document.documentElement.scrollWidth,
+        header:rect('.shell > header.top.atlasStickyHeader'),
+        board:rect('#tinderMode .tdBoard'),
+        card:rect('#tinderCardSlot .tdSwipeCard:not(.tdNextCard)'),
+        actions:rect('#tinderMode .tdActions'),
+        launcher:rect('#tdFloatingDecisions .tdLauncher')};
+    });
+    assert(geometry.scrollWidth<=geometry.vw+2,
+      'Desktop Swipe Mode has sideways scrolling at '+target+'%: '+JSON.stringify(geometry));
+    for(const key of ['header','board','card','actions']){
+      assert(geometry[key]&&geometry[key].left>=-2&&geometry[key].right<=geometry.vw+2,
+        'Swipe '+key+' leaves screen at '+target+'%: '+JSON.stringify(geometry));
+    }
+    assert(Math.abs((geometry.card.left+geometry.card.right)/2-geometry.vw/2)<=geometry.vw*.12,
+      'Swipe card must remain centred at '+target+'%: '+JSON.stringify(geometry));
+    assert(geometry.launcher?.width<=135&&geometry.launcher?.bottom<=geometry.vh+2,
+      'Floating decision shortcut is oversized or clipped at '+target+'%: '+JSON.stringify(geometry));
+    await page.screenshot({path:output+'/swipe-desktop-'+target+'.png',fullPage:false});
+  }
+  // Restore the device default after testing explicit zoom choices.
+  await page.locator('#uxPageZoomReset').click();
+  assert.equal(await page.locator('#uxPageZoomValue').innerText(),'70%');
   const refine=page.locator('#tinderFilterToggle');
   assert.equal((await refine.innerText()).trim(),'Refine','Fresh Swipe Mode should not silently select a region or other filters');
   assert.equal(await page.locator('#tdSoundToggle').innerText().then(x=>x.trim()),'Sound off','Optional sound control should default to off');

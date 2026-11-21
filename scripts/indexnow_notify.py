@@ -21,6 +21,7 @@ PAGES = {
     "index.html": "/",
     "about.html": "/about.html",
     "guide.html": "/guide.html",
+    "programme-snapshot.html": "/programme-snapshot.html",
     "privacy.html": "/privacy.html",
     "terms.html": "/terms.html",
 }

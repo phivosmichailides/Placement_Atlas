@@ -1,0 +1,146 @@
+/* Placement Atlas · full-viewport Swipe Mode workspace
+   Scoped to the desktop Swipe Mode view so other tabs and mobile layouts keep
+   their existing sizing. The shell zoom compensation is reused, but its old
+   fixed 1,540px cap is removed for this view. */
+@media (min-width:900px) and (hover:hover) and (pointer:fine){
+  html body[data-atlas-view="tinderMode"] .shell{
+    width:var(--ux-shell-width,100%)!important;
+    max-width:none!important;
+    min-height:100svh!important;
+    min-height:calc(100svh / var(--ux-page-zoom,1))!important;
+    margin:0!important;
+    padding-inline:clamp(18px,2.2vw,54px)!important;
+  }
+
+  /* A full-width application banner, with more legible desktop navigation. */
+  html body[data-atlas-view="tinderMode"] .shell>.atlasStickyHeader{
+    width:100%!important;
+    min-height:clamp(68px,3vw,94px)!important;
+    padding-block:clamp(10px,.7vw,22px)!important;
+  }
+  html body[data-atlas-view="tinderMode"] .atlasStickyHeader .brand .logo,
+  html body[data-atlas-view="tinderMode"] .atlasStickyHeader .brand .logo img{
+    width:clamp(42px,1.8vw,56px)!important;
+    height:clamp(42px,1.8vw,56px)!important;
+    min-width:clamp(42px,1.8vw,56px)!important;
+  }
+  html body[data-atlas-view="tinderMode"] .atlasStickyHeader .brand h1{
+    font-size:clamp(22px,1.15vw,36px)!important;
+  }
+  html body[data-atlas-view="tinderMode"] .atlasStickyHeader>nav.tabs>.tab{
+    min-height:clamp(42px,2vw,52px)!important;
+    padding-inline:clamp(10px,.6vw,18px)!important;
+    font-size:clamp(12px,.6vw,18px)!important;
+  }
+
+  /* Let the swipe workspace own the remaining page height. */
+  html body[data-atlas-view="tinderMode"] #tinderMode.active{
+    display:flex!important;
+    flex-direction:column!important;
+    width:100%!important;
+    max-width:none!important;
+    min-height:calc(100svh - 150px)!important;
+    min-height:calc((100svh - 150px) / var(--ux-page-zoom,1))!important;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdSettings{
+    flex:0 0 auto!important;
+    width:100%!important;
+    max-width:none!important;
+    margin-inline:auto!important;
+    padding:clamp(14px,.9vw,26px) clamp(0px,.8vw,20px)!important;
+    font-size:clamp(13px,.6vw,17px)!important;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdBoard{
+    flex:1 1 auto!important;
+    display:flex!important;
+    flex-direction:column!important;
+    justify-content:center!important;
+    width:min(100%,clamp(760px,70vw,1360px))!important;
+    max-width:1360px!important;
+    margin:0 auto!important;
+    padding:clamp(10px,1vw,24px) 0 clamp(24px,2vw,42px)!important;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdCardDeck{
+    width:min(100%,clamp(680px,54vw,1120px))!important;
+    max-width:1120px!important;
+    min-height:clamp(520px,40svh,700px)!important;
+    padding-inline:clamp(10px,.8vw,20px)!important;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdCardSlot{
+    min-height:clamp(480px,38svh,650px)!important;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdSwipeCard{
+    padding:clamp(24px,1.5vw,40px)!important;
+    border-radius:clamp(22px,1.3vw,30px)!important;
+  }
+
+  /* Scale the card's information with the available desktop viewport. */
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdProgrammeName{
+    font-size:clamp(24px,1.25vw,38px)!important;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdEmployer{
+    font-size:clamp(14px,.7vw,20px)!important;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdCardCode,
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdSectionLabel{
+    font-size:clamp(11px,.5vw,15px)!important;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdFitScore{
+    font-size:clamp(12px,.52vw,16px)!important;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdMetrics span{
+    font-size:clamp(11px,.5vw,15px)!important;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdMetrics strong{
+    font-size:clamp(16px,.75vw,22px)!important;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdLocationText{
+    font-size:clamp(15px,.75vw,22px)!important;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdRotations span{
+    font-size:clamp(11px,.52vw,16px)!important;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdVerdict{
+    padding:clamp(14px,.8vw,22px)!important;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdVerdict h4{
+    font-size:clamp(13px,.6vw,18px)!important;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdVerdict li{
+    font-size:clamp(12px,.55vw,17px)!important;
+  }
+
+  /* Larger, easier-to-hit swipe controls and readable supporting text. */
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdActions{
+    gap:clamp(14px,1.2vw,24px)!important;
+    margin:clamp(16px,1vw,24px) 0 8px!important;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdAction{
+    width:clamp(66px,2.8vw,86px)!important;
+    height:clamp(66px,2.8vw,86px)!important;
+    padding:clamp(15px,.7vw,22px)!important;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdAction-undo{
+    width:clamp(52px,2.2vw,68px)!important;
+    height:clamp(52px,2.2vw,68px)!important;
+    padding:clamp(12px,.55vw,18px)!important;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdActionLegend{
+    gap:clamp(14px,1.2vw,24px)!important;
+    font-size:clamp(11px,.5vw,15px)!important;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdActionLegend span{
+    width:clamp(66px,2.8vw,86px)!important;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdActionLegend span:first-child{
+    width:clamp(52px,2.2vw,68px)!important;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdExisting,
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdNotice{
+    font-size:clamp(12px,.5vw,16px)!important;
+  }
+  html body[data-atlas-view="tinderMode"] #tinderMode .tdDisclosure{
+    max-width:min(900px,90%)!important;
+    font-size:clamp(11px,.48vw,15px)!important;
+  }
+}

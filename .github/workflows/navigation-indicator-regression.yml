@@ -17,7 +17,9 @@ on:
       - 'sw.js'
       - 'motion-effects.css'
       - 'motion-effects.js'
+      - 'swipe-mode-workspace.css'
       - 'tests/navigation-indicator-regression.test.cjs'
+      - 'tests/swipe-mode-workspace-regression.test.cjs'
   workflow_dispatch:
 permissions:
   contents: read

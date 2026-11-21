@@ -246,7 +246,7 @@
   };
 
   const PROTECTED_SELECTOR = [
-    '#results', '#reco', '#shortlistList', '#placementMap', '#mapSelection',
+    '#results', '#reco', '#shortlistList', '#compareArea', '#placementMap', '#mapSelection',
     '.placement', '.rank-row', '.recoGrid', '.leaflet-container',
     '.leaflet-popup', '.programme-preview', '.atlasWorkspaceTitleOriginal',
     '.atlasWorkspaceTitleConcise', '[data-atlas-no-translate]',
@@ -353,7 +353,7 @@
       try { localStorage.setItem('placement-atlas-language-v1', language); } catch {}
       applyLanguage(language);
     });
-    header.insertBefore(label, nav);
+    header.append(label);
     return select;
   }
 

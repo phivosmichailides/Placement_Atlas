@@ -1015,7 +1015,7 @@
     let m;
     if(key==='Programme map' && MAP_COPY[activeLanguage])
       return MAP_COPY[activeLanguage][0];
-    if((m=key.match(/^(\\d[\\d,.]*) matches$/i)) && MAP_COPY[activeLanguage]){
+    if((m=key.match(/^(\d[\d,.]*) matches$/i)) && MAP_COPY[activeLanguage]){
       const count=Number(m[1].replace(/,/g,''));
       return m[1]+' '+MAP_COPY[activeLanguage][count===1?2:1];
     }

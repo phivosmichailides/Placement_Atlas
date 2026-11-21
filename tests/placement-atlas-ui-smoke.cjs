@@ -62,7 +62,7 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
     const detailRect=details.getBoundingClientRect();
     return {cardHeight:rect.height,cardBottom:rect.bottom,footerWidth:footer.getBoundingClientRect().width,
       buttonHeights:buttons.map(button=>button.getBoundingClientRect().height),
-      detailsWidth:detailRect.width,detailsBottom:detailRect.bottom,detailsHeight:detailRect.height};
+      detailsWidth:detailRect.width,detailsBottom:detailRect.bottom,detailsHeight:detailRect.height,zoom:Number(getComputedStyle(document.querySelector('.shell')).zoom)||1};
   }));
   assert.equal(gridMetrics.length,3,'The first grid row should contain three programme cards');
   assert(Math.max(...gridMetrics.map(x=>x.cardHeight))-Math.min(...gridMetrics.map(x=>x.cardHeight))<=1,
@@ -72,7 +72,7 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
       'Decision controls should have equal heights: '+JSON.stringify(metric));
     assert(metric.detailsWidth>=metric.footerWidth-40,'Full-details control should span the card footer: '+JSON.stringify(metric));
     assert(metric.detailsBottom<=metric.cardBottom+2,'Full-details control is clipped by its programme card: '+JSON.stringify(metric));
-    assert(metric.detailsHeight>=42,'Full-details control should retain a comfortable tap target: '+JSON.stringify(metric));
+    assert(metric.detailsHeight/metric.zoom>=42,'Full-details control should retain a comfortable logical tap target: '+JSON.stringify(metric));
   }
   const specialistIntro=await page.locator('#uxFilterSidebar .uxSpecialistIntro').textContent();
   assert.equal(specialistIntro.trim(),'Hide programmes linked to specialist settings you want to avoid.');

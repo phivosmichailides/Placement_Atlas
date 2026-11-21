@@ -346,7 +346,7 @@
     const industryDescription=[p.title,p.employer,p.sector,p.setting,p.trainingSetting,
       ...(Array.isArray(p.rotations)?p.rotations.map(x=>typeof x==='string'?x:(x?.sector||x?.setting||'')):[])
     ].filter(Boolean).join(' ').toLowerCase();
-    if(/\\bindustry\\b|pharmaceutical industry/.test(industryDescription)){
+    if(/\bindustry\b|pharmaceutical industry/.test(industryDescription)){
       addLink(links,'Industry trainee’s first-hand account · Pharmaceutical Journal',
         'https://pharmaceutical-journal.com/article/feature/what-pharmacy-trainees-can-expect-from-a-preregistration-year-in-the-pharmaceutical-industry');
       addLink(links,'Industry careers and employee stories · ABPI','https://www.abpi.org.uk/careers/job-case-studies/');

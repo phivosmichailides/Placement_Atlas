@@ -366,10 +366,11 @@
     if (observer) observer.disconnect();
     observer = new MutationObserver(records => {
       for (const record of records) {
+        if (record.type === 'characterData') translateTextNode(record.target);
         for (const node of record.addedNodes) walk(node);
       }
     });
-    observer.observe(document.body, { childList: true, subtree: true });
+    observer.observe(document.body, { childList: true, subtree: true, characterData: true });
     document.addEventListener('desk:after-navigation', () => walk(document.body));
     document.addEventListener('desk:dataset', () => walk(document.body));
   }

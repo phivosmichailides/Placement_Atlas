@@ -10,6 +10,8 @@
     &nbsp;·&nbsp;
     <a href='https://placementatlas.co.uk/guide.html'>Explore the comparison guide</a>
     &nbsp;·&nbsp;
+    <a href='https://placementatlas.co.uk/programme-snapshot.html'>View the 2026 programme data</a>
+    &nbsp;·&nbsp;
     <a href='https://github.com/phivosmichailides/Placement_Atlas/discussions'>Share feedback</a>
   </p>
 </div>

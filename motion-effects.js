@@ -1,28 +1,13 @@
 'use strict';
-/* Sliding tab-selection pill for every page (including runtime-added tabs).
-   No polling; recalculates only after navigation, resize, or tab changes. */
+/* Navigation repair: no floating selection indicator.
+   It used absolute pixel offsets within a horizontally scrolling nav, so after
+   scroll, layout changes and deferred tabs it occasionally appeared behind the
+   wrong label. The selected button already has an accessible native .active
+   appearance in atlas-completion.css. Keep selection attached to the button
+   itself; do not create an independent overlay, timer or animation. */
 (()=>{
- const nav=document.querySelector('nav.tabs');if(!nav)return;
- const marker=document.createElement('span');marker.className='atlasTabIndicator';marker.setAttribute('aria-hidden','true');
- nav.append(marker);nav.classList.add('tabMotionReady');
- let raf=0,ready=false;
- const sync=(animate=true)=>{
-  cancelAnimationFrame(raf);
-  raf=requestAnimationFrame(()=>{
-   const active=nav.querySelector('.tab.active');
-   if(!active)return;
-   if(!animate||!ready)marker.style.transition='none';
-   marker.style.width=active.offsetWidth+'px';
-   marker.style.transform='translate3d('+active.offsetLeft+'px,0,0)';
-   if(!ready)ready=true;
-   if(!animate)requestAnimationFrame(()=>marker.style.removeProperty('transition'));
-   else if(marker.style.transition==='none')requestAnimationFrame(()=>marker.style.removeProperty('transition'));
-  });
- };
- document.addEventListener('desk:after-navigation',()=>sync(true));
- const observer=new MutationObserver(()=>sync(false));
- observer.observe(nav,{childList:true});
- window.addEventListener('resize',()=>sync(false),{passive:true});
- nav.addEventListener('scroll',()=>sync(false),{passive:true});
- sync(false);
+  const nav=document.querySelector('nav.tabs');
+  if(!nav)return;
+  nav.classList.remove('tabMotionReady');
+  nav.querySelectorAll('.atlasTabIndicator').forEach(node=>node.remove());
 })();

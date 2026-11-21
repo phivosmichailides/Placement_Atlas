@@ -21,6 +21,8 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
    localStorage.setItem('oriel-desk-page-size-v1','all');
   });
   await page.goto(base,{waitUntil:'domcontentloaded',timeout:60000});
+  const rejectButton=page.locator('#atlasCookieNotice .atlasCookieReject');
+  if(await rejectButton.count())await rejectButton.click();
   // The primary navigation must be visibly present immediately, without waiting
   // for dataset or asynchronously built simulation/learning modules.
   assert.equal(await page.locator('html').evaluate(el=>el.classList.contains('atlasNavLoading')),false,

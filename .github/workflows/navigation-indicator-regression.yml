@@ -1,0 +1,34 @@
+name: Navigation indicator regression
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'sw.js'
+      - 'motion-effects.css'
+      - 'motion-effects.js'
+      - 'tests/navigation-indicator-regression.test.cjs'
+      - '.github/workflows/navigation-indicator-regression.yml'
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'sw.js'
+      - 'motion-effects.css'
+      - 'motion-effects.js'
+      - 'tests/navigation-indicator-regression.test.cjs'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  navigation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check navigation script syntax
+        run: node --check motion-effects.js
+      - name: Check navigation animation and offline-cache regression
+        run: node --test tests/navigation-indicator-regression.test.cjs

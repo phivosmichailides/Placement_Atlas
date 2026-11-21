@@ -36,6 +36,14 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   await page.waitForFunction(()=>typeof placements!=='undefined'&&placements.length===4064&&
     !!document.getElementById('results')&&!!document.querySelector('#uxExplorePager select'),null,{timeout:90000});
 
+  // Verify the new recommended initial zoom before exercising legacy pixel
+  // geometry assertions at an explicit 100%, matching their original baseline.
+  assert.equal(await page.locator('#uxPageZoomValue').innerText(),'70%',
+    'A fresh 1440px laptop must start with the recommended 70% interface zoom');
+  for(let level=70;level<100;level+=5)await page.locator('#uxPageZoomIn').click();
+  assert.equal(await page.locator('#uxPageZoomValue').innerText(),'100%',
+    'Manual zoom must remain adjustable and persist within the test session');
+
   // First visit is monochrome and starts with a lightweight, 36-card results page.
   assert.equal(await page.locator('html').getAttribute('data-palette'),'mono','New visitors should start in the monochrome palette');
   const pageSize=page.locator('#uxExplorePager select');
@@ -368,7 +376,8 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   // Keep the public landing-page state as the entry point for the rest of the test.
   // Device-viewport regression: ordinary content must fit without a
   // document-level sideways scroll at the device-recommended zoom.
-  assert.equal(await page.locator('#uxPageZoomValue').innerText(),'70%','A 1440px laptop should start at the compact 70% app zoom');
+  assert.equal(await page.locator('#uxPageZoomValue').innerText(),'100%',
+    'Original desktop visual assertions use a deliberately selected 100% app zoom');
   assert.equal(await page.locator('#atlasDataTools').evaluate(el=>el.parentElement?.id),'prefs',
     'Backup/restore controls belong exclusively to Preferences');
   for(const width of [320,390,600,768,1024,1280,1536]){
@@ -536,6 +545,9 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   await page.locator('header.top nav.tabs [data-tab=tinderMode]').click();
   await page.waitForFunction(()=>document.getElementById('tinderMode')?.classList.contains('active')&&
     !!document.querySelector('#tinderCardSlot .tdSwipeCard'),null,{timeout:30000});
+  // Re-enable the recommended laptop zoom before running multi-zoom geometry.
+  await page.locator('#uxPageZoomReset').click();
+  assert.equal(await page.locator('#uxPageZoomValue').innerText(),'70%');
   // Desktop Swipe Mode should stay centred and fully within the viewport at
   // the recommended, intermediate and full-sized in-app zoom settings.
   for(const target of [70,80,100]){

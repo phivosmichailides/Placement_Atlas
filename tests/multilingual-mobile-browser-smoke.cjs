@@ -139,6 +139,21 @@ const base = process.env.TARGET || 'http://127.0.0.1:8000/';
     });
     assert(badgeStatus.shown&&badgeStatus.label==='LIKE',
       'Swiping right must reveal the persistent LIKE badge: '+JSON.stringify(badgeStatus));
+    const firstCardName=await page.locator('#tinderActiveCard .tdProgrammeName').innerText();
+    await page.locator('#tinderYes').click();
+    await page.waitForFunction(()=>!document.getElementById('tdMobileUndo')?.disabled,null,{timeout:15000});
+    await page.locator('#tdMobileUndo').click();
+    await page.waitForFunction(()=>!document.getElementById('tdMobileRedo')?.disabled,null,{timeout:15000});
+    assert.equal(await page.locator('#tinderActiveCard .tdProgrammeName').innerText(),firstCardName,
+      'Undo must restore the same programme card');
+    await page.locator('#tdMobileRedo').click();
+    await page.waitForFunction(()=>{
+      const data=JSON.parse(localStorage.getItem('oriel-tinder-mode-v1')||'{}');
+      return Array.isArray(data.future)&&data.future.length===0&&data.history?.length===1;
+    },null,{timeout:15000});
+    assert(await page.locator('#tdMobileRedo').isDisabled(),
+      'Redo button must disable when the redo stack is empty');
+
     assert(!errors.some(msg=>/atlasLanguage|i18n|tinderSwipeBadge/i.test(msg)),
       'New language or swipe feature raised a browser error: '+errors.join('; '));
     console.log('PASS: 25-language picker, Greek/Arabic/English switching, contextual Greek selects, typography, mobile swipe layout and feedback');

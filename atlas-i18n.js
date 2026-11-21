@@ -977,10 +977,48 @@
     }catch{}
   };
   const parityWords = () => DICTIONARIES[activeLanguage] || {};
+  // Compact map labels shared by every supported language. Counts use a
+  // separate label only when the visitor has narrowed the programme list.
+  const MAP_COPY = {
+    el:['Χάρτης προγραμμάτων','αποτελέσματα','αποτέλεσμα'],
+    fr:['Carte des programmes','résultats','résultat'],
+    es:['Mapa de programas','resultados','resultado'],
+    it:['Mappa dei programmi','risultati','risultato'],
+    nl:['Kaart met programma’s','resultaten','resultaat'],
+    de:['Programmkarte','Ergebnisse','Ergebnis'],
+    'zh-CN':['培训项目地图','个结果','个结果'],
+    'yue-HK':['培訓計劃地圖','個結果','個結果'],
+    ja:['研修プログラムの地図','件の結果','件の結果'],
+    ko:['프로그램 지도','개 결과','개 결과'],
+    hi:['प्रशिक्षण कार्यक्रमों का मानचित्र','परिणाम','परिणाम'],
+    ar:['خريطة البرامج','نتائج','نتيجة'],
+    ur:['پروگراموں کا نقشہ','نتائج','نتیجہ'],
+    'zh-TW':['培訓計畫地圖','個結果','個結果'],
+    pa:['ਪ੍ਰੋਗਰਾਮਾਂ ਦਾ ਨਕਸ਼ਾ','ਨਤੀਜੇ','ਨਤੀਜਾ'],
+    bn:['প্রোগ্রামের মানচিত্র','ফলাফল','ফলাফল'],
+    gu:['કાર્યક્રમોનો નકશો','પરિણામો','પરિણામ'],
+    ta:['பயிற்சித் திட்ட வரைபடம்','முடிவுகள்','முடிவு'],
+    pl:['Mapa programów','wyników','wynik'],
+    ro:['Harta programelor','rezultate','rezultat'],
+    pt:['Mapa dos programas','resultados','resultado'],
+    fa:['نقشه برنامه‌ها','نتیجه','نتیجه'],
+    tr:['Program haritası','sonuç','sonuç'],
+    ps:['د پروګرامونو نقشه','پایلې','پایله'],
+    ckb:['نەخشەی بەرنامەکان','ئەنجامەکان','ئەنجام'],
+    so:['Khariidadda barnaamijyada','natiijooyin','natiijo'],
+    uk:['Мапа програм','результатів','результат']
+  };
+
   const dynamicLocale = (key) => {
     if(activeLanguage==='en') return null;
     const dict=parityWords();
     let m;
+    if(key==='Programme map' && MAP_COPY[activeLanguage])
+      return MAP_COPY[activeLanguage][0];
+    if((m=key.match(/^(\d[\d,.]*) matches$/i)) && MAP_COPY[activeLanguage]){
+      const count=Number(m[1].replace(/,/g,''));
+      return m[1]+' '+MAP_COPY[activeLanguage][count===1?2:1];
+    }
     // Preserve the exact count and location name while localising the descriptor.
     if((m=key.match(/^(\d[\d,]*)\s+programmes?$/i)) && dict['programmes'])
       return m[1]+' '+dict['programmes'];

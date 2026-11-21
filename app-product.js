@@ -413,8 +413,11 @@
       const total=placements.length;
       const title=document.querySelector('.map-heading h2');
       const eyebrow=document.querySelector('.map-heading .eyebrow');
-      if(title)title.textContent=count===total?'Explore all programme locations across England & Wales':`Explore ${count.toLocaleString()} matching programme locations`;
-      if(eyebrow)eyebrow.textContent=`${total.toLocaleString()} TOTAL · ${count.toLocaleString()} MATCHING`;
+      if(title)title.textContent='Programme map';
+      if(eyebrow){
+        eyebrow.hidden=count===total;
+        eyebrow.textContent=count===total?'':`${count.toLocaleString()} matches`;
+      }
     };
     const baseExplore=explore;
     explore=()=>{baseExplore();updateMapHeading();};

@@ -1,0 +1,9 @@
+/* Explore clarity: prioritise actions and stats over repeated instructions. */
+html body #explore .atlasExploreSubnav,html body #foryou .atlasExploreSubnav{padding:9px 12px!important;margin:0 0 10px!important;gap:9px 14px!important}
+html body #explore .atlasSubnavChoices,html body #foryou .atlasSubnavChoices{margin-inline-end:auto}
+html.atlasPremiumPreview body #explore .atlasStatToolbarPremium{justify-content:flex-end!important;margin:0 0 5px!important;min-height:0!important;gap:0!important}
+html.atlasPremiumPreview body #explore .atlasStatTogglePremium{margin-inline-start:auto!important;min-height:30px;padding:5px 8px!important;font-weight:700}
+html body #explore .map-heading h2{font-size:clamp(18px,1.5vw,23px)!important;line-height:1.2!important;letter-spacing:-.025em;max-width:100%}
+html body #explore .map-heading .eyebrow[hidden]{display:none!important}
+html body #explore .map-heading .eyebrow:not([hidden]){margin:0 0 3px!important;font-size:10px!important;letter-spacing:.06em}
+@media(max-width:720px){html body #explore .atlasExploreSubnav,html body #foryou .atlasExploreSubnav{padding:9px!important;margin-bottom:10px!important;gap:8px!important}html body #explore .atlasSubnavChoices,html body #foryou .atlasSubnavChoices{width:100%!important;margin-inline-end:0!important}}

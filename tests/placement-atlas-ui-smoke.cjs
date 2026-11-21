@@ -36,6 +36,19 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   await page.waitForFunction(()=>typeof placements!=='undefined'&&placements.length===4064&&
     !!document.getElementById('results')&&!!document.querySelector('#uxExplorePager select'),null,{timeout:90000});
 
+  // Explore remains discoverable through actions rather than repeated headings.
+  await page.locator('#atlasExploreSubnav .atlasSubnavChoices button').first().waitFor({state:'visible'});
+  assert.equal(await page.locator('#atlasExploreSubnav .atlasSubnavIntro').count(),0,
+    'Explore should not repeat its heading and instructions above the statistics');
+  assert.equal(await page.locator('#explore .atlasStatToolbarPremium > div').count(),0,
+    'Statistics should not repeat another workspace title and instruction');
+  assert(await page.locator('#explore .atlasStatTogglePremium').isVisible(),
+    'Additional statistics must remain discoverable');
+  assert.equal((await page.locator('#explore .map-heading h2').innerText()).trim(),'Programme map',
+    'The map needs a short, readable title');
+  assert.equal(await page.locator('#explore .map-heading .eyebrow').isVisible(),false,
+    'The unfiltered map must not repeat the 4,064 count already in the statistics');
+
   // Verify the new recommended initial zoom before exercising legacy pixel
   // geometry assertions at an explicit 100%, matching their original baseline.
   assert.equal(await page.locator('#uxPageZoomValue').innerText(),'70%',

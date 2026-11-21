@@ -25,7 +25,7 @@ const EXTRA_ASSETS=[
   'desk-enhancements.js?v=20261111quiet5','tinder-mode.js?v=20261121mobile3','tinder-mode.css?v=20261110deckfix1',
   'swipe-mobile-viewport.css?v=20261121mobile2',
   'swipe-mobile-workspace.css?v=20261121mobile3','swipe-mobile-navigation.js?v=20261121mobile3',
-  'atlas-i18n-parity.js?v=20261121parity1','atlas-i18n.js?v=20261121parity1','atlas-i18n.css?v=20261121el6',
+  'atlas-i18n-parity.js?v=20261121parity1','atlas-i18n-quiz.js?v=20261121quiz1','atlas-i18n.js?v=20261121parity1','atlas-i18n.css?v=20261121el6',
   'commute-guide.js?v=20261106a','commute-profile.js?v=20261106pcfix',
   'programme-preview.js?v=20261111preview2','location-guides.js?v=20261109national1',
   'pay-estimate.js?v=20261105c','research-core.js?v=1','research.js?v=20261015-no-ratings',

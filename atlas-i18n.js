@@ -432,6 +432,8 @@
   const PROTECTED_SELECTOR = [
     '#results', '#reco', '#shortlistList', '#compareArea', '#placementMap', '#mapSelection',
     '.placement', '.rank-row', '.recoGrid', '.leaflet-container',
+    '.tdProgrammeName', '.tdEmployer', '.tdCardCode', '.tdMetrics strong',
+    '.tdLocationText', '.tdDetailsFacts dd', '.tdDrawerProgrammeTitle',
     '.leaflet-popup', '.programme-preview', '.atlasWorkspaceTitleOriginal',
     '.atlasWorkspaceTitleConcise', '[data-atlas-no-translate]',
     '[contenteditable="true"]'

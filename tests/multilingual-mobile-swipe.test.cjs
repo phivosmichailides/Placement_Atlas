@@ -39,6 +39,8 @@ test('rounded language menu supports keyboard, selected state, persistent choice
   assert.match(pickerCss,/\.atlasLanguageOption\s*\{[^}]*min-height:44px/s);
   assert.match(pickerCss,/\.atlasLanguageMenu\[hidden\]\{display:none!important\}/);
   assert.match(pickerCss,/@media\(max-width:650px\)/);
+  assert.match(i18n,/if\(utility\)utility\.append\(picker\)/,'Language control should share the profile/theme row');
+  assert.doesNotMatch(pickerCss,/position:absolute;top:8px/,'The selector must not overlay profile controls');
 });
 
 test('official programme names, salary values and map text are not machine translated',()=>{

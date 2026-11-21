@@ -57,7 +57,7 @@ test('the app and offline shell both reference the new versions',()=>{
   const index=read('index.html'),app=read('app.js'),product=read('app-product.js'),sw=read('sw.js');
   for(const item of ['app.js?v=20261119swvmap1','map-basemap.js?v=20261119roads1','premium-card-tabs.js?v=20261119swv1'])
     assert.ok(index.includes(item),'index missing '+item);
-  for(const item of ['app-product.js?v=20261119swv1','onboarding.js?v=20261119swv1','sector-map.js?v=20261119viewport1'])
+  for(const item of ['app-product.js?v=20261119swv1','onboarding.js?v=20261119swv1','sector-map.js?v=20261121clarity1'])
     assert.ok(app.includes(item),'loader missing '+item);
   assert.ok(product.includes('app-base.js?v=20261119swv1'));
   assert.ok(sw.includes('placement-atlas-shell-2026-11-19-v94-swv-fast-map'));

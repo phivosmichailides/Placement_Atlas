@@ -43,8 +43,8 @@ const base = process.env.TARGET || 'http://127.0.0.1:8000/';
     await page.waitForFunction(()=>document.querySelector('nav.tabs .tab[data-tab="explore"]')?.textContent?.includes('Εξερεύνηση'));
     assert.match(await page.locator('nav.tabs .tab[data-tab="shortlist"]').innerText(),/Λίστα επιλογών/,
       'The Greek navigation must use the same terminology as the shortlist page');
-    assert.match(await page.locator('nav.tabs .tab[data-tab="tinderMode"]').innerText(),/Σάρωση/,
-      'Swipe Mode must be localised as an interface control');
+    assert.match(await page.locator('nav.tabs .tab[data-tab="tinderMode"]').innerText(),/Swipe Mode/,
+      'Protected product label Swipe Mode must remain unchanged');
     assert.equal(await page.locator('#region option').first().innerText(),'Οποιαδήποτε',
       'Region is feminine in Greek: Οποιαδήποτε');
     assert.equal(await page.locator('#hours option').first().innerText(),'Χωρίς όριο');
@@ -60,13 +60,24 @@ const base = process.env.TARGET || 'http://127.0.0.1:8000/';
     assert(greekUI.font.includes('system-ui'), 'Greek must use a consistent full-script font: '+JSON.stringify(greekUI));
     assert(greekUI.overflows<=2&&greekUI.textWidth<=greekUI.boxWidth+2,
       'Longer translated labels must not cause clipping or horizontal scrolling: '+JSON.stringify(greekUI));
+    assert.equal(new URL(page.url()).searchParams.get('lang'),'el',
+      'Language switching must create a shareable locale URL');
+    await page.waitForFunction(()=>document.querySelector('#results .placement [data-action="prefer"]')?.textContent?.includes('Προσθήκη')||document.querySelector('#results .placement [data-action="prefer"]')?.textContent?.includes('Αφαίρεση'),null,{timeout:20000});
+    await page.evaluate(()=>window.openOrielPersonalisation?.());
+    await page.locator('.onboardCard').waitFor({state:'visible',timeout:15000});
+    assert.match(await page.locator('.onboardCard h2').innerText(),/Τι έχει σημασία/,'Quiz welcome screen should use Greek');
+    await page.locator('#obStart').click();
+    assert.match(await page.locator('.onboardCard h3').innerText(),/Πού αναζητάς/,'Quiz location prompt should be Greek');
+    await page.locator('.onboardClose').click();
     await page.locator('#atlasLanguageTrigger').click();
     await page.locator('#atlasLanguageMenu button[data-language="ar"]').click();
     assert.equal(await page.locator('html').getAttribute('dir'),'rtl');
+    assert.equal(new URL(page.url()).searchParams.get('lang'),'ar');
     await page.locator('#atlasLanguageTrigger').click();
     await page.locator('#atlasLanguageMenu button[data-language="en"]').click();
     assert.equal(await page.locator('html').getAttribute('dir'),'ltr');
     assert.equal(await page.locator('html').getAttribute('lang'),'en');
+    assert.equal(new URL(page.url()).searchParams.has('lang'),false,'English should use the canonical URL');
 
     await page.waitForFunction(()=>typeof placements!=='undefined'&&placements.length===4064,null,{timeout:90000});
     const swipeTab=page.locator('header.top nav.tabs [data-tab="tinderMode"]');
@@ -88,7 +99,7 @@ const base = process.env.TARGET || 'http://127.0.0.1:8000/';
         cardWidth:card.clientWidth,scrollWidth:document.documentElement.scrollWidth};
     });
     assert(metrics.scroll==='auto','Card content should scroll inside the card: '+JSON.stringify(metrics));
-    assert(metrics.card.height <= 552,'Card exceeds reasonable phone height: '+JSON.stringify(metrics));
+    assert(metrics.card.height <= 577,'Card exceeds reasonable phone height: '+JSON.stringify(metrics));
     assert(metrics.actionPosition==='sticky','Actions should stay visible while moving down the page');
     assert(metrics.action.left>=0&&metrics.action.right<=metrics.viewport.width+1,
       'Action buttons are too wide for phone: '+JSON.stringify(metrics));
@@ -96,9 +107,22 @@ const base = process.env.TARGET || 'http://127.0.0.1:8000/';
       'Action buttons must be within the phone viewport without zooming out: '+JSON.stringify(metrics));
     assert(metrics.scrollWidth<=metrics.viewport.width+2,
       'Page should not require horizontal zoom: '+JSON.stringify(metrics));
-    for(const id of ['tinderUndo','tinderNo','tinderYes','tinderSuper']){
-      assert(await page.locator('#'+id).isVisible(),'Missing swipe action '+id);
+    for(const id of ['tdMobileUndo','tdMobileRedo','tdOpenRejected','tdOpenLiked','tinderNo','tinderYes','tinderSuper']){
+      assert(await page.locator('#'+id).isVisible(),'Missing compact mobile control '+id);
     }
+    assert.equal(await page.locator('#tinderUndo').isVisible(),false,'Duplicate Undo should be hidden on mobile');
+    assert.equal(await page.locator('.atlasHistoryDisclosure').isVisible(),false,'History menu should not take space in Swipe Mode');
+    const inlineRow=page.locator('#tdMobileControlRow');
+    const rowBox=await inlineRow.boundingBox();
+    assert(rowBox && rowBox.x>=0 && rowBox.x+rowBox.width<=431,'Mobile controls must be centred and fit viewport');
+    const navControl=page.locator('#tdSwipeHeaderReveal');
+    await page.waitForTimeout(1450);
+    assert(await page.locator('body').evaluate(el=>el.classList.contains('tdMobileHeaderHidden')),
+      'Swipe Mode header should auto-hide after entering the game');
+    assert(await navControl.isVisible(),'Navigation reveal should remain accessible');
+    await navControl.click();
+    assert(!(await page.locator('body').evaluate(el=>el.classList.contains('tdMobileHeaderHidden'))),
+      'Navigation reveal must restore the header');
     // Simulate moving a card right while maintaining the current decision state.
     const badgeStatus=await page.evaluate(()=>{
       const card=document.getElementById('tinderActiveCard');

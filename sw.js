@@ -1,7 +1,8 @@
 'use strict';
-const CACHE_NAME='placement-atlas-shell-2026-11-21-v118-navigation-pill';
+const CACHE_NAME='placement-atlas-shell-2026-11-21-v119-swipe-workspace';
 const ROOT=new URL('./',self.registration.scope).href;
 const EXTRA_ASSETS=[
+  'swipe-mode-workspace.css?v=20261121swipe-layout1',
   'motion-effects.css?v=20261121nav-pill-fix1',
   'linkedin-consent.js?v=20261121b','linkedin-consent.css?v=20261120a',
   'member-profile.js?v=20261120latin1','member-profile.css?v=20261113experience1','atlas-experience.css?v=20261113navigationfix1','responsive-fit.css?v=20261113responsive1','atlas-grid-performance.css?v=20261120d','footer-viewport.js?v=20261113responsive1','offer-journey.js?v=20261120compacthero1','cloud-auth.css?v=20261112members1','cloud-password-auth.css?v=20261113turnstile1',

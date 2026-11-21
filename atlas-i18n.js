@@ -247,7 +247,7 @@
 
   const PROTECTED_SELECTOR = [
     '#results', '#reco', '#shortlistList', '#placementMap', '#mapSelection',
-    '.placement', '.rank-row', '.recoGrid', '.map-card', '.leaflet-container',
+    '.placement', '.rank-row', '.recoGrid', '.leaflet-container',
     '.leaflet-popup', '.programme-preview', '.atlasWorkspaceTitleOriginal',
     '.atlasWorkspaceTitleConcise', '[data-atlas-no-translate]',
     '[contenteditable="true"]'
@@ -335,7 +335,7 @@
     const label = document.createElement('label');
     label.className = 'atlasLanguagePicker';
     label.id = 'atlasLanguagePicker';
-    label.setAttribute('data-atlas-no-translate', '');
+    
     label.innerHTML = '<span>Language</span><select id="atlasLanguageSelect" aria-label="Choose interface language"></select>';
     const select = label.querySelector('select');
     for (const [code, name] of LANGUAGES) {

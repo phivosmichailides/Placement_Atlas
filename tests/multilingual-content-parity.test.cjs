@@ -14,13 +14,13 @@ const expected=['el','ur','ar','zh-CN','zh-TW','pa','bn','hi','gu','ta','pl','ro
 test('every non-English language has the same programme and quiz vocabulary',()=>{
   assert.deepEqual(Object.keys(packs).sort(),expected.sort());
   for(const [language,words] of Object.entries(packs)){
-    assert.equal(Object.keys(words).length,86,language+' should have 53 shared and 33 quiz terms');
+    assert.equal(Object.keys(words).length,94,language+' should have 53 shared, 33 quiz and 8 mobile control terms');
     for(const key of [
       'Add to shortlist','Remove from shortlist','Compare','Exclude',
       'Show filters','Hide filters','Sort results','Locate missing sites','Show all matching',
       'Congratulations on your offer.','Your placement workspace',
       'What matters to you?','Show me all regions','Pay','Work-life balance','Flexible',
-      'Avoid community-heavy','Your colour theme','Retake setup'
+      'Avoid community-heavy','Your colour theme','Retake setup','Undo','Redo','Menu','Like No'
     ]){
       assert.ok(typeof words[key]==='string'&&words[key].trim().length>0,
         language+' missing '+key);

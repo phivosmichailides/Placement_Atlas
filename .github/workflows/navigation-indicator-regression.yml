@@ -7,7 +7,9 @@ on:
       - 'sw.js'
       - 'motion-effects.css'
       - 'motion-effects.js'
+      - 'swipe-mode-workspace.css'
       - 'tests/navigation-indicator-regression.test.cjs'
+      - 'tests/swipe-mode-workspace-regression.test.cjs'
       - '.github/workflows/navigation-indicator-regression.yml'
   pull_request:
     paths:
@@ -31,4 +33,4 @@ jobs:
       - name: Check navigation script syntax
         run: node --check motion-effects.js
       - name: Check navigation animation and offline-cache regression
-        run: node --test tests/navigation-indicator-regression.test.cjs
+        run: node --test tests/navigation-indicator-regression.test.cjs tests/swipe-mode-workspace-regression.test.cjs

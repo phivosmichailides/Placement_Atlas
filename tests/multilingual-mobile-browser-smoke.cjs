@@ -83,6 +83,9 @@ const base = process.env.TARGET || 'http://127.0.0.1:8000/';
     assert.equal(await page.locator('html').getAttribute('dir'),'ltr');
     assert.equal(await page.locator('html').getAttribute('lang'),'en');
     assert.equal(new URL(page.url()).searchParams.has('lang'),false,'English should use the canonical URL');
+    await page.waitForFunction(()=>document.querySelector('nav.tabs .tab[data-tab="explore"]')?.textContent?.trim()==='Explore',null,{timeout:10000});
+    assert.equal((await page.locator('nav.tabs .tab[data-tab="shortlist"]').innerText()).includes('Λίστα επιλογών'),false,
+      'Switching back to English must restore translated navigation text');
     // Each new language must change real interface labels, not just the flag.
     for(const [code,explore] of [['yue-HK','探索'],['ja','探す'],['ko','탐색']]){
       await page.locator('#atlasLanguageTrigger').click();

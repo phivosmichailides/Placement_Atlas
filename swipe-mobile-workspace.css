@@ -47,7 +47,7 @@
     border:1px solid var(--line)!important;border-radius:12px!important;
     color:var(--ink)!important;background:var(--soft,var(--panel))!important;
     box-shadow:none!important;transform:none!important;
-    font:750 clamp(10px,2.6vw,12px)/1.15 inherit!important;
+    font-family:inherit!important;font-size:clamp(10px,2.6vw,12px)!important;font-weight:750!important;line-height:1.15!important;
     cursor:pointer;touch-action:manipulation;
   }
   html body[data-atlas-view="tinderMode"] #tinderMode .tdMobileHistoryButton svg,

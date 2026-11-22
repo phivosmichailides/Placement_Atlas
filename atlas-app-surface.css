@@ -25,6 +25,16 @@
   }
 }
 
+/* A very wide shortlist should not stretch its mini location panel into
+   a huge map after the shell size is normalised. Keep a compact preview,
+   without changing the mobile stacked layout or the programme detail data. */
+@media (min-width:900px) {
+ html.atlasPremiumPreview body #shortlistList .fit.fitExpanded.uxFitWithLocation > .uxLocationPanel {
+   max-width:390px!important;
+   justify-self:end!important;
+ }
+}
+
 /* Keep the SEO explanation useful but secondary, inside the visual content width. */
 html body .atlasStaticExplainer {
   width:calc(100% - 48px);

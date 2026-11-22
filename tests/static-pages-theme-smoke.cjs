@@ -8,7 +8,8 @@ const assert=require('node:assert/strict');
  const page=await browser.newPage({viewport:{width:1365,height:900}});
  const errors=[];
  page.on('pageerror',e=>errors.push(e.message));
- await page.addInitScript(()=>localStorage.setItem('oriel-desk-theme-v1','dark'));
+ await page.goto(base+'privacy.html',{waitUntil:'domcontentloaded'});
+ await page.evaluate(()=>localStorage.setItem('oriel-desk-theme-v1','dark'));
  const paths=['privacy.html','terms.html','about.html','guide.html','programme-snapshot.html','industry-foundation-training.html'];
  let expectedWidth=null;
  for(const path of paths){

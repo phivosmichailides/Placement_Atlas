@@ -136,7 +136,7 @@ const waitForCount=(page,count)=>page.waitForFunction(value=>{
       inlineDates:shown('.atlasCompactDate'),
       dateText:card.querySelector('.atlasCompactDate')?.textContent||'',
       code:card.querySelector('.atlasCompactProgrammeCode strong')?.textContent||'',
-      visa:card.querySelector('.badges .badge[class*="sponsorship"],.badges .badge.good')?.textContent||'',
+      visa:card.querySelector('.badges .badge[data-atlas-compact-visa]')?.dataset.atlasCompactVisa||'',
       eyebrow:getComputedStyle(document.querySelector('#shortlist .sectionHero .eyebrow')).display
     };
   });
@@ -146,7 +146,7 @@ const waitForCount=(page,count)=>page.waitForFunction(value=>{
   assert(!compact.note&&!compact.monthly&&!compact.takehome&&!compact.fullName,
     'Collapsed grid must hide secondary salary/name/note controls: '+JSON.stringify(compact));
   assert(/^\d+$/.test(compact.code),'Programme ID must remain bold and identifiable: '+JSON.stringify(compact));
-  assert(/\b(Yes|No|Unconfirmed)\b/.test(compact.visa),'Visa badge should be concise: '+JSON.stringify(compact));
+  assert(/^(Yes|No|Unconfirmed)$/.test(compact.visa),'Visa badge should have a concise grid label: '+JSON.stringify(compact));
   assert.equal(compact.eyebrow,'none','Shortlist page should not repeat its own title');
   await page.screenshot({path:'/tmp/oriel-map-theme-smoke/placement-atlas-shortlist-grid-compact.png',fullPage:true});
   await page.locator('#shortlistList .rank-row .uxDetailButton').first().click();

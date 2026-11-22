@@ -535,9 +535,9 @@
    const foot=document.createElement('div');foot.className='uxMapFootnote';more.append(foot);
    more.append(commuteAdvice);panel.append(more);
    const links=document.createElement('div');links.className='uxMapLinks';
-   const route=document.createElement('a');route.target='_blank';route.rel='noopener noreferrer';route.textContent='Local station directions ↗';links.append(route);
+   const route=document.createElement('a');route.target='_blank';route.rel='noopener noreferrer';route.href='https://www.google.com/maps/dir/';route.textContent='Local station directions ↗';links.append(route);
    const homeRoute=document.createElement('a');homeRoute.target='_blank';homeRoute.rel='noopener noreferrer';homeRoute.textContent='Directions from my postcode ↗';homeRoute.href='https://www.google.com/maps';homeRoute.hidden=true;links.append(homeRoute);
-   const maps=document.createElement('a');maps.target='_blank';maps.rel='noopener noreferrer';maps.textContent='Open selected site ↗';links.append(maps);panel.append(links);
+   const maps=document.createElement('a');maps.target='_blank';maps.rel='noopener noreferrer';maps.href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent((p.area||p.region||'United Kingdom')+', UK');maps.textContent='Open selected site ↗';links.append(maps);panel.append(links);
    const stationCredit=document.createElement('small');stationCredit.className='uxStationCredit';
    stationCredit.style.cssText='display:block;margin-top:7px;font-size:10px;line-height:1.45;color:var(--mut)';
    stationCredit.append('Rail station locations: ');

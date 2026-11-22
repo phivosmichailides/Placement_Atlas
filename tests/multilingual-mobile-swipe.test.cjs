@@ -80,7 +80,7 @@ test('Like, Like No and Super Like feedback stays anchored above scrollable card
 
 test('updated assets load in the website and offline application',()=>{
   for(const asset of [
-    "atlas-i18n.js?v=20261121clarity1",
+    "atlas-i18n.js?v=20261122perf1",
     "atlas-i18n-east-asia.js?v=20261121eastasia1",
     "atlas-i18n-parity.js?v=20261121parity1",
     "atlas-i18n-quiz.js?v=20261121quiz1",
@@ -88,7 +88,7 @@ test('updated assets load in the website and offline application',()=>{
     "swipe-mobile-viewport.css?v=20261121mobile2",
     "swipe-mobile-workspace.css?v=20261121mobile3",
     "swipe-mobile-navigation.js?v=20261121mobile3",
-    "tinder-mode.js?v=20261122close1"
+    "atlas-lazy-swipe.js?v=20261122perf1"
 ]) {
     assert.ok(html.includes(asset),'homepage is missing '+asset);
     assert.ok(sw.includes(asset),'offline cache is missing '+asset);

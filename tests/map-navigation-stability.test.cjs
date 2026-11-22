@@ -42,14 +42,16 @@ test('responsive map invalidations do not pan unexpectedly',()=>{
   assert.match(resize,/invalidateSize\(\{pan:false,animate:false\}\)/);
 });
 test('all versioned entrypoints load new map assets and the PWA retains them',()=>{
-  for(const name of ['map-focus.css','explore-map-resize.js','app.js']){
+  for(const name of ['map-focus.css','explore-map-resize.js']){
     assert.ok(html.includes(name+'?v=20261122mapstable1'),'Outdated HTML asset: '+name);
   }
+  assert.ok(html.includes('app.js?v=20261122perf1'),'Outdated HTML asset: app.js');
   assert.ok(html.includes('session-ui.js?v=20261122default1'),'Outdated HTML asset: session-ui.js');
   assert.ok(boot.includes('sector-map.js?v=20261122mapstable1'));
-  assert.ok(boot.includes('app-product.js?v=20261122mapstable1'));
-  assert.ok(product.includes('app-base.js?v=20261122mapstable1'));
-  for(const name of ['sector-map.js','app-product.js','app-base.js','app.js'])
-    assert.ok(sw.includes(name+'?v=20261122mapstable1'),'Outdated offline asset: '+name);
+  assert.ok(boot.includes('app-product.js?v=20261122perf1'));
+  assert.ok(product.includes('app-base.js?v=20261122perf1'));
+  assert.ok(sw.includes('sector-map.js?v=20261122mapstable1'),'Outdated offline asset: sector-map.js');
+  for(const name of ['app-product.js','app-base.js','app.js'])
+    assert.ok(sw.includes(name+'?v=20261122perf1'),'Outdated offline asset: '+name);
   assert.ok(sw.includes('session-ui.js?v=20261122default1'),'Outdated offline asset: session-ui.js');
 });

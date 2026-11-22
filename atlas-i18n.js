@@ -1055,6 +1055,9 @@
   const originalAttributes = new WeakMap();
   const lastAttributes = new WeakMap();
   let activeLanguage = 'en';
+  // A fresh English UI needs no DOM translation. Avoid walking thousands of
+  // programme nodes after each render until another language was actually used.
+  let needsEnglishRestore=false;
   let observer = null;
 
   const isProtected = element => {
@@ -1182,7 +1185,7 @@
   }
 
   function walk(node) {
-    if (!node) return;
+    if (!node || (activeLanguage==='en' && !needsEnglishRestore)) return;
     if (node.nodeType === Node.TEXT_NODE) {
       translateTextNode(node);
       return;
@@ -1207,12 +1210,25 @@
   }
 
   function applyLanguage(language) {
-    activeLanguage = LANGUAGES.some(([code]) => code === language) ? language : 'en';
+    const next=LANGUAGES.some(([code]) => code === language) ? language : 'en';
+    // On first load, the DOM already contains English. On return from any
+    // translation, traverse once to restore the original English strings.
+    const restoreEnglish=next==='en'&&activeLanguage!=='en';
+    const scan=next!=='en'||restoreEnglish;
+    activeLanguage=next;
+    needsEnglishRestore=restoreEnglish;
     const rtl = ['ar','ur','fa','ps','ckb'].includes(activeLanguage);
     document.documentElement.lang = activeLanguage;
     document.documentElement.dir = rtl ? 'rtl' : 'ltr';
     document.documentElement.dataset.atlasLanguage = activeLanguage;
-    walk(document.body);
+    if(scan)walk(document.body);
+    needsEnglishRestore=false;
+    // Do not monitor every DOM mutation while the visitor is in English.
+    // Restore observation only for a non-English language.
+    if(observer){
+      observer.disconnect();
+      if(activeLanguage!=='en')observer.observe(document.body,{childList:true,subtree:true,characterData:true});
+    }
     document.dispatchEvent(new CustomEvent('placementatlas:languagechange', { detail: { language: activeLanguage, direction: rtl ? 'rtl' : 'ltr' } }));
   }
 
@@ -1403,7 +1419,7 @@
         requestAnimationFrame(flush);
       }
     });
-    observer.observe(document.body,{childList:true,subtree:true,characterData:true});
+    if(activeLanguage!=='en')observer.observe(document.body,{childList:true,subtree:true,characterData:true});
     document.addEventListener('desk:after-navigation',()=>walk(document.body));
     document.addEventListener('placementatlas:refresh-translation',e=>walk(e.detail?.root||document.body));
     window.PlacementAtlasTranslateUI=root=>walk(root||document.body);

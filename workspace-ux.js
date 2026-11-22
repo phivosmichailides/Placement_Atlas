@@ -20,7 +20,7 @@
  const escape=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const money=n=>window.OrielPay?.money(n)||'£'+Math.round(Number(n)||0).toLocaleString('en-GB');
  let layout=read(KEYS.layout,'list')==='grid'?'grid':'list';
- let palette=palettes.has(read(KEYS.palette,'mono'))?read(KEYS.palette,'mono'):'mono';
+ let palette=palettes.has(read(KEYS.palette,'forest'))?read(KEYS.palette,'forest'):'forest';
  const setLayout=(next,rerender=true)=>{
    layout=next==='grid'?'grid':'list';root.setAttribute('data-layout',layout);write(KEYS.layout,layout);
    document.querySelectorAll('[data-ux-layout]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.uxLayout===layout)));

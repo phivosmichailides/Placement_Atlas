@@ -6,8 +6,6 @@
   const $=id=>document.getElementById(id);
   const themeButton=$('themeToggle');
   const root=document.documentElement;
-  const appearance=window.matchMedia?window.matchMedia('(prefers-color-scheme: dark)'):null;
-  const storedTheme=()=>{try{return localStorage.getItem(THEME_KEY)}catch{return null}};
   const applyTheme=theme=>{
     root.setAttribute('data-theme',theme);
     const meta=document.querySelector('meta[name="theme-color"]');
@@ -26,11 +24,6 @@
     try{localStorage.setItem(THEME_KEY,next)}catch{}
     applyTheme(next);
   });
-  if(appearance){
-    const systemChanged=e=>{if(!['light','dark'].includes(storedTheme()))applyTheme(e.matches?'dark':'light')};
-    if(appearance.addEventListener)appearance.addEventListener('change',systemChanged);
-    else if(appearance.addListener)appearance.addListener(systemChanged);
-  }
 
   const STATUSES=new Set(['awaiting','received','holding','accepted','upgrades','unmatched','declined']);
   const empty=()=>({status:'awaiting',programmeId:'',receivedDate:'',responseDeadline:'',notes:'',savedAt:''});

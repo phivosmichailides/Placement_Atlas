@@ -10,10 +10,8 @@
  const ids=['search','sector','region','hours','salary','sort','decision','visa','specialistView'];
  const getTab=()=>document.querySelector('.tab.active')?.dataset.tab||'explore';
  let lastTab=getTab(),restoreDone=false,restoreInProgress=false;
- // In narrow windows and phones the map and results must appear before the long
- // filter sidebar. The visitor can reveal it whenever they want.
- const mobileFirst=window.matchMedia?.('(max-width: 1180px)').matches;
- let collapsed=mobileFirst?true:storage.get(L,COLLAPSE)==='1';
+ // Filters start open on every screen; returning visitors can keep their saved choice.
+ let collapsed=storage.get(L,COLLAPSE)==='1';
  // Start compact on laptop/desktop, while retaining a visitor's saved choice.
  // Touch/narrow screens keep native-size controls for accessibility.
  const recommendedZoom=()=>{
@@ -153,14 +151,8 @@
    if(topBtn)topBtn.classList.toggle('uxTopVisible',y>420);
  }
  setCollapsed(collapsed,false);
- // A desktop split-screen should behave like a compact phone
- // visit: start with the map and programme cards, not the long filter form.
- // Keep the user's saved desktop choice when leaving the mobile breakpoint.
- const mobileQuery=window.matchMedia?.('(max-width: 1180px)');
- mobileQuery?.addEventListener('change',event=>{
-   if(event.matches)setCollapsed(true,false);
-   else setCollapsed(storage.get(L,COLLAPSE)==='1',false);
- });
+ // Viewport changes should not silently override the chosen sidebar state.
+ // The existing responsive layout stacks filters and content on small screens.
  topBtn?.addEventListener('click',()=>{
    window.scrollTo({top:0,behavior:window.matchMedia?.('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
  });

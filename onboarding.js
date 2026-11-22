@@ -91,7 +91,7 @@
 
     const paletteValues=['forest','copper','mauve','amber','cocoa','mono'];
     const getAppearance=()=>({
-      palette:localStorage.getItem('oriel-desk-palette-v1')||document.documentElement.getAttribute('data-palette')||'mono',
+      palette:localStorage.getItem('oriel-desk-palette-v1')||document.documentElement.getAttribute('data-palette')||'forest',
       theme:document.documentElement.getAttribute('data-theme')||'light'
     });
     const defaultAnswers=()=>({region:'',environment:'',priorities:[],salary:'',hours:'',community:'',visaPriority:state?.prefs?.visaPriority||'none',homePostcode:window.OrielCommuteProfile?.read?.()||'',...getAppearance()});

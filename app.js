@@ -17,7 +17,7 @@
     };
     const loadOnboarding=()=>{
       const onboarding=document.createElement('script');
-      onboarding.src='onboarding.js?v=20261121quiz2';
+      onboarding.src='onboarding.js?v=20261122default1';
       onboarding.onload=loadDeadlineDates;
       onboarding.onerror=loadDeadlineDates;
       document.body.appendChild(onboarding);

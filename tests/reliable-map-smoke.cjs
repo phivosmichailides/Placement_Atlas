@@ -375,10 +375,11 @@ fs.mkdirSync(output,{recursive:true});
   assert(await page.locator('header.top .atlasGlobeMark').isVisible(),'Mobile globe icon missing');
   // At phone width, For You and Compare may never collide or overflow.
   await page.locator('nav.tabs [data-tab=explore]').click();
-  await page.waitForFunction(()=>document.getElementById('explore')?.classList.contains('uxFiltersCollapsed'),
-    null,{timeout:5000});
-  assert.equal(await page.locator('#explore.uxFiltersCollapsed').count(),1,
-    'Mobile Explore filters should start folded instead of covering the map');
+  await page.waitForFunction(()=>document.getElementById('explore')?.classList.contains('active'),null,{timeout:5000});
+  assert.equal(await page.locator('#explore.uxFiltersCollapsed').count(),0,
+    'Mobile Explore filters should remain visible when the viewport changes');
+  assert(await page.locator('#uxFilterSidebar').isVisible(),
+    'Filter controls should remain accessible on mobile');
   const mobileSubnav=await page.evaluate(()=>{
     const choices=document.querySelector('#atlasExploreSubnav .atlasSubnavChoices');
     const compare=document.querySelector('#atlasCompareOpen');

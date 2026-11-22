@@ -168,7 +168,8 @@ test('Tinder refines its own programme pool and keeps outgoing stars independent
   assert.match(game,/id="tinderFilterToggle"/);
   assert.match(game,/id="tinderFilterPanel"/);
   assert.match(game,/ff\.hideDecided/);
-  assert.match(mobile,/mobileFirst\?true:/);
+  assert.match(mobile,/let collapsed=storage\.get\(L,COLLAPSE\)==='1'/);
+  assert.doesNotMatch(mobile,/mobileFirst\?true:/);
   assert.match(read('atlas-navigation.css'),/max-width:720px/);
   assert.match(read('tinder-mode.css'),/tdExitStar/);
 });
@@ -213,7 +214,7 @@ test('contextual dashboard actions and compact filters are wired to the live app
   assert.match(ui,/Remove preferences/);
   assert.match(ui,/state\.prefs=.*DEFAULT/);
   assert.match(ui,/brand\.addEventListener\('click',goHome\)/);
-  assert.match(session,/max-width: 1180px/);
+  assert.match(session,/Viewport changes should not silently override/);
   assert.match(css,/#atlasRefinePill/);
   assert.match(css,/#explore\.uxFiltersCollapsed #uxFilterSidebar/);
 });
@@ -277,7 +278,7 @@ test('professional footer stays navigation-friendly and keeps existing data tool
 test('finishing pass keeps learning, device theme and map colour placement wired',()=>{
   const html=read('index.html'),sw=read('sw.js'),map=read('sector-map.js'),css=read('atlas-completion.css');
   for(const name of ['learning-library.js','atlas-completion.css','premium-quiet-interface.css','premium-workspace.js'])assertAssetSynced(html,sw,name);
-  assert.match(html,/localStorage\.getItem\('oriel-desk-palette-v1'\)\|\|'mono'/);
+  assert.match(html,/localStorage\.getItem\('oriel-desk-palette-v1'\)\|\|'forest'/);
   assert.match(html,/var theme=saved==='dark'\?'dark':'light'/);
   assert.match(map,/prefsGrid\.insertBefore\(settings,resetCard\|\|null\)/);
   assert.match(map,/paMapColourReset/);

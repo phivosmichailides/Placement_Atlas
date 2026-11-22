@@ -110,6 +110,13 @@
     if(data.region==='London')return d+' ('+zone(d)+')';
     return d+(county&&county!==d?' ('+county+')':'');
   };
+  // Swipe Mode builds its first cards while the tab is hidden at page load. Their postcode lookups are only a
+  // nicety, so keep them out of the startup path unless the tab is actually open.
+  const swipeVisible=()=>!!document.getElementById('tinderMode')?.classList.contains('active');
+  const afterStartup=new Promise(resolve=>{
+    const later=()=>setTimeout(resolve,6000);
+    if(document.readyState==='complete')later();else window.addEventListener('load',later,{once:true});
+  });
   const resolvePlaces=async(p,id,target=null)=>{
     // The next programme also has its own real, pre-rendered location text.
     // Never let an old asynchronous postcode response update a newer card.
@@ -117,6 +124,7 @@
     const pcs=[...new Set((p.postcodes||[]).filter(Boolean))].slice(0,6);
     if(!pcs.length){el.textContent='Training-site postcode not provided — verify before deciding';return;}
     el.textContent=pcs.map(pc=>'Postcode '+pc+' · '+p.region).join('  +  ');
+    if(!swipeVisible()){await afterStartup;if(!el.isConnected)return;}
     const results=await Promise.all(pcs.map(async pc=>{
       const key=String(pc).replace(/\s+/g,'').toUpperCase();
       if(placeCache.has(key))return [pc,placeCache.get(key)];

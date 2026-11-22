@@ -189,7 +189,10 @@
     }
   };
   document.body.dataset.atlasView='explore';
-  nav.scrollLeft=0;
+  // A fresh nav is already scrolled to its start. Writing scrollLeft here forced a full page layout in the middle of
+  // startup, so do the reset once the page has finished loading and layout is already up to date.
+  const resetNavScroll=()=>{nav.scrollLeft=0};
+  if(document.readyState==='complete')resetNavScroll();else window.addEventListener('load',resetNavScroll,{once:true});
   document.body.classList.add('atlasNavigationReady');
   document.addEventListener('desk:after-navigation',sync);
   document.addEventListener('desk:state-saved',sync);

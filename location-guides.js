@@ -179,7 +179,23 @@ window.OrielLocationGuide=(()=>{
   const h=Math.sin(dLat/2)**2+Math.cos(rad(aLat))*Math.cos(rad(bLat))*Math.sin(dLng/2)**2;
   return 6371*2*Math.atan2(Math.sqrt(h),Math.sqrt(1-h));
  };
+ // The nearest-station answer depends only on the site's coordinates and the loaded station lists. Cards ask for it on
+ // every render, and each answer means sorting ~2,800 stations, so remember it until the station data changes.
+ const stationMemo={rail:null,tube:null,railLen:-1,tubeLen:-1,map:new Map()};
  const nearestStations=site=>{
+  const rail=window.ORIEL_RAIL_STATIONS,tube=window.ORIEL_TUBE_STATIONS;
+  const railLen=Array.isArray(rail)?rail.length:-1,tubeLen=Array.isArray(tube)?tube.length:-1;
+  if(stationMemo.rail!==rail||stationMemo.tube!==tube||stationMemo.railLen!==railLen||stationMemo.tubeLen!==tubeLen){
+   stationMemo.rail=rail;stationMemo.tube=tube;stationMemo.railLen=railLen;stationMemo.tubeLen=tubeLen;stationMemo.map.clear();
+  }
+  const lat=Number(site?.lat),lng=Number(site?.lng);
+  if(!Number.isFinite(lat)||!Number.isFinite(lng))return [];
+  const key=lat+','+lng;
+  let hit=stationMemo.map.get(key);
+  if(!hit){hit=nearestStationsUncached(site);stationMemo.map.set(key,hit);}
+  return hit.map(station=>({...station}));
+ };
+ const nearestStationsUncached=site=>{
   const lat=Number(site?.lat),lng=Number(site?.lng);
   if(!Number.isFinite(lat)||!Number.isFinite(lng))return [];
   const candidates=[];

@@ -47,6 +47,6 @@ test('translation packs are loaded before interface translator',()=>{
   const parityIndex=html.indexOf('atlas-i18n-parity.js?v=20261121parity1');
   const quizIndex=html.indexOf('atlas-i18n-quiz.js?v=20261121quiz1');
   const asiaIndex=html.indexOf('atlas-i18n-east-asia.js?v=20261121eastasia1');
-  const i18nIndex=html.indexOf('atlas-i18n.js?v=20261121clarity1');
+  const i18nIndex=html.indexOf('atlas-i18n.js?v=20261122perf1');
   assert.ok(parityIndex>0&&quizIndex>parityIndex&&asiaIndex>quizIndex&&i18nIndex>asiaIndex);
 });

@@ -66,7 +66,7 @@
    const cards=list.querySelectorAll(':scope > .rank-row');
    let count=cards.length;
    // Match the native shortlist source of truth, including account sync.
-   try{if(typeof ranked==='function')count=ranked().length}catch{}
+   try{if(typeof ranked==='function')count=Math.max(count,ranked().length)}catch{}
    const isEmpty=count===0&&(seenReady||!!list.querySelector('.card.empty'));
    panel.classList.toggle('atlasShortlistEmpty',isEmpty);
    root.hidden=!isEmpty;

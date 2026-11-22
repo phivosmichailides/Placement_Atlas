@@ -42,9 +42,24 @@ const waitForCount=(page,count)=>page.waitForFunction(value=>{
   await page.locator('#uxDrawerLauncher [data-ux-shortlist-count]').waitFor({state:'attached',timeout:20000});
   await page.locator('#undoDesk').waitFor({state:'attached',timeout:20000});
   await waitForCount(page,'(0)');
+  // An empty shortlist should teach users where to begin, not expose the footer.
+  await page.locator('nav.tabs [data-tab="shortlist"]').click();
+  await page.locator('#atlasShortlistWelcome').waitFor({state:'visible',timeout:15000});
+  assert(await page.locator('#shortlist').evaluate(el=>el.classList.contains('atlasShortlistEmpty')),
+    'Empty shortlist discovery panel should activate with no programmes');
+  assert(await page.locator('#atlasShortlistWelcome [data-atlas-welcome]').count()>=9,
+    'Empty shortlist should offer useful linked prompts');
+  await page.screenshot({path:'/tmp/oriel-map-theme-smoke/placement-atlas-shortlist-empty.png',fullPage:true});
+  await page.locator('#atlasShortlistWelcome [data-atlas-welcome="explore"]').first().click();
+  await page.locator('#explore.active').waitFor({state:'visible',timeout:10000});
   const first=page.locator('#results .placement').first();
   await first.locator('[data-action=prefer]').click();
   await waitForCount(page,'(1)');
+  await page.locator('nav.tabs [data-tab="shortlist"]').click();
+  await page.waitForFunction(()=>document.getElementById('atlasShortlistWelcome')?.hidden===true,null,{timeout:15000});
+  assert(!(await page.locator('#shortlist').evaluate(el=>el.classList.contains('atlasShortlistEmpty'))),
+    'Discovery panel must disappear as soon as a programme is shortlisted');
+  await page.locator('nav.tabs [data-tab="explore"]').click();
   await page.waitForFunction(()=>!!document.getElementById('undoDesk')&&!document.getElementById('undoDesk').disabled,null,{timeout:10000});
   assert.equal(await page.locator('#uxDrawerLauncher [data-ux-shortlist-count]').innerText(),'(1)',
     'Bottom-right shortlist count did not update after adding a programme');

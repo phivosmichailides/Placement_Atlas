@@ -1,0 +1,134 @@
+/* Shared Placement Atlas editorial shell: appearance and navigation parity. */
+@font-face{font-family:"Plus Jakarta Sans";src:url("/fonts/PlusJakartaSans-VariableFont_wght.ttf?v=1") format("truetype");font-style:normal;font-weight:100 900;font-display:swap}
+:root {
+ color-scheme:light;
+ --bg:#f7f7f6;--panel:#fff;--ink:#282b2b;--muted:#626a67;--line:#d9dedb;
+ --soft:#eff1ee;--accent:#526954;--green:#355a45;--green-dark:#254b36;
+ --green-soft:#e7ebe5;--burgundy:#526954;--ivory:var(--bg);
+ --sand:#eee9df;--shadow:0 7px 25px #1216150a;
+}
+html[data-theme="dark"] {
+ color-scheme:dark;
+ --bg:#0f1011;--panel:#242527;--ink:#f5f5f5;--muted:#bac1c0;--line:#494b4e;
+ --soft:#343639;--accent:#e0e1e3;--green:#e0e1e3;--green-dark:#f5f5f5;
+ --green-soft:#414349;--burgundy:#e0e1e3;--ivory:var(--bg);
+ --sand:#333638;--shadow:0 12px 28px #0003;
+}
+html[data-palette="forest"]{--accent:#526954}
+html[data-theme="dark"][data-palette="forest"]{--accent:#b8cdb6;--green:#b8cdb6;--burgundy:#b8cdb6}
+html[data-palette="copper"]{--accent:#4d7393;--green:#4d7393;--burgundy:#4d7393}
+html[data-theme="dark"][data-palette="copper"]{--accent:#9dbfda;--green:#9dbfda;--burgundy:#9dbfda}
+html[data-palette="mauve"]{--accent:#866484;--green:#866484;--burgundy:#866484}
+html[data-theme="dark"][data-palette="mauve"]{--accent:#d4b1cf;--green:#d4b1cf;--burgundy:#d4b1cf}
+html[data-palette="amber"]{--accent:#a3703f;--green:#a3703f;--burgundy:#a3703f}
+html[data-theme="dark"][data-palette="amber"]{--accent:#e4c199;--green:#e4c199;--burgundy:#e4c199}
+html[data-palette="cocoa"]{--accent:#805e51;--green:#805e51;--burgundy:#805e51}
+html[data-theme="dark"][data-palette="cocoa"]{--accent:#d7bca9;--green:#d7bca9;--burgundy:#d7bca9}
+html body {
+ background:var(--bg);color:var(--ink);
+ font-family:"Plus Jakarta Sans","Avenir Next",Inter,system-ui,sans-serif;
+ -webkit-font-smoothing:antialiased;
+}
+html a {color:var(--accent)}
+html a:focus-visible,html button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+html .paDocHeader {
+ position:sticky;top:0;z-index:1700;
+ width:min(1540px,calc(100% - 28px));
+ margin:0 auto 18px!important;
+ padding:0!important;
+ background:color-mix(in srgb,var(--panel) 95%,transparent)!important;
+ border:1px solid var(--line)!important;border-radius:18px!important;
+ box-shadow:0 7px 24px #0000000e!important;
+ -webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
+ box-sizing:border-box;
+}
+html .paDocHeader .paDocBar {
+ display:flex;align-items:center;justify-content:space-between;gap:16px;
+ width:100%;max-width:none;min-height:77px;padding:12px 18px;
+ flex-wrap:wrap;
+}
+html .paDocHeader .paDocBrand{
+ display:inline-flex;align-items:center;gap:9px;min-width:0;
+ text-decoration:none;color:var(--ink)!important;
+ font-size:clamp(17px,1.6vw,21px);font-weight:850;letter-spacing:-.04em;white-space:nowrap;
+}
+html .paDocHeader .paDocBrand svg{height:37px;width:37px;flex:none}
+html .paDocHeader .paDocNav{display:flex;align-items:center;gap:4px;flex-wrap:wrap;justify-content:flex-end;min-width:0}
+html .paDocHeader .paDocNav a{
+ display:inline-flex;align-items:center;min-height:37px;
+ padding:9px 11px;border-radius:11px;color:var(--muted);
+ font-size:12px;font-weight:740;text-decoration:none;
+ white-space:nowrap;
+}
+html .paDocHeader .paDocNav a:hover,html .paDocHeader .paDocNav a[aria-current="page"]{
+ background:var(--green-soft);color:var(--ink);
+ text-decoration:none;
+}
+html .paDocHeader .paDocTheme{
+ width:38px;height:38px;display:inline-grid;place-items:center;
+ border:1px solid var(--line);border-radius:11px;
+ background:var(--soft);color:var(--ink);font-size:19px;line-height:1;cursor:pointer;
+}
+html .paDocHeader .paDocTheme:hover{background:var(--green-soft)}
+html[data-theme="dark"] body .lead,
+html[data-theme="dark"] body .intro,
+html[data-theme="dark"] body .assurance,
+html[data-theme="dark"] body .callout p,
+html[data-theme="dark"] body .note,
+html[data-theme="dark"] body .disclaimer,
+html[data-theme="dark"] body .feature p,
+html[data-theme="dark"] body .panel p,
+html[data-theme="dark"] body .footer-links a,
+html[data-theme="dark"] body .fact span,
+html[data-theme="dark"] body .listing .employer,
+html[data-theme="dark"] body .metric span,
+html[data-theme="dark"] body .qa p{color:var(--muted)!important}
+html body .intro,html body .lead{color:var(--muted)}
+html body .note,html body .callout,html body .disclaimer,
+html body .assurance {background:var(--soft)!important;color:var(--ink);border-color:var(--line)!important}
+html body .button,html body .btn:not(.paDocTheme){background:var(--accent);border-color:var(--accent);color:var(--panel)}
+html[data-theme="dark"] body .button,html[data-theme="dark"] body .btn:not(.paDocTheme){color:var(--bg)}
+html body .button.secondary,html body .button.outline,html body .btn.alt{background:var(--panel);color:var(--accent);border:1px solid var(--line)}
+html body .fact,html body .feature,html body .panel,html body .metric,html body .listing,
+html body article,html body .table-wrap {background:var(--panel);border-color:var(--line);box-shadow:var(--shadow)}
+html body .fact span,html body .feature p,html body .panel p{color:var(--muted)}
+html body .contents,html body footer,html body section+section{border-color:var(--line)}
+html body .contents a,html body .footer-links a{color:var(--accent)}
+html body table thead {background:var(--soft)}
+html body table th,html body table td {border-color:var(--line)}
+html body table thead th,html body table td strong{color:var(--ink)}
+html body .listing-top span:last-child {background:var(--soft)}
+html body .note a,html body article a{color:var(--accent)}
+html body .skip:focus,html body .skip-link:focus{background:var(--panel);color:var(--ink)}
+html body .eyebrow,html body .kicker{color:var(--accent)}
+html body article section+section{border-color:var(--line)}
+html body .footer-inner,html body footer .container{color:var(--muted)}
+html body .paDocFooterBrand{font-weight:850;color:var(--ink)}
+@media (max-width:780px){
+ html .paDocHeader .paDocBar{padding:12px;justify-content:center;gap:8px}
+ html .paDocHeader .paDocNav{justify-content:center}
+ html .paDocHeader .paDocNav a{padding:8px;font-size:11px;min-height:35px}
+}
+@media (max-width:500px){
+ html .paDocHeader{width:calc(100% - 16px);border-radius:14px!important}
+ html .paDocHeader .paDocBar{justify-content:flex-start}
+ html .paDocHeader .paDocNav{flex-wrap:nowrap;overflow-x:auto;width:100%;justify-content:flex-start;scrollbar-width:none}
+ html .paDocHeader .paDocNav::-webkit-scrollbar{display:none}
+ html .paDocHeader .paDocNav a{flex:none}
+ html .paDocHeader .paDocTheme{flex:none}
+}
+/* The standalone industry guide ships its own body-scoped light palette.
+   Override those local tokens after loading its original stylesheet, not the guide content. */
+html body.industryStandalone{
+ background:var(--bg)!important;
+ color:var(--ink)!important;
+ font-family:"Plus Jakarta Sans","Avenir Next",Inter,system-ui,sans-serif!important;
+}
+html[data-theme="dark"] body.industryStandalone {
+ --panel:#242527;--soft:#343639;--ink:#f5f5f5;--mut:#bac1c0;--line:#494b4e;
+ --ux-accent-ink:#e0e1e3;--ux-accent-border:#6a6c72;--ux-accent-soft:#414349;
+}
+html[data-theme="light"] body.industryStandalone {
+ --panel:#fff;--soft:#f0f0f0;--ink:#282b2b;--mut:#626a67;--line:#d9dedb;
+ --ux-accent-ink:var(--accent);--ux-accent-border:#ccd6cb;--ux-accent-soft:#e7ebe5;
+}

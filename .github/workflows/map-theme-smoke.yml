@@ -72,7 +72,7 @@ jobs:
         run: node --test tests/catalogue-parser.test.cjs tests/independence.test.cjs tests/location-guidance.test.cjs tests/research.test.js tests/shortlist.test.js tests/industry-foundation-learning-guide.test.cjs tests/map-navigation-stability.test.cjs
       - name: Check JavaScript syntax for the app and browser tests
         run: |
-          for file in app.js atlas-navigation.js workspace-ux.js placement-mobile-navigation.js member-profile.js premium-discovery-preview.js onboarding.js tinder-mode.js simulator.js placement-profile.js placement-fixes.js map-basemap.js programme-preview.js learning-library.js shortlist-refinement.js tests/placement-atlas-ui-smoke.cjs tests/industry-learning-guide-browser-smoke.cjs; do node --check "$file"; done
+          for file in app.js atlas-navigation.js workspace-ux.js placement-mobile-navigation.js member-profile.js premium-discovery-preview.js onboarding.js tinder-mode.js simulator.js placement-profile.js placement-fixes.js map-basemap.js programme-preview.js learning-library.js shortlist-refinement.js atlas-shortlist-onboarding.js atlas-static-pages.js tests/placement-atlas-ui-smoke.cjs tests/industry-learning-guide-browser-smoke.cjs; do node --check "$file"; done
       - name: Install browser testing dependency
         run: npm install --no-save playwright@1.56.1
       - name: Install test browser and dependencies
@@ -91,6 +91,10 @@ jobs:
           TARGET: http://127.0.0.1:8000/
       - name: Verify programme map clicks and camera stability at 70% zoom
         run: node tests/map-navigation-browser-smoke.cjs
+        env:
+          TARGET: http://127.0.0.1:8000/
+      - name: Validate static article navigation and saved dark mode
+        run: node tests/static-pages-theme-smoke.cjs
         env:
           TARGET: http://127.0.0.1:8000/
       - name: Validate checkout UI in desktop and mobile Chromium
@@ -119,7 +123,7 @@ jobs:
           node-version: '22'
       - name: Check JavaScript syntax for the app and browser tests
         run: |
-          for file in app.js atlas-navigation.js workspace-ux.js placement-mobile-navigation.js member-profile.js premium-discovery-preview.js onboarding.js tinder-mode.js simulator.js placement-profile.js placement-fixes.js map-basemap.js programme-preview.js learning-library.js shortlist-refinement.js tests/placement-atlas-ui-smoke.cjs tests/industry-learning-guide-browser-smoke.cjs; do node --check "$file"; done
+          for file in app.js atlas-navigation.js workspace-ux.js placement-mobile-navigation.js member-profile.js premium-discovery-preview.js onboarding.js tinder-mode.js simulator.js placement-profile.js placement-fixes.js map-basemap.js programme-preview.js learning-library.js shortlist-refinement.js atlas-shortlist-onboarding.js atlas-static-pages.js tests/placement-atlas-ui-smoke.cjs tests/industry-learning-guide-browser-smoke.cjs; do node --check "$file"; done
       - name: Install browser testing dependency
         run: npm install --no-save playwright@1.56.1
       - name: Install test browser and dependencies

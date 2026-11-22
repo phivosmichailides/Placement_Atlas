@@ -20,12 +20,14 @@
 /* Keep the SEO explanation useful but secondary, inside the visual content width. */
 html body .atlasStaticExplainer {
   width:calc(100% - 48px);
-  max-width:1540px;
+  max-width:1200px;
   margin:38px auto 12px!important;
   padding:clamp(17px,2vw,28px)!important;
   box-sizing:border-box;
 }
 html body .atlasStaticExplainer p { max-width:96ch }
+/* Match the footer to the reading width instead of stretching four columns edge-to-edge. */
+html body .app-footer.atlasFooter{width:calc(100% - 48px);max-width:1200px;margin:0 auto 12px!important;box-sizing:border-box}
 html body .atlasStaticExplainerLinks { gap:10px 24px!important }
 html body .atlasStaticExplainerLinks a { overflow-wrap:anywhere }
 
@@ -122,6 +124,7 @@ html body #atlasShortlistWelcome .atlasWelcomeFootnote{margin-top:auto;font-size
 }
 @media(max-width:540px){
  html body .atlasStaticExplainer{width:calc(100% - 24px);margin:22px auto!important}
+ html body .app-footer.atlasFooter{width:calc(100% - 24px)}
  html body #atlasShortlistWelcome{padding:20px 16px;min-height:0;margin-bottom:40px}
  html body #atlasShortlistWelcome .atlasWelcomeChoices{grid-template-columns:minmax(0,1fr)}
  html body #atlasShortlistWelcome .atlasWelcomePrompt{min-height:61px}

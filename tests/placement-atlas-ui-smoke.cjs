@@ -396,7 +396,7 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   assert.equal(await page.locator('#atlasOfferSimButton').count(),0,
     'Offer tracker must not appear as an unrelated simulator CTA');
   assert.equal(await page.locator('.simHint').count(),1,'Simulator should have a single short instruction');
-  assert.equal(await page.locator('#shortlist .atlasShortlistMore > summary').innerText(),'Export & backup',
+  assert.equal(await page.locator('#shortlist .atlasShortlistMore > summary').textContent(),'Export & backup',
     'Shortlist overflow action should disclose its purpose');
   assert(await page.locator('#shortlist .shortlistViewOrder').count()===1 &&
     await page.locator('#shortlist .atlasShortlistMore .shortlistViewOrder').count()===0,

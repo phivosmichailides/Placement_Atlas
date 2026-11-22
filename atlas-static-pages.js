@@ -3,9 +3,9 @@
  'use strict';
  const doc=document.documentElement;
  const themeKey='oriel-desk-theme-v1',paletteKey='oriel-desk-palette-v1';
- const appearance=window.matchMedia?.('(prefers-color-scheme: dark)');
+ // First visits use light mode, regardless of system appearance.
  const read=k=>{try{return localStorage.getItem(k)}catch{return null}};
- const theme=()=>['light','dark'].includes(read(themeKey))?read(themeKey):(appearance?.matches?'dark':'light');
+ const theme=()=>['light','dark'].includes(read(themeKey))?read(themeKey):'light';
  const apply=next=>{
   doc.dataset.theme=next;
   const meta=document.querySelector('meta[name="theme-color"]');
@@ -18,7 +18,7 @@
   }
  };
  const palettes=['forest','copper','mauve','amber','cocoa','mono'];
- doc.dataset.palette=palettes.includes(read(paletteKey))?read(paletteKey):'mono';
+ doc.dataset.palette=palettes.includes(read(paletteKey))?read(paletteKey):'forest';
  apply(theme());
  const render=()=>{
   const old=document.querySelector('body > header, body > .wrap > header');
@@ -46,9 +46,9 @@
   apply(doc.dataset.theme);
  };
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',render,{once:true});else render();
- appearance?.addEventListener?.('change',()=>{if(!['light','dark'].includes(read(themeKey)))apply(theme())});
+ 
  window.addEventListener('storage',e=>{
   if(e.key===themeKey)apply(theme());
-  if(e.key===paletteKey)doc.dataset.palette=palettes.includes(read(paletteKey))?read(paletteKey):'mono';
+  if(e.key===paletteKey)doc.dataset.palette=palettes.includes(read(paletteKey))?read(paletteKey):'forest';
  });
 })();

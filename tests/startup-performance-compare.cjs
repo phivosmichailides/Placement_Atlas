@@ -19,7 +19,7 @@ async function sample(browser,url,label){
   const cdp=await context.newCDPSession(page);
   await cdp.send('Emulation.setCPUThrottlingRate',{rate:3});
   await page.addInitScript(()=>{
-    window.__atlasBenchmark={cls:0,longTaskBlocking:0,longTaskCount:0,largestContentfulPaint:0,firstContentfulPaint:0};
+    window.__atlasBenchmark={cls:0,longTaskBlocking:0,longTaskCount:0,largestContentfulPaint:0,firstContentfulPaint:0,topLayoutShifts:[]};
     try{
       new PerformanceObserver(list=>{
         for(const entry of list.getEntries()){
@@ -28,6 +28,24 @@ async function sample(browser,url,label){
             window.__atlasBenchmark.longTaskBlocking+=Math.max(0,entry.duration-50);
           }else if(entry.entryType==='layout-shift'&&!entry.hadRecentInput){
             window.__atlasBenchmark.cls+=entry.value;
+            const label=node=>{
+              if(!node)return '[disconnected]';
+              if(node.id)return '#'+node.id;
+              const cls=typeof node.className==='string'?node.className.trim().split(/\\s+/).slice(0,2).join('.'):'';
+              return String(node.tagName||'node').toLowerCase()+(cls?'.'+cls:'');
+            };
+            const affected=(entry.sources||[]).slice(0,3).map(s=>({
+              element:label(s.node),
+              fromY:Math.round(s.previousRect?.y||0),
+              toY:Math.round(s.currentRect?.y||0)
+            }));
+            window.__atlasBenchmark.topLayoutShifts.push({
+              value:Number(entry.value.toFixed(4)),
+              time:Math.round(entry.startTime),
+              affected
+            });
+            window.__atlasBenchmark.topLayoutShifts.sort((a,b)=>b.value-a.value);
+            window.__atlasBenchmark.topLayoutShifts.length=Math.min(7,window.__atlasBenchmark.topLayoutShifts.length);
           }else if(entry.entryType==='largest-contentful-paint'){
             window.__atlasBenchmark.largestContentfulPaint=entry.startTime;
           }else if(entry.entryType==='paint'&&entry.name==='first-contentful-paint'){
@@ -58,7 +76,8 @@ async function sample(browser,url,label){
         programmes:typeof placements==='undefined'?0:placements.length,
         heroCount:document.querySelectorAll('.productIntro').length,
         programmeDates:document.querySelectorAll('#results .programmeDates').length,
-        loaded:Math.round(performance.now())
+        loaded:Math.round(performance.now()),
+        topLayoutShifts:p.topLayoutShifts||[]
       };
     });
     if(measurements.programmes!==4064||measurements.heroCount!==1){

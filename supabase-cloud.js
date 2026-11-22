@@ -168,7 +168,14 @@
     ? window.location.origin+window.location.pathname
     : 'https://placementatlas.co.uk/';
   const showAuthModal=(mode='signin')=>{
-    if(!client||!configured)return;
+    if(!configured)return;
+    if(!client){
+      // Visitors who have never signed in do not download the sign-in library at page load; fetch it on first use.
+      status('Opening sign-in…','pending');
+      ensureClient().then(ready=>{if(ready){status('','neutral');showAuthModal(mode);}})
+        .catch(error=>status('Sign-in could not load. Check your connection and try again. '+(error&&error.message||''),'error'));
+      return;
+    }
     if(!window.PlacementAtlasPasswordAuth){
       status('Account sign-in is loading. Refresh the page and try again.','error');
       return;
@@ -345,13 +352,47 @@
     return await flush();
   };
   window.OrielCloud={activateSync:activateSync,signIn:showAuthModal,getClient:()=>client,saveNow};
-  window.OrielCloudReady=(async()=>{
-    renderAccount();
-    if(!configured){bootstrappingDone();return null;}
-    if(!window.supabase||typeof window.supabase.createClient!=='function'){
-      status('The cloud sign-in library could not load. Refresh to retry.','error');
-      bootstrappingDone();return null;
+  // The Supabase library (~47 KB) is only needed at page load when this browser already has a session, holds a signed-in
+  // workspace that must be checked, or is returning from a sign-in, magic-link, OAuth or password-recovery link.
+  // Everyone else gets it on first click of "Sign in". Nothing about accounts changes once it is loaded.
+  const SUPABASE_LIBRARY='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0';
+  const projectRef=()=>{try{return new URL(cfg.url).hostname.split('.')[0]}catch{return ''}};
+  const needsCloudAtLoad=()=>{
+    if(read(MARKER))return true;
+    try{
+      const ref=projectRef();
+      for(let i=0;i<localStorage.length;i++){
+        const key=localStorage.key(i)||'';
+        if(/^sb-.+-auth-token/.test(key)&&(!ref||key.includes(ref)))return true;
+      }
+    }catch{return true;}
+    const query=new URLSearchParams(window.location.search);
+    if(['code','atlas_auth','error','error_code','error_description','token_hash'].some(name=>query.has(name)))return true;
+    return /(^|[#&])(access_token|refresh_token|error|error_description|type)=/.test(window.location.hash);
+  };
+  let libraryPromise=null;
+  const loadLibrary=()=>{
+    if(window.supabase&&typeof window.supabase.createClient==='function')return Promise.resolve(true);
+    if(!libraryPromise){
+      libraryPromise=new Promise((resolve,reject)=>{
+        const script=document.createElement('script');
+        script.src=SUPABASE_LIBRARY;script.crossOrigin='anonymous';script.async=true;
+        script.onload=()=>resolve(true);
+        script.onerror=()=>{libraryPromise=null;script.remove();reject(new Error('The cloud sign-in library could not load.'));};
+        document.head.appendChild(script);
+      });
     }
+    return libraryPromise;
+  };
+  let clientPromise=null;
+  const ensureClient=()=>{
+    if(client)return Promise.resolve(true);
+    if(!clientPromise)clientPromise=initClient().then(()=>true).catch(error=>{clientPromise=null;throw error;});
+    return clientPromise;
+  };
+  const initClient=async()=>{
+    await loadLibrary();
+    if(!window.supabase||typeof window.supabase.createClient!=='function')throw new Error('The cloud sign-in library could not load.');
     client=window.supabase.createClient(cfg.url.trim().replace(/\/$/,''),cfg.publishableKey.trim(),{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,flowType:'pkce'}});
     const result=await client.auth.getSession();
     if(result.error)throw result.error;
@@ -404,9 +445,29 @@
         setTimeout(()=>prepareUser(session.user).then(()=>{if(syncActive)flush()}).catch(error=>status('Could not load your cloud workspace. '+(error.message||''),'error')),0);
       }
     });
-    bootstrappingDone();
     return result.data&&result.data.session||null;
+  };
+  window.OrielCloudReady=(async()=>{
+    renderAccount();
+    if(!configured){bootstrappingDone();return null;}
+    if(!needsCloudAtLoad()){
+      // Signed-out visitor: start immediately with the local workspace, exactly as after a signed-out getSession().
+      currentUser=null;renderAccount();status('','neutral');
+      bootstrappingDone();return null;
+    }
+    let session=null;
+    try{
+      await loadLibrary();
+    }catch{
+      status('The cloud sign-in library could not load. Refresh to retry.','error');
+      bootstrappingDone();return null;
+    }
+    clientPromise=initClient();
+    session=await clientPromise;
+    bootstrappingDone();
+    return session;
   })().catch(error=>{
+    clientPromise=null;
     renderAccount();
     status('Cloud accounts could not initialise. Your local workspace is still available. '+(error.message||''),'error');
     bootstrappingDone();

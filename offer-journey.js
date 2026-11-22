@@ -134,12 +134,7 @@
  };
  const ensureButtons=()=>{
    if(!overlay)return;
-   const sim=$('simulator');
-   if(sim&&!$('atlasOfferSimButton')){
-     const btn=action('Offer & outcome',open,'btn atlasOfferSimButton');btn.id='atlasOfferSimButton';
-     const host=sim.querySelector('.simHeroActions')||sim.querySelector('.simHero');
-     host?.append(btn);
-   }
+   // Offer tracking belongs to its own page, not the practice simulator.
    const deadline=$('orielDeadline');
    if(deadline&&!$('atlasOfferDeadlineButton')&&Date.now()>=OFFER_START&&$('deadlineLabel')?.textContent.includes('2027/28')){
      const btn=action('View offer & outcome',open,'atlasOfferDeadlineButton');btn.id='atlasOfferDeadlineButton';
@@ -170,7 +165,7 @@
    counter++;
    if(!overlay)createModal();
    ensureButtons();renderStatus();
-   if(counter>130||(overlay&&$('atlasOfferSimButton')&&$('atlasOfferDeadlineButton')))clearInterval(timer);
+   if(counter>130||(overlay&&$('atlasOfferDeadlineButton')))clearInterval(timer);
  },180);
  document.addEventListener('desk:after-navigation',ensureButtons);
  window.addEventListener('storage',event=>{if(event.key===KEY){guidance();renderStatus()}});

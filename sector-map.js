@@ -305,11 +305,11 @@
         if(dialog.hidden)return;
         placeholder.parentNode?.insertBefore(mapContainer,placeholder.nextSibling);
         dialog.hidden=true;document.body.classList.remove('atlasMapFocusOpen');
-        requestAnimationFrame(()=>{placementMap.invalidateSize(false);expand.focus();});
+        requestAnimationFrame(()=>{placementMap.invalidateSize({pan:false,animate:false});expand.focus();});
       };
       const openFocus=()=>{
         dialog.hidden=false;document.body.classList.add('atlasMapFocusOpen');stage.append(mapContainer);updateFocusCount();
-        requestAnimationFrame(()=>{placementMap.invalidateSize(false);setTimeout(()=>placementMap.invalidateSize(false),160);closeButton.focus();});
+        requestAnimationFrame(()=>{placementMap.invalidateSize({pan:false,animate:false});setTimeout(()=>placementMap.invalidateSize({pan:false,animate:false}),160);closeButton.focus();});
       };
       expand.addEventListener('click',openFocus);closeButton.addEventListener('click',closeFocus);
       dialog.addEventListener('click',event=>{if(event.target===dialog)closeFocus();});

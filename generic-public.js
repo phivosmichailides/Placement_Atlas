@@ -15,7 +15,8 @@
   };
 
   const install=()=>{
-    if(!ready()||window.__genericPublicInstalled)return false;
+    if(window.__genericPublicInstalled)return true;
+    if(!ready())return false;
     window.__genericPublicInstalled=true;
 
     const profile=state.prefs.onboarding||readJSON(PROFILE_KEY);
@@ -134,8 +135,13 @@
     document.getElementById('quick')?.addEventListener('click',()=>requestAnimationFrame(()=>allBtn?.classList.toggle('on',!region?.value&&!quick.size)));
     document.querySelector('[data-q="london"]')?.addEventListener('click',()=>allBtn?.classList.remove('on'));
 
-    try{renderAll()}catch{}
-    document.dispatchEvent(new CustomEvent('desk:ready'));
+    if(window.__atlasFirstRenderPending){
+      // app-base.js draws the cards right after this, already with the settings above; announce readiness after it.
+      document.addEventListener('desk:cards-ready',()=>document.dispatchEvent(new CustomEvent('desk:ready')),{once:true});
+    }else{
+      try{renderAll()}catch{}
+      document.dispatchEvent(new CustomEvent('desk:ready'));
+    }
 
     // Instant map: render the 760 bundled postcode coordinates on first paint.
     // Further lookups are opt-in through "Locate missing", or limited to the chosen region.
@@ -144,6 +150,8 @@
     return true;
   };
 
+  // Install the moment the catalogue arrives (before the first draw) when this script is already loaded.
+  document.addEventListener('desk:catalogue-loaded',()=>{try{install()}catch(error){console.warn('Public defaults will apply after the first draw.',error)}},{once:true});
   let tries=0;
   const timer=setInterval(()=>{
     tries++;

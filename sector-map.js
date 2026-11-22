@@ -611,7 +611,9 @@
     placementMap.on('popupclose',()=>{selectedProgramme=null;syncMap();scheduleMapRedraw();});
     placementMap.on('zoomend',()=>{scheduleMapRedraw();scheduleViewportHint();});
     placementMap.on('moveend',()=>{scheduleMapRedraw();scheduleViewportHint();});
-    try{drawMap(placements.filter(matches));}catch{}
+    // Redraw the map's current scope (the results page, or everything after "Show all matching") with sector pins.
+    // Plotting every match here only looked right while a later full redraw re-scoped the map.
+    try{if(typeof window.OrielRefreshMapScope==='function')window.OrielRefreshMapScope();else drawMap(placements.filter(matches));}catch{}
     // Keep the intentional London starting view. Fit the national extent only
     // when the user presses Fit results or the empty-map action.
     requestAnimationFrame(()=>requestAnimationFrame(()=>{placementMap.invalidateSize({pan:false,animate:false});updateViewportHint();}));

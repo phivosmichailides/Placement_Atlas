@@ -301,15 +301,28 @@
       const stage=dialog.querySelector('.atlasMapFocusStage'),closeButton=dialog.querySelector('#atlasMapFocusClose');
       const placeholder=document.createComment('Placement Atlas map position');
       mapContainer.parentNode?.insertBefore(placeholder,mapContainer);
+      const preserveCamera=(centre,zoom)=>{
+        placementMap.invalidateSize({pan:false,animate:false});
+        // The map leaves a CSS-zoomed shell for a normal-size modal and back.
+        // Leaflet's pixel origin changes on that transition: explicitly restore
+        // the geographical centre so the map does not drift diagonally.
+        placementMap.setView(centre,zoom,{animate:false});
+      };
       const closeFocus=()=>{
         if(dialog.hidden)return;
+        const centre=placementMap.getCenter(),zoom=placementMap.getZoom();
         placeholder.parentNode?.insertBefore(mapContainer,placeholder.nextSibling);
         dialog.hidden=true;document.body.classList.remove('atlasMapFocusOpen');
-        requestAnimationFrame(()=>{placementMap.invalidateSize({pan:false,animate:false});expand.focus();});
+        requestAnimationFrame(()=>{preserveCamera(centre,zoom);expand.focus();});
       };
       const openFocus=()=>{
+        const centre=placementMap.getCenter(),zoom=placementMap.getZoom();
         dialog.hidden=false;document.body.classList.add('atlasMapFocusOpen');stage.append(mapContainer);updateFocusCount();
-        requestAnimationFrame(()=>{placementMap.invalidateSize({pan:false,animate:false});setTimeout(()=>placementMap.invalidateSize({pan:false,animate:false}),160);closeButton.focus();});
+        requestAnimationFrame(()=>{
+          preserveCamera(centre,zoom);
+          setTimeout(()=>preserveCamera(centre,zoom),230);
+          closeButton.focus();
+        });
       };
       expand.addEventListener('click',openFocus);closeButton.addEventListener('click',closeFocus);
       dialog.addEventListener('click',event=>{if(event.target===dialog)closeFocus();});

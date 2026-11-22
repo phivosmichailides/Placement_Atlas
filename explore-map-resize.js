@@ -6,14 +6,15 @@
   if(!explore||!map)return;
   let frame=0,lastWidth=0,lastHeight=0;
   const measure=()=>{
-    const rect=map.getBoundingClientRect();
-    const width=Math.round(rect.width),height=Math.round(rect.height);
+    // Leaflet sizes its map in unscaled CSS pixels; getBoundingClientRect()
+    // includes the site's 70% page zoom and is not the right measurement.
+    const width=map.clientWidth,height=map.clientHeight;
     if(width<80||height<80)return;
     if(width===lastWidth&&height===lastHeight)return;
     lastWidth=width;lastHeight=height;
     try{
       if(typeof placementMap!=='undefined'&&placementMap){
-        placementMap.invalidateSize(false);
+        placementMap.invalidateSize({pan:false,animate:false});
       }
     }catch(error){console.debug('Explore map resize deferred.',error);}
   };

@@ -224,6 +224,7 @@
         });
         title.title=full;
         title.append(shortText,original,fullToggle);
+        title.removeAttribute('role');title.removeAttribute('tabindex');title.removeAttribute('aria-expanded');
       }else if(title.textContent!==fullDisplay){
         title.textContent=fullDisplay;
       }

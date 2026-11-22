@@ -53,6 +53,10 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   // geometry assertions at an explicit 100%, matching their original baseline.
   assert.equal(await page.locator('#uxPageZoomValue').innerText(),'70%',
     'A fresh 1440px laptop must start with the recommended 70% interface zoom');
+  assert.equal(await page.locator('#uxPageZoomDock').evaluate(el=>getComputedStyle(el).visibility),'hidden',
+    'Page zoom must be unobtrusive until the user scrolls');
+  await page.evaluate(()=>window.dispatchEvent(new Event('scroll')));
+  await page.waitForFunction(()=>document.getElementById('uxPageZoomDock')?.classList.contains('atlasZoomActive'),null,{timeout:3000});
   for(let level=70;level<100;level+=5)await page.locator('#uxPageZoomIn').click();
   assert.equal(await page.locator('#uxPageZoomValue').innerText(),'100%',
     'Manual zoom must remain adjustable and persist within the test session');
@@ -386,6 +390,18 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
       'Old My Outcome dropdown is still visible on '+tab);
   };
   for(const tab of ['explore','shortlist','outcome','simulator','learn','prefs','explore'])await expectExclusivePage(tab);
+  // The simulation and other pages must use the same global zoom value.
+  assert.equal(await page.locator('#simZoomOut,#simZoomValue,#simZoomIn,#simZoomReset').count(),0,
+    'Simulation must not keep a second independent zoom control');
+  assert.equal(await page.locator('#atlasOfferSimButton').count(),0,
+    'Offer tracker must not appear as an unrelated simulator CTA');
+  assert.equal(await page.locator('.simHint').count(),1,'Simulator should have a single short instruction');
+  assert.equal(await page.locator('#shortlist .atlasShortlistMore > summary').innerText(),'Export & backup',
+    'Shortlist overflow action should disclose its purpose');
+  assert(await page.locator('#shortlist .shortlistViewOrder').count()===1 &&
+    await page.locator('#shortlist .atlasShortlistMore .shortlistViewOrder').count()===0,
+    'Display-order control should not be hidden in an unrelated menu');
+
   // Keep the public landing-page state as the entry point for the rest of the test.
   // Device-viewport regression: ordinary content must fit without a
   // document-level sideways scroll at the device-recommended zoom.
@@ -559,12 +575,14 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   await page.waitForFunction(()=>document.getElementById('tinderMode')?.classList.contains('active')&&
     !!document.querySelector('#tinderCardSlot .tdSwipeCard'),null,{timeout:30000});
   // Re-enable the recommended laptop zoom before running multi-zoom geometry.
+  await page.evaluate(()=>window.dispatchEvent(new Event('scroll')));
   await page.locator('#uxPageZoomReset').click();
   assert.equal(await page.locator('#uxPageZoomValue').innerText(),'70%');
   // Desktop Swipe Mode should stay centred and fully within the viewport at
   // the recommended, intermediate and full-sized in-app zoom settings.
   for(const target of [70,80,100]){
     while(Number((await page.locator('#uxPageZoomValue').innerText()).replace('%',''))<target){
+      await page.evaluate(()=>window.dispatchEvent(new Event('scroll')));
       await page.locator('#uxPageZoomIn').click();
     }
     await wait(120);
@@ -590,6 +608,7 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
     await page.screenshot({path:output+'/swipe-desktop-'+target+'.png',fullPage:false});
   }
   // Restore the device default after testing explicit zoom choices.
+  await page.evaluate(()=>window.dispatchEvent(new Event('scroll')));
   await page.locator('#uxPageZoomReset').click();
   assert.equal(await page.locator('#uxPageZoomValue').innerText(),'70%');
   const refine=page.locator('#tinderFilterToggle');

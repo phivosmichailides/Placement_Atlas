@@ -51,14 +51,14 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 
   // Verify the new recommended initial zoom before exercising legacy pixel
   // geometry assertions at an explicit 100%, matching their original baseline.
-  assert.equal(await page.locator('#uxPageZoomValue').innerText(),'70%',
+  assert.equal(await page.locator('#uxPageZoomValue').textContent(),'70%',
     'A fresh 1440px laptop must start with the recommended 70% interface zoom');
   assert.equal(await page.locator('#uxPageZoomDock').evaluate(el=>getComputedStyle(el).visibility),'hidden',
     'Page zoom must be unobtrusive until the user scrolls');
   await page.evaluate(()=>window.dispatchEvent(new Event('scroll')));
   await page.waitForFunction(()=>document.getElementById('uxPageZoomDock')?.classList.contains('atlasZoomActive'),null,{timeout:3000});
   for(let level=70;level<100;level+=5)await page.locator('#uxPageZoomIn').click();
-  assert.equal(await page.locator('#uxPageZoomValue').innerText(),'100%',
+  assert.equal(await page.locator('#uxPageZoomValue').textContent(),'100%',
     'Manual zoom must remain adjustable and persist within the test session');
 
   // First visit is monochrome and starts with a lightweight, 36-card results page.
@@ -405,7 +405,7 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   // Keep the public landing-page state as the entry point for the rest of the test.
   // Device-viewport regression: ordinary content must fit without a
   // document-level sideways scroll at the device-recommended zoom.
-  assert.equal(await page.locator('#uxPageZoomValue').innerText(),'100%',
+  assert.equal(await page.locator('#uxPageZoomValue').textContent(),'100%',
     'Original desktop visual assertions use a deliberately selected 100% app zoom');
   assert.equal(await page.locator('#atlasDataTools').evaluate(el=>el.parentElement?.id),'prefs',
     'Backup/restore controls belong exclusively to Preferences');
@@ -577,11 +577,11 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   // Re-enable the recommended laptop zoom before running multi-zoom geometry.
   await page.evaluate(()=>window.dispatchEvent(new Event('scroll')));
   await page.locator('#uxPageZoomReset').click();
-  assert.equal(await page.locator('#uxPageZoomValue').innerText(),'70%');
+  assert.equal(await page.locator('#uxPageZoomValue').textContent(),'70%');
   // Desktop Swipe Mode should stay centred and fully within the viewport at
   // the recommended, intermediate and full-sized in-app zoom settings.
   for(const target of [70,80,100]){
-    while(Number((await page.locator('#uxPageZoomValue').innerText()).replace('%',''))<target){
+    while(Number((await page.locator('#uxPageZoomValue').textContent()).replace('%',''))<target){
       await page.evaluate(()=>window.dispatchEvent(new Event('scroll')));
       await page.locator('#uxPageZoomIn').click();
     }
@@ -610,7 +610,7 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   // Restore the device default after testing explicit zoom choices.
   await page.evaluate(()=>window.dispatchEvent(new Event('scroll')));
   await page.locator('#uxPageZoomReset').click();
-  assert.equal(await page.locator('#uxPageZoomValue').innerText(),'70%');
+  assert.equal(await page.locator('#uxPageZoomValue').textContent(),'70%');
   const refine=page.locator('#tinderFilterToggle');
   assert.equal((await refine.innerText()).trim(),'Refine','Fresh Swipe Mode should not silently select a region or other filters');
   assert.equal(await page.locator('#tdSoundToggle').innerText().then(x=>x.trim()),'Sound off','Optional sound control should default to off');

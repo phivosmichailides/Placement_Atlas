@@ -3,6 +3,7 @@
    leaving mobile rules and every other section untouched. */
 const test=require('node:test');
 const assert=require('node:assert/strict');
+const {assertCssLoaded}=require('./css-bundle-assertions.cjs');
 const fs=require('node:fs');
 const path=require('node:path');
 const read=file=>fs.readFileSync(path.join(__dirname,'..',file),'utf8');
@@ -39,8 +40,7 @@ test('desktop swipe card is naturally sized with compact, readable vertical spac
 
 test('the workspace stylesheet is versioned in the page and PWA cache',()=>{
   const asset='swipe-mode-workspace.css?v=20261121swipe-layout4';
-  assert.ok(html.includes(asset),'Homepage must load the workspace stylesheet');
-  assert.ok(sw.includes(asset),'Offline cache must include the workspace stylesheet');
+  assertCssLoaded(html,sw,'swipe-mode-workspace.css');
   assert.match(sw,/CACHE_NAME='placement-atlas-shell-2026-11-21-v\d+-[^']+'/);
   assert.match(html,/atlas-release" content="2026-11-21-[^"]+"/);
 });

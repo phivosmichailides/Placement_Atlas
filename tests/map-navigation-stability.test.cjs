@@ -32,7 +32,7 @@ test('clicking a cluster opens details; drilling down is an explicit action',()=
   assert.match(css,/\.atlasPopupDrilldown/);
 });
 test('a camera redraw preserves open programme details, but filters can dismiss them',()=>{
-  assert.match(map,/if\\(options\\.dismissPopup\\|\\|\\(!options\\.preservePopup&&!interactivePopup\\)\\)/);
+  assert.match(map,/if\(options\.dismissPopup\|\|\(!options\.preservePopup&&!interactivePopup\)\)/);
   assert.match(map,/drawMap\(currentMapList,\{preservePopup:true\}\)/);
 });
 test('responsive map invalidations do not pan unexpectedly',()=>{

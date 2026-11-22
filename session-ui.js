@@ -52,7 +52,7 @@
    if($('uxPageZoomOut'))$('uxPageZoomOut').disabled=zoom<=70;
    if(userChoseZoom)storage.set(L,ZOOM,String(zoom));
    document.dispatchEvent(new CustomEvent('desk:zoom-change',{detail:{zoom}}));
-   requestAnimationFrame(()=>{try{placementMap?.invalidateSize(false)}catch{}});
+   requestAnimationFrame(()=>{try{placementMap?.invalidateSize({pan:false,animate:false})}catch{}});
  }
  const adjustScroll=()=>{let y=window.scrollY;requestAnimationFrame(()=>requestAnimationFrame(()=>window.scrollTo({top:y,behavior:'instant'})))};
  $('uxPageZoomIn')?.addEventListener('click',()=>{applyZoom(zoom+5,true);adjustScroll()});
@@ -84,7 +84,7 @@
    }
    if(save)storage.set(L,COLLAPSE,collapsed?'1':'0');
    updateFloating();
-   requestAnimationFrame(()=>{try{placementMap?.invalidateSize(false)}catch{}});
+   requestAnimationFrame(()=>{try{placementMap?.invalidateSize({pan:false,animate:false})}catch{}});
  };
  $('uxCollapseFilters')?.addEventListener('click',()=>setCollapsed(!collapsed));
  $('uxToolbarFilters')?.addEventListener('click',()=>setCollapsed(!collapsed));

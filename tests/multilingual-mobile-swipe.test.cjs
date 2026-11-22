@@ -1,6 +1,7 @@
 'use strict';
 const test=require('node:test');
 const assert=require('node:assert/strict');
+const {assertCssLoaded}=require('./css-bundle-assertions.cjs');
 const fs=require('node:fs');
 const path=require('node:path');
 const read=file=>fs.readFileSync(path.resolve(__dirname,'..',file),'utf8');
@@ -90,6 +91,7 @@ test('updated assets load in the website and offline application',()=>{
     "swipe-mobile-navigation.js?v=20261121mobile3",
     "tinder-mode.js?v=20261121mobile3"
 ]) {
+    if(asset.includes('.css?v=')){assertCssLoaded(html,sw,asset.split('?')[0]);continue;}
     assert.ok(html.includes(asset),'homepage is missing '+asset);
     assert.ok(sw.includes(asset),'offline cache is missing '+asset);
   }

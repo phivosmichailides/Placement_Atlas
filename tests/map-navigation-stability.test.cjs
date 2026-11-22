@@ -16,7 +16,7 @@ const product=read('app-product.js');
 const sw=read('sw.js');
 
 test('map code and new popup actions remain syntactically valid',()=>{
-  for(const file of [map,resize,session,css==='not-a-script'?'':base]){
+  for(const file of [map,resize,session,base]){
     assert.doesNotThrow(()=>new Function(file));
   }
 });
@@ -32,7 +32,7 @@ test('clicking a cluster opens details; drilling down is an explicit action',()=
   assert.match(css,/\.atlasPopupDrilldown/);
 });
 test('a camera redraw preserves open programme details, but filters can dismiss them',()=>{
-  assert.match(map,/if\(!options\.preservePopup\)\{placementMap\.closePopup\(\)/);
+  assert.match(map,/if\\(options\\.dismissPopup\\|\\|\\(!options\\.preservePopup&&!interactivePopup\\)\\)/);
   assert.match(map,/drawMap\(currentMapList,\{preservePopup:true\}\)/);
 });
 test('responsive map invalidations do not pan unexpectedly',()=>{

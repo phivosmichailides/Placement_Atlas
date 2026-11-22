@@ -21,7 +21,7 @@ const EXTRA_ASSETS=[
   'pwa.js?v=20261114vector1',
   'atlas-turnstile.js?v=20261113turnstile1','cloud-password-auth.js?v=20261113turnstile1','supabase-cloud.js?v=20261122lazyauth1','google-identity.js?v=20261113turnstile1','supabase-config.js?v=20261112gsi2','app.js?v=20261122perf1','app-base.js?v=20261122perf1','app-product.js?v=20261122perf1','generic-public.js?v=20261122mapstable1',
   'sector-map.js?v=20261122mapstable1','onboarding.js?v=20261122default1','deadline-dates.js?v=20261122perf1',
-  'map-basemap.js?v=20261119roads1','workspace-ux.js?v=20261122default1','rail-stations.js?v=20261109national1',
+  'map-basemap.js?v=20261119roads1','workspace-ux.js?v=20261122perf1','rail-stations.js?v=20261109national1',
   'location-blacklist.js?v=20261111copy4','specialist-settings.js','area-rules.js',
   'locations-bundled.js?v=20261106a','tube-stations.js?v=20261108tfl2',
   'desk-enhancements.js?v=20261111quiet5','tinder-mode.js?v=20261122close1','atlas-lazy-swipe.js?v=20261122perf1','tinder-mode.css?v=20261122close1',

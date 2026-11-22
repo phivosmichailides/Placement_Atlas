@@ -3,6 +3,7 @@
    resize or first paint in any palette or color theme. */
 const test=require('node:test');
 const assert=require('node:assert/strict');
+const {assertCssLoaded}=require('./css-bundle-assertions.cjs');
 const fs=require('node:fs');
 const path=require('node:path');
 const read=file=>fs.readFileSync(path.join(__dirname,'..',file),'utf8');
@@ -22,13 +23,11 @@ test('a legacy slider stays hidden, even with stale JavaScript',()=>{
 test('new versions of both assets are loaded and prefetched by the PWA',()=>{
   const css='motion-effects.css?v=20261121nav-pill-fix1';
   const js='motion-effects.js?v=20261121nav-pill-fix1';
-  for(const src of [css,js]){
-    assert.ok(html.includes(src),'Homepage missing: '+src);
-    assert.ok(sw.includes(src),'Offline shell missing: '+src);
-  }
+  assertCssLoaded(html,sw,'motion-effects.css');
+  assert.ok(html.includes(js),'Homepage missing: '+js);
+  assert.ok(sw.includes(js),'Offline shell missing: '+js);
   const swipeCss='swipe-mode-workspace.css?v=20261121swipe-layout4';
-  assert.ok(html.includes(swipeCss),'Homepage missing Swipe Mode workspace stylesheet');
-  assert.ok(sw.includes(swipeCss),'Offline shell missing Swipe Mode workspace stylesheet');
+  assertCssLoaded(html,sw,'swipe-mode-workspace.css');
   assert.match(sw,/CACHE_NAME='placement-atlas-shell-2026-11-21-v\d+-[^']+'/);
 });
 test('primary tab controls remain in the markup and operate via existing handlers',()=>{

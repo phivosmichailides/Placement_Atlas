@@ -67,7 +67,7 @@
   const showStatModal=action=>{
     if(typeof placements==='undefined'||typeof sector!=='function'||typeof card!=='function')return;
     closeModal();
-    const activeRegion=$('region')?.value||((typeof quick!=='undefined'&&quick.has('london'))?'London':'');
+    const activeRegion=$('region')?.value||((typeof quick!=='undefined'&&quick instanceof Set&&quick.has('london'))?'London':'');
     const scoped=placements.filter(p=>!activeRegion||p.region===activeRegion);
     const predicates={
       hospital:p=>sector(p)==='Hospital',

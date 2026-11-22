@@ -26,7 +26,12 @@
  if(!Number.isFinite(zoom)||zoom<70||zoom>130){
    zoom=recommendedZoom();userChoseZoom=false;
  }
- function currentFilters(){const fields={};ids.forEach(id=>fields[id]=$(id)?.value??'');return {fields,quick:typeof quick!=='undefined'?[...quick]:[],hideAvoid:!!$('hideAvoid')?.checked,hideExcluded:!!$('hideExcluded')?.checked,hideOuterLondon:!!$('hideOuterLondon')?.checked,hideShortlisted:!!$('hideShortlisted')?.checked,hideJustice:!!$('hideJustice')?.checked,hideMental:!!$('hideMental')?.checked,hideOtherSpecialist:!!$('hideOtherSpecialist')?.checked}}
+ // app-base.js declares the global `quick` Set asynchronously (app.js -> app-product.js
+ // -> app-base.js). Until then the bare name resolves to the #quick element via
+ // window named access, so only trust it when it is the real Set.
+ const appQuick=()=>(typeof quick!=='undefined'&&quick instanceof Set)?quick:null;
+ const activeQuickChips=()=>[...document.querySelectorAll('#quick .chip[data-q].on')].map(x=>x.dataset.q);
+ function currentFilters(){const fields={};ids.forEach(id=>fields[id]=$(id)?.value??'');const q=appQuick();return {fields,quick:q?[...q]:activeQuickChips(),hideAvoid:!!$('hideAvoid')?.checked,hideExcluded:!!$('hideExcluded')?.checked,hideOuterLondon:!!$('hideOuterLondon')?.checked,hideShortlisted:!!$('hideShortlisted')?.checked,hideJustice:!!$('hideJustice')?.checked,hideMental:!!$('hideMental')?.checked,hideOtherSpecialist:!!$('hideOtherSpecialist')?.checked}}
  const getSaved=()=>{try{const v=JSON.parse(storage.get(S,SESSION)||'null');return v&&v.version===1?v:null}catch{return null}};
  function snapshot(position=true){
    if(restoreInProgress)return;
@@ -244,7 +249,7 @@
    if($('hideOuterLondon')&&f.hideOuterLondon!==undefined)$('hideOuterLondon').checked=!!f.hideOuterLondon;
    if($('hideShortlisted'))$('hideShortlisted').checked=!!f.hideShortlisted;
    for(const id of ['hideJustice','hideMental','hideOtherSpecialist'])if($(id))$(id).checked=f[id]===undefined?true:!!f[id];
-   if(Array.isArray(f.quick)&&typeof quick!=='undefined'){
+   if(Array.isArray(f.quick)&&appQuick()){
      // Persistent app state is authoritative when it exists. The session
      // snapshot can lag behind a chip click because capture-phase snapshots
      // run before the chip's own click handler.

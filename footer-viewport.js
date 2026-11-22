@@ -34,9 +34,15 @@
    pending=requestAnimationFrame(sync);
  };
  if('IntersectionObserver' in window){
-   const observer=new IntersectionObserver(schedule,{threshold:[0,0.01,0.25,1]});
+   // Match the 12px band used by sync(), so entering or leaving the hide zone
+   // always crosses a threshold. Ratio thresholds alone can miss small moves
+   // and leave the controls stuck hidden after a resize or scroll.
+   const observer=new IntersectionObserver(schedule,{rootMargin:'-12px 0px -12px 0px',threshold:[0,0.01,0.25,1]});
    observer.observe(footer);
  }
+ // Late layout changes (lazy content, map resize, zoom) can move the footer
+ // without any scroll or resize event, so re-check when page size changes.
+ if('ResizeObserver' in window)new ResizeObserver(schedule).observe(document.body);
  window.addEventListener('scroll',schedule,{passive:true});
  window.addEventListener('resize',sync,{passive:true});
  window.visualViewport?.addEventListener('resize',schedule,{passive:true});

@@ -302,7 +302,7 @@
         const outer=byId('hideOuterLondon');if(outer)outer.checked=false;
         const specialist=byId('specialistView');if(specialist)specialist.value='all';
         for(const id of ['hideJustice','hideMental','hideOtherSpecialist']){const el=byId(id);if(el)el.checked=false;}
-        if(typeof quick!=='undefined')quick.clear();
+        if(typeof quick!=='undefined'&&quick instanceof Set)quick.clear();
         document.querySelectorAll('.chip[data-q]').forEach(x=>x.classList.remove('on'));
         byId('search').value=p.id;
         window.OrielSaveFilters?.();

@@ -17,7 +17,7 @@ const EXTRA_ASSETS=[
   'placement-profile.js?v=20261113turnstile1','placement-titles.js?v=20261120cardfix1',
   'placement-atlas-globe.svg','favicon.svg','placement-atlas-compass-pin.webp?v=20261111logo2','manifest.webmanifest',
   'pwa.js?v=20261114vector1',
-  'atlas-turnstile.js?v=20261113turnstile1','cloud-password-auth.js?v=20261113turnstile1','supabase-cloud.js?v=20261120accountaudit1','google-identity.js?v=20261113turnstile1','supabase-config.js?v=20261112gsi2','app.js?v=20261122mapstable1','app-base.js?v=20261122mapstable1','app-product.js?v=20261122mapstable1','generic-public.js?v=20261120accountaudit1',
+  'atlas-turnstile.js?v=20261113turnstile1','cloud-password-auth.js?v=20261113turnstile1','supabase-cloud.js?v=20261120accountaudit1','google-identity.js?v=20261113turnstile1','supabase-config.js?v=20261112gsi2','app.js?v=20261122mapstable1','app-base.js?v=20261122mapstable1','app-product.js?v=20261122mapstable1','generic-public.js?v=20261122mapstable1',
   'sector-map.js?v=20261122mapstable1','onboarding.js?v=20261121quiz2','deadline-dates.js?v=20261120compacthero1',
   'map-basemap.js?v=20261119roads1','workspace-ux.js?v=20261120compacthero2','rail-stations.js?v=20261109national1',
   'location-blacklist.js?v=20261111copy4','specialist-settings.js','area-rules.js',

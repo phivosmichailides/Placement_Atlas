@@ -584,6 +584,8 @@
       redrawTimer=setTimeout(()=>{
         redrawTimer=null;
         requestAnimationFrame(()=>{
+          // Also guard already queued redraws that predate the popup opening.
+          if(placementMap?._popup?.options?.className?.includes('atlasProgrammePopup'))return;
           try{drawMap(currentMapList,{preservePopup:true})}catch(error){console.warn('Map markers could not be refreshed after navigation',error)}
         });
       },120);

@@ -18,6 +18,8 @@ const BUNDLES=[
  ['css-bundle-workspace-b.css',['premium-quiet-interface.css','atlas-completion.css','shortlist-refinement.css','member-profile.css','atlas-experience.css','learning-industry-guide.css','responsive-fit.css','explore-layout-fixes.css','atlas-grid-performance.css','explore-efficiency.css','atlas-card-repairs.css']],
  ['css-bundle-final.css',['linkedin-consent.css','atlas-i18n.css','swipe-mobile-viewport.css','swipe-mode-workspace.css','swipe-mobile-workspace.css','explore-clarity.css']]
 ];
+module.exports={BUNDLES,VERSION};
+if(require.main===module){
 const header='/* Placement Atlas: source-order-preserving CSS bundle. Regenerate with scripts/build-css-bundles.cjs. */\n';
 const files=BUNDLES.flatMap(([,sources])=>sources);
 assert.equal(new Set(files).size,files.length,'CSS source should appear in exactly one bundle');
@@ -48,3 +50,4 @@ for(const [bundle,sources] of BUNDLES){
  }
 }
 console.log((process.argv.includes('--check')?'Verified':'Built')+' '+BUNDLES.length+' lossless CSS bundles from '+files.length+' original files; '+combinedBytes+' bytes; no selectors or rules removed.');
+}

@@ -2,7 +2,7 @@
 (()=>{
   const hadSaved=(()=>{try{return !!localStorage.getItem('phivos-desk-v2')}catch{return false}})();
   const base=document.createElement('script');
-  base.src='app-base.js?v=20261120auditperf2';
+  base.src='app-base.js?v=20261122mapstable1';
   base.onload=()=>{
     const decisions=[['','○','No Ranking'],['love','♡','Love'],['yes','✓','Strong yes'],['maybe','◐','Maybe'],['backup','◇','Only if needed'],['no','−','No'],['never','×','Absolutely not']];
     const decisionPicker=status=>{
@@ -400,7 +400,7 @@
       const pts=mapLayer.getLayers().map(l=>l.getLatLng());
       const target=bounds||(pts.length?L.latLngBounds(pts):null);
       if(target?.isValid?.()){
-        placementMap.invalidateSize(false);
+        placementMap.invalidateSize({pan:false,animate:false});
         placementMap.fitBounds(target,{
           padding:[42,42],maxZoom:11,animate:false
         });

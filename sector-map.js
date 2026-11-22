@@ -274,6 +274,7 @@
         event.preventDefault();event.stopPropagation();
         const delta=button.dataset.atlasZoom==='in'?1:-1;
         const currentZoom=placementMap.getZoom();
+        const centre=placementMap.getCenter();
         const minZoom=Number.isFinite(placementMap.getMinZoom())?placementMap.getMinZoom():3;
         const maxZoom=Number.isFinite(placementMap.getMaxZoom())?placementMap.getMaxZoom():19;
         if(delta>0&&currentZoom>=maxZoom-0.001)return;
@@ -282,7 +283,7 @@
         // snap around integer zoom levels and can fail to reverse a 10.4 start.
         // A single non-animated frame avoids competing in-flight zoom commands.
         placementMap.stop();
-        placementMap.setZoom(Math.round((currentZoom+delta)*10)/10,{animate:false});
+        placementMap.setView(centre,Math.round((currentZoom+delta)*10)/10,{animate:false});
       });
       mapContainer.append(zoom);
       const emptyHint=document.createElement('div');
@@ -300,25 +301,42 @@
       const stage=dialog.querySelector('.atlasMapFocusStage'),closeButton=dialog.querySelector('#atlasMapFocusClose');
       const placeholder=document.createComment('Placement Atlas map position');
       mapContainer.parentNode?.insertBefore(placeholder,mapContainer);
+      const preserveCamera=(centre,zoom)=>{
+        placementMap.invalidateSize({pan:false,animate:false});
+        // The map leaves a CSS-zoomed shell for a normal-size modal and back.
+        // Leaflet's pixel origin changes on that transition: explicitly restore
+        // the geographical centre so the map does not drift diagonally.
+        placementMap.setView(centre,zoom,{animate:false});
+      };
       const closeFocus=()=>{
         if(dialog.hidden)return;
+        const centre=placementMap.getCenter(),zoom=placementMap.getZoom();
         placeholder.parentNode?.insertBefore(mapContainer,placeholder.nextSibling);
         dialog.hidden=true;document.body.classList.remove('atlasMapFocusOpen');
-        requestAnimationFrame(()=>{placementMap.invalidateSize(false);expand.focus();});
+        requestAnimationFrame(()=>{preserveCamera(centre,zoom);expand.focus();});
       };
       const openFocus=()=>{
+        const centre=placementMap.getCenter(),zoom=placementMap.getZoom();
         dialog.hidden=false;document.body.classList.add('atlasMapFocusOpen');stage.append(mapContainer);updateFocusCount();
-        requestAnimationFrame(()=>{placementMap.invalidateSize(false);setTimeout(()=>placementMap.invalidateSize(false),160);closeButton.focus();});
+        requestAnimationFrame(()=>{
+          preserveCamera(centre,zoom);
+          closeButton.focus();
+        });
       };
       expand.addEventListener('click',openFocus);closeButton.addEventListener('click',closeFocus);
       dialog.addEventListener('click',event=>{if(event.target===dialog)closeFocus();});
       document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!dialog.hidden)closeFocus();});
     };
     installMapControls();
-    drawMap=requestedList=>{const list=Array.isArray(requestedList)?requestedList:placements.filter(matches);currentMapList=list;refreshPalette();
+    drawMap=(requestedList,options={})=>{const list=Array.isArray(requestedList)?requestedList:placements.filter(matches);currentMapList=list;refreshPalette();
       if(!placementMap)return;
-      placementMap.closePopup();
-      $('mapSelection').innerHTML='';
+      // Programme data also redraws asynchronously (e.g. the Explore results
+      // pager shortly after start-up). Do not dismiss a popup the visitor just
+      // opened merely because a background list/viewport update completed.
+      const interactivePopup=placementMap._popup?.options?.className?.includes('atlasProgrammePopup');
+      if(options.dismissPopup||(!options.preservePopup&&!interactivePopup)){
+        placementMap.closePopup();$('mapSelection').innerHTML='';
+      }
       mapLayer.clearLayers();
       programmePins.clear();hoveredProgramme=null;
       let groups,allCodes,resolvedCodes,programmesWithAnySite,programmesWithAllSites,programmesWithoutCode;
@@ -516,24 +534,29 @@
           }).join('');
           const more=entries.length>shown.length?'<p class="atlasPopupMore">Showing '+shown.length+' of '+entries.length+' programmes at this location. Refine your filters to narrow the list.</p>':'';
           const approx=group.approximate?'<p class="map-approx-note">This marker includes an approximate postcode-district centre because a full postcode was not available.</p>':'';
-          const content='<div class="atlasPopupContent"><div class="atlasPopupHead"><b>'+entries.length+' programme'+(entries.length===1?'':'s')+' at this location</b><small>'+safeText(sectorSummary)+'</small></div>'+approx+'<div class="atlasPopupList">'+rows+'</div>'+more+'</div>';
-          L.popup({className:'atlasProgrammePopup',maxWidth:420,minWidth:270,autoPan:true,autoPanPadding:[24,24],closeButton:true}).setLatLng(c).setContent(content).openOn(placementMap);
+          const drilldown=group.cluster?'<button type="button" class="atlasPopupDrilldown" data-atlas-zoom-sites>Zoom into these sites</button>':'';
+          const content='<div class="atlasPopupContent"><div class="atlasPopupHead"><b>'+entries.length+' programme'+(entries.length===1?'':'s')+' at this location</b><small>'+safeText(sectorSummary)+'</small></div>'+approx+'<div class="atlasPopupList">'+rows+'</div>'+more+drilldown+'</div>';
+          const popup=L.popup({className:'atlasProgrammePopup',maxWidth:420,minWidth:270,maxHeight:Math.max(150,Math.min(235,placementMap.getSize().y-55)),autoPan:true,autoPanPadding:[20,20],closeButton:true}).setLatLng(c).setContent(content).openOn(placementMap);
+          popup.getElement()?.querySelector('[data-atlas-zoom-sites]')?.addEventListener('click',event=>{
+            event.preventDefault();event.stopPropagation();
+            // Zoom only on explicit request, centered on the chosen group.
+            // fitBounds on a sprawling cluster caused surprising diagonal jumps.
+            placementMap.closePopup();
+            placementMap.setView(c,Math.min(placementMap.getZoom()+1.5,14),{animate:false});
+          });
         };
-        const zoomIntoCluster=()=>{
-          if(group.cluster&&group.clusterBounds?.isValid()){
-            placementMap.fitBounds(group.clusterBounds,{padding:[48,48],maxZoom:Math.min(placementMap.getZoom()+2,14),animate:true,duration:.35});
-          }else openPin();
-        };
-        pin.on('click',group.cluster?zoomIntoCluster:openPin);
+        // Tapping a numbered cluster should show its programmes, not move
+        // the camera and replace the touched marker before details are seen.
+        pin.on('click',openPin);
         const el=pin.getElement();
         if(el){
           el.setAttribute('tabindex','0');
           el.setAttribute('role','button');
           el.dataset.programmeCount=String(entries.length);
           el.setAttribute('aria-label',group.cluster
-            ?'Zoom into '+entries.length+' programmes across '+group.locationCount+' nearby sites'
+            ?'Show '+entries.length+' programmes across '+group.locationCount+' nearby sites'
             :'Show '+entries.length+' '+sectorSummary+' programme'+(entries.length===1?'':'s')+(locationSummary?' at '+locationSummary:'')+(group.approximate?' · approximate area':''));
-          el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();group.cluster?zoomIntoCluster():openPin();}});
+          el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openPin();}});
         }
       }
 
@@ -568,18 +591,24 @@
       updateViewportHint();
     };
     const scheduleMapRedraw=()=>{
+      // A programme popup can auto-pan the map. Keep its tapped marker and
+      // surrounding group pins intact until the visitor closes the popup;
+      // rebuilding the layer during that auto-pan makes the touched pin vanish.
+      if(placementMap?._popup?.options?.className?.includes('atlasProgrammePopup'))return;
       if(redrawTimer)clearTimeout(redrawTimer);
       // Debounce camera movement; do not rebuild the markers on animation frames.
       redrawTimer=setTimeout(()=>{
         redrawTimer=null;
         requestAnimationFrame(()=>{
-          try{drawMap(currentMapList)}catch(error){console.warn('Map markers could not be refreshed after navigation',error)}
+          // Also guard already queued redraws that predate the popup opening.
+          if(placementMap?._popup?.options?.className?.includes('atlasProgrammePopup'))return;
+          try{drawMap(currentMapList,{preservePopup:true})}catch(error){console.warn('Map markers could not be refreshed after navigation',error)}
         });
       },120);
     };
     let viewportHintQueued=false;
     const scheduleViewportHint=()=>{if(viewportHintQueued)return;viewportHintQueued=true;requestAnimationFrame(()=>{viewportHintQueued=false;updateViewportHint();});};
-    placementMap.on('popupclose',()=>{selectedProgramme=null;syncMap();});
+    placementMap.on('popupclose',()=>{selectedProgramme=null;syncMap();scheduleMapRedraw();});
     placementMap.on('zoomend',()=>{scheduleMapRedraw();scheduleViewportHint();});
     placementMap.on('moveend',()=>{scheduleMapRedraw();scheduleViewportHint();});
     try{drawMap(placements.filter(matches));}catch{}

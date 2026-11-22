@@ -1,0 +1,161 @@
+/* Placement Atlas: shortlist-only compact scan mode and unobtrusive utilities.
+   Never change Explore cards or expanded/list shortlist data. */
+
+/* Only the large title matters: don't repeat “Your shortlist” above itself. */
+html body #shortlist .sectionHero .eyebrow{display:none!important}
+html body #shortlist .sectionHero h2{margin-top:0!important}
+
+/* A grid card is a summary, not an expanded programme profile.
+   Scope by the RANK ROW expansion state; the original details remain in the DOM. */
+html[data-layout="grid"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded)>.placement{
+  gap:8px!important;
+  padding:clamp(12px,1vw,16px)!important;
+}
+html[data-layout="grid"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .placementTop{
+  grid-template-columns:minmax(0,1fr) auto!important;
+  align-items:start!important;
+  gap:10px!important;
+}
+html[data-layout="grid"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .placementTop>div:last-child{
+  min-width:0!important;
+  max-width:none!important;
+}
+html[data-layout="grid"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .placementTop h3{
+  font-size:clamp(14px,1.15vw,17px)!important;
+  line-height:1.35!important;
+  display:-webkit-box!important;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:3;
+  line-clamp:3;
+  overflow:hidden!important;
+  min-width:0!important;
+}
+html[data-layout="grid"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .placementTop .employer{
+  font-size:11px!important;
+  line-height:1.4!important;
+  -webkit-line-clamp:2;
+  overflow:hidden!important;
+}
+html[data-layout="grid"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .placementTop .salary{
+  font-size:clamp(16px,1.3vw,21px)!important;
+  white-space:nowrap!important;
+  text-align:right!important;
+}
+html[data-layout="grid"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .placementTop .salary.salary-value:after{
+  content:"gross/year"!important;
+  font-size:9px!important;
+  margin-top:4px!important;
+}
+html[data-layout="grid"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .placementTop .hourly,
+html[data-layout="grid"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .placementTop .atlasGrossMonthly,
+html[data-layout="grid"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .placementTop .uxTakeHome{
+  display:none!important;
+}
+html[data-layout="grid"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .atlasWorkspaceTitleExpand{
+  display:none!important;
+}
+/* Informative colour remains, but remove duplicate region/place-count badges. */
+html[data-layout="grid"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .badges>.atlasCompactSecondary{
+  display:none!important;
+}
+html[data-layout="grid"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .badges{
+  display:flex!important;align-items:center;flex-wrap:wrap!important;
+  gap:5px!important;margin:5px 0!important;
+}
+html[data-layout="grid"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .badges>.badge{
+  font-size:10px!important;padding:4px 7px!important;
+}
+html[data-layout="grid"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .programmeDates{
+  display:none!important;
+}
+html body #shortlistList .atlasCompactDate,
+html body #shortlistList .atlasCompactProgrammeCode{display:none}
+html[data-layout="grid"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .atlasCompactDate{
+  display:block;
+  border-top:1px solid var(--line);
+  padding:10px 1px 2px;
+  font-size:11px;
+  font-weight:600;
+  line-height:1.5;
+  color:var(--mut);
+  overflow-wrap:anywhere;
+}
+html[data-layout="grid"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .atlasCompactProgrammeCode{
+  display:inline-block;
+  font-size:11px;
+  line-height:1.4;
+  font-weight:550;
+  color:var(--mut);
+}
+html[data-layout="grid"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .atlasCompactProgrammeCode strong{
+  font-weight:850;
+  color:var(--ink);
+  font-variant-numeric:tabular-nums;
+}
+html[data-layout="grid"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .decision-quick .smallnote{
+  display:none!important;
+}
+html[data-layout="grid"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .placement>.controls{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) 64px!important;
+  gap:8px!important;
+  margin-top:4px!important;
+}
+html[data-layout="grid"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .placement>.controls input[data-action="note"],
+html[data-layout="grid"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .placement>.controls .compare{
+  display:none!important;
+}
+html[data-layout="grid"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .placement>.controls .manualPriority{
+  width:100%!important;max-width:100%!important;min-width:0!important;
+}
+/* Retain the full details CTA: this reveals the original note, salary, dates,
+   fit/map and programme name with the existing JS rather than deleting anything. */
+html[data-layout="grid"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .uxDetailButton{
+  display:flex!important;justify-content:center!important;
+}
+
+/* Keep the global zoom utility accessible without covering a full card corner. */
+html body #uxPageZoomDock{
+  position:fixed!important;
+  left:10px!important;bottom:10px!important;
+  padding:3px!important;gap:2px!important;
+  border-radius:11px!important;
+  box-shadow:0 3px 11px #0002!important;
+  z-index:1100!important;
+}
+html body #uxPageZoomDock .btn{
+  width:27px!important;height:29px!important;
+  min-width:27px!important;min-height:29px!important;
+  border-radius:7px!important;padding:0!important;
+  font-size:15px!important;line-height:1!important;
+}
+html body #uxPageZoomDock output{
+  min-width:34px!important;
+  padding:0 2px!important;
+  font-size:10px!important;line-height:1.1!important;
+  font-variant-numeric:tabular-nums!important;
+}
+
+/* Surface quick filters next to actual map/results, not over the page hero. */
+html body #uxFloatingTools{right:12px!important;bottom:105px!important}
+html body #uxFloatingTools .uxFloatHandle{
+ width:36px!important;height:36px!important;
+ box-shadow:0 3px 12px #0002!important;
+}
+html body #uxFloatingTools .uxFloatHandle svg{width:16px!important;height:16px!important}
+
+/* The signature is intentionally the only creator credit. The identity pill
+   is visually aligned with the beginning of the tagline's text. */
+html body .atlasFooterIdentity .atlasFooterIdentityNote{margin-left:-10px!important}
+html body .atlasFooterBottom p:first-child{font-size:11.5px!important}
+@media(max-width:700px){
+ html[data-layout="grid"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .placementTop{
+   grid-template-columns:minmax(0,1fr)!important;
+ }
+ html[data-layout="grid"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .placementTop>div:last-child,
+ html[data-layout="grid"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .placementTop .salary{
+   text-align:left!important;
+ }
+ html body .atlasFooterIdentity .atlasFooterIdentityNote{margin-left:0!important}
+ html body #uxPageZoomDock{left:8px!important;bottom:8px!important}
+}

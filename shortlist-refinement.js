@@ -102,8 +102,9 @@
       const visa=label.match(/^Skilled Worker visa:\s*(offered|not offered|not confirmed)$/i);
       if(visa){
         const answer=visa[1].toLowerCase()==='offered'?'Yes':visa[1].toLowerCase()==='not offered'?'No':'Unconfirmed';
-        badge.textContent='Skilled Worker Visa: '+answer;
-        badge.setAttribute('aria-label','Skilled Worker visa sponsorship: '+visa[1].toLowerCase());
+        // Keep the original text node for all language dictionaries and
+        // screen readers. English grid mode uses this short visual label.
+        badge.dataset.atlasCompactVisa=answer;
         badge.title='Sponsorship listed in the dated Oriel export: '+visa[1].toLowerCase();
       }
       if(/^\d+\s+training\s+places?$/i.test(label)||

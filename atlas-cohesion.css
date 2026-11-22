@@ -1,0 +1,176 @@
+/* Cohesive workspace pass — unified zoom, concise shortlist and simulator.
+   Scoped to presentation. Core programme records and saved decisions unchanged. */
+
+/* The map toolbar and filter sidebar already supply filters. Remove the
+   redundant floating filter dock that collides with the shortlist launcher. */
+html body #uxFloatingTools{display:none!important;visibility:hidden!important;pointer-events:none!important}
+
+/* Only ONE page zoom exists. It appears after scrolling and stays open while
+   the pointer/focus is inside. The existing footer safety rule still wins. */
+html body #uxPageZoomDock{
+ opacity:0!important;
+ visibility:hidden!important;
+ pointer-events:none!important;
+ transform:translateY(6px);
+ transition:opacity .2s ease,transform .2s ease,visibility .2s ease!important;
+ left:12px!important;bottom:12px!important;
+ z-index:850!important;
+}
+html body:not(.atlasFooterInView) #uxPageZoomDock.atlasZoomActive:not([data-atlas-footer-hidden]){
+ opacity:1!important;visibility:visible!important;pointer-events:auto!important;
+ transform:none!important;
+}
+html body #uxPageZoomDock .btn{width:30px!important;min-width:30px!important;height:32px!important;min-height:32px!important}
+html body #uxPageZoomDock output{min-width:37px!important;font-size:11px!important}
+html body #uxPageZoomDock:focus-within{outline:2px solid var(--ux-accent-border);outline-offset:2px}
+
+/* Fixed utilities never compete for the same bottom-right pixels. */
+html body #uxDrawerLauncher{right:14px!important;bottom:15px!important;z-index:650!important}
+html body #uxBackTop{right:19px!important;bottom:88px!important;z-index:620!important}
+html body:has(#uxDrawer.uxOpen) #uxBackTop{visibility:hidden!important;pointer-events:none!important}
+
+/* List view displays meaningful comparisons first, without a giant map and
+   a paragraph of transit notes inside every row. Details remain in the DOM
+   and open via the existing per-programme expansion button. */
+html[data-layout="list"].atlasPremiumPreview body #shortlistList{
+ display:grid!important;grid-template-columns:minmax(0,1fr)!important;
+ gap:13px!important;align-items:start!important;
+}
+html[data-layout="list"].atlasPremiumPreview body #shortlistList>.rank-row{
+ display:grid!important;grid-template-columns:44px minmax(0,1fr)!important;
+ gap:10px!important;align-items:start!important;
+ height:auto!important;min-height:0!important;
+}
+html[data-layout="list"].atlasPremiumPreview body #shortlistList>.rank-row>.placement{
+ height:auto!important;min-height:0!important;gap:9px!important;
+ padding:15px 17px!important;align-self:start!important;
+}
+html[data-layout="list"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .fit.fitExpanded.uxFitWithLocation{
+ display:grid!important;grid-template-columns:minmax(110px,145px) minmax(0,1fr)!important;
+ gap:12px!important;align-items:start!important;margin:7px 0!important;
+}
+html[data-layout="list"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .fit.fitExpanded.uxFitWithLocation .fitBreakdown{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ align-items:start!important;gap:11px!important;min-width:0!important;
+}
+html[data-layout="list"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .fit.fitExpanded.uxFitWithLocation .fitColumn{
+ min-width:0!important;padding:11px 13px!important;
+}
+html[data-layout="list"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .fit.fitExpanded.uxFitWithLocation .fitPoint{
+ font-size:12px!important;line-height:1.45!important;margin:4px 0!important;
+}
+html[data-layout="list"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .uxLocationPanel{
+ display:none!important;
+}
+html[data-layout="list"].atlasPremiumPreview body #shortlistList>.rank-row .uxDetailButton{
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ width:100%!important;min-height:35px!important;margin:7px 0 0!important;
+ background:var(--soft);border-color:var(--line);
+ font-size:11.5px!important;
+}
+html[data-layout="list"].atlasPremiumPreview body #shortlistList>.rank-row .uxDetailButton:hover{
+ background:var(--ux-accent-soft);border-color:var(--ux-accent-border);
+}
+html[data-layout="list"].atlasPremiumPreview body #shortlistList>.rank-row.uxExpanded .fit.fitExpanded.uxFitWithLocation{
+ grid-template-columns:minmax(120px,150px) minmax(220px,1fr) minmax(250px,335px)!important;
+ align-items:start!important;gap:13px!important;
+}
+html[data-layout="list"].atlasPremiumPreview body #shortlistList>.rank-row.uxExpanded .fit.fitExpanded.uxFitWithLocation .fitBreakdown{
+ display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:9px!important;
+}
+html[data-layout="list"].atlasPremiumPreview body #shortlistList>.rank-row.uxExpanded .uxLocationPanel{
+ display:flex!important;max-width:335px!important;justify-self:stretch!important;
+}
+
+/* A discreet date sentence in collapsed list/grid modes; a moderately sized
+   information card, not a full-bleed horizontal strip, when expanded. */
+html[data-layout="list"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .programmeDates{
+ display:none!important;
+}
+html[data-layout="list"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .atlasCompactDate{
+ display:block!important;
+ color:var(--mut)!important;font-size:11px!important;font-weight:600!important;
+ margin:5px 0!important;padding:5px 1px!important;
+ line-height:1.5!important;border:0!important;background:transparent!important;
+}
+html.atlasPremiumPreview body #shortlistList>.rank-row.uxExpanded .programmeDates{
+ display:grid!important;
+ width:fit-content!important;max-width:min(100%,490px)!important;
+ padding:9px 13px!important;margin:5px 0!important;column-gap:11px!important;
+ grid-template-columns:max-content auto max-content!important;
+}
+html.atlasPremiumPreview body #shortlistList>.rank-row.uxExpanded .programmeDates .dateBasis{
+ grid-column:1/-1!important;font-size:10px!important;opacity:.78;
+}
+html.atlasPremiumPreview body #shortlistList .atlasShortlistFacts{
+ align-self:flex-start!important;width:fit-content!important;max-width:100%!important;
+ margin:5px 0!important;padding:6px 10px!important;
+}
+
+/* Preserve list clarity on laptop/touch widths. */
+@media(max-width:1120px){
+ html[data-layout="list"].atlasPremiumPreview body #shortlistList>.rank-row.uxExpanded .fit.fitExpanded.uxFitWithLocation{
+  grid-template-columns:minmax(115px,150px) minmax(0,1fr)!important;
+ }
+ html[data-layout="list"].atlasPremiumPreview body #shortlistList>.rank-row.uxExpanded .uxLocationPanel{
+  grid-column:1/-1!important;justify-self:start!important;width:min(100%,380px)!important;
+ }
+}
+@media(max-width:760px){
+ html[data-layout="list"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .fit.fitExpanded.uxFitWithLocation{
+  grid-template-columns:minmax(0,1fr)!important;
+ }
+ html[data-layout="list"].atlasPremiumPreview body #shortlistList>.rank-row:not(.uxExpanded) .fit.fitExpanded.uxFitWithLocation .fitBreakdown{
+  grid-template-columns:minmax(0,1fr)!important;
+ }
+ html.atlasPremiumPreview body #shortlistList>.rank-row.uxExpanded .programmeDates{
+  grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)!important;
+  width:100%!important;
+ }
+ html body #uxPageZoomDock{left:9px!important;bottom:9px!important}
+}
+
+/* Oriel Simulation: one accessible page zoom, short cues, compact headers. */
+html body #simulator .simZoom{display:none!important}
+html body #simulator .simHero{padding:clamp(17px,2vw,26px)!important;align-items:center!important}
+html body #simulator .simHero .eyebrow{font-size:10px!important}
+html body #simulator .simHero h2{font-size:clamp(24px,2.3vw,30px)!important;margin:3px 0 7px!important}
+html body #simulator .simHero p{font-size:12.5px!important;line-height:1.55!important;max-width:65ch!important;margin:5px 0!important}
+html body #simulator .simHeroActions{flex:0 1 250px!important;min-width:200px!important;gap:6px!important}
+html body #simulator .simHeroActions > .btn{min-height:38px!important}
+html body #simulator .simSplitTip{font-size:11px;color:var(--mut);line-height:1.5}
+html body #simulator .simSplitTip summary{
+ color:var(--ux-accent-ink);font-size:11px;font-weight:700;
+ cursor:pointer;text-align:center;list-style-position:inside;
+}
+html body #simulator .simSplitTip p{margin:6px 0 0!important;font-size:11px!important;text-align:left}
+html body #simulator .simSummary{padding:13px 18px!important;margin:12px 0!important;gap:12px!important}
+html body #simulator .simSummaryBig{font-size:26px!important}
+html body #simulator .simTools{gap:7px!important}
+html body #simulator .simTools>.btn{min-height:35px!important;font-size:11.5px!important;padding:7px 10px!important}
+html body #simulator .simHint{
+ font-size:11.5px!important;line-height:1.5!important;
+ padding:10px 14px!important;margin:11px 0!important;
+ border:1px solid var(--line);border-radius:11px;background:var(--soft);
+}
+html body #simulator .simCol>header{padding:13px 13px 11px!important}
+html body #simulator .simColHeading .eyebrow{display:none!important}
+html body #simulator .simColHeading h3{font-size:18px!important;margin:0 0 6px!important}
+html body #simulator .simColHeading .simColHelp{display:none!important}
+html body #simulator .simCol label{
+ position:absolute!important;width:1px!important;height:1px!important;
+ overflow:hidden!important;clip:rect(0,0,0,0)!important;
+ white-space:nowrap!important;margin:-1px!important;padding:0!important;border:0!important;
+}
+html body #simulator .simCol input[type="search"]{
+ margin-top:10px!important;padding:9px 11px!important;min-height:38px!important;
+}
+html body #simulator .simColHeading>span{font-size:18px!important}
+html body #simulator .simItem{padding:9px!important;gap:9px!important}
+@media(max-width:900px){
+ html body #simulator .simHero{flex-direction:column!important;align-items:stretch!important}
+ html body #simulator .simHeroActions{width:100%!important;flex:0 1 auto!important;min-width:0!important}
+}
+@media(prefers-reduced-motion:reduce){
+ html body #uxPageZoomDock{transition:none!important}
+}

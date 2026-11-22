@@ -114,6 +114,36 @@ const waitForCount=(page,count)=>page.waitForFunction(value=>{
     assert(/\/mo gross$/.test(layoutMetrics.hourlyText),'The secondary salary line should show gross monthly pay: '+JSON.stringify(layoutMetrics));
     assert.equal(layoutMetrics.hourlyDisplay,'block','Gross monthly salary should remain visible: '+JSON.stringify(layoutMetrics));
   }
+  // List mode should remain a scan-friendly comparison, not a full-page map.
+  const firstListRow=page.locator('#shortlistList .rank-row').first();
+  const listSummary=await firstListRow.evaluate(row=>{
+    const card=row.querySelector('.placement'),fit=card.querySelector('.fit.fitExpanded.uxFitWithLocation');
+    const shown=s=>{const node=card.querySelector(s);return Boolean(node&&getComputedStyle(node).display!=='none')};
+    return {
+      details:shown('.uxDetailButton'),
+      map:shown('.uxLocationPanel'),
+      fullDates:shown('.programmeDates'),
+      compactDates:shown('.atlasCompactDate'),
+      fitWidth:fit?.getBoundingClientRect().width||0,
+      rowHeight:row.getBoundingClientRect().height,
+      viewport:innerHeight
+    };
+  });
+  assert(listSummary.details&&!listSummary.map&&!listSummary.fullDates&&listSummary.compactDates,
+    'List should summarise dates and fit without a huge location map: '+JSON.stringify(listSummary));
+  assert(listSummary.rowHeight<listSummary.viewport*.92,
+    'A collapsed shortlist programme should not consume almost the entire screen: '+JSON.stringify(listSummary));
+  await firstListRow.locator('.uxDetailButton').click();
+  await page.waitForFunction(()=>document.querySelector('#shortlistList .rank-row')?.classList.contains('uxExpanded'),null,{timeout:10000});
+  const listExpanded=await firstListRow.evaluate(row=>{
+    const shown=s=>{const el=row.querySelector(s);return Boolean(el&&getComputedStyle(el).display!=='none')};
+    const dates=row.querySelector('.programmeDates');
+    return {map:shown('.uxLocationPanel'),dates:shown('.programmeDates'),dateWidth:dates?.getBoundingClientRect().width||0,
+      rowWidth:row.getBoundingClientRect().width};
+  });
+  assert(listExpanded.map&&listExpanded.dates&&listExpanded.dateWidth<Math.min(520,listExpanded.rowWidth),
+    'Expanded list should reveal the location and a reasonably sized date card: '+JSON.stringify(listExpanded));
+  await firstListRow.locator('.uxDetailButton').click();
   // Grid is a shortlist overview: keep decisions visible, hide information
   // duplicated in the expandable card and keep original detail data intact.
   await page.locator('#shortlist .shortlist-toolbar [data-ux-layout="grid"]').click();

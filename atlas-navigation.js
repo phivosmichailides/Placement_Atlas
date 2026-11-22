@@ -133,16 +133,16 @@
   if(shortlistBar){
     const disclosure=document.createElement('details');
     disclosure.className='atlasShortlistMore';
-    const summary=document.createElement('summary');summary.textContent='More';
+    const summary=document.createElement('summary');summary.textContent='Export & backup';
     const menu=document.createElement('div');menu.className='atlasShortlistMoreMenu';
     const shortcuts=document.createElement('div');shortcuts.className='atlasShortlistDataActions';
-    shortcuts.innerHTML='<button class="btn" type="button" id="atlasShortlistExportDecisions">Export decisions</button>'+
-      '<button class="btn" type="button" id="atlasShortlistBackup">Backup</button>';
+    shortcuts.innerHTML='<button class="btn" type="button" id="atlasShortlistExportDecisions">Export decisions (CSV)</button>'+
+      '<button class="btn" type="button" id="atlasShortlistBackup">Back up shortlist</button>';
     shortcuts.querySelector('#atlasShortlistExportDecisions').addEventListener('click',()=>document.getElementById('exportBtn')?.click());
     shortcuts.querySelector('#atlasShortlistBackup').addEventListener('click',()=>document.getElementById('backupBtn')?.click());
     shortcuts.addEventListener('click',event=>{if(event.target.closest('button'))disclosure.open=false;});
     const order=shortlistBar.querySelector('.shortlistViewOrder');
-    if(order){order.title='Change display order without changing saved ranks';menu.append(order);}
+    if(order){order.title='Change display order without changing saved ranks';shortlistBar.append(order);}
     menu.append(shortcuts);disclosure.append(summary,menu);shortlistBar.append(disclosure);
   }
 

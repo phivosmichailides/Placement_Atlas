@@ -575,6 +575,10 @@
       updateViewportHint();
     };
     const scheduleMapRedraw=()=>{
+      // A programme popup can auto-pan the map. Keep its tapped marker and
+      // surrounding group pins intact until the visitor closes the popup;
+      // rebuilding the layer during that auto-pan makes the touched pin vanish.
+      if(placementMap?._popup?.options?.className?.includes('atlasProgrammePopup'))return;
       if(redrawTimer)clearTimeout(redrawTimer);
       // Debounce camera movement; do not rebuild the markers on animation frames.
       redrawTimer=setTimeout(()=>{
@@ -586,7 +590,7 @@
     };
     let viewportHintQueued=false;
     const scheduleViewportHint=()=>{if(viewportHintQueued)return;viewportHintQueued=true;requestAnimationFrame(()=>{viewportHintQueued=false;updateViewportHint();});};
-    placementMap.on('popupclose',()=>{selectedProgramme=null;syncMap();});
+    placementMap.on('popupclose',()=>{selectedProgramme=null;syncMap();scheduleMapRedraw();});
     placementMap.on('zoomend',()=>{scheduleMapRedraw();scheduleViewportHint();});
     placementMap.on('moveend',()=>{scheduleMapRedraw();scheduleViewportHint();});
     try{drawMap(placements.filter(matches));}catch{}

@@ -28,7 +28,7 @@
     // constrain results. Remove both, in one canonical refresh.
     const chip=document.querySelector('#quick .chip[data-q="london"]');
     chip?.classList.remove('on');
-    try{if(typeof quick!=='undefined')quick.delete('london')}catch{}
+    try{if(typeof quick!=='undefined'&&quick instanceof Set)quick.delete('london')}catch{}
     byId('allRegionsBtn')?.classList.add('on');
     setValue('region','');
   };

@@ -18,7 +18,7 @@
    hideTimer=window.setTimeout(hide,2700);
  };
  const show=()=>{
-   if(document.body.classList.contains('atlasFooterInView'))return;
+   // Footer controls visibility separately; retain scroll intent while its observer catches up.
    dock.classList.add('atlasZoomActive');
    controls.forEach(control=>control.removeAttribute('tabindex'));
    schedule();

@@ -125,35 +125,80 @@
 (function(){
   var root=document.documentElement;
   try{if(localStorage.getItem('phivos-onboarding-v1')||localStorage.getItem('phivos-onboarding-profile-v1'))root.classList.add('atlasHeroReserveOff')}catch(e){}
+  // The heights were measured at the automatic zoom levels (70%, 80%, 100%); a visitor's own zoom choice changes them.
+  var z=parseFloat(root.style.getPropertyValue('--ux-page-zoom'))||1;
+  if(z!==0.7&&z!==0.8&&z!==1)root.classList.add('atlasHeroReserveOff','atlasReserveRelease');
   setTimeout(function(){root.classList.add('atlasHeroReserveOff','atlasReserveRelease')},8000);
 })();
 </script>
 <style id="atlasHeroReserve">
-/* --atlas-hero-h is the intro panel's height at each viewport width (slightly
-   under the real height so a gap can never appear). */
-@media(max-width:320px){:root{--atlas-hero-h:590px}}
-@media(min-width:321px) and (max-width:360px){:root{--atlas-hero-h:calc(591px - (100vw - 320px)*.525)}}
-@media(min-width:361px) and (max-width:390px){:root{--atlas-hero-h:calc(570px - (100vw - 360px)*1.07)}}
-@media(min-width:391px) and (max-width:430px){:root{--atlas-hero-h:calc(538px - (100vw - 390px)*1.4)}}
-@media(min-width:431px) and (max-width:480px){:root{--atlas-hero-h:calc(482px - (100vw - 430px)*.82)}}
-@media(min-width:481px) and (max-width:600px){:root{--atlas-hero-h:441px}}
-@media(min-width:601px) and (max-width:720px){:root{--atlas-hero-h:413px}}
-@media(min-width:721px) and (max-width:870px){:root{--atlas-hero-h:423px}}
-@media(min-width:871px) and (max-width:949px){:root{--atlas-hero-h:328px}}
-@media(min-width:950px) and (max-width:1100px) and (hover:hover) and (pointer:fine){:root{--atlas-hero-h:calc(299px + (100vw - 950px)*.074)}}
-@media(min-width:1101px) and (max-width:1180px) and (hover:hover) and (pointer:fine){:root{--atlas-hero-h:calc(311px + (100vw - 1100px)*.065)}}
-@media(min-width:1181px) and (max-width:1400px) and (hover:hover) and (pointer:fine){:root{--atlas-hero-h:calc(316px + (100vw - 1180px)*.105)}}
-@media(min-width:1401px) and (max-width:1600px) and (hover:hover) and (pointer:fine){:root{--atlas-hero-h:calc(340px + (100vw - 1400px)*.025)}}
-@media(min-width:1601px) and (hover:hover) and (pointer:fine){:root{--atlas-hero-h:343px}}
+/* --atlas-hero-h is the intro panel's height at each viewport width, measured every 1-3px from 320 to 2560px with a
+   mouse (70/80% zoom), with touch, and with no pointer (100% zoom). Each value is the lowest of those minus 3px, so
+   the reserved space never exceeds the real panel and a gap can never appear. */
+@media(max-width:328px){:root{--atlas-hero-h:589px}}
+@media(min-width:329px) and (max-width:330px){:root{--atlas-hero-h:543px}}
+@media(min-width:331px) and (max-width:337px){:root{--atlas-hero-h:589px}}
+@media(min-width:338px) and (max-width:339px){:root{--atlas-hero-h:445px}}
+@media(min-width:340px) and (max-width:341px){:root{--atlas-hero-h:589px}}
+@media(min-width:342px) and (max-width:376px){:root{--atlas-hero-h:567px}}
+@media(min-width:377px) and (max-width:378px){:root{--atlas-hero-h:521px}}
+@media(min-width:379px) and (max-width:385px){:root{--atlas-hero-h:567px}}
+@media(min-width:386px) and (max-width:392px){:root{--atlas-hero-h:535px}}
+@media(min-width:393px) and (max-width:403px){:root{--atlas-hero-h:525px}}
+@media(min-width:404px) and (max-width:406px){:root{--atlas-hero-h:505px}}
+@media(min-width:407px) and (max-width:418px){:root{--atlas-hero-h:496px}}
+@media(min-width:419px) and (max-width:420px){:root{--atlas-hero-h:450px}}
+@media(min-width:421px) and (max-width:421px){:root{--atlas-hero-h:496px}}
+@media(min-width:422px) and (max-width:440px){:root{--atlas-hero-h:479px}}
+@media(min-width:441px) and (max-width:442px){:root{--atlas-hero-h:434px}}
+@media(min-width:443px) and (max-width:452px){:root{--atlas-hero-h:480px}}
+@media(min-width:453px) and (max-width:460px){:root{--atlas-hero-h:457px}}
+@media(min-width:461px) and (max-width:462px){:root{--atlas-hero-h:412px}}
+@media(min-width:463px) and (max-width:472px){:root{--atlas-hero-h:458px}}
+@media(min-width:473px) and (max-width:509px){:root{--atlas-hero-h:438px}}
+@media(min-width:510px) and (max-width:547px){:root{--atlas-hero-h:443px}}
+@media(min-width:548px) and (max-width:623px){:root{--atlas-hero-h:448px}}
+@media(min-width:624px) and (max-width:627px){:root{--atlas-hero-h:411px}}
+@media(min-width:628px) and (max-width:631px){:root{--atlas-hero-h:365px}}
+@media(min-width:632px) and (max-width:651px){:root{--atlas-hero-h:411px}}
+@media(min-width:652px) and (max-width:711px){:root{--atlas-hero-h:418px}}
+@media(min-width:712px) and (max-width:716px){:root{--atlas-hero-h:375px}}
+@media(min-width:717px) and (max-width:860px){:root{--atlas-hero-h:421px}}
+@media(min-width:861px) and (max-width:884px){:root{--atlas-hero-h:351px}}
+@media(min-width:885px) and (max-width:943px){:root{--atlas-hero-h:325px}}
+@media(min-width:944px) and (max-width:1010px){:root{--atlas-hero-h:296px}}
+@media(min-width:1011px) and (max-width:1072px){:root{--atlas-hero-h:301px}}
+@media(min-width:1073px) and (max-width:1132px){:root{--atlas-hero-h:306px}}
+@media(min-width:1133px) and (max-width:1210px){:root{--atlas-hero-h:311px}}
+@media(min-width:1211px) and (max-width:1252px){:root{--atlas-hero-h:316px}}
+@media(min-width:1253px) and (max-width:1296px){:root{--atlas-hero-h:321px}}
+@media(min-width:1297px) and (max-width:1340px){:root{--atlas-hero-h:326px}}
+@media(min-width:1341px) and (max-width:1382px){:root{--atlas-hero-h:331px}}
+@media(min-width:1383px) and (max-width:1408px){:root{--atlas-hero-h:336px}}
+@media(min-width:1409px) and (max-width:1474px){:root{--atlas-hero-h:339px}}
+@media(min-width:1475px){:root{--atlas-hero-h:342px}}
 html.atlasPremiumPreview:not(.atlasHeroReserveOff) .shell:not(:has(.productIntro)):has(#explore.active) #atlasHeaderTools::after{
-  content:"";display:block;height:var(--atlas-hero-h);margin:8px 0 12px;
+  content:"";display:block;height:var(--atlas-hero-h);margin:3px 0 12px;
 }
 @media(max-width:720px){html.atlasPremiumPreview:not(.atlasHeroReserveOff) .shell:not(:has(.productIntro)):has(#explore.active) #atlasHeaderTools::after{margin:6px 0 10px}}
 html.atlasPremiumPreview:not(.atlasHeroReserveOff) body:not(.deskPersonalised) .productIntro.card{min-height:var(--atlas-hero-h)!important}
 /* The "More statistics" toolbar is inserted above the stat cards shortly after
    load (about 30px + 5px margin); hold that space until it arrives. */
 html.atlasPremiumPreview:not(.atlasReserveRelease) body #explore:not(:has(.atlasStatToolbarPremium)) > #stats{margin-top:44px!important}
-@media(min-width:1101px) and (hover:hover) and (pointer:fine){html.atlasPremiumPreview:not(.atlasReserveRelease) body #explore > #stats:empty{min-height:75px}}
+/* The stat cards fill in after the data loads; hold their row (lower bound of the measured heights). */
+@media(min-width:950px){html.atlasPremiumPreview:not(.atlasReserveRelease) body #explore > #stats:empty{min-height:67px}}
+@media(min-width:1180px){html.atlasPremiumPreview:not(.atlasReserveRelease) body #explore > #stats:empty{min-height:73px}}
+/* The old action row (theme, account, save help) is moved into the header cluster by script right after first paint,
+   leaving #atlasHeaderTools empty. Start it empty too, so the page below does not jump up when they move. */
+html.atlasPremiumPreview:not(.atlasReserveRelease) #atlasHeaderTools > .actions,
+html.atlasPremiumPreview:not(.atlasReserveRelease) #atlasHeaderTools > #saveHelp{display:none!important}
+/* The header's Profile / Sign in / language cluster is added by script a moment after first paint and makes the
+   top row taller. Until it arrives, hold its grid cell (last column of the first row) at its measured size. */
+html:not(.atlasReserveRelease) body .shell > header.top.atlasStickyHeader:not(:has(> .atlasHeaderUtilities))::after{
+  content:"";display:block;grid-row:1;grid-column:-2 / -1;height:77px;width:293px;
+}
+@media(min-width:1180px){html:not(.atlasReserveRelease) body .shell > header.top.atlasStickyHeader:not(:has(> .atlasHeaderUtilities))::after{width:304px}}
+@media(max-width:720px){html:not(.atlasReserveRelease) body .shell > header.top.atlasStickyHeader:not(:has(> .atlasHeaderUtilities))::after{height:72px;width:170px}}
 /* Headings that hold a real "Full name" button keep the pointer cursor they had as role=button. */
 html body .placementTop h3:has(.atlasTitleExpand){cursor:pointer}
 </style>
@@ -186,7 +231,7 @@ html body .placementTop h3:has(.atlasTitleExpand){cursor:pointer}
 <link rel="stylesheet" href="cloud-auth.css?v=20261112members1">
 <link rel="stylesheet" href="cloud-password-auth.css?v=20261113turnstile1">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="preconnect" href="https://api.maptiler.com" crossorigin>
+<link rel="preconnect" href="https://api.maptiler.com">
 <link rel="stylesheet" href="design-refresh.css?v=20261120plusjakarta1">
 <link rel="stylesheet" href="programme-preview.css?v=20261106a">
 <link rel="stylesheet" href="controls-refinement.css?v=20261106a">

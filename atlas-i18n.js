@@ -1073,6 +1073,9 @@
   };
 
   function translateTextNode(node) {
+    // English is the source language: a node this script has never changed is
+    // already correct, so skip the selector matching and dictionary lookups.
+    if (activeLanguage === 'en' && !originalText.has(node)) return;
     const parent = node.parentElement;
     if (!parent || TEXT_SKIP.has(parent.tagName) || isProtected(parent)) return;
     const current = node.nodeValue || '';
@@ -1161,6 +1164,7 @@
   }
 
   function translateAttributes(element) {
+    if (activeLanguage === 'en' && element && !originalAttributes.has(element)) return;
     if (!element || isProtected(element) || ['SCRIPT','STYLE','OPTION'].includes(element.tagName)) return;
     for (const name of ['placeholder','aria-label','title']) {
       if (!element.hasAttribute(name)) continue;
@@ -1185,6 +1189,11 @@
     }
     if (node.nodeType !== Node.ELEMENT_NODE && node !== document.body) return;
     if (node.nodeType === Node.ELEMENT_NODE) {
+      // Untouched English content needs no protection check or attribute pass.
+      if (activeLanguage === 'en' && !originalAttributes.has(node)) {
+        for (const child of Array.from(node.childNodes || [])) walk(child);
+        return;
+      }
       if (isProtected(node)) {
         if (node.matches?.('.placementTop h3')) {
           // Only visit nested controls, never the raw employer or programme title.

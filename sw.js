@@ -1,5 +1,5 @@
 'use strict';
-const CACHE_NAME='placement-atlas-shell-2026-11-21-v131-explore-clarity';
+const CACHE_NAME='placement-atlas-shell-2026-11-21-v132-fast-startup';
 const ROOT=new URL('./',self.registration.scope).href;
 const EXTRA_ASSETS=[
   'swipe-mode-workspace.css?v=20261121swipe-layout4',
@@ -133,6 +133,10 @@ self.addEventListener('fetch',event=>{
   if(!/\.(?:js|css|json|geojson|txt|svg|png|webp|webmanifest|html|ttf)$/i.test(url.pathname))return;
   event.respondWith((async()=>{
     const cached=await caches.match(request);
+    // Versioned files (?v=...) change URL whenever their content changes, and
+    // every new service worker re-downloads them, so a cached copy is current.
+    // Serving it directly avoids ~100 revalidation requests on repeat visits.
+    if(cached&&/[?&]v=/.test(url.search))return cached;
     try{
       const response=await fetch(request);
       if(response.ok&&response.type==='basic'){const cache=await caches.open(CACHE_NAME);await cache.put(request,response.clone())}

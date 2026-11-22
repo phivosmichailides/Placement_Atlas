@@ -536,7 +536,7 @@
    more.append(commuteAdvice);panel.append(more);
    const links=document.createElement('div');links.className='uxMapLinks';
    const route=document.createElement('a');route.target='_blank';route.rel='noopener noreferrer';route.textContent='Local station directions ↗';links.append(route);
-   const homeRoute=document.createElement('a');homeRoute.target='_blank';homeRoute.rel='noopener noreferrer';homeRoute.textContent='Directions from my postcode ↗';homeRoute.hidden=true;links.append(homeRoute);
+   const homeRoute=document.createElement('a');homeRoute.target='_blank';homeRoute.rel='noopener noreferrer';homeRoute.textContent='Directions from my postcode ↗';homeRoute.href='https://www.google.com/maps';homeRoute.hidden=true;links.append(homeRoute);
    const maps=document.createElement('a');maps.target='_blank';maps.rel='noopener noreferrer';maps.textContent='Open selected site ↗';links.append(maps);panel.append(links);
    const stationCredit=document.createElement('small');stationCredit.className='uxStationCredit';
    stationCredit.style.cssText='display:block;margin-top:7px;font-size:10px;line-height:1.45;color:var(--mut)';
@@ -572,7 +572,7 @@
      if(origin){
        homeRoute.href=window.OrielCommute?.mapsUrl?.(origin,site?.pc||destination)||directionsUrl(origin,destination,'transit');
        homeRoute.title='Open public-transport directions from your saved starting postcode to this training site.';
-     }else homeRoute.removeAttribute('href');
+     }else homeRoute.href='https://www.google.com/maps';
      if(!origin){
        captionStatus('general');
        personalisedHint.textContent='General local transport guidance · Use the nearby station and directions above. Add a home postcode only if you want a personalised commute estimate.';
@@ -583,7 +583,7 @@
        return;
      }
      if(!site?.pc){
-       if(String(p.region||'').toLowerCase()!=='london'){homeRoute.hidden=true;homeRoute.removeAttribute('href');}
+       if(String(p.region||'').toLowerCase()!=='london'){homeRoute.hidden=true;homeRoute.href='https://www.google.com/maps';}
        captionStatus('general');
        personalisedHint.textContent=String(p.region||'').toLowerCase()!=='london'
          ?'Oriel does not list a full postcode for this regional site. Use the local station or town-centre directions above and confirm the exact training address with the employer.'
@@ -598,7 +598,7 @@
      const londonOutcode=/^(EC|WC|N|NW|E|SE|SW|W|HA|EN|IG|RM|CR|BR|SM|TW|UB)\d/i.test(siteDistrict)||/^KT[1-4]$/.test(siteDistrict);
      const isLondonSite=siteDistrict?londonOutcode:String(p.region||'').toLowerCase()==='london';
      if(!isLondonSite){
-       homeRoute.hidden=true;homeRoute.removeAttribute('href');
+       homeRoute.hidden=true;homeRoute.href='https://www.google.com/maps';
        captionStatus('general');
        personalisedHint.textContent='This training site is outside London. Local rail, bus and area connections are shown above; use the local station directions link to plan the final leg and check current services for your travel date.';
        personalisedHint.hidden=false;

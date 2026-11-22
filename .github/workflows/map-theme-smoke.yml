@@ -72,7 +72,7 @@ jobs:
         run: node --test tests/catalogue-parser.test.cjs tests/independence.test.cjs tests/location-guidance.test.cjs tests/research.test.js tests/shortlist.test.js tests/industry-foundation-learning-guide.test.cjs tests/map-navigation-stability.test.cjs
       - name: Check JavaScript syntax for the app and browser tests
         run: |
-          for file in app.js atlas-navigation.js workspace-ux.js placement-mobile-navigation.js member-profile.js premium-discovery-preview.js onboarding.js tinder-mode.js simulator.js placement-profile.js placement-fixes.js map-basemap.js programme-preview.js learning-library.js shortlist-refinement.js atlas-shortlist-onboarding.js atlas-static-pages.js tests/placement-atlas-ui-smoke.cjs tests/industry-learning-guide-browser-smoke.cjs; do node --check "$file"; done
+          for file in app.js atlas-navigation.js workspace-ux.js placement-mobile-navigation.js member-profile.js premium-discovery-preview.js onboarding.js tinder-mode.js simulator.js placement-profile.js placement-fixes.js map-basemap.js programme-preview.js learning-library.js shortlist-refinement.js atlas-shortlist-onboarding.js atlas-static-pages.js tests/placement-atlas-ui-smoke.cjs tests/auth-dialog-browser-smoke.cjs tests/industry-learning-guide-browser-smoke.cjs; do node --check "$file"; done
       - name: Install browser testing dependency
         run: npm install --no-save playwright@1.56.1
       - name: Install test browser and dependencies
@@ -97,12 +97,16 @@ jobs:
         run: node tests/static-pages-theme-smoke.cjs
         env:
           TARGET: http://127.0.0.1:8000/
+      - name: Verify login and signup layout, recovery and passwords on desktop/mobile
+        run: node tests/auth-dialog-browser-smoke.cjs
+        env:
+          TARGET: http://127.0.0.1:8000/
       - name: Validate checkout UI in desktop and mobile Chromium
         run: node tests/placement-atlas-ui-smoke.cjs
         env:
           TARGET: http://127.0.0.1:8000/
       - name: Lighthouse before-and-after desktop/mobile benchmark
-        if: github.head_ref == 'perf/reduce-main-thread-20261122'
+        if: github.head_ref == 'perf/reduce-main-thread-20261122' || github.head_ref == 'feat/wajo-inspired-auth-and-live-regressions-20261122'
         run: |
           npm install --no-save --no-audit --no-fund playwright@1.56.1 lighthouse@13.5.0
           git fetch --depth=1 origin main
@@ -127,7 +131,7 @@ jobs:
           done
           node tests/print-performance-audit.cjs /tmp/atlas-lighthouse
       - name: Upload Lighthouse reports
-        if: always() && github.head_ref == 'perf/reduce-main-thread-20261122'
+        if: always() && (github.head_ref == 'perf/reduce-main-thread-20261122' || github.head_ref == 'feat/wajo-inspired-auth-and-live-regressions-20261122')
         uses: actions/upload-artifact@v6
         with:
           name: atlas-lighthouse-before-after
@@ -156,7 +160,7 @@ jobs:
           node-version: '22'
       - name: Check JavaScript syntax for the app and browser tests
         run: |
-          for file in app.js atlas-navigation.js workspace-ux.js placement-mobile-navigation.js member-profile.js premium-discovery-preview.js onboarding.js tinder-mode.js simulator.js placement-profile.js placement-fixes.js map-basemap.js programme-preview.js learning-library.js shortlist-refinement.js atlas-shortlist-onboarding.js atlas-static-pages.js tests/placement-atlas-ui-smoke.cjs tests/industry-learning-guide-browser-smoke.cjs; do node --check "$file"; done
+          for file in app.js atlas-navigation.js workspace-ux.js placement-mobile-navigation.js member-profile.js premium-discovery-preview.js onboarding.js tinder-mode.js simulator.js placement-profile.js placement-fixes.js map-basemap.js programme-preview.js learning-library.js shortlist-refinement.js atlas-shortlist-onboarding.js atlas-static-pages.js tests/placement-atlas-ui-smoke.cjs tests/auth-dialog-browser-smoke.cjs tests/industry-learning-guide-browser-smoke.cjs; do node --check "$file"; done
       - name: Install browser testing dependency
         run: npm install --no-save playwright@1.56.1
       - name: Install test browser and dependencies
@@ -181,6 +185,10 @@ jobs:
           done
           echo "Timed out waiting for GitHub Pages deployment for $GITHUB_SHA."
           exit 1
+      - name: Check published account UI loads correctly
+        run: node tests/auth-dialog-browser-smoke.cjs
+        env:
+          TARGET: https://placementatlas.co.uk/
       - name: Verify deployed Placement Atlas in a real Chromium browser
         run: node tests/placement-atlas-ui-smoke.cjs
         env:

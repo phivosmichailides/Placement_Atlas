@@ -47,8 +47,8 @@ test('all versioned entrypoints load new map assets and the PWA retains them',()
   }
   assert.ok(html.includes('session-ui.js?v=20261122default1'),'Outdated HTML asset: session-ui.js');
   assert.ok(boot.includes('sector-map.js?v=20261122mapstable1'));
-  assert.ok(boot.includes('app-product.js?v=20261122mapstable1'));
-  assert.ok(product.includes('app-base.js?v=20261122mapstable1'));
+  assert.ok(boot.includes('app-product.js?v=20261122perf1'));
+  assert.ok(product.includes('app-base.js?v=20261122perf1'));
   for(const name of ['sector-map.js','app-product.js','app-base.js','app.js'])
     assert.ok(sw.includes(name+'?v=20261122mapstable1'),'Outdated offline asset: '+name);
   assert.ok(sw.includes('session-ui.js?v=20261122default1'),'Outdated offline asset: session-ui.js');

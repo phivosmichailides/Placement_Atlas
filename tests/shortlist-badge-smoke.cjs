@@ -114,6 +114,52 @@ const waitForCount=(page,count)=>page.waitForFunction(value=>{
     assert(/\/mo gross$/.test(layoutMetrics.hourlyText),'The secondary salary line should show gross monthly pay: '+JSON.stringify(layoutMetrics));
     assert.equal(layoutMetrics.hourlyDisplay,'block','Gross monthly salary should remain visible: '+JSON.stringify(layoutMetrics));
   }
+  // Grid is a shortlist overview: keep decisions visible, hide information
+  // duplicated in the expandable card and keep original detail data intact.
+  await page.locator('#shortlist .shortlist-toolbar [data-ux-layout="grid"]').click();
+  await page.waitForFunction(()=>document.documentElement.dataset.layout==='grid',null,{timeout:10000});
+  await page.waitForFunction(()=>!!document.querySelector('#shortlistList .rank-row .atlasCompactDate'),null,{timeout:10000});
+  const compact=await page.locator('#shortlistList .rank-row').first().evaluate(row=>{
+    const card=row.querySelector('.placement');
+    const shown=sel=>{
+      const el=card.querySelector(sel);
+      return el&&getComputedStyle(el).display!=='none';
+    };
+    return {
+      expanded:row.classList.contains('uxExpanded'),
+      details:shown('.uxDetailButton'),
+      note:shown('.controls input[data-action="note"]'),
+      monthly:shown('.atlasGrossMonthly'),
+      takehome:shown('.uxTakeHome'),
+      fullName:shown('.atlasWorkspaceTitleExpand'),
+      largeDates:shown('.programmeDates'),
+      inlineDates:shown('.atlasCompactDate'),
+      dateText:card.querySelector('.atlasCompactDate')?.textContent||'',
+      code:card.querySelector('.atlasCompactProgrammeCode strong')?.textContent||'',
+      visa:card.querySelector('.badges .badge[class*="sponsorship"],.badges .badge.good')?.textContent||'',
+      eyebrow:getComputedStyle(document.querySelector('#shortlist .sectionHero .eyebrow')).display
+    };
+  });
+  assert.equal(compact.expanded,false,'Grid card should start collapsed');
+  assert(compact.details&&compact.inlineDates&&!compact.largeDates,
+    'Collapsed grid must show brief dates and a real expand action: '+JSON.stringify(compact));
+  assert(!compact.note&&!compact.monthly&&!compact.takehome&&!compact.fullName,
+    'Collapsed grid must hide secondary salary/name/note controls: '+JSON.stringify(compact));
+  assert(/^\d+$/.test(compact.code),'Programme ID must remain bold and identifiable: '+JSON.stringify(compact));
+  assert(/\b(Yes|No|Unconfirmed)\b/.test(compact.visa),'Visa badge should be concise: '+JSON.stringify(compact));
+  assert.equal(compact.eyebrow,'none','Shortlist page should not repeat its own title');
+  await page.screenshot({path:'/tmp/oriel-map-theme-smoke/placement-atlas-shortlist-grid-compact.png',fullPage:true});
+  await page.locator('#shortlistList .rank-row .uxDetailButton').first().click();
+  await page.locator('#shortlistList .rank-row.uxExpanded').first().waitFor({state:'attached',timeout:10000});
+  const expandedDetail=await page.locator('#shortlistList .rank-row.uxExpanded').first().evaluate(row=>{
+    const el=row.querySelector('.placement .programmeDates');
+    const note=row.querySelector('.placement .controls input[data-action="note"]');
+    return {date:!!el&&getComputedStyle(el).display!=='none',
+      note:!!note&&getComputedStyle(note).display!=='none'};
+  });
+  assert(expandedDetail.date&&expandedDetail.note,'Expanded grid must restore full dates and note');
+  await page.locator('#shortlist .shortlist-toolbar [data-ux-layout="list"]').click();
+  await page.waitForFunction(()=>document.documentElement.dataset.layout==='list',null,{timeout:10000});
   await page.screenshot({path:'/tmp/oriel-map-theme-smoke/placement-atlas-shortlist-desktop.png',fullPage:true});
   const desktopRemove=page.locator('#shortlistList .rank-row .rank-controls [data-atlas-remove-shortlist]').first();
   await page.locator('#shortlistList .rank-row').first().hover();

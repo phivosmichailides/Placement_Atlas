@@ -15,8 +15,11 @@ const target=process.env.TARGET||'http://127.0.0.1:8000/';
    localStorage.removeItem('oriel-desk-page-zoom-v1');
   });
   await page.goto(target,{waitUntil:'domcontentloaded',timeout:60000});
+  // Ready = full catalogue loaded, sector pins installed and clusters drawn. The map plots the current results page
+  // by default, so OrielMapStats.programmes is that page's count, not the catalogue size.
   await page.waitForFunction(()=>typeof placementMap!=='undefined'&&!!placementMap&&!!window.OrielMapStats&&
-   window.OrielMapStats.programmes===4064&&document.querySelectorAll('#placementMap .oriel-cluster-marker').length>0,
+   typeof placements!=='undefined'&&placements.length===4064&&window.OrielMapStats.programmes>0&&
+   document.querySelectorAll('#placementMap .oriel-cluster-marker').length>0,
    null,{timeout:90000});
   const before=await page.evaluate(()=>({center:placementMap.getCenter(),zoom:placementMap.getZoom(),pageZoom:getComputedStyle(document.querySelector('.shell')).zoom}));
   assert.equal(before.pageZoom,'0.7','The regression must be exercised at the problematic 70% page zoom');

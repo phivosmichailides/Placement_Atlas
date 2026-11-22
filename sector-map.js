@@ -330,9 +330,13 @@
     installMapControls();
     drawMap=(requestedList,options={})=>{const list=Array.isArray(requestedList)?requestedList:placements.filter(matches);currentMapList=list;refreshPalette();
       if(!placementMap)return;
-      // A popup can auto-pan the map. Camera-only redraws must not immediately
-      // close the very programme details the visitor just opened.
-      if(!options.preservePopup){placementMap.closePopup();$('mapSelection').innerHTML='';}
+      // Programme data also redraws asynchronously (e.g. the Explore results
+      // pager shortly after start-up). Do not dismiss a popup the visitor just
+      // opened merely because a background list/viewport update completed.
+      const interactivePopup=placementMap._popup?.options?.className?.includes('atlasProgrammePopup');
+      if(options.dismissPopup||(!options.preservePopup&&!interactivePopup)){
+        placementMap.closePopup();$('mapSelection').innerHTML='';
+      }
       mapLayer.clearLayers();
       programmePins.clear();hoveredProgramme=null;
       let groups,allCodes,resolvedCodes,programmesWithAnySite,programmesWithAllSites,programmesWithoutCode;

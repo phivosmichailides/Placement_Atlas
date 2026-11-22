@@ -117,3 +117,18 @@ html body .paDocFooterBrand{font-weight:850;color:var(--ink)}
  html .paDocHeader .paDocNav a{flex:none}
  html .paDocHeader .paDocTheme{flex:none}
 }
+/* The standalone industry guide ships its own body-scoped light palette.
+   Override those local tokens after loading its original stylesheet, not the guide content. */
+html body.industryStandalone{
+ background:var(--bg)!important;
+ color:var(--ink)!important;
+ font-family:"Plus Jakarta Sans","Avenir Next",Inter,system-ui,sans-serif!important;
+}
+html[data-theme="dark"] body.industryStandalone {
+ --panel:#242527;--soft:#343639;--ink:#f5f5f5;--mut:#bac1c0;--line:#494b4e;
+ --ux-accent-ink:#e0e1e3;--ux-accent-border:#6a6c72;--ux-accent-soft:#414349;
+}
+html[data-theme="light"] body.industryStandalone {
+ --panel:#fff;--soft:#f0f0f0;--ink:#282b2b;--mut:#626a67;--line:#d9dedb;
+ --ux-accent-ink:var(--accent);--ux-accent-border:#ccd6cb;--ux-accent-soft:#e7ebe5;
+}

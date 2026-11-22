@@ -684,7 +684,10 @@
     drawer.hidden=false;drawer.inert=false;drawer.setAttribute('aria-hidden','false');
     shade.hidden=false;document.body.dataset.tdDrawerActive='true';
     renderDecisionDrawer();
-    $('tdDrawerClose')?.focus();
+    // Move focus into the dialog without lighting up the close button's keyboard ring for mouse and touch users.
+    // Keyboard users still start inside the drawer; one Tab reaches the close button (with its focus ring).
+    if(!drawer.hasAttribute('tabindex'))drawer.tabIndex=-1;
+    drawer.focus({preventScroll:true});
   };
   const mountDecisionDrawers=()=>{
     if($('tdFloatingDecisions'))return;
@@ -708,7 +711,7 @@
       '<div class="tdDrawerEyebrow">PLACEMENT ATLAS · SWIPE MODE</div>'+
       '<h2 id="tdDrawerHeading">Saved programmes</h2>'+
       '<p id="tdDrawerSubtitle"></p></div>'+
-      '<button type="button" id="tdDrawerClose" class="tdDrawerClose" aria-label="Close saved programmes">×</button></div>'+
+      '<button type="button" id="tdDrawerClose" class="tdDrawerClose" aria-label="Close saved programmes"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>'+
       '<label class="tdDrawerSearchLabel" for="tdDrawerSearch">Find a programme</label>'+
       '<input type="search" id="tdDrawerSearch" placeholder="Search programmes" autocomplete="off">'+
       '<div class="tdDrawerItems" id="tdDrawerItems"></div>';

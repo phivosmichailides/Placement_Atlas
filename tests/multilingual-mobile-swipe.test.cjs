@@ -88,7 +88,7 @@ test('updated assets load in the website and offline application',()=>{
     "swipe-mobile-viewport.css?v=20261121mobile2",
     "swipe-mobile-workspace.css?v=20261121mobile3",
     "swipe-mobile-navigation.js?v=20261121mobile3",
-    "tinder-mode.js?v=20261121mobile3"
+    "tinder-mode.js?v=20261122close1"
 ]) {
     assert.ok(html.includes(asset),'homepage is missing '+asset);
     assert.ok(sw.includes(asset),'offline cache is missing '+asset);

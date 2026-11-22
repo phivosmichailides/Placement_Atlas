@@ -191,7 +191,7 @@
   guide.hidden=true;
   const home=document.createElement('div');home.id='atlasLearnHome';
   home.innerHTML='<header class="atlasLearnHero"><div class="eyebrow">YOUR PHARMACY LEARNING SPACE</div><h2>Learn with purpose.</h2><p>Build confidence from your first MPharm year through foundation training and registration preparation.</p></header>'+
-  '<section class="atlasIndustryHubTeaser"><div><span class="eyebrow">NEW · INDUSTRY PLACEMENTS</span><h3>Industry + hospital + community: what to expect</h3><p>Explore 16 detailed answers on industry rotations, daily projects, medical affairs, regulatory affairs, pharmacovigilance, and getting into pharma after training.</p></div><button type="button" class="btn primary" data-industry-open>Explore the guide</button></section>'+
+  '<section class="atlasIndustryHubTeaser"><div><span class="eyebrow">NEW · INDUSTRY PLACEMENTS</span><h3>Industry + Hospital + Community: What to Expect</h3><p>Explore 16 detailed answers on industry rotations, daily projects, medical affairs, regulatory affairs, pharmacovigilance, and getting into pharma after training.</p></div><button type="button" class="btn primary" data-industry-open>Explore the guide</button></section>'+
   '<div class="atlasLearnHomeGrid">'+
   '<article class="atlasLearnModule"><span class="atlasModuleIndex">01</span><h3>Drug knowledge</h3><p>Practise a structured formulary and build clinically accurate medicine knowledge.</p><small>Formulary exercises · next stage</small></article>'+
   '<article class="atlasLearnModule"><span class="atlasModuleIndex">02</span><h3>Flashcards &amp; revision</h3><p>Organise year-specific material and revisit the concepts you find difficult.</p><small>Study tools · planned</small></article>'+

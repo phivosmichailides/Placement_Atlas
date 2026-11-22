@@ -351,10 +351,19 @@ body[data-atlas-view="tinderMode"] .tdFloatingDecisions{
 .tdDrawerHeader h2{margin:0;font-size:clamp(21px,2vw,27px);letter-spacing:-.035em;line-height:1.2}
 .tdDrawerHeader p{margin:8px 0 0;font-size:13px;line-height:1.55;color:var(--mut)}
 .tdDrawerClose{
-  border:1px solid var(--line);background:var(--soft);color:var(--ink);
-  border-radius:12px;min-width:42px;min-height:42px;
-  font-size:27px;font-weight:400;cursor:pointer;line-height:1;
+  /* Light, integrated close control: thin drawn X, soft border blended with the panel. */
+  flex:none;display:grid;place-items:center;padding:0;
+  width:36px;height:36px;min-width:36px;min-height:36px;margin:-3px -5px 0 0;
+  border:1px solid color-mix(in srgb,var(--line) 70%,transparent);
+  background:color-mix(in srgb,var(--soft) 55%,var(--panel));color:var(--mut);
+  border-radius:10px;cursor:pointer;line-height:0;
+  transition:background-color .15s ease,color .15s ease,border-color .15s ease;
 }
+.tdDrawerClose svg{display:block;width:16px;height:16px}
+.tdDrawerClose:hover{background:var(--soft);color:var(--ink);border-color:var(--line)}
+.tdDrawerClose:focus{outline:none}
+.tdDecisionDrawer:focus{outline:none}
+.tdDrawerClose:focus-visible{outline:2px solid color-mix(in srgb,var(--ux-accent-ink,var(--ink)) 45%,transparent);outline-offset:2px}
 .tdDrawerSearchLabel{padding:15px 24px 6px;color:var(--mut);font-size:11px;font-weight:800}
 #tdDrawerSearch{
   margin:0 24px 14px;padding:12px 14px;min-height:43px;

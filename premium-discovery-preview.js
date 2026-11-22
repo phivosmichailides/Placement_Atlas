@@ -64,6 +64,9 @@
   const enhanceHero=()=>{
     const intro=document.querySelector('.productIntro');
     if(!intro||intro.dataset.atlasPrototype==='1')return Boolean(intro);
+    // A prerendered hero must keep its original actions until app-product
+    // attaches the existing controls; then enhancement runs as before.
+    if(intro.dataset.atlasPrerendered==='1'&&intro.dataset.atlasProductIntroReady!=='1')return false;
     const copy=intro.querySelector('.productIntroCopy');
     if(!copy)return false;
     intro.dataset.atlasPrototype='1';

@@ -322,7 +322,10 @@ html.atlasPremiumPreview #prefs .settingsCard h2{
 html.atlasPremiumPreview #prefs .geoLikesPane{
   margin:9px 0 12px!important;padding-bottom:12px!important;
 }
-html.atlasPremiumPreview #prefs .geoBlacklistPane{padding-top:0!important}
+/* Same spacing as "Preferred areas" above: the old padding-top:0 left the "Areas to exclude" title touching the panel edge. */
+html.atlasPremiumPreview #prefs .geoBlacklistPane{
+  margin:9px 0 12px!important;padding-bottom:12px!important;
+}
 html.atlasPremiumPreview #prefs .geoSearchLabel{
   font-size:11.5px!important;font-weight:750!important;margin-bottom:6px!important;
 }

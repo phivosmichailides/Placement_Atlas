@@ -130,9 +130,9 @@ test('Tinder Mode preloads the next card but conceals it until promotion', () =>
   const js=read('tinder-mode.js'),css=read('tinder-mode.css');
   const html=read('index.html'),sw=read('sw.js');
   assertAssetSynced(html,sw,'tinder-mode.js');
-  assert.match(html,/tinder-mode\.css\?v=20261110deckfix1/);
+  assert.match(html,/tinder-mode\.css\?v=20261122close1/);
   assert.match(sw,/tinder-mode\.js\?v=[0-9a-z_-]+/);
-  assert.match(sw,/tinder-mode\.css\?v=20261110deckfix1/);
+  assert.match(sw,/tinder-mode\.css\?v=20261122close1/);
   assert.match(js,/const build=\(p,underlay=false\)/);
   assert.match(js,/cardSlot\.append\(below\)/);
   assert.doesNotMatch(js,/tdShowingNext/);
@@ -146,9 +146,9 @@ test('Tinder Mode preloads the next card but conceals it until promotion', () =>
 test('Tinder Mode-only directional shines, instruction hints and decision drawers remain scoped', () => {
   const html=read('index.html'),sw=read('sw.js'),js=read('tinder-mode.js'),css=read('tinder-mode.css');
   assertAssetSynced(html,sw,'tinder-mode.js');
-  assert.match(html,/tinder-mode\.css\?v=20261110deckfix1/);
+  assert.match(html,/tinder-mode\.css\?v=20261122close1/);
   assert.match(sw,/tinder-mode\.js\?v=[0-9a-z_-]+/);
-  assert.match(sw,/tinder-mode\.css\?v=20261110deckfix1/);
+  assert.match(sw,/tinder-mode\.css\?v=20261122close1/);
   assert.match(js,/const shine=\(status\)=>/);
   assert.match(js,/tdDirectionalParticles/);
   assert.match(js,/tdSwipeHints/);

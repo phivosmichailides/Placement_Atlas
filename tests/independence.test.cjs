@@ -107,7 +107,7 @@ test('primary navigation and footer management use separate, cache-versioned ass
   const sw=read('sw.js');
   assertAssetSynced(html,sw,'atlas-navigation.css');
   assertAssetSynced(html,sw,'atlas-navigation.js');
-  assert.match(sw,/atlas-navigation\.css\?v=[0-9a-z_-]+/);
+  assertCssLoaded(html,sw,'atlas-navigation.css');
   assert.match(sw,/atlas-navigation\.js\?v=[0-9a-z_-]+/);
   assert.match(read('atlas-navigation.js'),/header\.insertBefore\(nav,/);
   assert.match(read('atlas-navigation.js'),/footer\.insertAdjacentElement\('beforebegin',utilities\)/);
@@ -135,7 +135,7 @@ test('Tinder Mode preloads the next card but conceals it until promotion', () =>
   assertAssetSynced(html,sw,'tinder-mode.js');
   assertCssLoaded(html,sw,'tinder-mode.css');
   assert.match(sw,/tinder-mode\.js\?v=[0-9a-z_-]+/);
-  assert.match(sw,/tinder-mode\.css\?v=20261110deckfix1/);
+  assertCssLoaded(html,sw,'tinder-mode.css');
   assert.match(js,/const build=\(p,underlay=false\)/);
   assert.match(js,/cardSlot\.append\(below\)/);
   assert.doesNotMatch(js,/tdShowingNext/);
@@ -151,7 +151,7 @@ test('Tinder Mode-only directional shines, instruction hints and decision drawer
   assertAssetSynced(html,sw,'tinder-mode.js');
   assertCssLoaded(html,sw,'tinder-mode.css');
   assert.match(sw,/tinder-mode\.js\?v=[0-9a-z_-]+/);
-  assert.match(sw,/tinder-mode\.css\?v=20261110deckfix1/);
+  assertCssLoaded(html,sw,'tinder-mode.css');
   assert.match(js,/const shine=\(status\)=>/);
   assert.match(js,/tdDirectionalParticles/);
   assert.match(js,/tdSwipeHints/);
@@ -207,7 +207,7 @@ test('contextual dashboard actions and compact filters are wired to the live app
   assert.match(html,/atlas-interactions\.js\?v=20261110reset1/);
   assertCssLoaded(html,sw,'atlas-interactions.css');
   assert.match(sw,/atlas-interactions\.js\?v=20261110reset1/);
-  assert.match(sw,/atlas-interactions\.css\?v=20261110ux1/);
+  assertCssLoaded(html,sw,'atlas-interactions.css');
   assert.match(app,/sector-map\.js\?v=[0-9a-z_-]+/);
   for(const action of ['shortlist','catalogue','places','hospital','gp','matches'])
     assert(ui.includes("'"+action+"'"),'Missing dashboard action '+action);
@@ -272,7 +272,7 @@ test('professional footer stays navigation-friendly and keeps existing data tool
   assert.match(nav,/footer\.querySelectorAll\('\[data-atlas-footer-tab\]'\)/);
   assert.match(nav,/atlasSaveHelp/);
   assert.match(css,/atlasFooterBottom/);
-  assert.match(sw,/atlas-footer\.css\?v=20261113responsive1/);
+  assertCssLoaded(html,sw,'atlas-footer.css');
 });
 
 
@@ -308,7 +308,7 @@ test('premium discovery prototype is reversible and keeps the original programme
   assertAssetSynced(html,sw,'premium-discovery-preview.js');
   assertCssLoaded(html,sw,'premium-discovery-preview.css');
   assert.match(sw,/premium-discovery-preview\.js\?v=[0-9a-z_-]+/);
-  assert.match(sw,/premium-discovery-preview\.css\?v=20261111makeover5/);
+  assertCssLoaded(html,sw,'premium-discovery-preview.css');
   assert.match(js,/atlasClassic/,'Prototype has a simple off switch');
   assert.match(js,/atlasPremiumPreview/,'Prototype is scoped to its opt-in class');
   assert.match(css,/html\.atlasPremiumPreview/);
@@ -327,7 +327,7 @@ test('premium discovery prototype is reversible and keeps the original programme
 test('editorial palette prototype keeps neutral surfaces and six distinct accessible accents',()=>{
   const html=read('index.html'),pwa=read('sw.js'),css=read('premium-editorial-palettes.css');
   assertCssLoaded(html,pwa,'premium-editorial-palettes.css');
-  assert.match(pwa,/premium-editorial-palettes\.css\?v=20261111makeover5/);
+  assertCssLoaded(html,pwa,'premium-editorial-palettes.css');
   assert.match(css,/--bg:#141719/);
   assert.match(css,/--panel:#22272A/);
   assert.match(css,/--line:#373E42/);

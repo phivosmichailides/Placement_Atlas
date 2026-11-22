@@ -94,6 +94,54 @@
     const facts=card.querySelector(':scope > .atlasShortlistFacts > summary');
     if(facts&&facts.textContent!=='Rotation details')
       facts.textContent='Rotation details';
+
+    // Keep the complete labels on list/expanded views, but shorten the
+    // sponsored-visa badge in every shortlist card. Never treat unknown as No.
+    for(const badge of card.querySelectorAll(':scope > .badges > .badge')){
+      const label=badge.textContent.trim();
+      const visa=label.match(/^Skilled Worker visa:\s*(offered|not offered|not confirmed)$/i);
+      if(visa){
+        const answer=visa[1].toLowerCase()==='offered'?'Yes':visa[1].toLowerCase()==='not offered'?'No':'Unconfirmed';
+        badge.textContent='Skilled Worker Visa: '+answer;
+        badge.setAttribute('aria-label','Skilled Worker visa sponsorship: '+visa[1].toLowerCase());
+        badge.title='Sponsorship listed in the dated Oriel export: '+visa[1].toLowerCase();
+      }
+      if(/^\d+\s+training\s+places?$/i.test(label)||
+         (programme?.region&&label===String(programme.region).trim())){
+        badge.classList.add('atlasCompactSecondary');
+      }
+    }
+
+    // An unobtrusive date line replaces the full start/end panel only in a
+    // collapsed shortlist grid. The underlying date information is retained.
+    const dates=card.querySelector(':scope > .programmeDates');
+    if(dates&&!card.querySelector(':scope > .atlasCompactDate')){
+      const clean=(node,prefix)=>node?.textContent.trim().replace(prefix,'').trim()||'';
+      const start=clean(dates.querySelector('.dateStart'),/^Starts\s*/i);
+      const finish=clean(dates.querySelector('.dateEnd'),/^Est\.\s*finish\s*/i);
+      const weeks=dates.querySelector('.dateBasis')?.textContent.match(/^(\d+)\s+(weeks?)/i);
+      const concise=[start,finish?'→ '+finish:'',weeks?'('+weeks[1]+' '+weeks[2].toLowerCase()+')':''].filter(Boolean).join(' ');
+      const compact=document.createElement('div');
+      compact.className='atlasCompactDate';
+      compact.textContent=concise||'Dates not stated';
+      compact.setAttribute('aria-label','Programme dates: '+compact.textContent);
+      dates.before(compact);
+    }
+
+    // Show the programme identifier prominently, without repeating its
+    // priority explanation underneath the two large action buttons.
+    const code=String(card.dataset.id||'').split('/').pop().trim();
+    const note=card.querySelector(':scope > .decision-quick > .smallnote');
+    if(code&&note&&!card.querySelector(':scope > .decision-quick > .atlasCompactProgrammeCode')){
+      const item=document.createElement('span');
+      item.className='atlasCompactProgrammeCode';
+      item.append(document.createTextNode('Programme '));
+      const strong=document.createElement('strong');
+      strong.textContent=code;
+      item.append(strong);
+      item.setAttribute('aria-label','Programme '+code);
+      note.after(item);
+    }
   };
 
   const printRankedShortlist=()=>{

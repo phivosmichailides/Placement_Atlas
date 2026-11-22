@@ -47,6 +47,8 @@
      toggle.setAttribute('aria-label',isOpen?'Show shortened programme title':'Show original Oriel programme name');
    });
    title.append(short,raw,toggle);
+   // The real "Full name" button is now the keyboard control, so the heading itself must not claim a button role.
+   title.removeAttribute('role');title.removeAttribute('tabindex');title.removeAttribute('aria-expanded');
  };
  const refresh=()=>{
    for(const selector of ['#results .placement','#shortlistList .placement','#mapSelection .placement','#reco .reco']){

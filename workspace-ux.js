@@ -708,14 +708,20 @@
    if(title){
      const fullTitle=p.title||p.employer||'Programme';
      title.title=fullTitle+' — click or tap to expand the full title';
-     title.tabIndex=0;
-     title.setAttribute('role','button');
-     title.setAttribute('aria-label','Expand full title: '+fullTitle);
-     title.setAttribute('aria-expanded','false');
+     // A heading may only act as a button when no real button sits inside it.
+     const headingIsControl=()=>!title.querySelector('.atlasTitleExpand');
+     if(headingIsControl()){
+       title.tabIndex=0;
+       title.setAttribute('role','button');
+       title.setAttribute('aria-label','Expand full title: '+fullTitle);
+       title.setAttribute('aria-expanded','false');
+     }
      const toggleTitle=()=>{
        const isExpanded=title.classList.toggle('uxTitleExpanded');
-       title.setAttribute('aria-expanded',String(isExpanded));
-       title.setAttribute('aria-label',(isExpanded?'Collapse':'Expand')+' full title: '+fullTitle);
+       if(title.getAttribute('role')==='button'){
+         title.setAttribute('aria-expanded',String(isExpanded));
+         title.setAttribute('aria-label',(isExpanded?'Collapse':'Expand')+' full title: '+fullTitle);
+       }
        const titleControl=title.querySelector('.atlasTitleExpand');
        if(titleControl){
          titleControl.textContent=isExpanded?'Less':'Full name';

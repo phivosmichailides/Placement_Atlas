@@ -1,5 +1,5 @@
 'use strict';
-const CACHE_NAME='placement-atlas-shell-2026-11-21-v133-steady-layout';
+const CACHE_NAME='placement-atlas-shell-2026-11-21-v134-lighter-startup';
 const ROOT=new URL('./',self.registration.scope).href;
 const EXTRA_ASSETS=[
   'swipe-mode-workspace.css?v=20261121swipe-layout4',

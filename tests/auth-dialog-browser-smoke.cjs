@@ -87,6 +87,25 @@ const run=async()=>{
    assert.equal(await dialog.locator('#cloudPassword').getAttribute('type'),'password','Hide password must work');
    await page.keyboard.press('Escape');
    assert.equal(await overlay.count(),0,'Escape should close modal');
+
+   // Also exercise the *real* account button and lazy-Supabase handoff.
+   // The SDK is replaced with a harmless mock before clicking, so this makes
+   // no requests to Supabase and never creates an account.
+   await page.evaluate(()=>{
+     const fake={auth:{
+       getSession:async()=>({data:{session:null},error:null}),
+       onAuthStateChange:()=>({data:{subscription:{unsubscribe(){}}}})
+     }};
+     window.supabase={createClient:()=>fake};
+   });
+   const entry=page.locator('#orielCloudAccount .cloudAccountButton').first();
+   await entry.waitFor({state:'visible',timeout:15000});
+   assert(/sign in/i.test(await entry.innerText()),'Real account entry must be labelled Sign in');
+   await entry.click();
+   await overlay.waitFor({state:'visible',timeout:15000});
+   assert(await dialog.locator('.cloudAuthBrand').isVisible(),'Real account entry opens branded modal');
+   await dialog.locator('.cloudClose').click();
+   assert.equal(await overlay.count(),0,'Real account modal must close');
    await context.close();
   }
   // Existing theme selection must style the auth screen without changing the user's choice.

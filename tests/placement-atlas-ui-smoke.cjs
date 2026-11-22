@@ -568,7 +568,8 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   await page.locator('header.top nav.tabs [data-tab=simulator]').click();
   await page.waitForFunction(()=>document.getElementById('simulator')?.classList.contains('active'),null,{timeout:12000});
   assert.equal(await page.locator('#simulator .simColHelp').count(),3,'Simulation column explanations are missing');
-  assert((await page.locator('#simulator').innerText()).includes('You could accept a programme'));
+  assert.equal((await page.locator('#simulator [data-sim-col="neutral"] .simColHelp').textContent()).trim(),'Can accept',
+    'Simulation keeps the category explanation without repeating long visible guidance');
 
   // Swipe Mode: fresh visitors start across all regions with no filters; chosen filters remain visible.
   await page.locator('header.top nav.tabs [data-tab=tinderMode]').click();

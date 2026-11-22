@@ -1,7 +1,10 @@
 'use strict';
-const CACHE_NAME='placement-atlas-shell-2026-11-21-v131-explore-clarity';
+const CACHE_NAME='placement-atlas-shell-2026-11-21-v132-css-bundles';
 const ROOT=new URL('./',self.registration.scope).href;
 const EXTRA_ASSETS=[
+  'css-bundle-preflight.css?v=20261122bundle1','css-bundle-core.css?v=20261122bundle1',
+  'css-bundle-refinements.css?v=20261122bundle1','css-bundle-workspace-a.css?v=20261122bundle1',
+  'css-bundle-workspace-b.css?v=20261122bundle1','css-bundle-final.css?v=20261122bundle1',
   'swipe-mode-workspace.css?v=20261121swipe-layout4',
   'motion-effects.css?v=20261121nav-pill-fix1',
   'linkedin-consent.js?v=20261121b','linkedin-consent.css?v=20261120a',

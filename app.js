@@ -31,7 +31,7 @@
     };
     const loadGeneric=()=>{
       const generic=document.createElement('script');
-      generic.src='generic-public.js?v=20261120accountaudit1';
+      generic.src='generic-public.js?v=20261122mapstable1';
       generic.onload=loadSectors;
       generic.onerror=loadSectors;
       document.body.appendChild(generic);

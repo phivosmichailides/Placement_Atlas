@@ -1,0 +1,2192 @@
+/* Placement Atlas: source-order-preserving CSS bundle. Regenerate with scripts/build-css-bundles.cjs. */
+
+/* SOURCE: design-refresh.css */
+/*
+ * Oriel Placement Desk · editorial system, 6 Nov 2026
+ * All six palettes: consistent accent in light and dark modes.
+ * Semantic fit scores and neutral ivory explanation panels stay independent of palette.
+ * Loaded last so earlier layout iterations cannot reintroduce forest colours or tiny text.
+ */
+:root{
+  --ui-action-bg:#506d55;
+  --ui-action-hover:#405d46;
+  --ui-action-fg:#fff;
+  --ui-contrast:#fff;
+  --fit-ivory:#fbf7ed;
+  --fit-ivory-border:#e7deca;
+  --fit-sand:#f7f0e5;
+  --fit-sand-border:#e7d7c3;
+  --fit-ink:#3b413c;
+  --fit-heading:#685f4a;
+  --fit-green-bg:#e3f2e6;
+  --fit-green-border:#b8d7c1;
+  --fit-green-ink:#255e40;
+  --fit-green-good-bg:#e9f2e4;
+  --fit-green-good-border:#cadcbe;
+  --fit-green-good-ink:#3b6c41;
+  --fit-mixed-bg:#fbf0df;
+  --fit-mixed-border:#ead6b7;
+  --fit-mixed-ink:#885e30;
+  --fit-low-bg:#f8e8e8;
+  --fit-low-border:#e9caca;
+  --fit-low-ink:#914947;
+  --ui-inner-shadow:0 2px 6px rgba(31,33,29,.025);
+}
+/* Light palettes */
+html[data-theme="light"][data-palette="forest"]{
+  --bg:#f6f6f1;--panel:#fffefa;--ink:#28312c;--mut:#606c64;--line:#dce5d9;--soft:#eef1e9;
+  --dark:#27372b;--ux-accent:#557459;--ux-accent-ink:#385c40;
+  --ux-accent-soft:#e7efe5;--ux-accent-border:#cbdcc9;
+  --ui-action-bg:#507152;--ui-action-hover:#405f44;
+}
+html[data-theme="light"][data-palette="copper"]{
+  --bg:#f5f8fb;--panel:#fff;--ink:#233544;--mut:#607585;--line:#d8e3ed;--soft:#edf2f7;
+  --dark:#203e56;--ux-accent:#41769a;--ux-accent-ink:#2a5d80;
+  --ux-accent-soft:#e5f0f8;--ux-accent-border:#c3d9e9;
+  --ui-action-bg:#3e7198;--ui-action-hover:#315e81;
+}
+html[data-theme="light"][data-palette="mauve"]{
+  --bg:#faf7fa;--panel:#fffdfd;--ink:#382d38;--mut:#746878;--line:#e9dfe8;--soft:#f4eff4;
+  --dark:#49344c;--ux-accent:#936d91;--ux-accent-ink:#765574;
+  --ux-accent-soft:#f2e9f2;--ux-accent-border:#dfcde0;
+  --ui-action-bg:#865f85;--ui-action-hover:#714c72;
+}
+html[data-theme="light"][data-palette="amber"]{
+  --bg:#fbf8f2;--panel:#fffdf8;--ink:#3c3428;--mut:#786c5c;--line:#eae0d1;--soft:#f4eee4;
+  --dark:#59442b;--ux-accent:#aa7a3e;--ux-accent-ink:#835922;
+  --ux-accent-soft:#f8eddd;--ux-accent-border:#ead3b1;
+  --ui-action-bg:#986b36;--ui-action-hover:#815729;
+}
+html[data-theme="light"][data-palette="cocoa"]{
+  --bg:#f9f6f3;--panel:#fffdfa;--ink:#342c28;--mut:#746a62;--line:#e7dcd4;--soft:#f2ece7;
+  --dark:#493630;--ux-accent:#856453;--ux-accent-ink:#684a3b;
+  --ux-accent-soft:#f0e8e1;--ux-accent-border:#dfcfc3;
+  --ui-action-bg:#7c5949;--ui-action-hover:#634333;
+}
+html[data-theme="light"][data-palette="mono"]{
+  --bg:#f8f9f9;--panel:#fff;--ink:#272b2e;--mut:#667178;--line:#dee2e5;--soft:#f0f2f3;
+  --dark:#22292c;--ux-accent:#434f57;--ux-accent-ink:#333d43;
+  --ux-accent-soft:#e9edf0;--ux-accent-border:#cbd4da;
+  --ui-action-bg:#3d4951;--ui-action-hover:#2b343b;
+}
+/* Dark mode: every surface, hint and interaction belongs to its selected palette. */
+html[data-theme="dark"]{
+  color-scheme:dark;
+  --shadow:0 12px 35px rgba(0,0,0,.18);
+  --fit-ivory:#38352c;--fit-ivory-border:#676151;
+  --fit-sand:#40372d;--fit-sand-border:#796454;
+  --fit-ink:#f5f1e5;--fit-heading:#f0dbc0;
+  --fit-green-bg:#1d4533;--fit-green-border:#448264;--fit-green-ink:#d2f5dc;
+  --fit-green-good-bg:#2a4932;--fit-green-good-border:#578363;--fit-green-good-ink:#caefd2;
+  --fit-mixed-bg:#4b3c2a;--fit-mixed-border:#847048;--fit-mixed-ink:#f5dfb3;
+  --fit-low-bg:#503236;--fit-low-border:#8b5b60;--fit-low-ink:#f8d5d3;
+  --ui-action-fg:#f9fcff;
+}
+html[data-theme="dark"][data-palette="forest"]{
+  --bg:#161d18;--panel:#222b24;--ink:#f0f4ef;--mut:#bbc9be;--line:#445647;--soft:#2f3b32;
+  --dark:#121a14;--ux-accent:#a4c5a5;--ux-accent-ink:#d2ead4;
+  --ux-accent-soft:#334b38;--ux-accent-border:#628168;
+  --ui-action-bg:#4c7654;--ui-action-hover:#5c8a64;
+}
+html[data-theme="dark"][data-palette="copper"]{
+  --bg:#111b25;--panel:#1d2b38;--ink:#eef5fc;--mut:#b6c8d8;--line:#3c5366;--soft:#273a4b;
+  --dark:#0c1821;--ux-accent:#9cbfde;--ux-accent-ink:#d0e8fb;
+  --ux-accent-soft:#294760;--ux-accent-border:#597f9d;
+  --ui-action-bg:#396c94;--ui-action-hover:#487fa8;
+}
+html[data-theme="dark"][data-palette="mauve"]{
+  --bg:#1b1720;--panel:#2b2430;--ink:#f7eef7;--mut:#d0c0d0;--line:#57475a;--soft:#403346;
+  --dark:#16101a;--ux-accent:#d6b0d2;--ux-accent-ink:#f2d7ee;
+  --ux-accent-soft:#4f3b53;--ux-accent-border:#866d87;
+  --ui-action-bg:#79567d;--ui-action-hover:#8f6894;
+}
+html[data-theme="dark"][data-palette="amber"]{
+  --bg:#211b14;--panel:#30271e;--ink:#fcf1e1;--mut:#d9c7ac;--line:#5e4d39;--soft:#433527;
+  --dark:#1a140f;--ux-accent:#e2bc83;--ux-accent-ink:#f8e0b6;
+  --ux-accent-soft:#57412c;--ux-accent-border:#916e42;
+  --ui-action-bg:#8c6439;--ui-action-hover:#a07848;
+}
+html[data-theme="dark"][data-palette="cocoa"]{
+  --bg:#201a16;--panel:#302721;--ink:#f9f0ea;--mut:#d2c2b8;--line:#5b4b42;--soft:#43362f;
+  --dark:#16120f;--ux-accent:#d9b7a1;--ux-accent-ink:#f3d9c6;
+  --ux-accent-soft:#554033;--ux-accent-border:#8f705d;
+  --ui-action-bg:#805e4d;--ui-action-hover:#96725e;
+}
+html[data-theme="dark"][data-palette="mono"]{
+  --bg:#141619;--panel:#24282c;--ink:#f2f4f5;--mut:#c0c9ce;--line:#494f55;--soft:#363c40;
+  --dark:#0f1215;--ux-accent:#d9e0e3;--ux-accent-ink:#f5f8fa;
+  --ux-accent-soft:#414a50;--ux-accent-border:#707f87;
+  --ui-action-bg:#63717a;--ui-action-hover:#788892;
+}
+/* Keep all interactive secondary accents in their own palette too. */
+html[data-theme][data-palette]{
+  --ux-pick:var(--ux-accent-ink);
+  --ux-pick-soft:var(--ux-accent-soft);
+  --ux-pick-border:var(--ux-accent-border);
+  --ux-map-stroke:var(--ux-accent);
+  --blue:var(--ux-accent-ink);
+  --green:var(--ux-accent-ink);
+}
+html[data-theme] body{background:var(--bg)!important;color:var(--ink)!important}
+@font-face{
+  font-family:"Plus Jakarta Sans";
+  font-style:normal;
+  font-weight:200 800;
+  font-display:swap;
+  src:url("/fonts/PlusJakartaSans-VariableFont_wght.ttf") format("truetype");
+}
+html,html body,html button,html input,html select,html textarea,html .card,html .tab,html .chip,html .badge,html .simCol,html .field{
+  font-family:"Plus Jakarta Sans","Avenir Next",Avenir,Inter,ui-sans-serif,system-ui,sans-serif!important;
+}
+html body{font-size:15.5px!important;line-height:1.55!important;-webkit-font-smoothing:antialiased}
+html .shell{max-width:1680px}
+html .card,html .placement{box-shadow:var(--ui-inner-shadow)}
+html .top h1{font-size:clamp(27px,2.1vw,35px);font-weight:800!important;letter-spacing:-.05em!important}
+html .top .brand p{font-size:13.5px;line-height:1.5}
+html .eyebrow{font-size:11.5px!important;letter-spacing:.085em!important;font-weight:800!important}
+html .muted,html .smallnote{line-height:1.55}
+html .smallnote{font-size:12px!important}
+html .btn,html .chip{font-size:12.8px;font-weight:750!important}
+html .btn{min-height:36px}
+html .btn.primary,html[data-theme="dark"] .btn.primary,html[data-theme="dark"][data-palette="forest"] .btn.primary{
+  background:var(--ui-action-bg)!important;
+  border-color:var(--ui-action-bg)!important;
+  color:var(--ui-action-fg)!important;
+}
+html .btn.primary:hover,html[data-theme="dark"] .btn.primary:hover,html[data-theme="dark"][data-palette="forest"] .btn.primary:hover{
+  background:var(--ui-action-hover)!important;border-color:var(--ui-action-hover)!important;
+}
+html .btn:not(.primary):not(.danger):hover{background:var(--ux-accent-soft)!important;border-color:var(--ux-accent-border)!important;color:var(--ux-accent-ink)!important}
+html .tabs,html[data-theme="dark"] .tabs,html[data-theme="dark"][data-palette="forest"] .tabs{
+  background:var(--soft)!important;border-color:var(--line)!important;
+}
+html .tab,html[data-theme="dark"] .tab,html[data-theme="dark"][data-palette="forest"] .tab{
+  color:var(--mut)!important;font-size:12.8px;font-weight:750;
+}
+html .tab.active,html[data-theme="dark"] .tab.active,html[data-theme="dark"][data-palette="forest"] .tab.active{
+  background:var(--ux-accent-soft)!important;color:var(--ux-accent-ink)!important;
+  box-shadow:inset 0 0 0 1px var(--ux-accent-border)!important;
+}
+html .tab:hover{background:var(--ux-accent-soft)!important;color:var(--ux-accent-ink)!important}
+html .chip.on,html[data-theme="dark"] .chip.on,html[data-theme="dark"][data-palette="forest"] .chip.on{
+  background:var(--ui-action-bg)!important;border-color:var(--ui-action-bg)!important;color:var(--ui-action-fg)!important;
+}
+html .textbtn,html .more,html .uxMapLinks a,html .app-footer a{color:var(--ux-accent-ink)!important}
+html .uxDrawerLauncher,html[data-theme="dark"] .uxDrawerLauncher{
+  background:var(--ui-action-bg)!important;border-color:var(--ui-action-bg)!important;color:var(--ui-action-fg)!important;
+  font-family:inherit!important;font-weight:800!important;
+}
+html .uxDrawerLauncher:hover{background:var(--ui-action-hover)!important}
+html .btn.selected:not(.danger),html[data-theme="dark"] .btn.selected:not(.danger),html .btn.compare.on{
+  background:var(--ux-accent-soft)!important;border-color:var(--ux-accent-border)!important;color:var(--ux-accent-ink)!important;
+}
+html[data-theme="dark"] .btn.excluded,html .btn.excluded{
+  background:var(--fit-low-bg)!important;border-color:var(--fit-low-border)!important;color:var(--fit-low-ink)!important;
+}
+html .decisionPicker summary,html[data-theme="dark"] .decisionPicker summary,
+html[data-theme="dark"] .decisionPicker.decision-love summary,html[data-theme="dark"] .decisionPicker.decision-yes summary,
+html[data-theme="dark"] .decisionPicker.decision-maybe summary,html[data-theme="dark"] .decisionPicker.decision-backup summary,
+html[data-theme="dark"] .decisionPicker.decision-no summary,html[data-theme="dark"] .decisionPicker.decision-never summary{
+  background:var(--panel)!important;border-color:var(--line)!important;color:var(--ink)!important;
+}
+html .decisionPicker summary:hover,html .decisionPicker[open] summary{
+  background:var(--ux-accent-soft)!important;color:var(--ux-accent-ink)!important;
+}
+html .decisionChoices,html[data-theme="dark"] .decisionChoices{background:var(--panel)!important;border-color:var(--line)!important}
+html .decisionChoice,html[data-theme="dark"] .decisionChoice{background:var(--panel);color:var(--ink)!important}
+html .decisionChoice:hover,html .decisionChoice[aria-pressed="true"],html[data-theme="dark"] .decisionChoice[aria-pressed="true"]{
+  background:var(--ux-accent-soft)!important;border-color:var(--ux-accent-border)!important;color:var(--ux-accent-ink)!important;
+}
+html .decisionTick,html .rank-controls strong,html .simResultCode,html .simRank,html .uxBackToResults{color:var(--ux-accent-ink)!important}
+html .uxLayoutControls .btn[aria-pressed="true"],html .uxPaletteOption[aria-pressed="true"],html .uxCompactBtn[aria-pressed="true"]{
+  background:var(--ux-accent-soft)!important;border-color:var(--ux-accent-border)!important;color:var(--ux-accent-ink)!important;
+}
+html .productIntro,html[data-theme="dark"] .productIntro,html[data-theme="dark"][data-palette="forest"] .productIntro{
+  background:linear-gradient(125deg,var(--panel) 20%,var(--ux-accent-soft) 100%)!important;border-color:var(--line)!important;
+}
+html .productPrinciples>div,html[data-theme="dark"] .productPrinciples>div{
+  background:var(--panel)!important;border-color:var(--line)!important;color:var(--ink)!important;
+}
+html .productPrinciples span{color:var(--ux-accent-ink)!important}
+html .stat{padding:17px}
+html .stat .k{font-size:clamp(23px,2vw,29px);font-weight:850!important;letter-spacing:-.03em}
+html .stat .l{font-size:12.4px;color:var(--mut);font-weight:650}
+html .sectionHero h2{font-size:clamp(21px,1.8vw,26px);font-weight:800}
+html .sectionHero p{font-size:13.5px;line-height:1.6}
+html .field>span{font-size:11.5px!important;font-weight:800!important}
+html .field input,html .field select,html .field textarea,html .controls input,html .controls select{
+  background:var(--panel)!important;color:var(--ink)!important;border-color:var(--line)!important;font-size:13.5px;
+}
+html .field input:focus,html .field select:focus,html .field textarea:focus,html .controls input:focus{
+  background:var(--panel)!important;border-color:var(--ux-accent)!important;
+}
+html .field input::placeholder,html .controls input::placeholder,html input::placeholder,html textarea::placeholder{color:var(--mut);opacity:.8}
+html .uxExploreToolbar{padding:12px 15px}
+html .uxToolbarLead b{font-size:14.5px;font-weight:800}
+html .uxToolbarLead small{font-size:12px;line-height:1.5}
+html .uxExplorePager{font-size:12.5px}
+/* Placement cards: readable, genuinely designed rather than a dense administration form. */
+html .placement{padding:clamp(17px,1.6vw,22px);overflow:visible}
+html .placement h3{font-size:clamp(17px,1.28vw,20px)!important;font-weight:800!important;line-height:1.34;letter-spacing:-.025em}
+html .placement .employer{font-size:13px;font-weight:700;line-height:1.45}
+html .placement .salary{font-size:22px;font-weight:850;letter-spacing:-.035em}
+html .placement .hourly,html .uxTakeHome{font-size:11.8px;font-weight:650;line-height:1.5}
+html .placement .badges{gap:6px;margin:12px 0}
+html .placement .badge,html .placement .badges .badge{
+  font-size:11.6px!important;font-weight:700!important;line-height:1.4;
+  padding:5px 8px;
+}
+html .placement .badge.badge-hospital,html .placement .badge.badge-gp,
+html .placement .badge.badge-community,html .placement .badge.badge-industry{
+  background:var(--ux-accent-soft)!important;color:var(--ux-accent-ink)!important;border-color:var(--ux-accent-border)!important;
+}
+html .placement .badge.badge-sponsorship-warning,html .placement .badge.warn{background:var(--fit-mixed-bg)!important;color:var(--fit-mixed-ink)!important;border-color:var(--fit-mixed-border)!important}
+/* Sector tags are information, not decorative buttons. Preserve distinct meanings in every palette. */
+html[data-theme="light"] .placement .badge.badge-hospital{background:#e9f0fb!important;border-color:#cadcf2!important;color:#315d89!important}
+html[data-theme="light"] .placement .badge.badge-gp{background:#e8f3ed!important;border-color:#c7dfd0!important;color:#31654b!important}
+html[data-theme="light"] .placement .badge.badge-community{background:#f0eaf9!important;border-color:#d9cbea!important;color:#725491!important}
+html[data-theme="light"] .placement .badge.badge-industry{background:#f7eee5!important;border-color:#e9d5c3!important;color:#906442!important}
+html[data-theme="dark"] .placement .badge.badge-hospital{background:#293f56!important;border-color:#527698!important;color:#d4e8ff!important}
+html[data-theme="dark"] .placement .badge.badge-gp{background:#284537!important;border-color:#507e67!important;color:#ccebd7!important}
+html[data-theme="dark"] .placement .badge.badge-community{background:#433450!important;border-color:#765d90!important;color:#e8d8f8!important}
+html[data-theme="dark"] .placement .badge.badge-industry{background:#4e3a2b!important;border-color:#876347!important;color:#f0dfc8!important}
+
+html .placement .desc{color:var(--ink)!important;font-size:13.7px;line-height:1.68;font-weight:500}
+html .placement .decision-quick{gap:9px}
+html .placement .controls{gap:9px}
+html .programmeDates,html .placement .programmeDates{font-size:12px!important;line-height:1.55!important;padding:11px 13px!important}
+html .programmeDates .dateBasis{font-size:11.5px!important;line-height:1.48!important}
+html .programmeDates b{color:var(--ink)!important}
+html .programmeDates{background:var(--soft)!important;border-color:var(--line)!important;color:var(--mut)!important}
+/* High scores are always GREEN. These are semantic, not decorative theme accents. */
+html .placement .score[data-fit-tone="excellent"],html[data-theme="dark"] .placement .score[data-fit-tone="excellent"]{
+  background:var(--fit-green-bg)!important;color:var(--fit-green-ink)!important;border:1px solid var(--fit-green-border)!important;
+}
+html .placement .score[data-fit-tone="good"],html[data-theme="dark"] .placement .score[data-fit-tone="good"]{
+  background:var(--fit-green-good-bg)!important;color:var(--fit-green-good-ink)!important;border:1px solid var(--fit-green-good-border)!important;
+}
+html .placement .score[data-fit-tone="mixed"],html[data-theme="dark"] .placement .score[data-fit-tone="mixed"]{
+  background:var(--fit-mixed-bg)!important;color:var(--fit-mixed-ink)!important;border-color:var(--fit-mixed-border)!important;
+}
+html .placement .score[data-fit-tone="poor"],html[data-theme="dark"] .placement .score[data-fit-tone="poor"]{
+  background:var(--fit-low-bg)!important;color:var(--fit-low-ink)!important;border-color:var(--fit-low-border)!important;
+}
+html .placement .score[data-fit-tone]>*{color:inherit!important}
+html .placement .fit.fitExpanded.uxFitWithLocation{
+  display:grid!important;
+  grid-template-columns: minmax(170px,195px) minmax(260px,400px) minmax(220px,315px)!important;
+  column-gap:clamp(11px,1.1vw,18px)!important;
+  row-gap:13px!important;
+  align-items:start!important;
+  justify-content:space-between!important;
+  min-width:0!important;
+  overflow:visible!important;
+  margin:15px 0!important;
+}
+html .placement .fit.fitExpanded.uxFitWithLocation .score{
+  width:100%!important;min-width:0!important;max-width:none!important;
+  min-height:171px!important;height:auto!important;
+  padding:18px 17px!important;border-radius:16px!important;
+  display:flex!important;flex-direction:column!important;
+  align-items:flex-start!important;justify-content:center!important;text-align:left!important;
+  overflow:visible!important;
+}
+html .placement .fit.fitExpanded.uxFitWithLocation .score>span{font-size:12px!important;line-height:1.45;font-weight:850}
+html .placement .fit.fitExpanded.uxFitWithLocation .score>b{font-size:43px!important;line-height:1.12!important;letter-spacing:-.035em;font-weight:850}
+html .placement .fit.fitExpanded.uxFitWithLocation .score>small{font-size:14.5px!important;font-weight:750;line-height:1.42}
+html .placement .fit.fitExpanded.uxFitWithLocation .score>em{font-size:11.5px!important;line-height:1.5;font-weight:600}
+html .placement .fit.fitExpanded.uxFitWithLocation .fitBreakdown{
+  display:flex!important;flex-direction:column!important;
+  justify-content:center!important;align-items:center!important;
+  align-self:stretch!important;
+  gap:10px!important;width:100%!important;min-width:0!important;
+  height:auto!important;overflow:visible!important;
+}
+html .placement .fit.fitExpanded.uxFitWithLocation .fitColumn,
+html .placement .fit.fitExpanded.uxFitWithLocation .fitColumn:first-child,
+html .placement .fit.fitExpanded.uxFitWithLocation .fitColumn:last-child{
+  display:block!important;flex:0 0 auto!important;flex-shrink:0!important;
+  align-self:center!important;justify-self:center!important;
+  box-sizing:border-box!important;
+  width:100%!important;max-width:390px!important;min-width:0!important;
+  min-height:max-content!important;height:auto!important;
+  padding:14px 18px 15px!important;border-radius:14px!important;
+  text-align:center!important;overflow:visible!important;
+}
+html .placement .fit.fitExpanded.uxFitWithLocation .fitColumn.positive,
+html[data-theme="dark"] .placement .fit.fitExpanded.uxFitWithLocation .fitColumn.positive{
+  background:var(--fit-ivory)!important;border:1px solid var(--fit-ivory-border)!important;
+  color:var(--fit-ink)!important;
+}
+html .placement .fit.fitExpanded.uxFitWithLocation .fitColumn.caution,
+html[data-theme="dark"] .placement .fit.fitExpanded.uxFitWithLocation .fitColumn.caution{
+  background:var(--fit-sand)!important;border:1px solid var(--fit-sand-border)!important;
+  color:var(--fit-ink)!important;
+}
+html .placement .fit.fitExpanded.uxFitWithLocation .fitColumn .fitLabel,
+html .placement .fit.fitExpanded.uxFitWithLocation .fitColumn.caution .fitLabel,
+html[data-theme="dark"] .placement .fit.fitExpanded.uxFitWithLocation .fitColumn .fitLabel{
+  margin:0 0 7px!important;text-align:center!important;
+  font-size:13px!important;line-height:1.45!important;font-weight:850!important;
+  color:var(--fit-heading)!important;letter-spacing:.075em!important;
+}
+html .placement .fit.fitExpanded.uxFitWithLocation .fitPoint{
+  display:grid!important;grid-template-columns:12px minmax(0,1fr)!important;
+  align-items:start!important;gap:7px!important;
+  min-width:0!important;max-width:100%!important;width:100%!important;
+  margin:5px auto 0!important;
+  padding:0!important;
+  font-size:15.2px!important;line-height:1.54!important;font-weight:650!important;
+  text-align:left!important;color:var(--fit-ink)!important;
+  overflow-wrap:anywhere!important;word-break:normal!important;
+}
+html .placement .fit.fitExpanded.uxFitWithLocation .fitPoint::before{
+  content:"•"!important;display:block!important;grid-column:1!important;
+  font-size:18px!important;line-height:1.25!important;font-weight:900!important;
+  color:var(--fit-heading)!important;
+}
+html .placement .fit.fitExpanded.uxFitWithLocation .uxLocationPanel{
+  display:flex!important;flex-direction:column!important;
+  width:100%!important;min-width:0!important;max-width:315px!important;
+  align-self:stretch!important;justify-self:end!important;
+  grid-column:auto!important;
+  background:var(--soft)!important;color:var(--ink)!important;
+  border:1px solid var(--line)!important;border-radius:15px!important;
+  padding:14px!important;gap:9px!important;
+  overflow:visible!important;
+}
+html .uxLocationPanel .uxLocationTitle{font-size:11.5px!important;font-weight:850!important;color:var(--ux-accent-ink)!important}
+html .uxLocationPanel .uxSiteName{font-size:13px!important;font-weight:800!important;line-height:1.45}
+html .uxLocationPanel .uxSiteNumber{font-size:11.5px!important;color:var(--mut)!important}
+html .uxLocationPanel .uxLocationSummary{font-size:12.5px!important;font-weight:750!important;color:var(--ink)!important}
+html .uxLocationPanel .uxLocationInfo{font-size:12px!important;line-height:1.58!important}
+html .uxLocationPanel .uxMapFootnote,html .uxLocationPanel .uxMapLinks{font-size:11px!important;line-height:1.4!important}
+html .uxLocationPanel .uxMiniMap{
+  display:block!important;height:195px!important;min-height:195px!important;
+  background:var(--panel)!important;border-radius:12px!important;
+  border:1px solid var(--line)!important;overflow:hidden!important;
+}
+html .uxMiniMapSkeleton{color:var(--mut)!important;font-size:12px!important;line-height:1.5}
+html .uxCommuteAdvice{font-size:12px!important;line-height:1.5!important;background:var(--panel)!important;border-color:var(--line)!important}
+html .uxCommuteAdvice>strong{font-size:12px!important}
+html .uxCommuteSummary{font-size:12px!important}
+html .uxCommuteDetails,html .uxCommuteMeta{font-size:11px!important}
+html .uxSiteControls .uxSiteArrow{color:var(--ux-accent-ink)!important}
+html .uxSiteControls{background:var(--panel)!important;border-color:var(--line)!important}
+/* A map should be meaningful on first paint, even before remote tiles arrive. */
+html #placementMap{
+  background:linear-gradient(135deg,var(--ux-accent-soft),var(--soft))!important;
+  height:420px!important;min-height:420px!important;
+}
+@media(max-width:720px){
+  html #placementMap{height:360px!important;min-height:360px!important}
+}
+html[data-theme="dark"] .uxMapCustom,
+html[data-theme="dark"][data-palette="forest"] .uxMapCustom{
+  background:var(--ux-accent-soft)!important;
+  border-color:var(--ux-accent-border)!important;
+  color:var(--ux-accent-ink)!important;
+}
+html[data-theme="dark"] .themeToggle,
+html[data-theme="dark"] .uxLayoutBtn{
+  background:var(--panel)!important;color:var(--ink)!important;
+  border-color:var(--line)!important;
+}
+html[data-theme="dark"] .salary-value{color:var(--ux-accent-ink)!important}
+
+html .map-heading h2{font-size:clamp(20px,1.6vw,25px);font-weight:800!important}
+html .map-caption{font-size:12px!important;line-height:1.6!important;background:var(--panel)!important;color:var(--mut)!important}
+html #sectorMapLegend{background:var(--panel)!important;color:var(--ink)!important;font-size:11.6px!important}
+html .leaflet-control-zoom a,html .leaflet-control-attribution,html .leaflet-popup-content-wrapper,html .leaflet-popup-tip{
+  background:var(--panel)!important;color:var(--ink)!important;border-color:var(--line)!important;
+}
+html[data-theme="dark"] #placementMap .leaflet-tile-pane,
+html[data-theme="dark"] .uxMiniMap .leaflet-tile-pane{
+  filter:saturate(.58) brightness(.80) contrast(.92)!important;
+}
+/* Other pages inherit palette, not a fixed dark-forest skin. */
+html[data-theme="dark"] .compareTable,html[data-theme="dark"] .outcomeTable,html[data-theme="dark"] .researchTable{
+  background:var(--panel)!important;color:var(--ink)!important;
+}
+html[data-theme="dark"] .compareTable thead th,html[data-theme="dark"] .compareTable tbody th,
+html[data-theme="dark"] .outcomeTable th,html[data-theme="dark"] .researchTable th{
+  background:var(--soft)!important;color:var(--ink)!important;border-color:var(--line)!important;
+}
+html[data-theme="dark"] .compareTable td,html[data-theme="dark"] .outcomeTable td,html[data-theme="dark"] .researchTable td{border-color:var(--line)!important}
+html[data-theme="dark"] .outcomeInfo,html[data-theme="dark"] .deadlineBox,
+html[data-theme="dark"] .deadlineBox.deadlineClosed{
+  background:var(--ux-accent-soft)!important;border-color:var(--ux-accent-border)!important;color:var(--ink)!important;
+}
+html[data-theme="dark"] .deadlineValue,html[data-theme="dark"] .deadlineLabel,
+html[data-theme="dark"] .outcomeInfo a{color:var(--ux-accent-ink)!important}
+html[data-theme="dark"] .programmeDates,html[data-theme="dark"] .notice,
+html[data-theme="dark"] .uxProfileApplied,html[data-theme="dark"] .uxHomePostcodeFilter{
+  background:var(--soft)!important;border-color:var(--line)!important;color:var(--ink)!important;
+}
+html[data-theme="dark"] .onboardHomeBase{background:var(--soft)!important;border-color:var(--line)!important;color:var(--ink)!important}
+html[data-theme="dark"] .onboardCard .onboardChoice.selected{background:var(--ux-accent-soft)!important;border-color:var(--ux-accent-border)!important}
+html[data-theme="dark"] .onboardCard .onboardChoice.selected b{color:var(--ux-accent-ink)!important}
+html[data-theme="dark"] .onboardField input,html[data-theme="dark"] .onboardField select,
+html[data-theme="dark"] .cloudEmailRow input{background:var(--panel)!important;color:var(--ink)!important;border-color:var(--line)!important}
+html .simColHeading h3{font-size:18px!important;font-weight:800}
+html .simItem{background:var(--panel)!important;border-color:var(--line)!important}
+html .simItemMeta,html .simResultStatus{font-size:11.5px!important;line-height:1.5!important}
+html .simCol[data-sim-col="preferred"]{border-top-color:var(--ux-accent)!important}
+html .simCol[data-sim-col="neutral"]{border-top-color:var(--ux-accent-border)!important}
+html .simItem:hover,html .simItem.simHover{background:var(--ux-accent-soft)!important;border-color:var(--ux-accent-border)!important}
+html .simRank{background:var(--soft)!important;border-color:var(--line)!important}
+html .simSummaryBig strong:first-child{color:var(--ux-accent-ink)!important}
+html .uxPaletteOption{background:var(--panel)!important;color:var(--ink)!important;border-color:var(--line)!important}
+html .uxPaletteOption[aria-pressed="true"]{background:var(--ux-accent-soft)!important;border-color:var(--ux-accent)!important;color:var(--ux-accent-ink)!important}
+html[data-theme="dark"] .uxPaletteOption small{color:var(--mut)!important}
+/* Responsive fit panels: never let a bullet or the location map overflow. */
+@media(max-width:1210px){
+  html .placement .fit.fitExpanded.uxFitWithLocation{
+    grid-template-columns:minmax(170px,195px) minmax(250px,1fr)!important;justify-content:stretch!important;
+  }
+  html .placement .fit.fitExpanded.uxFitWithLocation .fitBreakdown{align-items:center!important}
+  html .placement .fit.fitExpanded.uxFitWithLocation .uxLocationPanel{
+    grid-column:1/-1!important;max-width:none!important;justify-self:stretch!important;
+  }
+  html .placement .fit.fitExpanded.uxFitWithLocation .uxMiniMap{height:190px!important;min-height:190px!important}
+}
+@media(max-width:710px){
+  html .placement .fit.fitExpanded.uxFitWithLocation{grid-template-columns:1fr!important;gap:10px!important}
+  html .placement .fit.fitExpanded.uxFitWithLocation .score{min-height:0!important;padding:15px 17px!important}
+  html .placement .fit.fitExpanded.uxFitWithLocation .fitBreakdown{align-items:stretch!important}
+  html .placement .fit.fitExpanded.uxFitWithLocation .fitColumn{max-width:none!important;width:100%!important}
+  html .placement .fit.fitExpanded.uxFitWithLocation .uxLocationPanel{grid-column:1!important}
+  html .placement h3{font-size:17px!important}
+  html .placement .salary{font-size:19px}
+  html .placement .fit.fitExpanded.uxFitWithLocation .fitPoint{font-size:14.5px!important}
+  html .placement .badges .badge{font-size:11.5px!important}
+}
+/* Compact Grid keeps its purpose: details/maps are revealed only after expanding. */
+html[data-layout="grid"] .placement:not(.uxExpanded) .fit,
+html[data-layout="grid"] .placement:not(.uxExpanded) .uxLocationPanel{display:none!important}
+html[data-layout="grid"] .placement.uxExpanded .fit.fitExpanded.uxFitWithLocation{
+  display:grid!important;grid-template-columns:1fr!important;
+}
+html[data-layout="grid"] .placement.uxExpanded .fit.fitExpanded.uxFitWithLocation .uxLocationPanel{
+  display:flex!important;grid-column:1!important;max-width:100%!important;
+}
+html[data-layout="grid"] .placement.uxExpanded .fit.fitExpanded.uxFitWithLocation .fitColumn{
+  max-width:100%!important;flex:0 0 auto!important;
+}
+html[data-layout="grid"] .placement.uxExpanded .fit.fitExpanded.uxFitWithLocation .fitPoint{
+  font-size:13.5px!important;
+}
+
+
+/* 06 Nov repair: tightly grouped, identical four-section card architecture.
+   These follow all legacy media rules so list and grid cannot disagree. */
+html .placement .fit.fitExpanded.uxFitWithLocation{
+  grid-template-columns:minmax(166px,195px) minmax(278px,380px) minmax(252px,340px)!important;
+  justify-content:start!important;align-items:start!important;
+  gap:12px!important;
+}
+html .placement .fit.fitExpanded.uxFitWithLocation .score{
+  min-height:174px!important;align-self:start!important;justify-self:start!important;
+}
+html .placement .fit.fitExpanded.uxFitWithLocation .fitBreakdown{
+  max-width:380px!important;
+  align-self:start!important;align-items:stretch!important;
+  justify-content:flex-start!important;
+}
+html .placement .fit.fitExpanded.uxFitWithLocation .fitColumn,
+html .placement .fit.fitExpanded.uxFitWithLocation .fitColumn:first-child,
+html .placement .fit.fitExpanded.uxFitWithLocation .fitColumn:last-child{
+  max-width:100%!important;width:100%!important;
+  align-self:stretch!important;
+}
+html .placement .fit.fitExpanded.uxFitWithLocation .uxLocationPanel{
+  grid-column:auto!important;max-width:340px!important;
+  justify-self:start!important;align-self:start!important;
+}
+html .placement .uxLocationPanel .uxMiniMap,
+html .placement .uxMiniMap{
+  min-height:170px!important;height:170px!important;
+}
+html .placement .uxLocationFallback{min-height:174px}
+html .placement .uxLocationPanel .uxMapLinks{
+  display:flex!important;flex-wrap:wrap!important;gap:7px 14px!important;
+}
+html .placement .uxLocationPanel .uxMapLinks a{
+  font-size:12px!important;line-height:1.5!important;
+  overflow-wrap:anywhere!important;
+}
+html .placement .uxLocationPanel .uxSiteBar{gap:9px}
+html .placement .uxLocationPanel .uxSiteControls .uxSiteArrow{min-width:34px;min-height:34px}
+/* Make compressed date bars in the compact four-column grid actually readable. */
+html[data-layout="grid"] .placement .programmeDates{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  grid-template-rows:auto auto!important;
+  align-items:start!important;
+  gap:9px 10px!important;
+  padding:12px 11px!important;
+}
+html[data-layout="grid"] .placement .programmeDates .dateStart{
+  display:block!important;grid-column:1!important;grid-row:1!important;
+  justify-self:start!important;text-align:left!important;
+  font-size:11.6px!important;line-height:1.55!important;
+  overflow-wrap:normal!important;
+}
+html[data-layout="grid"] .placement .programmeDates .dateEnd{
+  display:block!important;grid-column:2!important;grid-row:1!important;
+  justify-self:end!important;text-align:right!important;
+  font-size:11.6px!important;line-height:1.55!important;
+  overflow-wrap:normal!important;
+}
+html[data-layout="grid"] .placement .programmeDates .dateStart b,
+html[data-layout="grid"] .placement .programmeDates .dateEnd b{
+  display:block!important;font-size:11px!important;line-height:1.5!important;
+  white-space:nowrap!important;margin-bottom:2px!important;
+}
+html[data-layout="grid"] .placement .programmeDates .dateDivider{display:none!important}
+html[data-layout="grid"] .placement .programmeDates .dateBasis{
+  grid-column:1/-1!important;grid-row:2!important;
+  font-size:11.3px!important;line-height:1.5!important;
+  margin:0!important;padding-top:8px!important;
+  overflow-wrap:normal!important;
+}
+/* Full programme names expand on hover, tap or keyboard activation. */
+html[data-layout="grid"] .placement .placementTop h3{
+  display:-webkit-box!important;
+  -webkit-box-orient:vertical!important;
+  -webkit-line-clamp:4!important;
+  line-clamp:4!important;
+  overflow:hidden!important;
+  overflow-wrap:anywhere!important;
+  font-size:15.5px!important;line-height:1.38!important;
+  cursor:pointer!important;
+}
+html[data-layout="grid"] .placement .placementTop h3:hover,
+html[data-layout="grid"] .placement .placementTop h3:focus-visible,
+html[data-layout="grid"] .placement .placementTop h3.uxTitleExpanded{
+  display:block!important;-webkit-line-clamp:unset!important;
+  line-clamp:unset!important;overflow:visible!important;
+}
+html[data-layout="grid"] .placement .placementTop h3:focus-visible{
+  outline:2px solid var(--ux-accent)!important;outline-offset:3px;
+}
+html[data-layout="list"] .placement .placementTop h3{cursor:default!important}
+/* Even on a medium screen prefer adjacent score + reasons, with location beneath,
+   rather than oddly separated columns or clipped links. */
+@media(max-width:1080px){
+  html .placement .fit.fitExpanded.uxFitWithLocation{
+    grid-template-columns:minmax(160px,195px) minmax(255px,1fr)!important;
+    justify-content:start!important;
+  }
+  html .placement .fit.fitExpanded.uxFitWithLocation .fitBreakdown{max-width:380px!important}
+  html .placement .fit.fitExpanded.uxFitWithLocation .uxLocationPanel{
+    grid-column:1/-1!important;
+    width:min(100%,585px)!important;max-width:585px!important;
+    justify-self:start!important;
+  }
+}
+@media(max-width:690px){
+  html .placement .fit.fitExpanded.uxFitWithLocation{
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+  html .placement .fit.fitExpanded.uxFitWithLocation .score{
+    min-height:0!important;
+  }
+  html .placement .fit.fitExpanded.uxFitWithLocation .fitBreakdown{
+    max-width:none!important;width:100%!important;
+  }
+  html .placement .fit.fitExpanded.uxFitWithLocation .uxLocationPanel{
+    grid-column:1!important;width:100%!important;max-width:none!important;
+  }
+}
+/* Grid mode stays compact until someone opens details. */
+html[data-layout="grid"] .placement:not(.uxExpanded) .uxLocationPanel,
+html[data-layout="grid"] .placement:not(.uxExpanded) .fit{display:none!important}
+html[data-layout="grid"] .placement.uxExpanded .fit.fitExpanded.uxFitWithLocation{
+  display:grid!important;grid-template-columns:minmax(0,1fr)!important;
+}
+html[data-layout="grid"] .placement.uxExpanded .fit.fitExpanded.uxFitWithLocation .uxLocationPanel{
+  display:flex!important;grid-column:1!important;width:100%!important;max-width:none!important;
+}
+
+
+/* 07 Nov final card proportions: reference layout, slightly wider Personal Fit.
+   One integrated three-column row uses the whole available card width.
+   Semantic colours, cards and directions remain unchanged. */
+html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation{
+  width:100%!important;
+  grid-template-columns:minmax(144px,165px) minmax(0,1fr) minmax(285px,325px)!important;
+  gap:12px!important;
+  align-items:stretch!important;
+  justify-content:stretch!important;
+  margin:14px 0 15px!important;
+}
+html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation .score{
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  align-self:stretch!important;
+  justify-self:stretch!important;
+  min-height:200px!important;
+  height:auto!important;
+  padding:18px 15px!important;
+  justify-content:center!important;
+}
+html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation .fitBreakdown{
+  width:100%!important;
+  max-width:none!important;
+  min-width:0!important;
+  height:100%!important;
+  align-self:stretch!important;
+  justify-self:stretch!important;
+  justify-content:stretch!important;
+  align-items:stretch!important;
+  gap:10px!important;
+}
+html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation .fitColumn,
+html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation .fitColumn:first-child,
+html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation .fitColumn:last-child{
+  width:100%!important;max-width:none!important;min-width:0!important;
+  min-height:115px!important;
+  flex:1 1 auto!important;
+  align-self:stretch!important;
+  padding:13px 15px!important;
+}
+html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation .fitColumn .fitLabel{
+  text-align:left!important;
+  font-size:12.8px!important;
+}
+html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation .uxLocationPanel{
+  width:100%!important;
+  max-width:none!important;
+  min-width:0!important;
+  height:100%!important;
+  grid-column:3!important;
+  align-self:stretch!important;
+  justify-self:stretch!important;
+}
+html .placement .uxLocationPanel .uxMiniMap{
+  min-height:175px!important;
+  height:175px!important;
+}
+html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation .fitPoint{
+  text-align:left!important;
+}
+@media(max-width:1080px){
+  html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation{
+    grid-template-columns:minmax(144px,165px) minmax(0,1fr)!important;
+  }
+  html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation .uxLocationPanel{
+    grid-column:1/-1!important;
+    width:100%!important;
+    max-width:none!important;
+    height:auto!important;
+  }
+}
+@media(max-width:690px){
+  html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation{
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+  html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation .score{
+    min-height:0!important;
+    padding:16px!important;
+  }
+  html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation .fitBreakdown{
+    height:auto!important;
+  }
+  html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation .uxLocationPanel{
+    grid-column:1!important;
+    height:auto!important;
+  }
+}
+
+
+/* Readable compact card and map captions — Nov 6 final refinement.
+   Bigger type; no artificially stretched empty pros/cons panels. */
+html[data-layout="list"] .placement{
+  padding:17px 19px!important;
+}
+html[data-layout="list"] .placement .placementTop h3{
+  font-size:clamp(20px,1.55vw,24px)!important;
+  line-height:1.30!important;
+  letter-spacing:-.024em!important;
+  font-weight:850!important;
+}
+html[data-layout="list"] .placement .eyebrow{
+  font-size:12.5px!important;
+  font-weight:800!important;
+}
+html[data-layout="list"] .placement .employer{
+  font-size:15px!important;
+  line-height:1.5!important;
+}
+html[data-layout="list"] .placement .salary{
+  font-size:24px!important;
+}
+html[data-layout="list"] .placement .hourly{
+  font-size:13px!important;
+}
+html[data-layout="list"] .placement .badges{
+  margin:9px 0 10px!important;
+  gap:6px!important;
+}
+html[data-layout="list"] .placement .badges .badge{
+  font-size:12.4px!important;
+  padding:5px 9px!important;
+  font-weight:700!important;
+}
+html[data-layout="list"] .placement .desc{
+  font-size:15px!important;
+  line-height:1.58!important;
+  margin:9px 0!important;
+}
+html[data-layout="list"] .placement .programmeDates{
+  font-size:13.5px!important;
+  padding:10px 12px!important;
+  line-height:1.45!important;
+}
+html[data-layout="list"] .placement .programmeDates .dateBasis{
+  font-size:12.5px!important;
+}
+html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation{
+  grid-template-columns:minmax(165px,180px) minmax(225px,1fr) minmax(275px,37%)!important;
+  gap:12px!important;
+  align-items:start!important;
+  margin:12px 0!important;
+}
+html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation .score{
+  align-self:start!important;
+  height:auto!important;
+  min-height:184px!important;
+  padding:17px!important;
+}
+html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation .fitBreakdown{
+  height:auto!important;max-width:none!important;
+  align-self:start!important;
+  justify-content:flex-start!important;
+  gap:9px!important;
+}
+html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation .fitColumn,
+html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation .fitColumn:first-child,
+html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation .fitColumn:last-child{
+  min-height:0!important;
+  height:auto!important;
+  flex:0 0 auto!important;
+  padding:11px 14px 12px!important;
+  border-radius:13px!important;
+}
+html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation .fitColumn .fitLabel{
+  font-size:14px!important;
+  line-height:1.4!important;
+  margin:0 0 6px!important;
+  font-weight:850!important;
+}
+html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation .fitPoint{
+  font-size:16.2px!important;
+  line-height:1.43!important;
+  font-weight:650!important;
+  grid-template-columns:12px minmax(0,1fr)!important;
+  gap:9px!important;
+  margin:5px 0!important;
+  overflow-wrap:break-word!important;
+}
+html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation .fitPoint::before{
+  font-size:20px!important;
+  line-height:1.1!important;
+}
+html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation .uxLocationPanel{
+  align-self:start!important;
+  height:auto!important;
+  min-width:0!important;
+  padding:13px 14px!important;
+  gap:7px!important;
+  border-radius:14px!important;
+}
+html .placement .uxLocationPanel .uxLocationTitle{
+  font-size:12.6px!important;
+}
+html .placement .uxLocationPanel .uxSiteName{
+  font-size:15.5px!important;
+  line-height:1.35!important;
+}
+html .placement .uxLocationPanel .uxSiteNumber{
+  font-size:12.5px!important;
+}
+html .placement .uxLocationPanel .uxLocationSummary{
+  font-size:14px!important;
+  line-height:1.35!important;
+}
+html .placement .uxLocationPanel .uxMiniMap{
+  min-height:185px!important;
+  height:185px!important;
+  margin:3px 0!important;
+  border-radius:11px!important;
+}
+html .placement .uxLocationCaption{
+  display:-webkit-box!important;
+  -webkit-box-orient:vertical!important;
+  -webkit-line-clamp:3!important;
+  line-clamp:3!important;
+  overflow:hidden!important;
+  font-size:15.1px!important;
+  line-height:1.47!important;
+  color:var(--ink)!important;
+  font-weight:650!important;
+  overflow-wrap:break-word;
+}
+html .placement .uxLocationMore{
+  font-size:14.2px!important;
+  line-height:1.48!important;
+  border-top:1px solid var(--line)!important;
+  padding-top:5px!important;
+}
+html .placement .uxLocationMore>summary{
+  display:list-item!important;
+  cursor:pointer!important;
+  font-size:13.4px!important;
+  font-weight:800!important;
+  line-height:1.5!important;
+  color:var(--ux-accent-ink)!important;
+  padding:2px 0!important;
+}
+html .placement .uxLocationMore[open]{
+  padding-bottom:5px!important;
+}
+html .placement .uxLocationMore .uxLocationInfo{
+  font-size:14px!important;
+  line-height:1.48!important;
+  padding:7px 0 3px!important;
+  color:var(--ink)!important;
+}
+html .placement .uxLocationMore .uxMapFootnote{
+  font-size:12.5px!important;
+  line-height:1.4!important;
+}
+html .placement .uxLocationMore .uxCommuteAdvice{
+  font-size:13.2px!important;
+}
+html .placement .uxLocationPanel .uxMapLinks{
+  gap:5px 12px!important;
+}
+html .placement .uxLocationPanel .uxMapLinks a{
+  font-size:13.4px!important;
+  line-height:1.4!important;
+  font-weight:750!important;
+}
+html .placement .uxLocationPanel .uxSiteArrow{
+  min-width:36px!important;
+  min-height:35px!important;
+  font-size:18px!important;
+}
+/* Keep generous columns whenever the full-width card has room. */
+@media(min-width:901px) and (max-width:1080px){
+  html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation{
+    grid-template-columns:minmax(155px,180px) minmax(225px,1fr) minmax(275px,37%)!important;
+  }
+  html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation .uxLocationPanel{
+    grid-column:3!important;
+  }
+}
+@media(max-width:900px) and (min-width:701px){
+  html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation{
+    grid-template-columns:minmax(155px,185px) minmax(0,1fr)!important;
+  }
+  html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation .uxLocationPanel{
+    grid-column:1/-1!important;
+    width:100%!important;
+  }
+}
+@media(max-width:700px){
+  html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation{
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+  html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation .uxLocationPanel{
+    grid-column:1!important;
+  }
+  html[data-layout="list"] .placement .fit.fitExpanded.uxFitWithLocation .fitPoint{
+    font-size:16px!important;
+  }
+}
+
+
+/* WebGL Leaflet map seam and zoom protections:
+   Never apply the old tile-pane CSS filters to a vector canvas.
+   Keep a neutral map background and a low-saturation backup underneath
+   any WebGL repaint, including dark/light palette transitions. */
+html #placementMap,
+html .placement .uxMiniMap{
+  background:#eef1ec!important;
+  isolation:isolate!important;
+}
+html[data-theme="dark"] #placementMap,
+html[data-theme="dark"] .placement .uxMiniMap{
+  background:#232c30!important;
+}
+html #placementMap[data-basemap^="vector"] .leaflet-tile-pane,
+html .uxMiniMap[data-basemap^="vector"] .leaflet-tile-pane,
+html[data-theme="dark"] #placementMap[data-basemap^="vector"] .leaflet-tile-pane,
+html[data-theme="dark"] .uxMiniMap[data-basemap^="vector"] .leaflet-tile-pane{
+  filter:none!important;
+  opacity:1!important;
+}
+html #placementMap .leaflet-layer.oriel-map-backup,
+html .uxMiniMap .leaflet-layer.oriel-map-backup{
+  filter:saturate(.35) contrast(.95) brightness(1.05)!important;
+}
+html[data-theme="dark"] #placementMap .leaflet-layer.oriel-map-backup,
+html[data-theme="dark"] .uxMiniMap .leaflet-layer.oriel-map-backup{
+  filter:saturate(.4) brightness(.6) contrast(.86)!important;
+}
+html #placementMap .maplibregl-canvas,
+html .uxMiniMap .maplibregl-canvas{
+  background-color:transparent!important;
+  filter:none!important;
+  -webkit-filter:none!important;
+  backface-visibility:hidden!important;
+  transform:translateZ(0);
+}
+html #placementMap .maplibregl-canvas-container,
+html .uxMiniMap .maplibregl-canvas-container{
+  background-color:transparent!important;
+}
+
+
+/* Soft fallback street map for browsers without WebGL:
+   keep a readable, restrained editorial basemap instead of full-saturation
+   default road tiles; key-free OpenStreetMap remains the underlying source. */
+html[data-theme="light"] #placementMap[data-basemap="raster-fallback"] .leaflet-tile-pane,
+html[data-theme="light"] .uxMiniMap[data-basemap="raster-fallback"] .leaflet-tile-pane{
+  filter:saturate(.46) contrast(.97) brightness(1.055)!important;
+}
+html[data-theme="dark"] #placementMap[data-basemap="raster-fallback"] .leaflet-tile-pane,
+html[data-theme="dark"] .uxMiniMap[data-basemap="raster-fallback"] .leaflet-tile-pane{
+  filter:saturate(.38) brightness(.68) contrast(.91)!important;
+}
+html #placementMap[data-basemap="osm-fallback"] .leaflet-tile-pane,
+html .uxMiniMap[data-basemap="osm-fallback"] .leaflet-tile-pane{
+  opacity:1!important;visibility:visible!important;
+  filter:saturate(.38) contrast(.96) brightness(1.055)!important;
+}
+html[data-theme="dark"] #placementMap[data-basemap="osm-fallback"] .leaflet-tile-pane,
+html[data-theme="dark"] .uxMiniMap[data-basemap="osm-fallback"] .leaflet-tile-pane{
+  opacity:1!important;visibility:visible!important;
+  filter:saturate(.3) brightness(.68) contrast(.91)!important;
+}
+html #placementMap[data-basemap="osm-fallback"] .leaflet-tile,
+html .uxMiniMap[data-basemap="osm-fallback"] .leaflet-tile{
+  opacity:1!important;visibility:visible!important;
+}
+
+
+/* General vs personalised commute status in each programme map. */
+html .placement .uxCommutePersonalisation{
+  display:block;
+  padding:8px 10px;
+  margin-top:1px;
+  border-radius:9px;
+  background:var(--ux-accent-soft);
+  border:1px solid var(--ux-accent-border);
+  color:var(--ux-accent-ink);
+  font-size:13.4px;
+  line-height:1.45;
+  font-weight:650;
+}
+html .placement .uxLocationCaption[data-commute-tone="general"]{
+  color:var(--ink)!important;
+}
+html .placement .uxLocationCaption[data-commute-tone="good"]{
+  color:var(--fit-green-ink)!important;
+}
+html .placement .uxLocationCaption[data-commute-tone="bad"]{
+  color:var(--fit-low-ink)!important;
+}
+
+
+
+/* SOURCE: programme-preview.css */
+/* Shared in-page preview for simulation and shortlist. */
+.progPeekOverlay{
+  position:fixed;inset:0;z-index:9500;display:grid;place-items:center;
+  padding:18px;background:rgba(16,20,27,.58);backdrop-filter:blur(6px);
+}
+.progPeekDialog{
+  position:relative;width:min(630px,100%);max-height:min(88vh,850px);
+  overflow-y:auto;padding:25px;border-radius:20px;
+  color:var(--ink);background:var(--panel);border:1px solid var(--line);
+  box-shadow:0 26px 90px rgba(0,0,0,.30);outline:none;
+}
+.progPeekClose{
+  position:absolute;top:14px;right:14px;width:35px;height:35px;border-radius:50%;
+  border:1px solid var(--line);background:var(--soft);color:var(--ink);
+  font-size:23px;cursor:pointer;
+}
+.progPeekEyebrow{font-size:11px;letter-spacing:.11em;font-weight:850;color:var(--ux-accent-ink)}
+.progPeekTitle{font-size:clamp(21px,2.1vw,27px);line-height:1.3;letter-spacing:-.03em;max-width:90%;margin:6px 0 5px}
+.progPeekSub{font-size:13px;color:var(--mut);line-height:1.5;margin-bottom:18px}
+.progPeekGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:20px}
+.progPeekStat{border:1px solid var(--line);border-radius:12px;background:var(--soft);padding:12px 14px;min-width:0}
+.progPeekLabel{display:block;color:var(--mut);font-size:11.5px;font-weight:750;margin-bottom:4px}
+.progPeekValue{display:block;font-size:19px;line-height:1.35;letter-spacing:-.02em;overflow-wrap:break-word}
+.progPeekSection h3{font-size:13.5px;letter-spacing:.02em;margin:13px 0 8px}
+.progPeekSettings{display:flex;flex-wrap:wrap;gap:6px}
+.progPeekSetting{font-size:13px;font-weight:700;padding:7px 10px;border-radius:9px;border:1px solid var(--ux-accent-border);background:var(--ux-accent-soft);color:var(--ux-accent-ink)}
+.progPeekSite{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--line);font-weight:700;font-size:13px}
+.progPeekSite a{color:var(--ux-accent-ink);white-space:nowrap;font-size:12px}
+.progPeekFoot,.progPeekMuted{font-size:12px;line-height:1.55;color:var(--mut)}
+.progPeekFoot{padding-top:12px;border-top:1px solid var(--line)}
+#shortlistList .placement .placementTop h3,
+.simItemNameButton{cursor:pointer}
+#shortlistList .placement .placementTop h3:hover,
+.simItemNameButton:hover{color:var(--ux-accent-ink)}
+.simItemNameButton{
+  display:block;text-align:left;width:100%;border:none;background:transparent;
+  color:var(--ink);padding:0;margin:0;font:800 13.5px/1.4 "Plus Jakarta Sans",sans-serif;
+  overflow-wrap:anywhere;
+}
+.simItemNameButton:focus-visible,#shortlistList .placement .placementTop h3:focus-visible{
+  outline:2px solid var(--ux-accent);outline-offset:3px;border-radius:4px;
+}
+@media(max-width:640px){.progPeekDialog{padding:20px 16px}.progPeekGrid{gap:7px}.progPeekStat{padding:10px}.progPeekValue{font-size:16px}.progPeekSite{flex-wrap:wrap}}
+
+
+/* SOURCE: controls-refinement.css */
+/* Always-accessible filters and result sorting without leaving Explore. */
+#uxExploreToolbar{
+  display:flex;flex-wrap:wrap;align-items:center;
+  gap:9px 11px;
+}
+#uxToolbarFilters{
+  white-space:nowrap;flex:0 0 auto;
+  border-color:var(--ux-accent-border);color:var(--ux-accent-ink);
+}
+.uxResultsSortControl{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:12.5px;font-weight:800;color:var(--mut);
+  white-space:nowrap;
+}
+#uxResultsSort{
+  min-width:155px;max-width:200px;padding:8px 11px;
+  border:1px solid var(--line);border-radius:9px;
+  background:var(--panel);color:var(--ink);
+  font:750 12.5px/1.4 "Plus Jakarta Sans",sans-serif;
+}
+#uxResultsSort:focus-visible,#uxToolbarFilters:focus-visible,#uxHideExcludedBtn:focus-visible{
+  outline:2px solid var(--ux-accent);outline-offset:3px;
+}
+#uxHideExcludedBtn[aria-pressed="true"]{
+  border-color:var(--ux-accent-border);color:var(--ux-accent-ink);
+  background:var(--ux-accent-soft);
+}
+#uxExploreToolbar .uxToolbarLead{flex:1 1 190px}
+.uxLocationCaption[data-commute-tone="good"]{
+  border-left:3px solid var(--fit-green-border)!important;
+  padding-left:9px!important;
+}
+.uxLocationCaption[data-commute-tone="bad"]{
+  border-left:3px solid var(--fit-low-border)!important;
+  padding-left:9px!important;
+}
+.uxLocationCaption[data-commute-tone="loading"],
+.uxLocationCaption[data-commute-tone="unknown"]{
+  border-left:3px solid var(--line)!important;padding-left:9px!important;
+}
+@media(max-width:850px){
+  #uxExploreToolbar .uxToolbarLead{flex-basis:100%}
+  #uxResultsSort{min-width:135px}
+}
+@media(max-width:600px){
+  .uxResultsSortControl{flex:1;justify-content:space-between}
+  #uxResultsSort{max-width:none;min-width:0}
+}
+
+
+/* SOURCE: preferences-ui.css */
+/* Modern discrete preference weights. Same underlying 0–5 values; no new
+   colour tokens: selected states follow every existing palette and theme. */
+#prefs #weights{
+  display:grid;
+  gap:10px;
+  margin-top:16px;
+}
+#prefs #weights .weightGuide{
+  font-size:12px;
+  color:var(--mut);
+  margin:0 0 4px;
+  font-weight:650;
+}
+#prefs #weights .weight.weightModern{
+  display:grid;
+  grid-template-columns:minmax(155px,225px) minmax(0,1fr);
+  align-items:center;
+  gap:14px;
+  margin:0;
+  padding:12px 13px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background:var(--soft);
+}
+#prefs #weights .weightModern>b{
+  min-width:0;
+  font-size:13.5px;
+  font-weight:750;
+  color:var(--ink);
+  line-height:1.4;
+}
+#prefs #weights .weightScale{
+  min-width:0;
+  width:100%;
+  display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  gap:5px;
+}
+#prefs #weights .weightStep{
+  display:grid;
+  place-items:center;
+  min-width:0;
+  min-height:39px;
+  border-radius:10px;
+  border:1px solid var(--line);
+  background:var(--panel);
+  color:var(--mut);
+  font:750 13px/1 "Plus Jakarta Sans",Inter,sans-serif;
+  cursor:pointer;
+  padding:0;
+  transition:background-color .14s,border-color .14s,box-shadow .14s;
+}
+#prefs #weights .weightStep:hover{
+  color:var(--ux-accent-ink);
+  background:var(--ux-accent-soft);
+  border-color:var(--ux-accent-border);
+}
+#prefs #weights .weightStep[aria-pressed="true"],
+#prefs #weights .weightStep[aria-pressed="true"]:hover{
+  background:var(--ux-accent);
+  border-color:var(--ux-accent);
+  color:var(--panel);
+  box-shadow:0 2px 8px #0002;
+}
+html[data-theme="dark"] #prefs #weights .weightStep[aria-pressed="true"],
+html[data-theme="dark"] #prefs #weights .weightStep[aria-pressed="true"]:hover{
+  color:var(--bg);
+}
+#prefs #weights .weightStep:focus-visible{
+  outline:2px solid var(--ux-accent);
+  outline-offset:3px;
+}
+#prefs #weights .weightModern .weightNative,
+#prefs #weights .weightModern .weightLegacyValue{
+  display:none!important;
+}
+@media(max-width:1050px){
+  #prefs #weights .weight.weightModern{
+    grid-template-columns:minmax(0,1fr);
+    gap:9px;
+  }
+}
+@media(max-width:480px){
+  #prefs #weights .weight.weightModern{padding:11px}
+  #prefs #weights .weightScale{gap:4px}
+  #prefs #weights .weightStep{min-height:40px}
+}
+@media(prefers-reduced-motion:reduce){
+  #prefs #weights .weightStep{transition:none}
+}
+
+/* One soft selection bubble glides between discrete values. */
+#prefs #weights .weightScale{position:relative;isolation:isolate}
+#prefs #weights .weightSelectionBubble{
+  position:absolute;
+  z-index:0;
+  left:0;
+  top:0;
+  height:100%;
+  border-radius:10px;
+  border:1px solid var(--ux-accent);
+  background:var(--ux-accent);
+  box-shadow:0 3px 10px #0002;
+  transform:translate3d(0,0,0);
+  transition:transform .27s cubic-bezier(.22,1,.36,1),width .2s ease;
+  pointer-events:none;
+}
+#prefs #weights .weightStep{
+  position:relative;
+  z-index:1;
+}
+#prefs #weights .weightStep[aria-pressed="true"],
+#prefs #weights .weightStep[aria-pressed="true"]:hover{
+  background:transparent!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+}
+@media(prefers-reduced-motion:reduce){
+ #prefs #weights .weightSelectionBubble{transition:none!important}
+}
+
+/* Smooth 0–5 refinement sliders. They update the original scoring inputs. */
+#prefs #weights .weight.weightModern{
+ display:grid;grid-template-columns:minmax(155px,215px) minmax(0,1fr);
+ align-items:center;gap:13px;margin:0;padding:11px 13px;
+ border:1px solid var(--line);border-radius:13px;background:var(--soft);
+}
+#prefs #weights .weightModern>b{font-size:13px;line-height:1.35;color:var(--ink);font-weight:730}
+#prefs #weights .weightSliderWrap{min-width:0;display:grid;gap:5px}
+#prefs #weights .weightSliderLine{display:grid;grid-template-columns:minmax(0,1fr) 30px;align-items:center;gap:10px}
+#prefs #weights .weightSlider{
+ --weight-fill:50%;
+ appearance:none;-webkit-appearance:none;width:100%;height:6px;
+ border:0;border-radius:99px;outline:0;cursor:pointer;
+ background:linear-gradient(to right,var(--ux-accent) 0%,var(--ux-accent) var(--weight-fill),var(--line) var(--weight-fill),var(--line) 100%);
+}
+#prefs #weights .weightSlider::-webkit-slider-thumb{
+ appearance:none;-webkit-appearance:none;width:19px;height:19px;border-radius:50%;
+ background:var(--panel);border:2px solid var(--ux-accent);
+ box-shadow:0 1px 4px #0002;transition:transform .12s ease,box-shadow .12s ease;
+}
+#prefs #weights .weightSlider::-moz-range-thumb{
+ width:15px;height:15px;border-radius:50%;background:var(--panel);
+ border:2px solid var(--ux-accent);box-shadow:0 1px 4px #0002;
+}
+#prefs #weights .weightSlider:active::-webkit-slider-thumb{transform:scale(1.12)}
+#prefs #weights .weightSlider:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 4px var(--ux-accent-soft)}
+#prefs #weights .weightSlider:focus-visible::-moz-range-thumb{box-shadow:0 0 0 4px var(--ux-accent-soft)}
+#prefs #weights .weightSliderValue{
+ display:grid;place-items:center;min-width:28px;height:27px;border-radius:8px;
+ background:var(--ux-accent-soft);color:var(--ux-accent-ink);
+ font-size:12px;font-weight:800;font-variant-numeric:tabular-nums;
+}
+#prefs #weights .weightSliderEnds{
+ display:flex;justify-content:space-between;color:var(--mut);
+ font-size:10px;line-height:1.3;
+}
+#prefs #weights .weightModern .weightNative,
+#prefs #weights .weightModern .weightLegacyValue,
+#prefs #weights .weightModern .weightScale{display:none!important}
+@media(max-width:700px){
+ #prefs #weights .weight.weightModern{grid-template-columns:minmax(0,1fr);gap:8px}
+}
+@media(prefers-reduced-motion:reduce){
+ #prefs #weights .weightSlider::-webkit-slider-thumb{transition:none}
+}
+
+
+/* SOURCE: location-blacklist.css */
+/* Placement Atlas site-based location exclusions. Palette-aware; no blue hardcoding. */
+.geoLegacyAvoid{display:none!important}
+.geoBlacklistPane{min-width:0;margin:14px 0 18px}
+.geoSearchLabel{display:block;font-size:12px;font-weight:850;letter-spacing:.05em;text-transform:uppercase;color:var(--ink);margin-bottom:8px}
+.geoSearchLabel span{font-size:10px;font-weight:650;text-transform:none;color:var(--mut);letter-spacing:normal}
+.geoSearchHolder{position:relative;z-index:4}
+.geoInputRow{display:flex;gap:9px;align-items:center}
+.geoInputRow input{min-width:0;flex:1;padding:12px 13px;min-height:43px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink);font:inherit}
+.geoInputRow input:focus{outline:2px solid var(--ux-accent-border);border-color:var(--ux-accent)}
+.geoInputRow button{flex-shrink:0;min-height:43px}
+.geoInputRow button:disabled{opacity:.48;cursor:not-allowed}
+.geoSuggestions{position:absolute;left:0;right:0;top:calc(100% + 5px);z-index:50;max-height:270px;overflow:auto;border-radius:15px;border:1px solid var(--line);background:var(--panel);box-shadow:0 16px 40px #0003}
+.geoSuggestions:empty{display:none}
+.geoSuggestion{display:flex;flex-direction:column;gap:3px;align-items:flex-start;width:100%;padding:12px 14px;border:0;border-bottom:1px solid var(--line);background:var(--panel);text-align:left;color:var(--ink);cursor:pointer}
+.geoSuggestion:hover,.geoSuggestion:focus-visible{background:var(--ux-accent-soft)}
+.geoSuggestion strong{font-size:13px}.geoSuggestion small{font-size:11px;color:var(--mut)}
+.geoSuggestionEmpty{padding:15px;font-size:12px;color:var(--mut)}
+.geoBlacklistStatus{font-size:11px;color:var(--mut);line-height:1.5;min-height:17px;margin:8px 0 12px}
+.geoChipRow{display:flex;gap:9px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin:4px 0 8px}
+.geoAreaChips{display:flex;flex-wrap:wrap;gap:7px;flex:1 1 250px;min-width:0}
+.geoAreaChip{display:inline-flex;align-items:center;gap:6px;max-width:100%;padding:7px 8px 7px 11px;background:var(--ux-accent-soft);border:1px solid var(--ux-accent-border);border-radius:999px;color:var(--ux-accent-ink);font-weight:750;font-size:12px}
+.geoAreaChip span{overflow-wrap:anywhere}
+.geoAreaChip button{border:0;background:transparent;color:inherit;cursor:pointer;border-radius:50%;font-weight:900;font-size:16px;padding:0 3px}
+.geoAreaChip button:hover{background:var(--panel)}
+.geoViewExcluded{font-size:12px;white-space:normal}
+.geoViewExcluded:disabled,.geoOpenExplore:disabled,.geoOpenForYou:disabled{opacity:.55;cursor:not-allowed}
+.geoViewExcluded [data-geo-count],.geoOpenExplore [data-geo-count],.geoOpenForYou [data-geo-count]{font-weight:650;color:var(--mut);margin-left:4px}
+.geoAccuracyNote{font-size:11px;line-height:1.55;color:var(--mut);margin:8px 0}
+.geoRetry{color:var(--ux-accent-ink);background:none;border:none;font-size:11px;font-weight:700;cursor:pointer;padding:2px 0}
+.geoOpenExplore{display:inline-flex;align-items:center;gap:7px;margin:0 0 12px 0}
+.geoOpenForYou{margin-left:auto}
+body.geoDialogOpen{overflow:hidden}
+.geoOverlay[hidden]{display:none!important}
+.geoOverlay{position:fixed;inset:0;z-index:9800;display:grid;place-items:center;padding:20px;background:#080c0ab3;backdrop-filter:blur(7px)}
+.geoModal{width:min(850px,100%);max-height:min(780px,90vh);overflow:hidden;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:23px;background:var(--panel);color:var(--ink);box-shadow:0 30px 100px #0005}
+.geoModalHead{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:22px 24px 12px}
+.geoModalHead small{font-size:10px;letter-spacing:.1em;font-weight:850;color:var(--ux-accent-ink)}
+.geoModalHead h2{font-size:24px;line-height:1.2;margin:4px 0 7px}
+.geoModalHead p{font-size:12px;color:var(--mut);margin:0;max-width:600px}
+.geoClose{border:1px solid var(--line);border-radius:50%;min-width:36px;height:36px;background:var(--soft);color:var(--ink);font-size:24px;cursor:pointer}
+.geoModalTools{padding:10px 24px;display:flex;gap:9px;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.geoModalTools select,.geoModalTools input{min-height:37px;border:1px solid var(--line);background:var(--soft);color:var(--ink);border-radius:10px;padding:7px 10px;font:inherit;font-size:12px}
+.geoModalTools input{flex:1 1 150px;min-width:100px}.geoModalTools button{font-size:12px}
+#geoModalCount{font-size:11px;color:var(--mut)}
+.geoExcludedList{list-style:none;min-height:80px;overflow-y:auto;margin:0;padding:9px 24px 22px;display:grid;gap:9px;align-content:start}
+.geoExcludedItem{display:flex;gap:12px;padding:14px;border:1px solid var(--line);background:var(--soft);border-radius:13px}
+.geoExcludedNum{color:var(--ux-accent-ink);font:800 12px/1.5 "Plus Jakarta Sans",sans-serif}
+.geoExcludedDetails{min-width:0;display:grid;gap:5px;flex:1}
+.geoExcludedDetails strong{font-size:13px;line-height:1.45;overflow-wrap:anywhere}
+.geoExcludedDetails small{color:var(--mut);font-size:11px;overflow-wrap:anywhere}
+.geoReason{font-size:12px;color:var(--mut);margin:3px 0 5px;line-height:1.5}
+.geoReasonRed{color:#d64e58!important;font-weight:850}
+html[data-theme="light"] .geoReasonRed{color:#ae273e!important}
+.geoReviewLabel{color:var(--ux-pick)}
+.geoAllow{justify-self:start;font-size:11px;padding:8px 12px}
+.geoEmpty{padding:20px;color:var(--mut);text-align:center}
+@media(max-width:680px){
+ .geoInputRow{flex-wrap:wrap}.geoInputRow input{flex-basis:100%}
+ .geoInputRow button{width:100%}.geoViewExcluded{width:100%}
+ .geoOverlay{padding:9px}.geoModal{max-height:94vh;border-radius:17px}
+ .geoModalHead{padding:17px 16px 11px}.geoModalTools{padding:10px 16px}
+ .geoExcludedList{padding:9px 12px 17px}.geoOpenForYou{margin-left:0}
+}
+
+
+/* Preferred areas are outlined; excluded areas remain filled for an immediate visual distinction. */
+.geoLegacyLike{display:none!important}
+.geoLikesPane{min-width:0;margin:14px 0 16px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.geoLikeChips{display:flex;flex-wrap:wrap;gap:7px;min-width:0;margin:5px 0 8px}
+.geoLikeChip{display:inline-flex;align-items:center;gap:6px;max-width:100%;padding:7px 8px 7px 11px;background:transparent;border:1.5px solid var(--ux-accent);border-radius:999px;color:var(--ux-accent-ink);font-size:12px;font-weight:750}
+.geoLikeChip span{overflow-wrap:anywhere}
+.geoLikeChip button{border:0;background:transparent;color:inherit;cursor:pointer;border-radius:50%;font-weight:900;font-size:16px;padding:0 3px}
+.geoLikeChip button:hover{background:var(--ux-accent-soft)}
+.geoLikeChipLegacy{border-style:dashed;opacity:.88}
+.geoLikeNote{font-size:11px;line-height:1.5;color:var(--mut);margin:7px 0 0}
+.geoBlacklistPane{padding-top:1px}
+.geoAreaChip{background:var(--ux-accent-soft);border-color:var(--ux-accent-border);color:var(--ux-accent-ink)}
+@media(max-width:680px){.geoLikesPane,.geoBlacklistPane{margin-top:12px}.geoLikeChip,.geoAreaChip{max-width:100%}}
+
+.geoPreferredOnly{display:flex;align-items:center;gap:9px;margin:10px 0 9px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--soft);color:var(--ink);font-size:12px;font-weight:750;cursor:pointer}
+.geoPreferredOnly input{width:15px;height:15px;accent-color:var(--ux-accent);flex:0 0 auto}
+.geoPreferredOnly:has(input:disabled){opacity:.52;cursor:not-allowed}
+.geoPreferredOnly span{line-height:1.4}
+
+
+/* SOURCE: tinder-mode.css */
+/* Placement Atlas — deliberate card-swiping mode, independent of Oriel/Tinder. */
+#tinderMode{--td-red:#ee5265;--td-green:#3dbb83;--td-blue:#479eea;--td-orange:#eaa74b;min-width:0}
+.tdModeIntro{padding:24px 26px 19px;border-radius:20px;border:1px solid var(--line);background:var(--panel)}
+.tdModeIntro h2{font-size:clamp(25px,3vw,36px);letter-spacing:-.04em;line-height:1.2;margin:5px 0 9px}
+.tdModeIntro p{color:var(--ink);font-size:14px;line-height:1.6;max-width:750px;margin:0 0 9px}
+.tdModeIntro small{font-size:11px;color:var(--mut);line-height:1.6}
+.tdModeEyebrow{font-size:10px;font-weight:850;color:var(--ux-accent-ink);letter-spacing:.13em}
+.tdNavFlame{display:inline-flex;align-items:center;width:17px;height:20px;color:#f35b76;margin-right:5px}
+.tdNavFlame svg{width:17px;height:20px}
+.tdSettings{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:17px 14px;flex-wrap:wrap}
+.tdSettings label{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:750;color:var(--mut)}
+.tdSettings select{min-height:39px;max-width:310px;border:1px solid var(--line);border-radius:11px;padding:8px 11px;background:var(--panel);color:var(--ink)}
+.tdRoundStats{display:flex;align-items:baseline;gap:10px;font-size:12px}
+.tdRoundStats strong{font-weight:850;color:var(--ux-accent-ink)}.tdRoundStats span{color:var(--mut)}
+.tdBoard{max-width:640px;margin:3px auto 30px;text-align:center}
+.tdCardDeck{position:relative;z-index:0;margin:0 auto;min-height:500px;padding:0 10px 8px;max-width:590px}
+.tdCardSlot{position:relative;min-height:480px}
+.tdSwipeCard{position:relative;isolation:isolate;touch-action:pan-y;user-select:none;text-align:left;cursor:grab;border:1px solid var(--line);background:var(--panel);border-radius:26px;padding:25px;box-shadow:0 16px 50px #00000016;will-change:transform;overflow:hidden}
+.tdSwipeCard:active{cursor:grabbing}.tdSwipeCard:focus-visible{outline:3px solid var(--ux-accent);outline-offset:4px}
+.tdCardTop{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:13px}
+.tdCardCode{font-size:10px;font-weight:850;letter-spacing:.1em;color:var(--mut)}
+.tdFitScore{border:1px solid var(--ux-accent-border);background:var(--ux-accent-soft);color:var(--ux-accent-ink);font-size:11px;font-weight:850;border-radius:999px;padding:6px 10px;white-space:nowrap}
+.tdProgrammeName{font-size:clamp(19px,2.2vw,25px);font-weight:850;letter-spacing:-.03em;line-height:1.3;overflow-wrap:anywhere;margin:0 0 6px}
+.tdEmployer{font-size:12px;color:var(--mut);font-weight:650;margin:0 0 15px;line-height:1.4}
+.tdMetrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:16px}
+.tdMetrics>div{padding:12px 10px;background:var(--soft);border:1px solid var(--line);border-radius:12px;display:grid;gap:4px;min-width:0}
+.tdMetrics span{font-size:9px;color:var(--mut);font-weight:850;letter-spacing:.07em}
+.tdMetrics strong{font-size:14px;color:var(--ink);line-height:1.4;overflow-wrap:anywhere}
+.tdSites{padding:13px 14px;border:1px solid var(--ux-accent-border);background:var(--ux-accent-soft);border-radius:14px;margin-bottom:13px}
+.tdSectionLabel{display:block;font-size:10px;font-weight:850;letter-spacing:.06em;color:var(--ux-accent-ink);margin-bottom:6px}
+.tdLocationText{font-size:14px;font-weight:750;line-height:1.5;color:var(--ink)}
+.tdRotations{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:15px}
+.tdRotations span{font-size:10px;font-weight:800;color:var(--ink);border:1px solid var(--line);background:var(--soft);border-radius:999px;padding:6px 9px}
+.tdVerdictColumns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.tdVerdict{padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--soft);min-width:0}
+.tdVerdict.pro{border-color:color-mix(in srgb,var(--td-green) 33%,var(--line))}
+.tdVerdict.con{border-color:color-mix(in srgb,var(--td-red) 33%,var(--line))}
+.tdVerdict h4{font-size:12px;margin:0 0 9px;font-weight:850;color:var(--ink)}
+.tdVerdict.pro h4:before{content:'♥ ';color:var(--td-green)}
+.tdVerdict.con h4:before{content:'✕ ';color:var(--td-red)}
+.tdVerdict ul{padding-left:16px;margin:0;display:grid;gap:7px}
+.tdVerdict li{font-size:11px;line-height:1.5;color:var(--ink)}
+.tdStamps{pointer-events:none}.tdStamp{position:absolute;z-index:4;top:38px;left:25px;border:4px solid currentColor;color:var(--td-red);font-size:30px;font-weight:900;letter-spacing:.06em;border-radius:8px;padding:5px 10px;transform:rotate(-15deg);opacity:0;transition:opacity .13s}
+.tdStampYes{left:auto;right:25px;color:var(--td-green);transform:rotate(14deg)}
+.tdStampSuper{left:50%;top:30px;transform:translateX(-50%) rotate(-6deg);white-space:nowrap;font-size:23px;color:var(--td-blue)}
+.tdStampShow{opacity:.98}
+.tdActions{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:16px;margin:15px 0 7px}
+.tdAction{border:2px solid currentColor;background:var(--panel);color:var(--ink);width:66px;height:66px;border-radius:50%;padding:17px;display:inline-grid;place-items:center;cursor:pointer;box-shadow:0 7px 20px #00000010;transition:transform .22s cubic-bezier(.22,1,.36,1),background .2s ease,box-shadow .2s}
+.tdAction svg{width:100%;height:100%}.tdAction-undo{color:var(--td-orange);width:52px;height:52px;padding:13px}
+.tdAction-no{color:var(--td-red)}.tdAction-yes{color:var(--td-green)}.tdAction-super{color:var(--td-blue)}
+.tdAction:hover:not(:disabled){transform:translateY(-4px) scale(1.06);box-shadow:0 10px 24px #0002}
+.tdAction:active:not(:disabled){transform:scale(.94)}.tdAction:disabled{opacity:.4;cursor:not-allowed}
+.tdAction:focus-visible{outline:3px solid var(--ux-accent);outline-offset:5px}
+.tdActionLegend{position:relative;z-index:1;display:flex;justify-content:center;gap:16px;font-size:10px;color:var(--mut);font-weight:750}
+.tdActionLegend span{width:66px}.tdActionLegend span:first-child{width:52px}
+.tdExisting{position:relative;z-index:1;font-size:12px;font-weight:750;margin:12px 0 0;color:var(--mut)}
+.tdNotice{position:relative;z-index:1;font-size:11px;color:var(--mut);margin:8px 0 10px}
+.tdDisclosure{position:relative;z-index:1;font-size:11px;color:var(--mut);max-width:530px;line-height:1.6;margin:18px auto 0}
+.tdFinished{padding:60px 25px;background:var(--panel);border:1px solid var(--line);border-radius:24px;text-align:center;color:var(--mut)}
+.tdFinished>span{font-size:65px;color:var(--ux-accent)}.tdFinished h3{font-size:23px;color:var(--ink);margin:12px 0 7px}.tdFinished p{font-size:13px;max-width:340px;margin:auto}
+@media(max-width:690px){
+ .tdModeIntro{padding:18px}.tdSettings{padding:13px 5px}.tdSettings label{width:100%}.tdSettings select{flex:1;min-width:0}
+ .tdCardDeck{padding:0 0 6px;min-height:390px}.tdCardSlot{min-height:380px}.tdSwipeCard{padding:17px;border-radius:19px}
+ .tdMetrics strong{font-size:12px}.tdMetrics>div{padding:10px 7px}
+ .tdVerdictColumns{gap:7px}.tdVerdict{padding:11px 8px}.tdVerdict li{font-size:10.5px}
+ .tdActions{gap:10px}.tdAction{width:58px;height:58px;padding:14px}.tdAction-undo{width:48px;height:48px;padding:12px}
+ .tdActionLegend{gap:10px}.tdActionLegend span{width:58px}.tdActionLegend span:first-child{width:48px}
+}
+@media(prefers-reduced-motion:reduce){.tdAction,.tdStamp,.tdSwipeCard{transition:none!important}}
+
+
+/* Tinder Mode reactions, activated for BOTH touch swipes and icon clicks.
+   Short, non-blocking feedback; existing data/decisions are untouched. */
+#tinderMode .tdCardDeck::before,
+#tinderMode .tdCardDeck::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:25px;
+  opacity:0;
+  z-index:3;
+  pointer-events:none;
+}
+#tinderMode .tdCardDeck.tdFeedbackYes::before{
+  background:radial-gradient(ellipse at 50% 42%,rgba(75,255,173,.45),rgba(35,184,124,.18) 45%,transparent 78%);
+  animation:tdJoyGlow .62s cubic-bezier(.18,.7,.22,1) both;
+}
+#tinderMode .tdCardDeck.tdFeedbackYes::after{
+  background:linear-gradient(108deg,transparent 15%,rgba(214,255,228,.09) 31%,rgba(217,255,236,.74) 48%,rgba(214,255,228,.09) 64%,transparent 83%);
+  transform:translateX(-85%);
+  animation:tdJoySweep .62s ease-out both;
+}
+#tinderMode .tdCardDeck.tdFeedbackNo::before{
+  background:radial-gradient(ellipse at 50% 38%,rgba(204,35,68,.29),rgba(117,33,59,.16) 46%,rgba(44,35,48,.11) 75%,transparent);
+  animation:tdSorrow .60s ease-out both;
+}
+#tinderMode .tdCardDeck.tdFeedbackNo::after{
+  background:linear-gradient(180deg,transparent 15%,rgba(110,34,54,.15) 100%);
+  animation:tdSorrow .60s ease-out both;
+}
+#tinderMode .tdCardDeck.tdFeedbackSuper::before{
+  background:radial-gradient(ellipse at 50% 35%,rgba(80,177,255,.44),rgba(65,116,223,.2) 48%,transparent 76%);
+  animation:tdJoyGlow .62s ease-out both;
+}
+#tinderMode .tdFeedbackParticles{
+  position:absolute;
+  inset:0;
+  z-index:5;
+  pointer-events:none;
+  overflow:visible;
+}
+#tinderMode .tdSparkle{
+  position:absolute;
+  color:#70f1ad;
+  font-size:clamp(17px,2.5vw,30px);
+  text-shadow:0 0 12px #70f1adc0,0 0 25px #b9ffe67a;
+  transform:translate3d(0,0,0) scale(.25);
+  opacity:0;
+  animation:tdSpark .57s cubic-bezier(.16,.8,.28,1) both;
+  will-change:transform,opacity;
+}
+#tinderMode .tdFeedbackSuper .tdSparkle{color:#7fcaff;text-shadow:0 0 15px #7fcaffaa}
+#tinderMode .tdSwipeCard.tdLeavingYes{
+  box-shadow:0 14px 55px rgba(30,181,109,.24);
+}
+#tinderMode .tdSwipeCard.tdLeavingNo{
+  box-shadow:0 14px 48px rgba(183,43,70,.13);
+}
+@keyframes tdJoyGlow{
+  0%{opacity:0;transform:scale(.88)}
+  30%{opacity:1;transform:scale(1.01)}
+  72%{opacity:.74;transform:scale(1.04)}
+  100%{opacity:0;transform:scale(1.08)}
+}
+@keyframes tdJoySweep{
+  0%{opacity:0;transform:translateX(-85%)}
+  25%{opacity:.8}
+  75%{opacity:.75}
+  100%{opacity:0;transform:translateX(85%)}
+}
+@keyframes tdSorrow{
+  0%{opacity:0;transform:translateY(-4px)}
+  36%{opacity:1;transform:translateY(0)}
+  100%{opacity:0;transform:translateY(12px)}
+}
+@keyframes tdSpark{
+  0%{opacity:0;transform:translate3d(0,0,0) scale(.2) rotate(-20deg)}
+  26%{opacity:1;transform:translate3d(calc(var(--spark-x) * .3),calc(var(--spark-y) * .3),0) scale(1.05) rotate(10deg)}
+  100%{opacity:0;transform:translate3d(var(--spark-x),var(--spark-y),0) scale(.35) rotate(45deg)}
+}
+@media(prefers-reduced-motion:reduce){
+ #tinderMode .tdCardDeck::before,#tinderMode .tdCardDeck::after,#tinderMode .tdSparkle{animation:none!important}
+}
+
+/* Undo: the previous card gently drops from above, framed by amber light.
+   Runs only after the orange Undo control, never during ordinary rendering. */
+#tinderMode .tdCardSlot.tdUndoGlowing{isolation:isolate}
+#tinderMode .tdSwipeCard.tdUndoReturning{
+  animation:tdUndoDescend 820ms cubic-bezier(.17,.75,.21,1) both;
+  transform-origin:50% 12%;
+}
+#tinderMode .tdSwipeCard.tdUndoReturning::before,
+#tinderMode .tdSwipeCard.tdUndoReturning::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  pointer-events:none;
+  z-index:2;
+}
+#tinderMode .tdSwipeCard.tdUndoReturning::before{
+  background:radial-gradient(ellipse at 48% 12%,rgba(255,187,74,.4),rgba(239,152,36,.13) 40%,transparent 75%);
+  animation:tdUndoWarmth 820ms ease-out both;
+}
+#tinderMode .tdSwipeCard.tdUndoReturning::after{
+  background:linear-gradient(110deg,transparent 21%,rgba(255,197,96,.08) 36%,rgba(255,236,191,.64) 49%,rgba(255,197,96,.08) 62%,transparent 78%);
+  transform:translateX(-110%);
+  animation:tdUndoShine 790ms ease-in-out 65ms both;
+}
+#tinderMode .tdUndoTwinkles{
+  position:absolute;
+  z-index:3;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+}
+#tinderMode .tdUndoTwinkles i{
+  position:absolute;
+  font-style:normal;
+  font-size:18px;
+  color:#f6ae43;
+  text-shadow:0 0 12px rgba(255,172,51,.7);
+  opacity:0;
+  animation:tdUndoTwinkle 480ms cubic-bezier(.2,.7,.2,1) both;
+}
+@keyframes tdUndoDescend{
+  0%{opacity:0;transform:translate3d(0,-185px,0) scale(.965) rotate(-2deg);box-shadow:0 0 0 rgba(240,164,52,0)}
+  53%{opacity:1;box-shadow:0 7px 40px rgba(245,163,58,.29)}
+  82%{transform:translate3d(0,8px,0) scale(1.005) rotate(.3deg);box-shadow:0 10px 60px rgba(245,163,58,.28)}
+  100%{opacity:1;transform:translate3d(0,0,0) scale(1) rotate(0);box-shadow:0 16px 50px #00000016}
+}
+@keyframes tdUndoWarmth{
+  0%{opacity:0}
+  36%{opacity:1}
+  100%{opacity:0}
+}
+@keyframes tdUndoShine{
+  0%{opacity:0;transform:translateX(-110%)}
+  30%{opacity:.85}
+  100%{opacity:0;transform:translateX(110%)}
+}
+@keyframes tdUndoTwinkle{
+  0%{opacity:0;transform:scale(.2) rotate(-30deg)}
+  44%{opacity:1;transform:scale(1.15) rotate(var(--twist))}
+  100%{opacity:0;transform:scale(.5) rotate(90deg)}
+}
+@media(prefers-reduced-motion:reduce){
+ #tinderMode .tdUndoReturning,
+ #tinderMode .tdUndoReturning::before,
+ #tinderMode .tdUndoReturning::after,
+ #tinderMode .tdUndoTwinkles i{animation:none!important}
+}
+
+/* Preload the next programme for a fast hand-off, but keep it completely
+   concealed until it becomes the active card. Only one card is ever visible. */
+#tinderMode .tdCardSlot{position:relative;isolation:isolate}
+#tinderMode .tdCardSlot > .tdNextCard,
+#tinderMode .tdCardSlot > .tdNextFinished{
+  display:none!important;
+}
+#tinderMode .tdCardSlot > .tdSwipeCard:not(.tdNextCard){
+  position:relative;z-index:1;filter:none!important;
+}
+#tinderMode .tdSwipeCard.tdLeaving{opacity:1!important;filter:none!important}
+
+
+/* Directional, immediate shine on the outgoing card without a blurred
+   full-card overlay. The next programme stays concealed until promoted. */
+#tinderMode .tdSwipeCard.tdDragNo,
+#tinderMode .tdSwipeCard.tdLeavingNo{
+  border-color:var(--td-red)!important;
+  box-shadow:0 14px 58px rgba(240,58,86,.36),
+    0 0 0 4px rgba(239,65,94,.15),-18px 0 44px rgba(239,65,94,.18)!important;
+}
+#tinderMode .tdSwipeCard.tdDragYes,
+#tinderMode .tdSwipeCard.tdLeavingYes{
+  border-color:var(--td-green)!important;
+  box-shadow:0 14px 58px rgba(41,189,123,.34),
+    0 0 0 4px rgba(56,195,136,.16),18px 0 44px rgba(36,197,125,.19)!important;
+}
+#tinderMode .tdSwipeCard.tdLeavingSuper{
+  border-color:var(--td-blue)!important;
+  box-shadow:0 14px 65px rgba(58,153,238,.38),
+    0 0 0 5px rgba(55,156,242,.20),0 -20px 62px rgba(49,151,238,.25)!important;
+}
+#tinderMode .tdCardDeck.tdShineNo .tdSparkle{
+  color:#ff566e!important;text-shadow:0 0 12px #f6385ac9,0 0 24px #ff6778a6!important;
+}
+#tinderMode .tdCardDeck.tdShineYes .tdSparkle{
+  color:#35d38a!important;text-shadow:0 0 12px #21c679c9,0 0 24px #70f8b4a6!important;
+}
+#tinderMode .tdCardDeck.tdShineSuper .tdSparkle{
+  color:#53aefd!important;text-shadow:0 0 12px #36a7ffdd,0 0 27px #80caffbb!important;
+}
+#tinderMode .tdDirectionalParticles{
+  z-index:4!important;mix-blend-mode:normal!important;
+}
+/* The original gradient feedback classes remain unused. They must not be
+   reactivated over real programme text. */
+
+
+/* First-time guidance beside the deck, not over the programme details. */
+#tinderMode .tdBoard{position:relative}
+#tinderMode .tdSwipeHints[hidden]{display:none!important}
+#tinderMode .tdSwipeHints{position:absolute;inset:0;pointer-events:none;z-index:5}
+#tinderMode .tdSwipeHint{
+  position:absolute;top:clamp(115px,22%,210px);
+  display:flex;align-items:center;gap:8px;
+  width:170px;max-width:170px;
+  font-size:clamp(12px,1vw,14px);font-weight:750;
+  line-height:1.55;letter-spacing:.006em;
+  color:var(--mut);opacity:.7;
+  animation:tdHintPulse 2.5s ease-in-out infinite;
+  text-wrap:balance;
+}
+#tinderMode .tdSwipeHintLeft{left:-180px;justify-content:flex-end;text-align:right}
+#tinderMode .tdSwipeHintRight{right:-180px;justify-content:flex-start;text-align:left;animation-delay:.35s}
+#tinderMode .tdHintArrow{font-size:24px;font-weight:500;color:var(--mut);flex:none}
+@keyframes tdHintPulse{0%,100%{opacity:.44}50%{opacity:.84}}
+@media(max-width:1080px){
+  #tinderMode .tdSwipeHints{
+    position:relative;inset:auto;display:flex;justify-content:space-between;
+    align-items:flex-start;gap:10px;margin:0 0 15px;
+  }
+  #tinderMode .tdSwipeHint{
+    position:relative;top:auto;left:auto;right:auto;
+    width:50%;max-width:none;font-size:12px;min-height:42px;
+  }
+  #tinderMode .tdSwipeHintRight{justify-content:flex-end;text-align:right}
+}
+@media(prefers-reduced-motion:reduce){
+  #tinderMode .tdSwipeHint{animation:none!important;opacity:.75!important}
+}
+
+/* Tinder Mode alone replaces the standard single shortlist pill with two
+   matching saved-decision shortcuts. Every other page is unchanged. */
+body[data-atlas-view="tinderMode"] #uxDrawerLauncher{display:none!important}
+.tdFloatingDecisions{display:none}
+body[data-atlas-view="tinderMode"] .tdFloatingDecisions{
+  position:fixed;display:flex;flex-direction:row;align-items:center;
+  gap:9px;right:18px;bottom:19px;z-index:1580;
+}
+.tdLauncher{
+  appearance:none;border:1px solid color-mix(in srgb,var(--ui-action-bg,#805e78) 74%,white);
+  background:var(--ui-action-bg,var(--ux-accent-ink,#805e78));
+  color:#fff;border-radius:999px;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-width:75px;min-height:59px;padding:12px 16px;
+  font-size:18px;font-weight:850;line-height:1;
+  box-shadow:0 7px 22px rgba(23,14,24,.19);
+  cursor:pointer;transition:transform .18s ease,box-shadow .18s ease;
+}
+.tdLauncher svg{width:21px;height:21px;flex:none}
+.tdLauncher:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(23,14,24,.24)}
+.tdLauncher:active{transform:scale(.96)}
+.tdLauncher:focus-visible{outline:3px solid var(--ux-accent);outline-offset:3px}
+
+/* Spacious, touch-friendly details window (same programme data as game). */
+.tdDecisionShade[hidden],.tdDecisionDrawer[hidden]{display:none!important}
+.tdDecisionShade{
+  position:fixed;inset:0;background:rgba(16,12,20,.46);
+  z-index:2590;backdrop-filter:blur(2px);
+}
+.tdDecisionDrawer{
+  position:fixed;top:0;right:0;bottom:0;
+  z-index:2600;width:min(560px,100vw);max-width:100vw;
+  display:flex;flex-direction:column;min-height:0;
+  background:var(--panel);color:var(--ink);
+  border-left:1px solid var(--line);
+  box-shadow:-22px 0 70px rgba(12,8,15,.23);
+}
+.tdDrawerHeader{
+  padding:24px 24px 17px;display:flex;align-items:flex-start;
+  justify-content:space-between;gap:14px;
+  border-bottom:1px solid var(--line);
+}
+.tdDrawerEyebrow{
+  font-size:10px;font-weight:850;letter-spacing:.105em;
+  color:var(--ux-accent-ink);margin-bottom:6px;
+}
+.tdDrawerHeader h2{margin:0;font-size:clamp(21px,2vw,27px);letter-spacing:-.035em;line-height:1.2}
+.tdDrawerHeader p{margin:8px 0 0;font-size:13px;line-height:1.55;color:var(--mut)}
+.tdDrawerClose{
+  border:1px solid var(--line);background:var(--soft);color:var(--ink);
+  border-radius:12px;min-width:42px;min-height:42px;
+  font-size:27px;font-weight:400;cursor:pointer;line-height:1;
+}
+.tdDrawerSearchLabel{padding:15px 24px 6px;color:var(--mut);font-size:11px;font-weight:800}
+#tdDrawerSearch{
+  margin:0 24px 14px;padding:12px 14px;min-height:43px;
+  border:1px solid var(--line);border-radius:12px;
+  background:var(--soft);color:var(--ink);font-size:14px;
+}
+.tdDrawerItems{
+  flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;
+  padding:4px 20px 34px;display:flex;flex-direction:column;gap:13px;
+}
+.tdDrawerItem{
+  border:1px solid var(--line);background:var(--soft);
+  border-radius:18px;padding:14px;box-shadow:0 3px 14px rgba(10,9,13,.035);
+  min-width:0;
+}
+.tdDrawerDetails{min-width:0}
+.tdDrawerSummary{
+  display:flex;align-items:flex-start;gap:11px;
+  list-style:none;cursor:pointer;padding:4px 2px 13px;
+  min-height:66px;touch-action:manipulation;
+}
+.tdDrawerSummary::-webkit-details-marker{display:none}
+.tdDrawerSummaryText{display:grid;gap:7px;min-width:0;flex:1}
+.tdDrawerProgrammeTitle{
+  color:var(--ink);font-size:15px;line-height:1.45;
+  font-weight:820;letter-spacing:-.012em;overflow-wrap:anywhere;
+}
+.tdDrawerProgrammeSub{
+  color:var(--mut);font-size:12px;line-height:1.45;overflow-wrap:anywhere;
+}
+.tdDrawerFit{
+  flex:none;background:var(--ux-accent-soft);color:var(--ux-accent-ink);
+  border:1px solid var(--ux-accent-border);
+  border-radius:999px;padding:5px 9px;font-size:11px;font-weight:830;white-space:nowrap;
+}
+.tdDrawerChevron{
+  flex:none;font-size:19px;color:var(--mut);line-height:1.1;
+  transition:transform .2s ease;
+}
+.tdDrawerDetails[open] .tdDrawerChevron{transform:rotate(180deg)}
+.tdDrawerMove{
+  width:100%;min-height:43px;padding:10px 13px;display:inline-flex;
+  align-items:center;justify-content:center;gap:8px;
+  border:1px solid color-mix(in srgb,var(--ux-accent-ink) 36%,var(--line));
+  border-radius:11px;background:var(--panel);color:var(--ink);
+  font-size:13px;font-weight:830;cursor:pointer;
+  transition:background .15s ease,border-color .15s ease;
+}
+.tdDrawerMove svg{width:16px;height:16px;flex:none;color:var(--ux-accent-ink)}
+.tdDrawerMove:hover{background:var(--ux-accent-soft);border-color:var(--ux-accent-ink)}
+.tdDrawerDetails[open] .tdDrawerPreview{padding:5px 0 14px}
+.tdDrawerPreview .tdDrawerCard{
+  position:relative;transform:none!important;filter:none!important;
+  cursor:default;user-select:text;touch-action:auto;
+  padding:17px;border-radius:15px;background:var(--panel);
+  box-shadow:0 6px 21px rgba(20,12,24,.06);
+}
+.tdDrawerPreview .tdDrawerCard .tdProgrammeName{font-size:18px}
+.tdDrawerPreview .tdDrawerCard .tdVerdictColumns{gap:8px}
+.tdDrawerPreview .tdDrawerCard .tdMetrics{gap:5px}
+.tdDrawerPreview .tdDrawerCard .tdMetrics>div{padding:9px 8px}
+.tdDrawerPreview .tdDrawerCard .tdMetrics strong{font-size:12px}
+.tdDrawerEmpty{padding:28px 16px;text-align:center;color:var(--mut);font-size:14px}
+.tdDecisionDrawer :is(button,summary,input):focus-visible{
+  outline:2px solid var(--ux-accent-ink);outline-offset:3px;
+}
+@media(max-width:600px){
+  body[data-atlas-view="tinderMode"] .tdFloatingDecisions{right:10px;bottom:12px;gap:7px}
+  .tdLauncher{min-width:64px;min-height:52px;padding:10px 13px;font-size:15px}
+  .tdLauncher svg{width:19px;height:19px}
+  .tdDrawerHeader{padding:20px 16px 14px}
+  .tdDrawerSearchLabel{padding:13px 16px 6px}
+  #tdDrawerSearch{margin:0 16px 12px}
+  .tdDrawerItems{padding:4px 13px 28px;gap:11px}
+  .tdDrawerItem{padding:11px;border-radius:14px}
+  .tdDrawerSummary{gap:7px}
+  .tdDrawerProgrammeTitle{font-size:14px}
+  .tdDrawerFit{padding:5px 7px;font-size:10px}
+  .tdDrawerPreview .tdDrawerCard .tdVerdictColumns{grid-template-columns:minmax(0,1fr)}
+}
+@media(prefers-reduced-motion:reduce){
+  .tdLauncher,.tdDrawerChevron{transition:none!important}
+}
+
+
+/* Tinder's compact, optional controls keep the card visually central. */
+#tinderMode .tdFilterToggle{
+ display:inline-flex;align-items:center;justify-content:center;gap:8px;
+ color:var(--ink);background:var(--panel);
+ border:1px solid var(--line);border-radius:12px;
+ min-height:43px;padding:9px 13px;font-size:13px;font-weight:750;cursor:pointer;
+}
+#tinderMode .tdFilterToggle svg{width:17px;height:17px;flex:none}
+#tinderMode .tdFilterToggle[aria-expanded="true"]{
+ border-color:var(--ux-accent);color:var(--ux-accent-ink);
+ background:var(--ux-accent-soft);
+}
+#tinderMode .tdFilterPanel[hidden]{display:none!important}
+#tinderMode .tdFilterPanel{
+ display:flex;align-items:end;gap:10px;flex-wrap:wrap;
+ border:1px solid var(--line);border-radius:15px;
+ background:var(--soft);padding:14px;margin:0 14px 17px;
+}
+#tinderMode .tdFilterPanel>label:not(.tdFilterCheck){
+ display:grid;gap:6px;color:var(--mut);font-size:11px;font-weight:750;
+ flex:1 1 150px;min-width:140px;
+}
+#tinderMode .tdFilterPanel select{
+ width:100%;min-height:41px;font-size:13px;
+ background:var(--panel);color:var(--ink);border:1px solid var(--line);
+ border-radius:10px;padding:8px;
+}
+#tinderMode .tdFilterCheck{
+ display:flex;align-items:center;gap:8px;cursor:pointer;
+ flex:1 1 185px;min-height:42px;
+ color:var(--ink);font-size:12px;font-weight:680;
+}
+#tinderMode .tdFilterCheck input{accent-color:var(--ux-accent);width:17px;height:17px;flex:none}
+#tinderMode .tdFilterReset{
+ border:1px solid var(--line);border-radius:10px;
+ background:var(--panel);color:var(--mut);
+ font-size:12px;font-weight:750;min-height:40px;padding:8px 13px;cursor:pointer;
+}
+#tinderMode .tdFilterReset:hover{color:var(--ux-accent-ink);border-color:var(--ux-accent)}
+#tinderMode .tdFilterToggle:focus-visible,
+#tinderMode .tdFilterPanel :is(select,input,button):focus-visible{
+ outline:2px solid var(--ux-accent-ink);outline-offset:3px;
+}
+
+/* Direction-matched exit stars are attached to the outgoing card, echoing
+   the gold Undo stars. The next programme stays concealed until promoted. */
+#tinderMode .tdExitTwinkles{
+ position:absolute;inset:0;z-index:10;pointer-events:none;overflow:visible;
+ border-radius:inherit;
+}
+#tinderMode .tdExitTwinkles i{
+ display:block;position:absolute;font-style:normal;font-weight:900;
+ font-size:clamp(18px,2.4vw,30px);line-height:1;
+ opacity:0;transform:translate3d(0,0,0) rotate(-20deg) scale(.3);
+ animation:tdExitStar .57s cubic-bezier(.12,.76,.22,1) forwards;
+}
+#tinderMode .tdExitTwinkles-No i{
+ color:#ff6077;text-shadow:0 0 13px #ff3d6bd8,0 0 25px #ff7792aa;
+}
+#tinderMode .tdExitTwinkles-Yes i{
+ color:#5de5a3;text-shadow:0 0 13px #25cb78cf,0 0 24px #8bf5b4aa;
+}
+#tinderMode .tdExitTwinkles-Super i{
+ color:#6fc1ff;text-shadow:0 0 13px #359dffe0,0 0 26px #8bd2ffaf;
+}
+@keyframes tdExitStar{
+ 0%{opacity:0;transform:translate3d(0,0,0) rotate(-25deg) scale(.35)}
+ 22%{opacity:1;transform:translate3d(0,-8px,0) rotate(10deg) scale(1.1)}
+ 72%{opacity:.85}
+ 100%{opacity:0;transform:translate3d(var(--td-star-x),var(--td-star-y),0) rotate(65deg) scale(.65)}
+}
+@media(max-width:600px){
+ #tinderMode .tdSettings{gap:9px}
+ #tinderMode .tdFilterToggle{min-height:41px;padding:8px 11px}
+ #tinderMode .tdFilterPanel{margin:0 0 14px;padding:11px}
+ #tinderMode .tdFilterPanel>label:not(.tdFilterCheck){flex-basis:calc(50% - 10px);min-width:130px}
+}
+@media(prefers-reduced-motion:reduce){
+ #tinderMode .tdExitTwinkles i{animation:none!important;opacity:0!important}
+}
+
+#tinderMode .tdFitUnpersonalised{
+  background:var(--soft)!important;color:var(--mut)!important;
+  border-color:var(--line)!important;cursor:pointer;text-decoration:underline;
+  text-underline-offset:2px;
+}
+#tinderMode .tdFitUnpersonalised:focus-visible{
+  outline:2px solid var(--ux-accent-ink);outline-offset:3px;
+}
+
+
+/* SOURCE: motion-effects.css */
+/* Lightweight transitions; no detached/floating navigation indicator. */
+@keyframes atlasPanelEnter{
+  from{opacity:0;transform:translateY(7px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes atlasItemEnter{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+html .panel.active{animation:atlasPanelEnter .23s cubic-bezier(.2,.8,.2,1) both}
+/* The moving nav pill was prone to becoming detached from the active button.
+   Hide legacy indicators even when a cached script has injected one. */
+html body nav.tabs .atlasTabIndicator,
+html .tabs.tabMotionReady .atlasTabIndicator{display:none!important}
+html .tabs .tab{transition:color .19s ease,opacity .18s ease}
+/* Do NOT force active nav buttons to transparent: nav state lives on the tab. */
+html .btn,html .chip,html .uxPaletteOption,html .uxLayoutBtn,html .uxIconControl,html .themeToggle,
+html .uxSiteArrow,html .geoAreaChip button,html .decisionPicker summary{
+  transition:transform .19s cubic-bezier(.22,1,.36,1),box-shadow .19s ease,background-color .18s ease,border-color .18s ease,color .18s ease;
+}
+html .btn:active:not(:disabled),html .chip:active:not(:disabled),html .uxPaletteOption:active:not(:disabled),
+html .uxLayoutBtn:active:not(:disabled),html .uxIconControl:active:not(:disabled),
+html .themeToggle:active:not(:disabled),html .decisionPicker summary:active{
+  transform:scale(.975);
+}
+html .uxPaletteOption:hover,html .uxLayoutBtn:hover,html .geoAreaChip button:hover{box-shadow:0 3px 12px #00000011}
+html .decisionChoices,html .geoSuggestions{transform-origin:top left}
+html .decisionPicker[open] .decisionChoices{animation:atlasItemEnter .16s ease both}
+html .geoSuggestions:not(:empty){animation:atlasItemEnter .17s ease both}
+html .toast.show{transition:opacity .2s ease,transform .25s cubic-bezier(.22,1,.36,1)}
+@media (hover:none){html .btn:hover{transform:none}}
+@media (prefers-reduced-motion:reduce){
+  html *,html *::before,html *::after{
+    scroll-behavior:auto!important;
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+  }
+}
+
+
+/* SOURCE: interface-polish.css */
+/*
+ * Placement Atlas responsive/form polish.
+ * Preserve all existing native <select> values and change listeners.
+ * Chromium 135+/Safari 27+: CSS-only customizable dropdown picker.
+ * Other browsers: existing accessible native dropdowns remain usable.
+ */
+@supports (appearance: base-select) {
+  html select:not([multiple]):not([size]),
+  html select:not([multiple]):not([size])::picker(select) {
+    appearance: base-select !important;
+    -webkit-appearance: base-select !important;
+  }
+  html select:not([multiple]):not([size]) {
+    min-width: 0;
+    max-width: 100%;
+    background-image: none !important;
+    background-color: var(--panel) !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 12px !important;
+    color: var(--ink) !important;
+    cursor: pointer;
+    padding: 10px 13px !important;
+    font-size: 13.5px;
+    line-height: 1.35;
+    transition: background-color .17s ease, border-color .17s ease, box-shadow .17s ease;
+  }
+  html select:not([multiple]):not([size])::picker-icon {
+    margin-inline-start: auto;
+    flex-shrink: 0;
+    color: var(--mut);
+    transition: transform .18s cubic-bezier(.22,1,.36,1);
+  }
+  html select:not([multiple]):not([size]):open::picker-icon {
+    transform: rotate(180deg);
+  }
+  html select:not([multiple]):not([size]):open {
+    border-color: var(--ux-accent) !important;
+    box-shadow: 0 0 0 3px var(--ux-accent-soft);
+  }
+  html select:not([multiple]):not([size])::picker(select) {
+    box-sizing: border-box;
+    background: var(--panel) !important;
+    color: var(--ink) !important;
+    border: 1px solid var(--ux-accent-border) !important;
+    border-radius: 16px;
+    padding: 6px;
+    box-shadow: 0 16px 45px rgba(12,22,18,.18), 0 2px 8px rgba(12,22,18,.07);
+    min-width: anchor-size(width);
+    max-width: min(410px, calc(100vw - 24px));
+    max-height: min(440px, 65vh);
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--ux-accent-border) transparent;
+    opacity: 0;
+    transform: translateY(-5px) scale(.99);
+    transition: opacity .18s ease,
+                transform .22s cubic-bezier(.22,1,.36,1),
+                display .18s allow-discrete,
+                overlay .18s allow-discrete;
+  }
+  html select:not([multiple]):not([size]):open::picker(select) {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  @starting-style {
+    html select:not([multiple]):not([size]):open::picker(select) {
+      opacity: 0;
+      transform: translateY(-6px) scale(.985);
+    }
+  }
+  html select:not([multiple]):not([size]) option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 40px;
+    margin: 2px 0;
+    padding: 9px 10px;
+    border-radius: 10px;
+    color: var(--ink) !important;
+    background: transparent !important;
+    font-size: 13.5px;
+    font-weight: 650;
+    line-height: 1.4;
+    white-space: normal;
+    cursor: pointer;
+  }
+  html select:not([multiple]):not([size]) option:hover,
+  html select:not([multiple]):not([size]) option:focus-visible {
+    background: var(--ux-accent-soft) !important;
+    color: var(--ux-accent-ink) !important;
+  }
+  html select:not([multiple]):not([size]) option:checked {
+    background: var(--ux-accent-soft) !important;
+    color: var(--ux-accent-ink) !important;
+    font-weight: 850;
+  }
+  html select:not([multiple]):not([size]) option::checkmark {
+    color: var(--ux-accent-ink);
+    font-weight: 850;
+    margin-inline-end: 5px;
+  }
+  html select:not([multiple]):not([size]) optgroup {
+    color: var(--mut);
+    font-weight: 750;
+  }
+}
+/* Every saved-action confirmation adopts the active palette.
+   Existing app toast() calls continue to work without changing state. */
+html #toast.toast {
+  z-index: 9995;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: min(490px, calc(100vw - 30px));
+  min-height: 46px;
+  padding: 12px 16px;
+  background: var(--panel) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--ux-accent-border);
+  border-left: 4px solid var(--ux-accent);
+  border-radius: 15px;
+  box-shadow: 0 16px 42px rgba(14,25,20,.2);
+  font-weight: 750;
+  font-size: 12.5px;
+  letter-spacing: -.005em;
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+html #toast.toast::before {
+  content: "✦";
+  color: var(--ux-accent-ink);
+  font-size: 17px;
+  line-height: 1;
+  flex: none;
+}
+html #toast.toast.show {
+  animation: atlasToastRise .26s cubic-bezier(.22,1,.36,1);
+}
+@keyframes atlasToastRise {
+  from { opacity: 0; translate: 0 9px; }
+  to { opacity: 1; translate: 0 0; }
+}
+/* A tiny confirmation strip, rather than another huge panel, when filtering. */
+html .atlasFilterNotice {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  width: fit-content;
+  max-width: 100%;
+  padding: 7px 11px;
+  border: 1px solid var(--ux-accent-border);
+  border-radius: 999px;
+  background: var(--ux-accent-soft);
+  color: var(--ux-accent-ink);
+  font-size: 11.5px;
+  font-weight: 750;
+  line-height: 1.4;
+  margin: 2px 0 9px;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity .19s ease, transform .2s cubic-bezier(.22,1,.36,1);
+  pointer-events: none;
+}
+html .atlasFilterNotice.atlasIsVisible {
+  opacity: 1;
+  transform: none;
+}
+html .atlasFilterNotice::before { content: "✓"; font-size: 12px; }
+/* Existing touch/drag actions feel responsive without exaggerated movement. */
+html button:not(:disabled):active {
+  transition-duration: .12s;
+}
+html #explore .quick .chip {
+  transition: background-color .2s, border-color .2s, color .2s,
+              transform .2s cubic-bezier(.22,1,.36,1);
+}
+html #explore .quick .chip:active:not(:disabled) { transform: scale(.965); }
+html .simItem:not(.simDragging) {
+  transition: box-shadow .19s ease, border-color .19s ease,
+              background-color .19s ease, transform .2s cubic-bezier(.22,1,.36,1);
+}
+html .simItem.simDragging { opacity: .55; transform: scale(.975) rotate(-1deg); }
+html .simItem.simHover { border-color: var(--ux-accent) !important; background: var(--ux-accent-soft) !important; }
+html #simToast {
+  border: 1px solid var(--ux-accent-border);
+  background: var(--ux-accent-soft);
+  color: var(--ux-accent-ink);
+  padding: 8px 11px;
+  border-radius: 11px;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 24px;
+}
+/* Narrow desktop/tablet widths: prevent CSS-grid rows from inheriting the
+   huge height of the postcode module and leaving blank neighboring cells.
+   Do NOT modify the full desktop sidebar (>1100px). */
+@media (max-width: 1100px) {
+  html #explore:not(.uxFiltersCollapsed) #uxFilterSidebar {
+    display: block !important;
+    min-width: 0;
+    width: 100%;
+    max-height: none;
+    overflow: visible;
+  }
+  html #uxFilterSidebar > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+  html #uxFilterSidebar > .secthead,
+  html #uxFilterSidebar > .quick,
+  html #uxFilterSidebar > .uxProfileApplied,
+  html #uxFilterSidebar > .notice,
+  html #uxFilterSidebar > .footerbar {
+    width: 100%;
+  }
+  html #uxFilterSidebar > .grid2 {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 12px;
+    margin: 0 0 11px;
+    align-items: start;
+  }
+  html #uxFilterSidebar > .grid2 > .field { margin-bottom: 0; }
+  html #uxFilterSidebar > .uxHomePostcodeFilter {
+    margin: 12px 0 16px;
+    width: 100%;
+    min-width: 0;
+  }
+  html #uxFilterSidebar .uxHomePostcodeFilter > .field,
+  html #uxFilterSidebar .uxHomePostcodeFilter input {
+    width: 100%;
+    min-width: 0;
+  }
+  html #uxFilterSidebar > .field { margin-bottom: 12px; }
+  html #uxFilterSidebar > .check { display: flex; align-items: flex-start; gap: 9px; margin: 9px 0; }
+  html #uxFilterSidebar .uxSpecialistFilters { max-width: 100%; min-width: 0; }
+}
+@media (max-width: 550px) {
+  html #uxFilterSidebar > .grid2 { grid-template-columns: minmax(0,1fr);gap:10px; }
+  html #uxFilterSidebar { padding: 14px; }
+  html #uxFilterSidebar .secthead { gap: 8px; }
+  html .atlasFilterNotice { white-space: normal; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html select::picker(select), html #toast.toast.show,
+  html .atlasFilterNotice, html .simItem,
+  html #explore .quick .chip {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Hidden filter confirmation must occupy no space at rest. */
+html .atlasFilterNotice[hidden] { display:none !important; }
+html .atlasFilterNotice:not([hidden]) { display:inline-flex; }
+

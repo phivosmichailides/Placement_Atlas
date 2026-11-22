@@ -41,12 +41,17 @@ for(const [bundle,sources] of BUNDLES){
  }
 }
 const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
+const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
+const sharedStyles=new Set(['linkedin-consent.css','learning-industry-guide.css']);
 const links=[...html.matchAll(/<link\s+rel="stylesheet"\s+href="([^"]+)"/g)].map(match=>match[1]);
 for(const [bundle,sources] of BUNDLES){
  const ref=bundle+'?v='+VERSION;
  assert.equal(links.filter(s=>s===ref).length,1,'Bundle missing or duplicated: '+ref);
+ assert(sw.includes("'"+ref+"'"),'Offline cache missing CSS bundle: '+ref);
  for(const original of sources){
   assert.equal(links.filter(s=>s.replace(/^\//,'').split('?')[0]===original).length,0,'Source still blocking page: '+original);
+  if(!sharedStyles.has(original))assert(!new RegExp("'"+original.replaceAll('.','\\.')+"\\?v=[^']+'").test(sw),
+    'Service worker would duplicate already bundled CSS: '+original);
  }
 }
 console.log((process.argv.includes('--check')?'Verified':'Built')+' '+BUNDLES.length+' lossless CSS bundles from '+files.length+' original files; '+combinedBytes+' bytes; no selectors or rules removed.');

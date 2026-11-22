@@ -1,9 +1,25 @@
-/* Swipe Mode is independent of the Explore first paint. Load its 57KB
-   interaction module only when needed; keep offline service-worker caching. */
+/* Load Swipe Mode's large interaction bundle only when requested.
+   The first-paint tab stays clickable; the selected page opens after mount. */
 (()=>{
  'use strict';
  const src='tinder-mode.js?v=20261122close1';
- let loading=false,loaded=false;
+ const tab=()=>document.querySelector('nav.tabs [data-tab="tinderMode"]');
+ let loading=false,loaded=false,pendingOpen=false,waitCount=0;
+ const showWhenReady=()=>{
+   if(!pendingOpen)return;
+   const page=document.getElementById('tinderMode');
+   const button=tab();
+   if(page&&button&&!button.disabled){
+     pendingOpen=false;waitCount=0;
+     button.click();
+   }else if(++waitCount<150){
+     setTimeout(showWhenReady,100);
+   }else{
+     pendingOpen=false;
+     const button=tab();
+     if(button)button.title='Swipe Mode is unavailable. Select again to retry.';
+   }
+ };
  const load=()=>{
    if(loading||loaded)return;
    loading=true;
@@ -11,40 +27,47 @@
    script.src=src;
    script.async=true;
    script.dataset.atlasLazySwipe='1';
-   script.onload=()=>{loaded=true;loading=false};
+   script.onload=()=>{
+     loaded=true;loading=false;
+     if(pendingOpen)showWhenReady();
+   };
    script.onerror=()=>{
-     loading=false;
-     const panel=document.getElementById('tinderMode');
-     if(!panel||panel.querySelector('[data-atlas-swipe-retry]'))return;
-     const retry=document.createElement('button');
-     retry.type='button';
-     retry.className='btn';
-     retry.dataset.atlasSwipeRetry='1';
-     retry.textContent='Retry loading Swipe Mode';
-     retry.addEventListener('click',()=>{retry.remove();load()});
-     panel.append(retry);
+     loading=false;pendingOpen=false;
+     const button=tab();
+     if(button)button.title='Could not load Swipe Mode. Select again to retry.';
+     script.remove();
    };
    document.body.append(script);
  };
- const check=()=>{
-   if(document.querySelector('.tab[data-tab="tinderMode"].active')||
-      document.getElementById('tinderMode')?.classList.contains('active'))load();
+ const open=event=>{
+   if(document.getElementById('tinderMode'))return;
+   // The first-paint tab exists before the Swipe Mode module is loaded.
+   // Intercept only this provisional click, then replay after mounting.
+   event.preventDefault();
+   event.stopImmediatePropagation();
+   pendingOpen=true;waitCount=0;
+   load();
+   if(loaded)showWhenReady();
+ };
+ const setup=()=>{
+   const button=tab();
+   if(!button)return;
+   button.disabled=false;
+   button.removeAttribute('title');
+   button.addEventListener('click',open,true);
+   if(button.classList.contains('active')){pendingOpen=true;load();}
  };
  document.addEventListener('desk:after-navigation',event=>{
-   if(event.detail?.to==='tinderMode')load();
+   if(event.detail?.to==='tinderMode'&&!document.getElementById('tinderMode')){
+     pendingOpen=true;load();
+   }
  });
- // Prepare the module on direct interaction, even before a delayed tab
- // navigation handler has finished binding.
- document.addEventListener('click',event=>{
-   if(event.target.closest('[data-tab="tinderMode"],[data-atlas-welcome="swipe"]'))load();
- },true);
- // Prefetch when someone shows explicit intent by hovering/focusing Swipe.
  document.addEventListener('mouseover',event=>{
    if(event.target.closest('[data-tab="tinderMode"]'))load();
  },{passive:true});
  document.addEventListener('focusin',event=>{
    if(event.target.closest('[data-tab="tinderMode"]'))load();
  });
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',check,{once:true});
- else check();
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});
+ else setup();
 })();

@@ -42,6 +42,9 @@ body.atlasMapFocusOpen .atlasMapExpand{display:none}
 .atlasPopupCopy span{font-size:10px;font-weight:750;color:var(--ink)}
 .atlasPopupOpen{flex:0 0 auto;padding:7px 9px;border:1px solid var(--ux-accent-border);border-radius:9px;background:var(--ux-accent-soft);color:var(--ux-accent-ink);font-size:10px;font-weight:850;cursor:pointer}
 .atlasPopupOpen:hover{filter:brightness(.97)}
+.atlasPopupDrilldown{display:block;width:100%;margin-top:10px;padding:9px 12px;border:1px solid var(--ux-accent-border);border-radius:10px;background:var(--ux-accent-soft);color:var(--ux-accent-ink);font:750 11px/1.4 'Plus Jakarta Sans',Inter,system-ui,sans-serif;text-align:center;cursor:pointer}
+.atlasPopupDrilldown:hover{filter:brightness(.97)}
+.atlasPopupDrilldown:focus-visible{outline:2px solid var(--ux-accent);outline-offset:2px}
 .atlasPopupMore,.map-approx-note{font-size:10px;line-height:1.45;color:var(--mut);margin:8px 0 0}
 @media(max-width:680px){
  .atlasMapEmptyHint{top:10px;gap:7px;padding:6px 7px 6px 10px;font-size:10px}

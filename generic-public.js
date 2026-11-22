@@ -122,13 +122,13 @@
       persistFilters();
       document.getElementById('allRegionsBtn')?.classList.add('on');
       try{renderAll()}catch{try{explore();stats();reco()}catch{}}
-      requestAnimationFrame(()=>{try{placementMap?.invalidateSize(false)}catch{}});
+      requestAnimationFrame(()=>{try{placementMap?.invalidateSize({pan:false,animate:false})}catch{}});
     };
 
     // Keep the All regions chip visually and functionally meaningful.
     allBtn?.addEventListener('click',()=>{
       allBtn.classList.add('on');
-      requestAnimationFrame(()=>{try{placementMap?.invalidateSize(false)}catch{}});
+      requestAnimationFrame(()=>{try{placementMap?.invalidateSize({pan:false,animate:false})}catch{}});
     });
     region?.addEventListener('change',()=>allBtn?.classList.toggle('on',!region.value&&!quick.size));
     document.getElementById('quick')?.addEventListener('click',()=>requestAnimationFrame(()=>allBtn?.classList.toggle('on',!region?.value&&!quick.size)));
@@ -139,7 +139,7 @@
 
     // Instant map: render the 760 bundled postcode coordinates on first paint.
     // Further lookups are opt-in through "Locate missing", or limited to the chosen region.
-    requestAnimationFrame(()=>{try{placementMap?.invalidateSize(false)}catch{}});
+    requestAnimationFrame(()=>{try{placementMap?.invalidateSize({pan:false,animate:false})}catch{}});
 
     return true;
   };

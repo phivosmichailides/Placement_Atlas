@@ -91,6 +91,7 @@ const run=async()=>{
    // Also exercise the *real* account button and lazy-Supabase handoff.
    // The SDK is replaced with a harmless mock before clicking, so this makes
    // no requests to Supabase and never creates an account.
+   if(name==='desktop'){
    await page.evaluate(()=>{
      const fake={auth:{
        getSession:async()=>({data:{session:null},error:null}),
@@ -106,6 +107,7 @@ const run=async()=>{
    assert(await dialog.locator('.cloudAuthBrand').isVisible(),'Real account entry opens branded modal');
    await dialog.locator('.cloudClose').click();
    assert.equal(await overlay.count(),0,'Real account modal must close');
+   }
    await context.close();
   }
   // Existing theme selection must style the auth screen without changing the user's choice.

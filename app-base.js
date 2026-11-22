@@ -18,31 +18,42 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify(state));document.dis
 function parseCSV(source){
   // Oriel exports are RFC-4180-style CSV: quoted commas, escaped quotes
   // and newlines inside descriptions must all be preserved.
+  // Same state machine as before, but runs of ordinary characters are copied with one slice instead of one array push
+  // per character, which made parsing the 4 MB catalogue a large part of the startup work on phones.
   const input=String(source??'').replace(/^\uFEFF/,'');
   const records=[];
-  let record=[],field=[],quoted=false,index=0;
-  const finishField=()=>{record.push(field.join(''));field=[];};
+  const length=input.length;
+  let record=[],field='',quoted=false,index=0,runStart=0;
+  const flushRun=end=>{if(end>runStart)field+=input.slice(runStart,end);};
+  const finishField=()=>{record.push(field);field='';};
   const finishRecord=()=>{
     finishField();
     if(record.some(value=>value.trim()!==''))records.push(record);
     record=[];
   };
-  while(index<input.length){
-    const char=input[index++];
-    if(char==='"'){
-      if(quoted&&input[index]==='"'){field.push('"');index++;}
+  while(index<length){
+    const code=input.charCodeAt(index);
+    if(code===34){
+      flushRun(index);index++;
+      if(quoted&&input.charCodeAt(index)===34){field+='"';index++;}
       else if(quoted){quoted=false;}
       else if(field.length===0){quoted=true;}
-      else{field.push(char);}
-    }else if(!quoted&&char===','){
+      else{field+='"';}
+      runStart=index;
+    }else if(!quoted&&code===44){
+      flushRun(index);index++;
       finishField();
-    }else if(!quoted&&(char==='\n'||char==='\r')){
-      if(char==='\r'&&input[index]==='\n')index++;
+      runStart=index;
+    }else if(!quoted&&(code===10||code===13)){
+      flushRun(index);index++;
+      if(code===13&&input.charCodeAt(index)===10)index++;
       finishRecord();
+      runStart=index;
     }else{
-      field.push(char);
+      index++;
     }
   }
+  flushRun(index);
   if(quoted)throw Error('CSV contains a quoted field without a closing quote');
   if(record.length||field.length)finishRecord();
   return records;

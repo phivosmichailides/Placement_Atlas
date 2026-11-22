@@ -1,7 +1,7 @@
 'use strict';
 /* Private Oriel practice desk. Intentionally independent of official Oriel and core saved rankings. */
 (()=>{
- const KEY='oriel-simulator-v1',ZKEY='oriel-simulator-zoom-v1';
+ const KEY='oriel-simulator-v1';
  const Z=['preferred','neutral','unwanted'];
  const labels={preferred:'Preference',neutral:'No Preference',unwanted:'Not Wanted'};
  const regionNames={'east midlands':'East Midlands','east of england':'East of England','kent, surrey and sussex':'Kent, Surrey and Sussex','north east':'North East','north west':'North West','south west':'South West','thames valley':'Thames Valley','wales':'Wales','wessex':'Wessex','west midlands':'West Midlands','yorkshire and the humber':'Yorkshire and the Humber','london':'London'};
@@ -12,11 +12,11 @@
  const data=()=>{try{return typeof placements!=='undefined'&&Array.isArray(placements)?placements:[]}catch{return []}};
  const rankedHere=()=>{try{return typeof ranked==='function'?ranked():[]}catch{return []}};
  const byId=new Map(),all=[];
- let state={preferred:[],neutral:[],unwanted:[]},show={preferred:75,neutral:75,unwanted:75},zoom=100,started=false;
+ let state={preferred:[],neutral:[],unwanted:[]},show={preferred:75,neutral:75,unwanted:75},started=false;
  const msg=x=>{if($('simToast'))$('simToast').textContent=x};
  function load(){
    try{let r=JSON.parse(localStorage.getItem(KEY)||'null');if(r&&r.version===1)for(const z of Z)if(Array.isArray(r[z]))state[z]=r[z].filter(s=>typeof s==='string').slice(0,5000)}catch{}
-   try{zoom=Number(localStorage.getItem(ZKEY)||100)}catch{}if(!Number.isFinite(zoom)||zoom<65||zoom>145)zoom=100;
+
  }
  const save=()=>{try{localStorage.setItem(KEY,JSON.stringify({version:1,preferred:state.preferred,neutral:state.neutral,unwanted:state.unwanted}))}catch{msg('Browser storage unavailable. Export a backup.')}};
  function indexData(){
@@ -67,11 +67,11 @@
    tab.onclick=()=>{if(typeof switchTab==='function')switchTab('simulator')};
    const section=el('section','panel');section.id='simulator';
    section.innerHTML=
-    '<div class="sectionHero card simHero"><div><div class="eyebrow">PRIVATE ORIEL PRACTICE WORKSPACE</div><h2>Oriel Simulation</h2><p>Organise programmes into the three official category names, drag or reorder them, and copy their exact codes. <b>This never updates your actual Oriel application or the main Placement Atlas shortlist.</b></p></div><div class="simHeroActions"><a class="btn" href="https://www.oriel.nhs.uk/" target="_blank" rel="noopener noreferrer">Open official Oriel ↗</a><button class="btn simSplitButton" id="simOpenSplit" type="button">Open official Oriel in split view</button><small class="simSplitHelp" id="simSplitHelp">Opens a second tab. In Chrome, right-click the Oriel tab and choose “Add tab to new split view”, then select this Desk.</small></div></div>'+
-    '<div class="simSummary card"><div><div class="eyebrow">PROGRAMMES ORGANISED</div><div class="simSummaryBig"><strong id="simCount">0</strong><span> / </span><strong id="simTotal">4,064</strong></div><p id="simRemaining">Loading…</p></div><div class="simTools"><div class="simZoom"><button class="btn" id="simZoomOut" type="button" aria-label="Zoom out">−</button><output id="simZoomValue">100%</output><button class="btn" id="simZoomIn" type="button" aria-label="Zoom in">+</button><button class="btn" id="simZoomReset" type="button">Reset</button></div><button class="btn" id="simImport" type="button">Import my shortlist</button><button class="btn" id="simCSV" type="button">Export ranked CSV</button><button class="btn" id="simBackup" type="button">Backup</button><button class="btn" id="simRestore" type="button">Restore</button><input hidden id="simRestoreFile" type="file" accept=".json,application/json"><button class="btn danger" id="simClear" type="button">Clear simulation</button></div></div>'+
-    '<p class="simHint">Search by name, town or code; click a result to add it. Drag a card to another column, use its dropdown to move it, or click its number to change rank. The copy icon copies the four-digit programme code for pasting into Oriel.</p>'+
+    '<div class="sectionHero card simHero"><div><div class="eyebrow">YOUR ORIEL PRACTICE WORKSPACE</div><h2>Oriel Simulation</h2><p>Arrange programmes in Preference, No Preference or Not Wanted. This is practice only — your Oriel application stays unchanged.</p></div><div class="simHeroActions"><a class="btn" href="https://www.oriel.nhs.uk/" target="_blank" rel="noopener noreferrer">Open official Oriel ↗</a><details class="simSplitTip"><summary>Want a side-by-side view?</summary><p>Open Oriel in another tab, then use your browser’s split-tab view to place both pages side by side.</p></details></div></div>'+
+    '<div class="simSummary card"><div><div class="eyebrow">PROGRAMMES ORGANISED</div><div class="simSummaryBig"><strong id="simCount">0</strong><span> / </span><strong id="simTotal">4,064</strong></div><p id="simRemaining">Loading…</p></div><div class="simTools"><button class="btn" id="simImport" type="button">Import my shortlist</button><button class="btn" id="simCSV" type="button">Export ranked CSV</button><button class="btn" id="simBackup" type="button">Backup</button><button class="btn" id="simRestore" type="button">Restore</button><input hidden id="simRestoreFile" type="file" accept=".json,application/json"><button class="btn danger" id="simClear" type="button">Clear simulation</button></div></div>'+
+    '<p class="simHint">Search to add a programme · drag to reorder · tap a rank to move it · copy its code for Oriel.</p>'+
     '<div class="simViewport"><div class="simColumns" id="simColumns">'+
-     Z.map(z=>'<section class="simCol" data-sim-col="'+z+'"><header><div class="simColHeading"><div><div class="eyebrow">'+(z==='preferred'?'RANKED IN YOUR CHOSEN ORDER':z==='neutral'?'COULD ACCEPT':'WOULD NOT ACCEPT')+'</div><h3>'+labels[z]+' <small data-sim-count="'+z+'">0</small></h3><p class="simColHelp">'+(z==='preferred'?'Your preferred programmes, ranked in order.':z==='neutral'?'You could accept a programme in this group if needed.':'You would not accept an offer in this group.')+'</p></div><span aria-hidden="true">'+(z==='preferred'?'♥':z==='neutral'?'○':'×')+'</span></div><label for="simInput-'+z+'">Add programme</label><input id="simInput-'+z+'" data-sim-input="'+z+'" type="search" autocomplete="off" placeholder="Search name, postcode or code…"><div class="simResults" data-sim-results="'+z+'"></div></header><div class="simList" data-sim-list="'+z+'"></div><div data-sim-more="'+z+'" class="simMore"></div></section>').join('')+
+     Z.map(z=>'<section class="simCol" data-sim-col="'+z+'"><header><div class="simColHeading"><div><div class="eyebrow">'+(z==='preferred'?'RANKED':'ACCEPTABLE':'EXCLUDED')+'</div><h3>'+labels[z]+' <small data-sim-count="'+z+'">0</small></h3><p class="simColHelp">'+(z==='preferred'?'Ranked choices':z==='neutral'?'Can accept':'Will not accept')+'</p></div><span aria-hidden="true">'+(z==='preferred'?'♥':z==='neutral'?'○':'×')+'</span></div><label for="simInput-'+z+'">Add programme</label><input id="simInput-'+z+'" data-sim-input="'+z+'" type="search" autocomplete="off" placeholder="Name, postcode or code…"><div class="simResults" data-sim-results="'+z+'"></div></header><div class="simList" data-sim-list="'+z+'"></div><div data-sim-more="'+z+'" class="simMore"></div></section>').join('')+
     '</div></div><div class="card simFoot"><div><strong>Unassigned is separate from No Preference here.</strong><p>Unassigned programmes have not yet been placed in this simulation. Official Oriel may handle unselected programmes differently.</p></div><button class="btn" id="simAssignAll" type="button">Place all remaining in Not Wanted…</button></div><p class="smallnote" role="status" aria-live="polite" id="simToast">Simulator data is saved locally only.</p>';
    document.getElementById('shortlist').after(section);
  }
@@ -150,13 +150,6 @@
        btn.type='button';btn.addEventListener('click',()=>{show[z]+=100;render()});more.append(btn)}
    }
  }
- function setZoom(n){
-   zoom=Math.max(65,Math.min(145,Math.round(n/5)*5));
-   try{localStorage.setItem(ZKEY,String(zoom))}catch{}
-   if($('simColumns'))$('simColumns').style.zoom=String(zoom/100);
-   if($('simZoomValue'))$('simZoomValue').textContent=zoom+'%';
-   $('simZoomOut').disabled=zoom<=65;$('simZoomIn').disabled=zoom>=145;
- }
  function bind(){
    for(const z of Z){
      const input=document.querySelector('[data-sim-input="'+z+'"]');
@@ -175,21 +168,6 @@
      list.addEventListener('dragover',e=>{e.preventDefault();e.dataTransfer.dropEffect='move'});
      list.addEventListener('drop',e=>{if(e.target.closest('.simItem'))return;e.preventDefault();const id=e.dataTransfer.getData('text/plain');if(byId.has(id))move(id,z)});
    }
-   $('simOpenSplit')?.addEventListener('click',()=>{
-     const opened=window.open('https://www.oriel.nhs.uk/','_blank');
-     const help=$('simSplitHelp');
-     if(opened){
-       try{opened.opener=null}catch{}
-       if(help)help.textContent='Oriel opened in a new tab. Right-click its tab → “Add tab to new split view” → choose this Placement Desk.';
-       msg('Official Oriel opened in a new tab. Use Chrome’s tab menu to pair it with this Desk.');
-     }else{
-       if(help)help.textContent='Chrome blocked the new tab. Allow pop-ups for this site, then try again.';
-       msg('Chrome blocked the new tab. Allow pop-ups for this site and try again.');
-     }
-   });
-   $('simZoomOut').addEventListener('click',()=>setZoom(zoom-10));
-   $('simZoomIn').addEventListener('click',()=>setZoom(zoom+10));
-   $('simZoomReset').addEventListener('click',()=>setZoom(100));
    $('simImport').addEventListener('click',()=>{
      const fresh=rankedHere().filter(p=>byId.has(p.id)&&!zoneOf(p.id));
      if(!fresh.length){msg('All saved shortlist programmes are already included, or the shortlist is empty.');return}
@@ -218,7 +196,7 @@
      if(!confirm('Place ALL '+remaining.length+' unassigned programmes into simulator Not Wanted?'))return;
      state.unwanted.push(...remaining);save();render();msg(remaining.length+' added to simulator Not Wanted.');
    });
-   setZoom(zoom);
+
  }
  if(!document.querySelector('nav.tabs [data-tab="outcome"]'))return;
  markup();load();

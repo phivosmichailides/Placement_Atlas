@@ -5,8 +5,11 @@ const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const read = name => fs.readFileSync(path.join(root, name), 'utf8');
+const {assertCssLoaded}=require('./css-bundle-assertions.cjs');
 const assetURL=(source,name)=>{const safe=name.replaceAll('.','\\.');const found=source.match(new RegExp(safe+'\\?v=[0-9a-z_-]+','i'));assert.ok(found,'Missing versioned asset '+name);return found[0]};
-const assertAssetSynced=(html,sw,name)=>assert.equal(assetURL(html,name),assetURL(sw,name),'App/offline cache mismatch for '+name);
+const assertAssetSynced=(html,sw,name)=>name.endsWith('.css')
+  ? assertCssLoaded(html,sw,name)
+  : assert.equal(assetURL(html,name),assetURL(sw,name),'App/offline cache mismatch for '+name);
 
 test('live project does not ship a copy of the earlier explorer', () => {
   assert.equal(fs.existsSync(path.join(root, 'legacy.html')), false);
@@ -130,7 +133,7 @@ test('Tinder Mode preloads the next card but conceals it until promotion', () =>
   const js=read('tinder-mode.js'),css=read('tinder-mode.css');
   const html=read('index.html'),sw=read('sw.js');
   assertAssetSynced(html,sw,'tinder-mode.js');
-  assert.match(html,/tinder-mode\.css\?v=20261110deckfix1/);
+  assertCssLoaded(html,sw,'tinder-mode.css');
   assert.match(sw,/tinder-mode\.js\?v=[0-9a-z_-]+/);
   assert.match(sw,/tinder-mode\.css\?v=20261110deckfix1/);
   assert.match(js,/const build=\(p,underlay=false\)/);
@@ -146,7 +149,7 @@ test('Tinder Mode preloads the next card but conceals it until promotion', () =>
 test('Tinder Mode-only directional shines, instruction hints and decision drawers remain scoped', () => {
   const html=read('index.html'),sw=read('sw.js'),js=read('tinder-mode.js'),css=read('tinder-mode.css');
   assertAssetSynced(html,sw,'tinder-mode.js');
-  assert.match(html,/tinder-mode\.css\?v=20261110deckfix1/);
+  assertCssLoaded(html,sw,'tinder-mode.css');
   assert.match(sw,/tinder-mode\.js\?v=[0-9a-z_-]+/);
   assert.match(sw,/tinder-mode\.css\?v=20261110deckfix1/);
   assert.match(js,/const shine=\(status\)=>/);
@@ -185,7 +188,7 @@ test('personal fit requires onboarding and quiz can set appearance without chang
   assert.match(quiz,/Maybe later/);
   assert.match(tinder,/FIT · TAKE QUIZ/);
   assert.match(nav,/atlasSubnavChoices/);
-  assert.match(html,/simulator-refinement\.css\?v=20261109fit1/);
+  assertCssLoaded(html,sw,'simulator-refinement.css');
   assert.match(sw,/onboarding\.js\?v=[0-9a-z_-]+/);
 });
 
@@ -202,7 +205,7 @@ test('contextual dashboard actions and compact filters are wired to the live app
   const html=read('index.html'),ui=read('atlas-interactions.js'),css=read('atlas-interactions.css');
   const session=read('session-ui.js'),app=read('app.js'),sw=read('sw.js');
   assert.match(html,/atlas-interactions\.js\?v=20261110reset1/);
-  assert.match(html,/atlas-interactions\.css\?v=20261110ux1/);
+  assertCssLoaded(html,sw,'atlas-interactions.css');
   assert.match(sw,/atlas-interactions\.js\?v=20261110reset1/);
   assert.match(sw,/atlas-interactions\.css\?v=20261110ux1/);
   assert.match(app,/sector-map\.js\?v=[0-9a-z_-]+/);
@@ -303,7 +306,7 @@ test('premium discovery prototype is reversible and keeps the original programme
   const app=read('app-base.js');
   const product=read('app-product.js');
   assertAssetSynced(html,sw,'premium-discovery-preview.js');
-  assert.match(html,/premium-discovery-preview\.css\?v=20261111makeover5/);
+  assertCssLoaded(html,sw,'premium-discovery-preview.css');
   assert.match(sw,/premium-discovery-preview\.js\?v=[0-9a-z_-]+/);
   assert.match(sw,/premium-discovery-preview\.css\?v=20261111makeover5/);
   assert.match(js,/atlasClassic/,'Prototype has a simple off switch');
@@ -323,7 +326,7 @@ test('premium discovery prototype is reversible and keeps the original programme
 
 test('editorial palette prototype keeps neutral surfaces and six distinct accessible accents',()=>{
   const html=read('index.html'),pwa=read('sw.js'),css=read('premium-editorial-palettes.css');
-  assert.match(html,/premium-editorial-palettes\.css\?v=20261111makeover5/);
+  assertCssLoaded(html,pwa,'premium-editorial-palettes.css');
   assert.match(pwa,/premium-editorial-palettes\.css\?v=20261111makeover5/);
   assert.match(css,/--bg:#141719/);
   assert.match(css,/--panel:#22272A/);

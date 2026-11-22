@@ -15,7 +15,8 @@
     return Number.isNaN(d.getTime())?null:d;
   };
 
-  const fmtDate=d=>d?new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'}).format(d):'';
+  const dateFormatter=new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'});
+  const fmtDate=d=>d?dateFormatter.format(d):'';
 
   const durationWeeks=p=>{
     const settings=Array.isArray(p?.settings)?p.settings:[];
@@ -24,7 +25,7 @@
     return n>0&&n<=80?n:null;
   };
 
-  const dateRow=p=>{
+  const formatDateRow=p=>{
     const start=parseOrielDate(p?.start);
     if(!start)return '<div class="programmeDates programmeDatesUnknown" aria-label="Programme dates not stated"><span class="dateStart">Start date not stated</span><span class="dateBasis">The programme data does not include a start date.</span></div>';
     const weeks=durationWeeks(p);
@@ -32,6 +33,15 @@
     const end=new Date(start.getTime()+weeks*7*86400000);
     const weekLabel=weeks===1?'week':'weeks';
     return `<div class="programmeDates" aria-label="Programme start and estimated finish"><span class="dateStart"><b>Starts</b> ${escLocal(fmtDate(start))}</span> <span class="dateDivider" aria-hidden="true">→</span> <span class="dateEnd"><b>Est. finish</b> ~${escLocal(fmtDate(end))}</span> <span class="dateBasis">${weeks} ${weekLabel} · estimated from listed rotation durations</span></div>`;
+  };
+
+  // Programme inputs are immutable within a catalogue; cache the formatted
+  // date card for every render without repeatedly creating Intl formatters.
+  const datesCache=new WeakMap();
+  const dateRow=p=>{
+    if(!p||typeof p!=='object')return formatDateRow(p);
+    if(!datesCache.has(p))datesCache.set(p,formatDateRow(p));
+    return datesCache.get(p);
   };
 
   const installDates=()=>{
@@ -43,9 +53,18 @@
       const row=dateRow(p);
       return html.replace('<div class="fit fitExpanded">',`${row}<div class="fit fitExpanded">`);
     };
-    try{renderAll();}catch{
-      try{explore();reco();shortlist();}catch{}
-    }
+    // The existing cards were rendered before this enhancement loaded.
+    // Add dates in place instead of rebuilding every Explore/shortlist card,
+    // input and map (which previously caused a large main-thread task).
+    try{
+      const byId=new Map(placements.map(p=>[String(p.id),p]));
+      for(const element of document.querySelectorAll('.placement[data-id]')){
+        if(element.querySelector(':scope > .programmeDates'))continue;
+        const p=byId.get(element.dataset.id);
+        const fit=element.querySelector(':scope > .fit.fitExpanded, :scope > .fit');
+        if(p&&fit)fit.insertAdjacentHTML('beforebegin',dateRow(p));
+      }
+    }catch(error){console.warn('Optional programme dates could not be applied to existing cards',error)}
     return true;
   };
 

@@ -369,6 +369,10 @@ $('exportRanked').onclick=exportRanked;$('fitMap').onclick=()=>{if(!mapLayer||!p
   // Render the catalogue before the map work so the first useful interaction
   // is available while tiles are still arriving.
   try{
+    // Let enhancements that only wait for the catalogue (generic-public.js) apply their settings now, so the cards are
+    // drawn once with those settings instead of being drawn here and then redrawn moments later.
+    window.__atlasFirstRenderPending=true;
+    try{document.dispatchEvent(new CustomEvent('desk:catalogue-loaded'))}finally{window.__atlasFirstRenderPending=false}
     renderAll();
     document.dispatchEvent(new CustomEvent('desk:cards-ready'));
   }catch(err){

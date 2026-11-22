@@ -70,8 +70,8 @@ test('reset is complete and persisted, including specialist exclusions',()=>{
 
 test('new-account script versions and PWA assets match to avoid stale logic',()=>{
   const versions={'supabase-cloud.js':'20261122lazyauth1','app.js':'20261122perf1',
-    'app-base.js':'20261122perf1','app-product.js':'20261122perf1',
-    'generic-public.js':'20261122mapstable1','onboarding.js':'20261122default1'};
+    'app-base.js':'20261123onerender1','app-product.js':'20261122perf1',
+    'generic-public.js':'20261123onerender1','onboarding.js':'20261122default1'};
   for(const [file,bundle] of Object.entries(versions)){
     if(file==='supabase-cloud.js'||file==='app.js')
       assert.ok(index.includes(file+'?v='+bundle),'index cache bust missing: '+file);

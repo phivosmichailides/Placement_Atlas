@@ -103,7 +103,7 @@
       const compare=document.createElement('button');
       compare.type='button';compare.id='atlasCompareOpen';
       compare.className='btn atlasCompareOpen';
-      compare.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="7" height="14" rx="1.5"/><rect x="14" y="5" width="7" height="14" rx="1.5"/></svg><span>Compare selected</span><b id="atlasCompareCount">0</b>';
+      compare.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="7" height="14" rx="1.5"/><rect x="14" y="5" width="7" height="14" rx="1.5"/></svg><span>Compare</span><b id="atlasCompareCount">0</b>';
       compare.title='View and compare up to five programmes selected from Explore';
       compare.addEventListener('click',()=>navigate('compare'));
       bar.append(compare);

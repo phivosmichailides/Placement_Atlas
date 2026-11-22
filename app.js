@@ -24,14 +24,14 @@
     };
     const loadSectors=()=>{
       const sectors=document.createElement('script');
-      sectors.src='sector-map.js?v=20261122mapstable1';
+      sectors.src='sector-map.js?v=20261123onerender1';
       sectors.onload=loadOnboarding;
       sectors.onerror=loadOnboarding;
       document.body.appendChild(sectors);
     };
     const loadGeneric=()=>{
       const generic=document.createElement('script');
-      generic.src='generic-public.js?v=20261122mapstable1';
+      generic.src='generic-public.js?v=20261123onerender1';
       generic.onload=loadSectors;
       generic.onerror=loadSectors;
       document.body.appendChild(generic);

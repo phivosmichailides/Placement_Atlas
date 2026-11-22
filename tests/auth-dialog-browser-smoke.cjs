@@ -51,7 +51,7 @@ const run=async()=>{
    });
    assert(bounds.left>=0&&bounds.right<=width+2,name+': form must fit viewport: '+JSON.stringify(bounds));
    assert(bounds.scrollWidth<=width+3,name+': no horizontal scrolling: '+JSON.stringify(bounds));
-   await page.screenshot({path:out+'/placement-atlas-auth-'+name+'-signin.png',fullPage:true});
+   await page.screenshot({path:out+'/placement-atlas-auth-'+name+'-signin.png',fullPage:false});
 
    await dialog.locator('[data-auth-mode="signup"]').click();
    assert.equal((await dialog.locator('#cloudDialogTitle').innerText()).trim(),'Create your account');
@@ -59,7 +59,7 @@ const run=async()=>{
    assert(await dialog.locator('#cloudPasswordHelp').isVisible());
    assert.equal(await dialog.locator('#cloudPassword').getAttribute('minlength'),'12');
    assert.equal(await dialog.locator('[data-auth-mode="signin"]').isVisible(),true);
-   await page.screenshot({path:out+'/placement-atlas-auth-'+name+'-signup.png',fullPage:true});
+   await page.screenshot({path:out+'/placement-atlas-auth-'+name+'-signup.png',fullPage:false});
 
    await dialog.locator('#cloudEmail').fill('example@example.com');
    await dialog.locator('#cloudPassword').fill('short');
@@ -102,7 +102,7 @@ const run=async()=>{
   });
   assert.equal(await page.locator('html').getAttribute('data-theme'),'dark');
   assert(await page.locator('#cloudDialogTitle').isVisible());
-  await page.screenshot({path:out+'/placement-atlas-auth-dark.png',fullPage:true});
+  await page.screenshot({path:out+'/placement-atlas-auth-dark.png',fullPage:false});
   await context.close();
   assert.deepEqual(errors,[],'No uncaught browser JavaScript errors');
   console.log('Auth UI passes desktop, mobile, dark mode, signup, password and recovery flow checks.');

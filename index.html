@@ -125,6 +125,9 @@
 (function(){
   var root=document.documentElement;
   try{if(localStorage.getItem('phivos-onboarding-v1')||localStorage.getItem('phivos-onboarding-profile-v1'))root.classList.add('atlasHeroReserveOff')}catch(e){}
+  // The heights were measured at the automatic zoom levels (70%, 80%, 100%); a visitor's own zoom choice changes them.
+  var z=parseFloat(root.style.getPropertyValue('--ux-page-zoom'))||1;
+  if(z!==0.7&&z!==0.8&&z!==1)root.classList.add('atlasHeroReserveOff','atlasReserveRelease');
   setTimeout(function(){root.classList.add('atlasHeroReserveOff','atlasReserveRelease')},8000);
 })();
 </script>
@@ -140,20 +143,35 @@
 @media(min-width:601px) and (max-width:720px){:root{--atlas-hero-h:413px}}
 @media(min-width:721px) and (max-width:870px){:root{--atlas-hero-h:423px}}
 @media(min-width:871px) and (max-width:949px){:root{--atlas-hero-h:328px}}
-@media(min-width:950px) and (max-width:1100px) and (hover:hover) and (pointer:fine){:root{--atlas-hero-h:calc(299px + (100vw - 950px)*.074)}}
-@media(min-width:1101px) and (max-width:1180px) and (hover:hover) and (pointer:fine){:root{--atlas-hero-h:calc(311px + (100vw - 1100px)*.065)}}
-@media(min-width:1181px) and (max-width:1400px) and (hover:hover) and (pointer:fine){:root{--atlas-hero-h:calc(316px + (100vw - 1180px)*.105)}}
-@media(min-width:1401px) and (max-width:1600px) and (hover:hover) and (pointer:fine){:root{--atlas-hero-h:calc(340px + (100vw - 1400px)*.025)}}
-@media(min-width:1601px) and (hover:hover) and (pointer:fine){:root{--atlas-hero-h:343px}}
+/* From 950px the intro is the same height whether the page runs at the compact 70/80% zoom (mouse) or at 100%
+   (touch screens, and test browsers without a mouse); these values are the lower of the two at each width. */
+@media(min-width:950px) and (max-width:1100px){:root{--atlas-hero-h:calc(298px + (100vw - 950px)*.074)}}
+@media(min-width:1101px) and (max-width:1180px){:root{--atlas-hero-h:calc(309px + (100vw - 1100px)*.065)}}
+@media(min-width:1181px) and (max-width:1400px){:root{--atlas-hero-h:calc(314px + (100vw - 1180px)*.105)}}
+@media(min-width:1401px) and (max-width:1600px){:root{--atlas-hero-h:calc(338px + (100vw - 1400px)*.03)}}
+@media(min-width:1601px){:root{--atlas-hero-h:343px}}
 html.atlasPremiumPreview:not(.atlasHeroReserveOff) .shell:not(:has(.productIntro)):has(#explore.active) #atlasHeaderTools::after{
-  content:"";display:block;height:var(--atlas-hero-h);margin:8px 0 12px;
+  content:"";display:block;height:var(--atlas-hero-h);margin:3px 0 12px;
 }
 @media(max-width:720px){html.atlasPremiumPreview:not(.atlasHeroReserveOff) .shell:not(:has(.productIntro)):has(#explore.active) #atlasHeaderTools::after{margin:6px 0 10px}}
 html.atlasPremiumPreview:not(.atlasHeroReserveOff) body:not(.deskPersonalised) .productIntro.card{min-height:var(--atlas-hero-h)!important}
 /* The "More statistics" toolbar is inserted above the stat cards shortly after
    load (about 30px + 5px margin); hold that space until it arrives. */
 html.atlasPremiumPreview:not(.atlasReserveRelease) body #explore:not(:has(.atlasStatToolbarPremium)) > #stats{margin-top:44px!important}
-@media(min-width:1101px) and (hover:hover) and (pointer:fine){html.atlasPremiumPreview:not(.atlasReserveRelease) body #explore > #stats:empty{min-height:75px}}
+/* The stat cards fill in after the data loads; hold their row (lower bound of the measured heights). */
+@media(min-width:950px){html.atlasPremiumPreview:not(.atlasReserveRelease) body #explore > #stats:empty{min-height:67px}}
+@media(min-width:1180px){html.atlasPremiumPreview:not(.atlasReserveRelease) body #explore > #stats:empty{min-height:73px}}
+/* The old action row (theme, account, save help) is moved into the header cluster by script right after first paint,
+   leaving #atlasHeaderTools empty. Start it empty too, so the page below does not jump up when they move. */
+html.atlasPremiumPreview:not(.atlasReserveRelease) #atlasHeaderTools > .actions,
+html.atlasPremiumPreview:not(.atlasReserveRelease) #atlasHeaderTools > #saveHelp{display:none!important}
+/* The header's Profile / Sign in / language cluster is added by script a moment after first paint and makes the
+   top row taller. Until it arrives, hold its grid cell (last column of the first row) at its measured size. */
+html:not(.atlasReserveRelease) body .shell > header.top.atlasStickyHeader:not(:has(> .atlasHeaderUtilities))::after{
+  content:"";display:block;grid-row:1;grid-column:-2 / -1;height:77px;width:293px;
+}
+@media(min-width:1180px){html:not(.atlasReserveRelease) body .shell > header.top.atlasStickyHeader:not(:has(> .atlasHeaderUtilities))::after{width:304px}}
+@media(max-width:720px){html:not(.atlasReserveRelease) body .shell > header.top.atlasStickyHeader:not(:has(> .atlasHeaderUtilities))::after{height:72px;width:170px}}
 /* Headings that hold a real "Full name" button keep the pointer cursor they had as role=button. */
 html body .placementTop h3:has(.atlasTitleExpand){cursor:pointer}
 </style>
@@ -186,7 +204,7 @@ html body .placementTop h3:has(.atlasTitleExpand){cursor:pointer}
 <link rel="stylesheet" href="cloud-auth.css?v=20261112members1">
 <link rel="stylesheet" href="cloud-password-auth.css?v=20261113turnstile1">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="preconnect" href="https://api.maptiler.com" crossorigin>
+<link rel="preconnect" href="https://api.maptiler.com">
 <link rel="stylesheet" href="design-refresh.css?v=20261120plusjakarta1">
 <link rel="stylesheet" href="programme-preview.css?v=20261106a">
 <link rel="stylesheet" href="controls-refinement.css?v=20261106a">

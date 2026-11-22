@@ -190,6 +190,17 @@ async function initMap(){
     const cached=JSON.parse(localStorage.getItem('phivos-geo-v1')||'{}');
     if(cached&&typeof cached==='object'&&!Array.isArray(cached))Object.assign(geo,cached);
   }catch{}
+  if(!placementMap)createBaseMap();
+  // Pins are added only once the catalogue has rendered, exactly as before; until this layer exists drawMap() is a no-op.
+  mapLayer=L.layerGroup().addTo(placementMap);
+  requestAnimationFrame(()=>placementMap?.invalidateSize(false));
+}
+// The base map always opens on the same London view and needs nothing from the catalogue, so it is created as soon as
+// this script runs. Its tiles then download alongside the catalogue instead of after it (the map is the page's largest
+// image). Pins and every data-driven step still happen in initMap() after the first render.
+function createBaseMap(){
+  if(placementMap||typeof L==='undefined'||!$('placementMap'))return;
+  const mapHost=$('placementMap');
   placementMap=L.map('placementMap',{
     zoomControl:false,minZoom:3,maxZoom:19,preferCanvas:true,scrollWheelZoom:false,zoomAnimation:true,fadeAnimation:true,zoomSnap:0.1,zoomDelta:1
   }).setView([51.5074,-.1278],10.4);
@@ -197,7 +208,6 @@ async function initMap(){
     mapHost.dataset.loading='true';
     mapHost.setAttribute('aria-busy','true');
   }
-  mapLayer=L.layerGroup().addTo(placementMap);
   // No CARTO: its current public tiles can contain an HTTP-200
   // "API KEY REQUIRED" watermark, which does not trigger tileerror.
   // OpenStreetMap's standard tile service requires no API key.
@@ -295,6 +305,7 @@ function bindUpgrade(){
 $('exportRanked').onclick=exportRanked;$('fitMap').onclick=()=>{if(!mapLayer||!placementMap)return;if(typeof window.OrielFitMapToScope==='function'&&window.OrielFitMapToScope())return;const pts=mapLayer.getLayers().map(l=>l.getLatLng());if(pts.length)placementMap.fitBounds(L.latLngBounds(pts),{padding:[30,30],maxZoom:14,animate:true});else toast('No mapped results match these filters.')};$('fitMap').insertAdjacentHTML('beforebegin','<button class="btn" id="locateBtn" title="Resolve postcodes for programmes matching your active filters">Locate matching sites</button>');$('locateBtn').onclick=locateMissing;$('restoreBtn').onclick=()=>$('restoreInput').click();$('restoreInput').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const j=JSON.parse(await f.text()),next=validBackup(j);if(!confirm('Merge saved decisions from this backup? Matching programme decisions and preferences will use the backup values.'))return;state={...next,marks:{...state.marks,...next.marks}};if(j.uploaded){localStorage.setItem(DATAKEY,JSON.stringify(j.uploaded));placements=rowsToPlacements(j.uploaded.csv);populate()}state.orielSnapshot=ORIEL_SNAPSHOT.version;const profile=state.prefs.onboarding;localStorage.removeItem('phivos-onboarding-profile-v1');localStorage.removeItem('phivos-onboarding-v1');if(profile){localStorage.setItem('phivos-onboarding-profile-v1',JSON.stringify(profile));localStorage.setItem('phivos-onboarding-v1','1')}applySavedFilters();persistFilters();renderAll();document.dispatchEvent(new CustomEvent('desk:palette'));toast('Backup restored.')}catch(err){alert(err.message)}finally{e.target.value=''}};document.body.addEventListener('change',e=>{if(['hideAvoid','visa'].includes(e.target.id))reco()});}
 
 (async()=>{
+  try{createBaseMap()}catch(err){console.warn('Base map will be created after the catalogue loads.',err);placementMap=null;}
   try{
     bind();bindUpgrade();
     await loadData();

@@ -1,6 +1,7 @@
 'use strict';
 const test=require('node:test');
 const assert=require('node:assert/strict');
+const {assertCssLoaded}=require('./css-bundle-assertions.cjs');
 const fs=require('node:fs');
 const path=require('node:path');
 const read=n=>fs.readFileSync(path.resolve(__dirname,'..',n),'utf8');
@@ -63,6 +64,7 @@ test('Public article is indexable, stand-alone and uses accessible native detail
 });
 test('New guide scripts, styles and public article are synchronised with PWA',()=>{
   for(const asset of ['learning-library.js?v=20261121industry3','learning-industry-guide.css?v=20261121industry2']){
+    if(asset.includes('.css?v=')){assertCssLoaded(index,sw,asset.split('?')[0]);continue;}
     assert.ok(index.includes(asset),'Index missing '+asset);
     assert.ok(sw.includes(asset),'Offline cache missing '+asset);
   }

@@ -6,6 +6,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const read=name=>fs.readFileSync(path.join(__dirname,'..',name),'utf8');
+const {assertCssLoaded}=require('./css-bundle-assertions.cjs');
 
 const html=read('index.html'),css=read('explore-efficiency.css'),
   js=read('explore-efficiency.js'),deadline=read('deadline-dates.js'),
@@ -61,6 +62,7 @@ test('HTML and service worker agree on cache-busted discovery assets',()=>{
     return source.match(new RegExp(escaped+'\\?v=[A-Za-z0-9_-]+'))?.[0]||'';
   };
   for(const file of assets){
+    if(file.endsWith('.css')){assertCssLoaded(html,sw,file);continue;}
     const inHtml=assetRef(html,file),inCache=assetRef(sw,file);
     assert.ok(inHtml,'Missing HTML asset: '+file);
     assert.ok(inCache,'Missing service-worker asset: '+file);

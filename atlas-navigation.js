@@ -197,14 +197,29 @@
   document.addEventListener('desk:after-navigation',sync);
   document.addEventListener('desk:state-saved',sync);
   document.addEventListener('desk:dataset',sync);
-  let scrollScheduled=false;
-  const syncShadow=()=>{
-    scrollScheduled=false;
-    header.classList.toggle('atlasNavScrolled',window.scrollY>18);
-  };
-  window.addEventListener('scroll',()=>{
-    if(scrollScheduled)return;
-    scrollScheduled=true;requestAnimationFrame(syncShadow);
-  },{passive:true});
-  sync();syncShadow();
+  // Header shadow once the page has scrolled past 18px. Reading window.scrollY at startup forced a full layout, so watch
+  // an invisible 1px marker (17-18px) instead: an element touching the viewport edge still counts as visible, so it
+  // stops intersecting exactly when scrollY passes 18.
+  if('IntersectionObserver' in window){
+    const marker=document.createElement('div');
+    marker.className='atlasNavScrollMarker';marker.setAttribute('aria-hidden','true');
+    marker.style.cssText='position:absolute;top:17px;left:0;width:1px;height:1px;pointer-events:none;visibility:hidden';
+    document.body.append(marker);
+    new IntersectionObserver(entries=>{
+      const entry=entries[entries.length-1];
+      header.classList.toggle('atlasNavScrolled',!entry.isIntersecting&&entry.boundingClientRect.top<0);
+    }).observe(marker);
+    sync();
+  }else{
+    let scrollScheduled=false;
+    const syncShadow=()=>{
+      scrollScheduled=false;
+      header.classList.toggle('atlasNavScrolled',window.scrollY>18);
+    };
+    window.addEventListener('scroll',()=>{
+      if(scrollScheduled)return;
+      scrollScheduled=true;requestAnimationFrame(syncShadow);
+    },{passive:true});
+    sync();syncShadow();
+  }
 })();

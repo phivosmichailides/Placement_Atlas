@@ -16,6 +16,7 @@ on:
       - 'app.js'
       - 'sw.js'
       - 'tests/explore-efficiency.test.cjs'
+      - 'tests/startup-performance-regression.test.cjs'
       - '.github/workflows/explore-efficiency-regression.yml'
   pull_request:
     paths:
@@ -32,6 +33,7 @@ on:
       - 'app.js'
       - 'sw.js'
       - 'tests/explore-efficiency.test.cjs'
+      - 'tests/startup-performance-regression.test.cjs'
       - '.github/workflows/explore-efficiency-regression.yml'
   workflow_dispatch:
 permissions:
@@ -47,8 +49,8 @@ jobs:
           node-version: '22'
       - name: Check script syntax
         run: |
-          for file in deadline-dates.js offer-journey.js atlas-navigation.js workspace-ux.js explore-efficiency.js app-product.js shortlist-refinement.js tinder-mode.js app.js sw.js tests/explore-efficiency.test.cjs; do
+          for file in tests/startup-performance-regression.test.cjs premium-discovery-preview.js deadline-dates.js offer-journey.js atlas-navigation.js workspace-ux.js explore-efficiency.js app-product.js shortlist-refinement.js tinder-mode.js app.js sw.js tests/explore-efficiency.test.cjs; do
             node --check "$file"
           done
       - name: Verify compact hero, sidebar controls and clickable filter chips
-        run: node --test tests/explore-efficiency.test.cjs
+        run: node --test tests/explore-efficiency.test.cjs tests/startup-performance-regression.test.cjs

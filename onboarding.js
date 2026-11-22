@@ -47,6 +47,18 @@
   .onboardSyncDialog .textbtn{justify-self:center;color:var(--mut)}
   @media(max-width:520px){.onboardPaletteChoices{grid-template-columns:repeat(2,minmax(0,1fr))}}
   @keyframes obFade{from{opacity:0}to{opacity:1}}
+  /* First-visit invitation: a small corner card instead of opening the full-screen quiz automatically.
+     It waits until the cookie choice is made so the two never stack. */
+  #atlasQuizInvite{position:fixed;z-index:4000;left:16px;bottom:max(16px,env(safe-area-inset-bottom));box-sizing:border-box;width:min(360px,calc(100vw - 32px));padding:14px 15px 14px;border:1px solid var(--line);border-radius:14px;background:var(--panel);color:var(--ink);box-shadow:0 12px 36px rgba(18,32,26,.16);font-size:12.5px;line-height:1.45}
+  body:has(#atlasCookieNotice) #atlasQuizInvite,body:has(.onboardOverlay) #atlasQuizInvite{display:none}
+  #atlasQuizInvite *{box-sizing:border-box}
+  #atlasQuizInvite .atlasQuizInviteEyebrow{display:block;margin:0 0 3px;color:var(--mut);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+  #atlasQuizInvite h2{margin:0;font-size:15px;line-height:1.3;letter-spacing:-.015em;color:inherit}
+  #atlasQuizInvite p{margin:5px 0 11px;color:var(--mut)}
+  #atlasQuizInvite .atlasQuizInviteActions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  #atlasQuizInvite .atlasQuizInviteActions .btn{min-height:38px;width:100%;justify-content:center;margin:0}
+  html[data-theme="dark"] #atlasQuizInvite{box-shadow:0 12px 36px rgba(0,0,0,.45)}
+  @media(max-width:480px){#atlasQuizInvite{left:8px;bottom:max(8px,env(safe-area-inset-bottom));width:calc(100vw - 16px);padding:12px 13px 13px;border-radius:13px}#atlasQuizInvite .atlasQuizInviteActions .btn{min-height:40px}}
   @media(max-width:600px){.onboardCard{padding:21px 17px;border-radius:22px}.onboardCard h2{font-size:27px}.onboardChoices,.onboardFields{grid-template-columns:1fr}.onboardChoice.wide{grid-column:auto}.onboardActions{flex-wrap:wrap}.onboardActions .spacer{display:none}.onboardActions .btn{flex:1}.onboardActions .textbtn{flex-basis:100%;order:3}}
   /* Compact, no-scroll quiz layout. Single-choice steps advance immediately;
      only the multi-select and practical-details steps expose Continue. */
@@ -348,7 +360,28 @@
     if(done)document.body.classList.add('deskPersonalised');
     // Only first-time visitors see the setup automatically. Returning visitors
     // can reopen it from Preferences or Personal Fit whenever they choose.
-    if(!done&&!skipped&&!returning&&!new URLSearchParams(location.search).has('study'))setTimeout(()=>openSetup(false),350);
+    // First-time visitors get a small invitation card rather than the quiz opening over the page by itself.
+    // Start opens the same quiz; Not now is recorded exactly like closing the quiz (skipped for this session).
+    const showInvite=()=>{
+      if(document.getElementById('atlasQuizInvite')||document.querySelector('.onboardOverlay'))return;
+      const invite=document.createElement('aside');
+      invite.id='atlasQuizInvite';invite.setAttribute('role','region');invite.setAttribute('aria-labelledby','atlasQuizInviteTitle');
+      invite.innerHTML='<span class="atlasQuizInviteEyebrow">Personalise your search</span>'+
+        '<h2 id="atlasQuizInviteTitle">Find programmes that fit you</h2>'+
+        '<p>Answer a few quick questions to rank programmes for you. About 30 seconds.</p>'+
+        '<div class="atlasQuizInviteActions"><button type="button" class="btn" data-quiz-invite="later">Not now</button>'+
+        '<button type="button" class="btn primary" data-quiz-invite="start">Start</button></div>';
+      invite.addEventListener('click',event=>{
+        const action=event.target.closest('[data-quiz-invite]')?.dataset.quizInvite;
+        if(!action)return;
+        invite.remove();
+        if(action==='start'){openSetup(false);return;}
+        document.dispatchEvent(new CustomEvent('desk:action',{detail:{name:'onboarding_skipped'}}));
+        try{sessionStorage.setItem(SESSION_SKIP,'1')}catch{}
+      });
+      document.body.append(invite);
+    };
+    if(!done&&!skipped&&!returning&&!new URLSearchParams(location.search).has('study'))setTimeout(showInvite,350);
     return true;
   };
 

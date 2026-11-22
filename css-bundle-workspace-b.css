@@ -1,0 +1,3063 @@
+/* Placement Atlas: source-order-preserving CSS bundle. Regenerate with scripts/build-css-bundles.cjs. */
+
+/* SOURCE: premium-quiet-interface.css */
+/*
+ * Placement Atlas · quieter interface layer
+ * Presentation only: every existing action remains available.
+ */
+
+/* Section introductions become editorial headings, not oversized cards. */
+html.atlasPremiumPreview .sectionHero.card{
+  padding:10px 0 12px!important;
+  margin:0 0 12px!important;
+  background:transparent!important;
+  border:0!important;
+  border-bottom:1px solid var(--line)!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  color:var(--ink)!important;
+}
+html.atlasPremiumPreview .sectionHero h2{
+  margin:2px 0 5px!important;
+  font-size:20px!important;
+  line-height:1.25!important;
+  letter-spacing:-.025em!important;
+}
+html.atlasPremiumPreview .sectionHero p{
+  max-width:760px!important;
+  margin:0!important;
+  color:var(--mut)!important;
+  font-size:13px!important;
+  line-height:1.5!important;
+}
+html.atlasPremiumPreview .sectionHero .eyebrow{
+  font-size:10px!important;
+  letter-spacing:.11em!important;
+}
+
+/* Shortlist: one clear primary action, optional tools behind More. */
+html.atlasPremiumPreview #shortlist .shortlist-toolbar{
+  display:flex!important;
+  flex-wrap:wrap!important;
+  align-items:center!important;
+  gap:8px!important;
+  margin:0 0 9px!important;
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+}
+html.atlasPremiumPreview #shortlist .shortlist-toolbar>.muted{
+  color:var(--mut)!important;
+  font-size:11px!important;
+  margin-left:2px;
+}
+html.atlasPremiumPreview #shortlist .shortlistViewHint{display:none!important}
+html.atlasPremiumPreview #shortlist .uxLayoutControls{
+  padding:3px!important;
+  gap:3px!important;
+  background:var(--soft)!important;
+  border:1px solid var(--line)!important;
+  border-radius:11px!important;
+}
+html.atlasPremiumPreview #shortlist .uxLayoutBtn{
+  min-height:34px!important;
+  padding:7px 10px!important;
+  border-radius:8px!important;
+  font-size:12px!important;
+}
+html.atlasPremiumPreview #shortlist .atlasShortlistMore{
+  position:relative;
+  margin-left:auto;
+  flex:none;
+}
+html.atlasPremiumPreview #shortlist .atlasShortlistMore>summary{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  min-height:36px;
+  padding:8px 13px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:var(--panel);
+  color:var(--ink);
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+  list-style:none;
+}
+html.atlasPremiumPreview #shortlist .atlasShortlistMore>summary::-webkit-details-marker{display:none}
+html.atlasPremiumPreview #shortlist .atlasShortlistMore>summary::after{
+  content:"⌄";
+  color:var(--mut);
+  font-size:14px;
+}
+html.atlasPremiumPreview #shortlist .atlasShortlistMore[open]>summary{
+  border-color:var(--ux-accent-border);
+  background:var(--soft);
+}
+html.atlasPremiumPreview #shortlist .atlasShortlistMoreMenu{
+  position:absolute;
+  z-index:40;
+  top:calc(100% + 7px);
+  right:0;
+  display:grid;
+  gap:11px;
+  width:min(280px,calc(100vw - 36px));
+  padding:13px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:var(--panel);
+  box-shadow:0 14px 36px rgba(0,0,0,.16);
+}
+html.atlasPremiumPreview #shortlist .shortlistViewOrder{
+  display:grid;
+  gap:5px;
+  min-width:0;
+  margin:0;
+  font-size:11px;
+  color:var(--mut);
+}
+html.atlasPremiumPreview #shortlist .shortlistViewOrder select{
+  width:100%;
+  min-height:36px;
+  padding:7px 9px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:var(--soft);
+  color:var(--ink);
+  font:inherit;
+}
+html.atlasPremiumPreview #shortlist .atlasShortlistDataActions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  padding-top:9px;
+  border-top:1px solid var(--line);
+}
+html.atlasPremiumPreview #shortlist .atlasShortlistDataActions .btn{
+  min-height:34px;
+  padding:7px 10px;
+  font-size:11.5px;
+}
+
+/* The remove action is available, but no longer floats over every card. */
+html.atlasPremiumPreview #shortlistList>.rank-row>.placement{padding-right:17px!important}
+html.atlasPremiumPreview #shortlistList>.rank-row>.atlasRemoveShortlist,
+html.atlasPremiumPreview .uxDrawerItem>.atlasRemoveShortlist{
+  top:12px!important;
+  right:12px!important;
+  width:29px!important;
+  height:29px!important;
+  min-width:29px!important;
+  min-height:29px!important;
+  border:1px solid var(--line)!important;
+  border-radius:9px!important;
+  background:var(--panel)!important;
+  color:var(--mut)!important;
+  box-shadow:none!important;
+  transform:none!important;
+  opacity:0;
+  pointer-events:none;
+}
+html.atlasPremiumPreview #shortlistList>.rank-row:hover>.atlasRemoveShortlist,
+html.atlasPremiumPreview #shortlistList>.rank-row:focus-within>.atlasRemoveShortlist,
+html.atlasPremiumPreview .uxDrawerItem:hover>.atlasRemoveShortlist,
+html.atlasPremiumPreview .uxDrawerItem:focus-within>.atlasRemoveShortlist{
+  opacity:1;
+  pointer-events:auto;
+}
+html.atlasPremiumPreview #shortlistList>.rank-row>.atlasRemoveShortlist:hover,
+html.atlasPremiumPreview .uxDrawerItem>.atlasRemoveShortlist:hover{
+  border-color:#bd777d!important;
+  color:#a84e58!important;
+}
+@media(hover:none),(pointer:coarse){
+  html.atlasPremiumPreview #shortlistList>.rank-row>.atlasRemoveShortlist,
+  html.atlasPremiumPreview .uxDrawerItem>.atlasRemoveShortlist{
+    opacity:0!important;
+    pointer-events:none!important;
+  }
+  html.atlasPremiumPreview #shortlistList>.rank-row.atlasSwipeOpen>.atlasRemoveShortlist,
+  html.atlasPremiumPreview .uxDrawerItem.atlasSwipeOpen>.atlasRemoveShortlist{
+    opacity:1!important;
+    pointer-events:auto!important;
+  }
+}
+@media(max-width:620px){
+  html.atlasPremiumPreview .sectionHero.card{padding:7px 0 10px!important}
+  html.atlasPremiumPreview .sectionHero h2{font-size:18px!important}
+  html.atlasPremiumPreview .sectionHero p{font-size:12px!important}
+  html.atlasPremiumPreview #shortlist .shortlist-toolbar{gap:6px!important}
+  html.atlasPremiumPreview #shortlist .shortlist-toolbar>.muted{display:none}
+  html.atlasPremiumPreview #shortlist .atlasShortlistMore{margin-left:auto}
+}
+@media(prefers-reduced-motion:reduce){
+  html.atlasPremiumPreview #shortlistList>.rank-row>.atlasRemoveShortlist,
+  html.atlasPremiumPreview .uxDrawerItem>.atlasRemoveShortlist{transition:none!important}
+}
+
+/* Undo/redo stays available, but no longer competes with the page itself. */
+html.atlasPremiumPreview body .historyControls{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  gap:0!important;
+  padding:0 0 8px!important;
+  margin:0!important;
+}
+html.atlasPremiumPreview .atlasHistoryDisclosure{position:relative}
+html.atlasPremiumPreview .atlasHistoryDisclosure>summary{
+  display:inline-flex;align-items:center;gap:8px;
+  min-height:32px;padding:6px 10px;
+  border:1px solid var(--line);border-radius:9px;
+  background:transparent;color:var(--mut);
+  font-size:11px;font-weight:700;cursor:pointer;list-style:none;
+}
+html.atlasPremiumPreview .atlasHistoryDisclosure>summary::-webkit-details-marker{display:none}
+html.atlasPremiumPreview .atlasHistoryDisclosure>summary::after{content:"⌄";font-size:13px}
+html.atlasPremiumPreview .atlasHistoryDisclosure[open]>summary{
+  background:var(--soft);color:var(--ink);border-color:var(--ux-accent-border);
+}
+html.atlasPremiumPreview .atlasHistoryActions{
+  position:absolute;z-index:45;right:0;top:calc(100% + 6px);
+  display:flex;align-items:center;gap:6px;
+  padding:9px;border:1px solid var(--line);border-radius:11px;
+  background:var(--panel);box-shadow:0 12px 30px rgba(0,0,0,.15);
+}
+html.atlasPremiumPreview .atlasHistoryActions .btn{
+  min-height:32px!important;padding:6px 10px!important;font-size:11px!important;
+}
+html.atlasPremiumPreview .atlasHistoryActions .smallnote{
+  max-width:140px;font-size:10px!important;line-height:1.3;
+}
+
+/* Offer export/import/reset are available on demand; Save remains primary. */
+html.atlasPremiumPreview .outcomeActions{
+  display:flex;align-items:center;flex-wrap:wrap;gap:8px;
+}
+html.atlasPremiumPreview .atlasOutcomeMore{position:relative}
+html.atlasPremiumPreview .atlasOutcomeMore>summary{
+  display:inline-flex;align-items:center;gap:8px;
+  min-height:39px;padding:8px 13px;
+  border:1px solid var(--line);border-radius:10px;
+  background:var(--panel);color:var(--ink);
+  font-size:12px;font-weight:700;cursor:pointer;list-style:none;
+}
+html.atlasPremiumPreview .atlasOutcomeMore>summary::-webkit-details-marker{display:none}
+html.atlasPremiumPreview .atlasOutcomeMore>summary::after{content:"⌄";color:var(--mut);font-size:14px}
+html.atlasPremiumPreview .atlasOutcomeMore[open]>summary{
+  border-color:var(--ux-accent-border);background:var(--soft);
+}
+html.atlasPremiumPreview .atlasOutcomeMoreMenu{
+  position:absolute;z-index:40;left:0;top:calc(100% + 7px);
+  display:grid;gap:7px;min-width:185px;padding:11px;
+  border:1px solid var(--line);border-radius:12px;
+  background:var(--panel);box-shadow:0 14px 34px rgba(0,0,0,.16);
+}
+html.atlasPremiumPreview .atlasOutcomeMoreMenu .btn{
+  width:100%;min-height:34px;padding:7px 10px;
+  text-align:left;font-size:11.5px;
+}
+@media(max-width:620px){
+  html.atlasPremiumPreview .atlasHistoryActions{right:0;max-width:calc(100vw - 34px)}
+  html.atlasPremiumPreview .atlasHistoryActions .smallnote{display:none}
+  html.atlasPremiumPreview .atlasOutcomeMoreMenu{left:auto;right:0}
+}
+
+/* Keep the floating shortlist shortcut useful but visually secondary. */
+html.atlasPremiumPreview .uxDrawerLauncher{
+  background:var(--panel)!important;
+  color:var(--ink)!important;
+  border:1px solid var(--line)!important;
+  box-shadow:0 5px 20px rgba(0,0,0,.13)!important;
+  font-size:12px!important;
+}
+html.atlasPremiumPreview .uxDrawerLauncher:hover{
+  background:var(--soft)!important;
+  border-color:var(--ux-accent-border)!important;
+}
+
+/* Preferences are grouped by topic, not wrapped in a stack of identical cards. */
+html.atlasPremiumPreview #prefs .settings{
+  column-gap:30px!important;
+  row-gap:16px!important;
+}
+html.atlasPremiumPreview #prefs .settingsCard.card{
+  min-width:0;
+  padding:14px 0 18px!important;
+  background:transparent!important;
+  border:0!important;
+  border-bottom:1px solid var(--line)!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+html.atlasPremiumPreview #prefs .settingsCard h2{
+  margin:3px 0 6px!important;
+  font-size:18px!important;
+}
+html.atlasPremiumPreview #prefs .settingsCard>p{
+  margin:5px 0 11px!important;
+  color:var(--mut)!important;
+  font-size:12.5px!important;
+  line-height:1.5!important;
+}
+html.atlasPremiumPreview #prefs .settingsCard.uxAppearanceSettings{
+  grid-column:1/-1;
+}
+@media(max-width:760px){
+  html.atlasPremiumPreview #prefs .settings{grid-template-columns:1fr!important;row-gap:8px!important}
+  html.atlasPremiumPreview #prefs .settingsCard.uxAppearanceSettings{grid-column:auto}
+}
+
+
+/* SOURCE: atlas-completion.css */
+/* Placement Atlas · product-wide finishing pass.
+   Neutral surfaces, readable programme names and restrained controls across all views. */
+
+/* Programme titles: ease the compressed tracking without changing data labels. */
+html.atlasPremiumPreview .placement .placementTop h3,
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .placementTop h3,
+html.atlasPremiumPreview #shortlistList .placement .placementTop h3,
+html.atlasPremiumPreview #mapSelection .placement .placementTop h3{
+  letter-spacing:-.012em!important;
+  line-height:1.36!important;
+  word-spacing:.005em;
+  overflow-wrap:anywhere;
+}
+#tinderMode .tdProgrammeName{
+  letter-spacing:-.008em!important;
+  line-height:1.36!important;
+  word-spacing:.005em;
+  overflow-wrap:break-word;
+}
+#tinderMode .tdDrawerProgrammeTitle,
+#simulator .simItemName,
+#simulator .simResultName{
+  letter-spacing:-.008em;
+  line-height:1.38;
+  overflow-wrap:anywhere;
+}
+
+/* Swipe Mode: quiet, optional details and compact sound control. */
+#tinderMode .tdShowDetails{
+  display:inline-flex;align-items:center;gap:5px;
+  margin:1px 0 10px;padding:2px 0;
+  border:0;background:transparent;color:var(--ux-accent-ink);
+  font-family:inherit;font-size:12px;font-weight:700;line-height:1.4;letter-spacing:.005em;
+  text-decoration:underline;text-decoration-thickness:1px;
+  text-underline-offset:4px;cursor:pointer;
+}
+#tinderMode .tdShowDetails:hover{color:var(--ink)}
+#tinderMode .tdDetailsPanel{
+  margin:0 0 14px;padding:12px 13px;
+  border:1px solid var(--line);border-radius:13px;
+  background:var(--soft);text-align:left;
+}
+#tinderMode .tdDetailsPanel[hidden]{display:none!important}
+#tinderMode .tdDetailsFacts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px 15px;margin:0}
+#tinderMode .tdDetailsFacts>div{min-width:0}
+#tinderMode .tdDetailsFacts dt{font-size:9px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+#tinderMode .tdDetailsFacts dd{margin:2px 0 0;font-size:11px;line-height:1.45;color:var(--ink);overflow-wrap:anywhere}
+#tinderMode .tdResearchLinks{display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:11px;padding-top:10px;border-top:1px solid var(--line)}
+#tinderMode .tdResearchLinks a{font-size:11px;font-weight:700;color:var(--ux-accent-ink);text-underline-offset:3px}
+#tinderMode .tdSoundToggle{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  min-height:43px;padding:9px 12px;border:1px solid var(--line);
+  border-radius:12px;background:var(--panel);color:var(--mut);
+  font-size:12px;font-weight:750;cursor:pointer;
+}
+#tinderMode .tdSoundToggle svg{width:16px;height:16px;flex:none}
+#tinderMode .tdSoundToggle[aria-pressed="false"]{opacity:.78}
+#tinderMode .tdFilterToggle{white-space:nowrap}
+#tinderMode .tdStampNo{letter-spacing:.075em}
+#tinderMode .tdDrawerProgrammeTitle{letter-spacing:-.006em;line-height:1.38}
+@media(max-width:600px){
+  #tinderMode .tdDetailsFacts{grid-template-columns:minmax(0,1fr)}
+  #tinderMode .tdSettings{gap:10px}
+  #tinderMode .tdRoundStats{flex-basis:100%;justify-content:flex-start}
+}
+
+/* Explore: keep the local-save note on one line beside the count. */
+#uxFilterSidebar .footerbar{
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:nowrap;gap:12px;min-width:0;
+}
+#uxFilterSidebar .footerbar #count{min-width:0;flex:1 1 auto;line-height:1.4}
+#uxFilterSidebar .footerbar .smallnote{
+  flex:0 0 auto;white-space:nowrap;line-height:1.3;
+  margin:0!important;font-size:10px;
+}
+#uxExplorePager{
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:10px 16px;
+}
+#uxExplorePager .uxPagerInfo{color:var(--mut);font-size:12px;line-height:1.5}
+#uxExplorePager .uxPagerSize{
+  display:inline-flex;align-items:center;gap:8px;
+  color:var(--mut);font-size:12px;font-weight:700;
+}
+#uxExplorePager .uxPagerSize select{
+  min-height:36px;padding:6px 10px;border:1px solid var(--line);
+  border-radius:10px;background:var(--panel);color:var(--ink);
+  font:inherit;font-weight:700;
+}
+#uxExplorePager .uxPagerButtons{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+#uxExplorePager .uxPagerButtons .btn{min-width:35px;min-height:35px;padding:6px 10px}
+@media(max-width:560px){
+  #uxExplorePager{align-items:flex-start}
+  #uxExplorePager .uxPagerInfo{flex-basis:100%}
+}
+
+/* Map surfaces and legal credits: retain all required providers, but keep the
+   attribution quiet and integrated rather than looking like a second caption. */
+html[data-theme="light"]{--atlas-map-backdrop:#f7f3e9}
+html[data-theme="dark"]{--atlas-map-backdrop:#1b2520}
+.leaflet-container,
+#placementMap .leaflet-map-pane,
+#placementMap .leaflet-tile-pane,
+.uxMiniMap .leaflet-map-pane,
+.uxMiniMap .leaflet-tile-pane{
+  background:var(--atlas-map-backdrop,#f7f3e9)!important;
+}
+#placementMap[data-loading="true"]::after{
+  content:"Loading map";
+  position:absolute;inset:0;z-index:450;
+  display:grid;place-items:center;
+  color:var(--mut);font-size:11px;font-weight:750;
+  letter-spacing:.04em;
+  background:linear-gradient(110deg,
+    color-mix(in srgb,var(--panel) 64%,transparent) 25%,
+    color-mix(in srgb,var(--panel) 88%,transparent) 42%,
+    color-mix(in srgb,var(--panel) 64%,transparent) 60%);
+  background-size:200% 100%;
+  animation:atlasMapLoading 1.4s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes atlasMapLoading{to{background-position:-200% 0}}
+@media(prefers-reduced-motion:reduce){
+  #placementMap[data-loading="true"]::after{animation:none}
+}
+#placementMap .leaflet-tile,
+.uxMiniMap .leaflet-tile{
+  border:0!important;outline:0!important;box-shadow:none!important;
+  background:transparent!important;backface-visibility:hidden;
+  image-rendering:auto;
+}
+.leaflet-control-attribution,
+.maplibregl-ctrl-attrib{
+  max-width:min(72vw,420px);
+  padding:2px 6px!important;
+  border:0!important;border-radius:7px!important;
+  background:color-mix(in srgb,var(--panel) 82%,transparent)!important;
+  color:var(--mut)!important;
+  font-size:7px!important;line-height:1.25!important;
+  box-shadow:none!important;opacity:.82;
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+}
+.maplibregl-ctrl-attrib-inner{font-size:7px!important;line-height:1.25!important}
+.leaflet-control-attribution a,
+.maplibregl-ctrl-attrib a{
+  color:var(--mut)!important;text-decoration:none!important;
+  border-bottom:1px solid color-mix(in srgb,var(--mut) 36%,transparent);
+}
+.uxMiniMap .leaflet-control-attribution,
+.uxMiniMap .maplibregl-ctrl-attrib,
+.placement .leaflet-control-attribution{font-size:6px!important;max-width:72%}
+@media(max-width:600px){
+  .leaflet-control-attribution,.maplibregl-ctrl-attrib{font-size:6px!important;max-width:70vw}
+}
+
+/* One compact brand banner: identity left, utility controls, then navigation.
+   Preferences stays the final tab on the right. */
+html body .shell>.top.atlasStickyHeader{
+  display:grid!important;
+  grid-template-columns:max-content auto minmax(0,1fr)!important;
+  grid-template-areas:"brand utility nav"!important;
+  align-items:center!important;
+  column-gap:clamp(9px,1.2vw,19px)!important;row-gap:0!important;
+  min-height:66px!important;padding:7px clamp(10px,1.35vw,19px)!important;
+  margin:0!important;border-radius:16px!important;
+}
+html body .atlasStickyHeader>.brand{
+  grid-area:brand!important;display:flex!important;align-items:center!important;
+  gap:10px!important;min-width:0!important;
+}
+html body .atlasStickyHeader>.brand .eyebrow{display:none!important}
+html body .atlasStickyHeader>.brand h1{
+  margin:0!important;font-size:clamp(22px,2vw,29px)!important;
+  line-height:1.05!important;font-weight:850!important;
+  letter-spacing:-.045em!important;white-space:nowrap!important;
+}
+html body .atlasStickyHeader>.brand p{
+  display:block!important;margin:3px 0 0!important;
+  color:var(--mut)!important;font-size:10px!important;
+  line-height:1.2!important;white-space:nowrap!important;
+}
+html body .atlasStickyHeader>.brand .logo{
+  width:42px!important;height:42px!important;min-width:42px!important;
+  border:0!important;background:transparent!important;box-shadow:none!important;
+  border-radius:0!important;overflow:visible!important;
+}
+html body .atlasStickyHeader>.brand .logo img{
+  display:block!important;width:100%!important;height:100%!important;
+  object-fit:contain!important;object-position:center!important;
+}
+html body .atlasStickyHeader>.atlasHeaderUtilities{
+  grid-area:utility!important;display:flex!important;align-items:center!important;
+  justify-content:flex-end!important;gap:6px!important;min-width:0!important;
+}
+html body .atlasStickyHeader>.atlasHeaderUtilities .cloudAccount{
+  display:flex!important;align-items:center!important;min-width:0!important;
+}
+html body .atlasStickyHeader>.atlasHeaderUtilities .cloudAccountMain{
+  display:flex!important;align-items:center!important;justify-content:flex-end!important;
+  flex-wrap:nowrap!important;gap:5px!important;
+}
+html body .atlasStickyHeader>.atlasHeaderUtilities .cloudAccountStatus,
+html body .atlasStickyHeader>.atlasHeaderUtilities .cloudAccountHint{display:none!important}
+html body .atlasStickyHeader>.atlasHeaderUtilities .cloudAccountButton{
+  min-height:35px!important;padding:7px 9px!important;
+  font-size:11px!important;white-space:nowrap!important;
+}
+html body .atlasStickyHeader>.atlasHeaderUtilities #themeToggle{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  flex:0 0 36px!important;width:36px!important;min-width:36px!important;
+  height:36px!important;min-height:36px!important;padding:0!important;margin:0!important;
+}
+html body .atlasStickyHeader>.atlasHeaderUtilities #themeToggle .themeGlyph,
+html body .atlasStickyHeader>.atlasHeaderUtilities #themeToggle .themeIcon{
+  display:block!important;width:19px!important;height:19px!important;
+}
+html body .atlasStickyHeader>nav.tabs{
+  grid-area:nav!important;display:flex!important;align-items:center!important;
+  justify-content:flex-end!important;min-width:0!important;width:100%!important;
+  margin:0!important;padding:0!important;gap:2px!important;
+  overflow-x:auto!important;overflow-y:hidden!important;
+  border:0!important;border-radius:0!important;background:transparent!important;
+  scrollbar-width:none!important;overscroll-behavior-x:contain;
+}
+html body .atlasStickyHeader>nav.tabs::-webkit-scrollbar{display:none!important}
+html body .atlasStickyHeader>nav.tabs>.tab{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  flex:0 0 auto!important;gap:5px!important;min-height:39px!important;
+  padding:8px clamp(7px,.65vw,11px)!important;
+  border-radius:10px!important;white-space:nowrap!important;
+  font-size:clamp(11px,.88vw,13px)!important;font-weight:780!important;
+  line-height:1.2!important;
+}
+html body .atlasStickyHeader>nav.tabs>.tab .atlasTabLabel{display:inline-block!important;white-space:nowrap!important}
+html body .atlasStickyHeader>nav.tabs>.tab svg.tab-icon,
+html body .atlasStickyHeader>nav.tabs>.tab .tdNavFlame svg{
+  display:block!important;width:16px!important;height:16px!important;flex:none!important;
+}
+html body .atlasStickyHeader>nav.tabs>.tab .simNavIcon,
+html body .atlasStickyHeader>nav.tabs>.tab .tdNavFlame{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;flex:none!important;
+}
+html body .atlasStickyHeader>nav.tabs>.tab[data-tab="foryou"],
+html body .atlasStickyHeader>nav.tabs>.tab[data-tab="compare"]{display:none!important}
+html body .atlasStickyHeader>nav.tabs>.tab.active,
+html body .atlasStickyHeader>nav.tabs>.tab.atlasParentActive{
+  background:var(--ux-accent-soft)!important;color:var(--ux-accent-ink)!important;
+  box-shadow:inset 0 0 0 1px var(--ux-accent-border)!important;
+}
+
+/* The export/backup controls live below the brand banner, not inside it. */
+html body .shell>#atlasHeaderTools{
+  display:flex!important;flex-direction:column!important;align-items:stretch!important;
+  gap:5px!important;min-height:0!important;margin:7px 2px 12px!important;padding:0 2px!important;
+}
+html body #atlasHeaderTools>.actions{
+  display:flex!important;align-items:center!important;justify-content:flex-end!important;
+  flex-wrap:wrap!important;gap:6px!important;width:100%!important;
+}
+html body #atlasHeaderTools>.actions>.btn{
+  min-height:33px!important;padding:6px 10px!important;
+  border-radius:10px!important;font-size:10px!important;
+}
+html body #atlasHeaderTools #saveHelp{
+  margin:0!important;padding:0!important;border:0!important;
+  max-width:none!important;text-align:right!important;
+  color:var(--mut)!important;font-size:10px!important;line-height:1.35!important;
+}
+@media(max-width:960px){
+  html body .shell>.top.atlasStickyHeader{
+    grid-template-columns:minmax(0,1fr) auto!important;
+    grid-template-areas:"brand utility" "nav nav"!important;
+    row-gap:3px!important;min-height:0!important;padding:8px 11px!important;
+  }
+  html body .atlasStickyHeader>nav.tabs{justify-content:flex-start!important}
+  html body .atlasStickyHeader>nav.tabs>.tab{font-size:12px!important;padding:8px 10px!important}
+}
+@media(max-width:600px){
+  html body .atlasStickyHeader>.brand .logo{width:34px!important;height:34px!important;min-width:34px!important}
+  html body .atlasStickyHeader>.brand h1{font-size:21px!important}
+  html body .atlasStickyHeader>.brand p{font-size:9px!important}
+  html body .atlasStickyHeader>.atlasHeaderUtilities{gap:4px!important}
+  html body #atlasHeaderTools>.actions>.btn{flex:1 1 auto}
+  html body #atlasHeaderTools #saveHelp{text-align:left!important}
+}
+/* The header and footer share one palette-aware globe mark. */
+html body .atlasGlobeMark{
+  display:block;width:100%;height:100%;
+  color:var(--ink);overflow:visible;
+}
+html body .atlasFooterMark{
+  display:block;flex:0 0 36px;width:36px;height:36px;
+}
+
+/* Oriel Simulation category explanations. */
+#simulator .simColHelp{
+  margin:5px 0 11px;color:var(--mut);
+  font-size:11px;line-height:1.45;font-weight:500;
+  max-width:34ch;
+}
+
+/* Learning library. */
+.atlasLearnPanel{display:grid;gap:18px;max-width:1500px;margin:0 auto}
+.atlasLearnHero{
+  padding:clamp(22px,3.2vw,42px);
+  border:1px solid var(--line);border-radius:22px;
+  background:var(--panel);
+}
+.atlasLearnHero h2{margin:7px 0 10px;font-size:clamp(27px,3.2vw,40px);line-height:1.14;letter-spacing:-.035em}
+.atlasLearnHero>p:not(.atlasLearnDisclaimer){max-width:760px;margin:0;color:var(--mut);font-size:15px;line-height:1.65}
+.atlasLearnHeroActions{display:flex;flex-wrap:wrap;gap:9px;margin-top:19px}
+.atlasLearnDisclaimer,.atlasLearnCaution{font-size:11px;line-height:1.55;color:var(--mut);margin:12px 0 0}
+.atlasLearnSection{
+  padding:clamp(18px,2.4vw,28px);
+  border:1px solid var(--line);border-radius:19px;
+  background:var(--panel);scroll-margin-top:100px;
+}
+.atlasLearnSection>.eyebrow,.atlasLearnSectionHead .eyebrow{font-size:10px;letter-spacing:.1em;font-weight:850;color:var(--mut)}
+.atlasLearnSection h3{margin:5px 0 8px;font-size:clamp(19px,2vw,24px);line-height:1.25;letter-spacing:-.018em;color:var(--ink)}
+.atlasLearnSection>p,.atlasLearnSectionHead p{margin:0 0 14px;max-width:850px;color:var(--mut);font-size:13px;line-height:1.65}
+.atlasLearnSettingGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.atlasLearnTopic{border:1px solid var(--line);border-radius:13px;background:var(--soft);overflow:hidden}
+.atlasLearnTopic summary{padding:13px 15px;cursor:pointer;font-size:13px;font-weight:800;color:var(--ink);list-style-position:inside}
+.atlasLearnTopic>div{padding:0 15px 14px;color:var(--mut);font-size:12px;line-height:1.6}
+.atlasLearnTopic p{margin:0 0 8px}
+.atlasLearnTopic ul{padding-left:18px;margin:7px 0 0}
+.atlasLearnTopic li{margin:5px 0}
+.atlasLearnChecklist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.atlasLearnChecklist>div{
+  display:grid;gap:3px;padding:12px 14px;
+  border:1px solid var(--line);border-radius:12px;background:var(--soft);
+}
+.atlasLearnChecklist b{font-size:12px;color:var(--ink)}
+.atlasLearnChecklist span{font-size:11px;line-height:1.5;color:var(--mut)}
+.atlasLearnRegionTools{
+  display:grid;grid-template-columns:auto minmax(190px,280px);
+  align-items:center;gap:9px 13px;padding:14px;
+  border:1px solid var(--line);border-radius:13px;background:var(--soft);
+}
+.atlasLearnRegionTools>label{font-size:12px;font-weight:800;color:var(--ink)}
+.atlasLearnRegionTools select,.atlasLearnResearch input{
+  width:100%;min-height:40px;padding:9px 11px;
+  border:1px solid var(--line);border-radius:10px;
+  background:var(--panel);color:var(--ink);font:inherit;font-size:12px;
+}
+.atlasLearnRegionLinks{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px 14px}
+.atlasLearnRegionLinks a,.atlasLearnExternalLinks a{
+  color:var(--ux-accent-ink);font-size:11px;font-weight:750;
+  text-decoration:underline;text-underline-offset:3px;
+}
+.atlasLearnExternalLinks{display:flex;flex-wrap:wrap;gap:9px 18px;margin-top:13px}
+.atlasLearnTimeline{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}
+.atlasLearnTimeline>div{padding:13px;border:1px solid var(--line);border-radius:12px;background:var(--soft)}
+.atlasLearnTimeline b{font-size:12px;color:var(--ink)}
+.atlasLearnTimeline p{margin:5px 0 0;color:var(--mut);font-size:11px;line-height:1.5}
+.atlasLearnQuestionGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.atlasLearnQuestionGrid label{display:flex;align-items:flex-start;gap:9px;padding:10px 12px;border:1px solid var(--line);border-radius:11px;background:var(--soft);font-size:11px;line-height:1.5;color:var(--ink)}
+.atlasLearnQuestionGrid input{margin:2px 0 0;accent-color:var(--ux-accent);flex:none}
+.atlasLearnSearchLabel{display:block;margin:13px 0 6px;font-size:11px;font-weight:800;color:var(--ink)}
+.atlasLearnProgrammeResults{display:grid;gap:6px;margin-top:8px}
+.atlasLearnProgrammeResults[hidden]{display:none!important}
+.atlasLearnProgrammeResult{
+  display:grid;gap:3px;width:100%;padding:11px 13px;
+  border:1px solid var(--line);border-radius:11px;background:var(--soft);
+  text-align:left;color:var(--ink);cursor:pointer;
+}
+.atlasLearnProgrammeResult strong{font-size:12px;letter-spacing:-.005em;line-height:1.4}
+.atlasLearnProgrammeResult span{font-size:10px;color:var(--mut)}
+.atlasLearnNoResults{margin:0;padding:12px;color:var(--mut);font-size:12px}
+.atlasLearnSelectedProgramme{margin-top:12px;padding:14px;border:1px solid var(--ux-accent-border);border-radius:13px;background:var(--ux-accent-soft)}
+.atlasLearnSelectedProgramme[hidden]{display:none!important}
+.atlasLearnSelectedHead{display:grid;gap:4px}
+.atlasLearnSelectedHead strong{font-size:14px;line-height:1.4;letter-spacing:-.01em;color:var(--ink)}
+.atlasLearnSelectedHead span{font-size:11px;color:var(--mut)}
+@media(max-width:900px){
+  .atlasLearnTimeline{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:620px){
+  .atlasLearnSettingGrid,.atlasLearnChecklist,.atlasLearnQuestionGrid{grid-template-columns:minmax(0,1fr)}
+  .atlasLearnRegionTools{grid-template-columns:minmax(0,1fr)}
+  .atlasLearnRegionLinks{grid-column:auto}
+  .atlasLearnTimeline{grid-template-columns:minmax(0,1fr)}
+  .atlasLearnHeroActions .btn{flex:1}
+}
+
+/* Programme preview window: keep the title readable and public research links quiet. */
+.progPeekTitle{letter-spacing:-.012em!important;line-height:1.28!important;overflow-wrap:anywhere}
+.progPeekFullName{margin:12px 0;padding:10px 12px;border:1px solid var(--line);border-radius:11px;background:var(--soft)}
+.progPeekFullName summary{cursor:pointer;font-size:11px;font-weight:750;color:var(--ux-accent-ink);text-decoration:underline;text-underline-offset:3px}
+.progPeekFullName p{margin:8px 0 0;font-size:11px;line-height:1.5;color:var(--mut);overflow-wrap:anywhere}
+.progPeekResearchLinks{display:flex;flex-wrap:wrap;gap:8px 14px;margin:8px 0 5px}
+.progPeekResearchLinks a{font-size:11px;font-weight:750;color:var(--ux-accent-ink);text-decoration:underline;text-underline-offset:3px}
+
+html body #atlasHeaderTools:empty,html body #atlasHeaderTools>.actions:empty{display:none!important}
+
+/* Preferences: a calm two-column appearance row, with reset below it. */
+#prefs .settings>.uxAppearanceSettings,#prefs .settings>.atlasMapColourSettings{min-width:0}
+#prefs .atlasMapColourSettings .paMapColourDetails{width:100%}
+#prefs .atlasMapColourSettings .paMapColourBody{display:flex;flex-direction:column;gap:12px}
+#prefs .atlasMapColourSettings .paMapColourChoices{display:flex;flex-wrap:wrap;align-items:center;gap:9px 12px}
+#prefs .atlasMapColourSettings .paMapColourChoices .colourChoice{flex:0 1 auto;min-width:0;margin:0}
+#prefs .atlasMapColourSettings .paMapColourReset{display:flex;justify-content:flex-end;align-items:center;border-top:1px solid var(--line);margin-top:5px;padding-top:14px}
+#prefs .atlasMapColourSettings .paMapColourReset .btn{background:transparent;color:var(--mut);border-color:var(--line);padding:7px 11px;font-size:11px;font-weight:650;border-radius:10px}
+#prefs .atlasMapColourSettings .paMapColourReset .btn:hover,#prefs .atlasMapColourSettings .paMapColourReset .btn:focus-visible{color:var(--ink);background:var(--soft)}
+@media(max-width:760px){#prefs .settings>.uxAppearanceSettings,#prefs .settings>.atlasMapColourSettings{grid-column:1/-1}}
+
+/* Keep the floating shortlist control tappable above programme-card stacking
+   contexts, with its own drawer/backdrop higher still. */
+html body #uxDrawerLauncher{position:fixed!important;z-index:2200!important;pointer-events:auto!important}
+html body #uxDrawerBackdrop{z-index:2400!important}
+html body #uxDrawer{z-index:2410!important}
+
+/* Mobile navigation must scroll inside the header without enlarging the page.
+   The sliding indicator belongs to desktop; compact tabs keep their own
+   selected appearance instead of extending a transformed pill off-screen. */
+@media(max-width:600px){
+  html body .shell>header.top.atlasStickyHeader{
+    width:100%!important;max-width:100%!important;min-width:0!important;
+    box-sizing:border-box!important;
+  }
+  html body .atlasStickyHeader>nav.tabs{
+    width:100%!important;max-width:100%!important;min-width:0!important;
+    overflow-x:auto!important;overflow-y:hidden!important;
+  }
+  html .tabs.tabMotionReady .atlasTabIndicator{display:none!important}
+  html body .atlasStickyHeader>nav.tabs>.tab.active{
+    background:var(--ux-accent-soft)!important;
+    color:var(--ux-accent-ink)!important;
+    box-shadow:inset 0 0 0 1px var(--ux-accent-border)!important;
+  }
+}
+
+/* The desktop brand tagline must never widen the mobile header grid.
+   Retain the identity and all controls; hide only secondary descriptive copy. */
+@media(max-width:600px){
+  html body .atlasStickyHeader>.brand{gap:7px!important;min-width:0!important}
+  html body .atlasStickyHeader>.brand>div:last-child{min-width:0!important;max-width:100%!important}
+  html body .atlasStickyHeader>.brand .logo{width:30px!important;height:30px!important;min-width:30px!important}
+  html body .atlasStickyHeader>.brand h1{font-size:clamp(17px,4.6vw,20px)!important;letter-spacing:-.035em!important}
+  html body .atlasStickyHeader>.brand p{display:none!important}
+}
+
+
+/* November 12 header recovery: one explicit grid, with a stable brand on the
+   top-left. Overrides earlier competing desktop and mobile grid declarations. */
+html body .shell > header.top.atlasStickyHeader{
+  box-sizing:border-box!important;
+  display:grid!important;
+  grid-template-columns:max-content minmax(0,1fr) max-content!important;
+  grid-template-areas:"brand nav utility"!important;
+  width:100%!important;max-width:100%!important;min-width:0!important;
+  justify-items:stretch!important;align-items:center!important;
+  column-gap:clamp(10px,1.25vw,22px)!important;row-gap:0!important;
+  min-height:68px!important;padding:10px clamp(12px,1.45vw,22px)!important;
+  margin:0 0 14px!important;overflow:visible!important;
+}
+html body .shell > header.top.atlasStickyHeader > .brand{
+  grid-area:brand!important;
+  position:relative!important;display:flex!important;align-items:center!important;
+  justify-self:start!important;gap:10px!important;min-width:0!important;
+  max-width:none!important;margin:0!important;transform:none!important;
+}
+html body .shell > header.top.atlasStickyHeader > .brand > div:last-child{
+  min-width:0!important;display:flex!important;flex-direction:column!important;
+  justify-content:center!important;
+}
+html body .shell > header.top.atlasStickyHeader > .brand .logo{
+  display:grid!important;place-items:center!important;flex:0 0 42px!important;
+  width:42px!important;height:42px!important;min-width:42px!important;
+  position:static!important;margin:0!important;opacity:1!important;
+  visibility:visible!important;
+}
+html body .shell > header.top.atlasStickyHeader > .brand .logo img{
+  display:block!important;object-fit:contain!important;
+  height:100%!important;width:100%!important;opacity:1!important;
+  visibility:visible!important;
+}
+html body .shell > header.top.atlasStickyHeader > .brand h1{
+  display:block!important;margin:0!important;
+  font-size:clamp(21px,1.9vw,29px)!important;line-height:1.12!important;
+  letter-spacing:-.035em!important;white-space:nowrap!important;
+}
+html body .shell > header.top.atlasStickyHeader > .brand .eyebrow,
+html body .shell > header.top.atlasStickyHeader > .brand p{display:none!important}
+html body .shell > header.top.atlasStickyHeader > nav.tabs{
+  grid-area:nav!important;
+  min-width:0!important;width:100%!important;max-width:100%!important;
+  display:flex!important;align-items:center!important;justify-content:flex-end!important;
+  overflow-x:auto!important;overflow-y:hidden!important;white-space:nowrap!important;
+  margin:0!important;padding:2px 0!important;gap:clamp(2px,.3vw,6px)!important;
+}
+html body .shell > header.top.atlasStickyHeader > nav.tabs > .tab{
+  flex:0 0 auto!important;min-width:0!important;min-height:39px!important;
+  padding:8px clamp(7px,.56vw,11px)!important;
+  font-size:clamp(11px,.83vw,13px)!important;
+}
+html body .shell > header.top.atlasStickyHeader > .atlasHeaderUtilities{
+  grid-area:utility!important;
+  justify-self:end!important;display:flex!important;align-items:center!important;
+  justify-content:flex-end!important;gap:7px!important;
+  min-width:0!important;max-width:100%!important;
+  margin:0!important;padding:0!important;position:static!important;
+}
+html body .shell > header.top.atlasStickyHeader > .atlasHeaderUtilities .cloudAccount{
+  min-width:0!important;margin:0!important;
+}
+html body .shell > header.top.atlasStickyHeader > .atlasHeaderUtilities #themeToggle{
+  flex:0 0 37px!important;width:37px!important;height:37px!important;
+  min-width:37px!important;min-height:37px!important;
+  margin:0!important;padding:0!important;
+}
+/* Recruitment countdown sits ABOVE the main page introduction. */
+html body .shell > #atlasDeadlineRow{
+  position:relative!important;z-index:1!important;
+  display:flex!important;align-items:center!important;justify-content:flex-end!important;
+  width:100%!important;min-width:0!important;max-width:100%!important;
+  padding:0 4px!important;margin:8px 0 0!important;
+}
+html body #atlasDeadlineRow #orielDeadline{
+  width:auto!important;max-width:min(100%,490px)!important;min-width:0!important;
+  padding:10px 13px!important;box-shadow:none!important;
+  border-radius:12px!important;
+  display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;
+  gap:3px 14px!important;text-align:left!important;
+}
+html body #atlasDeadlineRow #orielDeadline .deadlineValue{
+  margin:0!important;font-size:13px!important;line-height:1.3!important;
+}
+html body #atlasDeadlineRow #orielDeadline .deadlineExact{grid-column:1/2}
+html body #atlasDeadlineRow #orielDeadline .deadlineLink{grid-column:2/3;white-space:nowrap}
+html body .shell > #atlasHeaderTools:has(> .actions:empty){display:none!important}
+/* Use the viewport edges, not physical screen dimensions. Scrolling must never
+   change the launcher position or move it into the map. */
+html body #uxDrawerLauncher{
+  position:fixed!important;right:max(16px,env(safe-area-inset-right))!important;
+  bottom:max(16px,env(safe-area-inset-bottom))!important;
+  left:auto!important;top:auto!important;
+  margin:0!important;transform:none!important;z-index:2200!important;
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  min-width:52px!important;min-height:42px!important;
+  visibility:visible!important;pointer-events:auto!important;
+}
+html body #uxDrawerLauncher[hidden]{display:none!important}
+html body #uxDrawerBackdrop{position:fixed!important;inset:0!important}
+html body #uxDrawer{position:fixed!important;inset-block:0!important;right:0!important;left:auto!important}
+@media(max-width:1350px){
+  html body .shell > header.top.atlasStickyHeader{
+    grid-template-columns:minmax(0,1fr) auto!important;
+    grid-template-areas:"brand utility" "nav nav"!important;
+    row-gap:6px!important;min-height:0!important;
+  }
+  html body .shell > header.top.atlasStickyHeader > nav.tabs{
+    justify-content:flex-start!important;min-width:0!important;
+  }
+}
+@media(max-width:650px){
+  html body .shell > header.top.atlasStickyHeader{
+    padding:8px 10px!important;column-gap:8px!important;
+    grid-template-columns:minmax(0,1fr) auto!important;
+  }
+  html body .shell > header.top.atlasStickyHeader > .brand{gap:7px!important}
+  html body .shell > header.top.atlasStickyHeader > .brand .logo{
+    flex-basis:32px!important;width:32px!important;height:32px!important;min-width:32px!important;
+  }
+  html body .shell > header.top.atlasStickyHeader > .brand h1{
+    font-size:clamp(17px,4.5vw,20px)!important;
+  }
+  html body .shell > header.top.atlasStickyHeader > .atlasHeaderUtilities{gap:4px!important}
+  html body .shell > header.top.atlasStickyHeader > nav.tabs > .tab{
+    min-height:37px!important;padding:7px 9px!important;font-size:12px!important;
+  }
+  html body .shell > #atlasDeadlineRow{justify-content:stretch!important}
+  html body #atlasDeadlineRow #orielDeadline{width:100%!important;max-width:none!important}
+  html body #uxDrawerLauncher{
+    right:max(12px,env(safe-area-inset-right))!important;
+    bottom:max(12px,env(safe-area-inset-bottom))!important;
+  }
+}
+
+/* Make phone placement deterministic even when earlier theme styles apply
+   grid-area shortcuts. The first row is brand + utilities; nav owns row two. */
+@media(max-width:650px){
+  html body .shell > header.top.atlasStickyHeader > .brand{
+    grid-area:1 / 1 / 2 / 2!important;align-self:center!important;
+  }
+  html body .shell > header.top.atlasStickyHeader > .atlasHeaderUtilities{
+    grid-area:1 / 2 / 2 / 3!important;align-self:center!important;justify-self:end!important;
+  }
+  html body .shell > header.top.atlasStickyHeader > nav.tabs{
+    grid-area:2 / 1 / 3 / 3!important;align-self:center!important;
+  }
+}
+
+/* Enforce the same two-row arrangement at tablet and narrow desktop sizes.
+   Competing legacy grid rules previously placed utilities on top of nav. */
+@media(max-width:1350px){
+  html body .shell > header.top.atlasStickyHeader > .brand{
+    grid-area:1 / 1 / 2 / 2!important;align-self:center!important;
+  }
+  html body .shell > header.top.atlasStickyHeader > .atlasHeaderUtilities{
+    grid-area:1 / 2 / 2 / 3!important;justify-self:end!important;align-self:center!important;
+  }
+  html body .shell > header.top.atlasStickyHeader > nav.tabs{
+    grid-area:2 / 1 / 3 / 3!important;align-self:center!important;
+  }
+}
+
+
+/* SOURCE: shortlist-refinement.css */
+/* Placement Atlas · shortlist-only finishing pass.
+   Keeps the existing programme data, ranking controls and location tools intact. */
+
+html.atlasPremiumPreview #shortlist .sectionHero.card{
+  padding:18px 20px!important;
+  margin-bottom:12px!important;
+}
+html.atlasPremiumPreview #shortlist .sectionHero h2{
+  margin:2px 0 5px!important;
+  font-size:clamp(26px,2vw,30px)!important;
+  line-height:1.18!important;
+  letter-spacing:-.028em!important;
+  font-weight:820!important;
+}
+html.atlasPremiumPreview #shortlist .sectionHero p{
+  max-width:760px!important;
+  font-size:12.5px!important;
+  line-height:1.48!important;
+}
+html.atlasPremiumPreview #shortlist .shortlist-toolbar{
+  gap:9px!important;
+  padding:10px 12px!important;
+}
+html.atlasPremiumPreview #shortlist #exportRanked{
+  min-height:38px!important;
+  padding:8px 13px!important;
+  font-size:12px!important;
+  white-space:nowrap!important;
+}
+html.atlasPremiumPreview #shortlistList>.rank-row{
+  grid-template-columns:46px minmax(0,1fr)!important;
+  gap:8px!important;
+  align-items:stretch!important;
+}
+html.atlasPremiumPreview #shortlistList>.rank-row>.placement{
+  min-width:0!important;
+  padding:12px 14px!important;
+  padding-right:14px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  gap:6px!important;
+  border-radius:13px!important;
+}
+html.atlasPremiumPreview #shortlistList .placementTop{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) max-content!important;
+  align-items:start!important;
+  gap:8px 18px!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:0!important;
+}
+html.atlasPremiumPreview #shortlistList .placementTop>div:first-child{
+  min-width:0!important;
+  width:auto!important;
+}
+html.atlasPremiumPreview #shortlistList .placementTop>div:last-child{
+  min-width:145px!important;
+  max-width:185px!important;
+  text-align:right!important;
+}
+html.atlasPremiumPreview #shortlistList .placementTop .eyebrow{
+  display:block!important;
+  margin:0 0 4px!important;
+  font-size:10px!important;
+  line-height:1.35!important;
+  letter-spacing:.065em!important;
+  overflow-wrap:anywhere!important;
+}
+html.atlasPremiumPreview #shortlistList .placementTop h3{
+  margin:0 0 3px!important;
+  font-size:18px!important;
+  line-height:1.34!important;
+  font-weight:760!important;
+  letter-spacing:-.012em!important;
+  word-spacing:.02em!important;
+  overflow-wrap:anywhere!important;
+  hyphens:auto;
+}
+html.atlasPremiumPreview #shortlistList .placementTop .employer{
+  color:var(--mut)!important;
+  font-size:11px!important;
+  line-height:1.4!important;
+  font-weight:650!important;
+  letter-spacing:.015em!important;
+  text-transform:none!important;
+  overflow-wrap:anywhere!important;
+}
+html.atlasPremiumPreview #shortlistList .placementTop .salary{
+  margin:0!important;
+  font-size:23px!important;
+  line-height:1.12!important;
+  font-weight:850!important;
+  letter-spacing:-.03em!important;
+  text-align:right!important;
+  white-space:nowrap!important;
+}
+html.atlasPremiumPreview #shortlistList .placementTop .salary.salary-value::after{
+  content:"gross / year";
+  display:block;
+  margin-top:2px;
+  color:var(--mut);
+  font-size:10px;
+  line-height:1.3;
+  font-weight:650;
+  letter-spacing:0;
+}
+html.atlasPremiumPreview #shortlistList .placementTop .hourly{
+  display:none!important;
+}
+html.atlasPremiumPreview #shortlistList .placementTop .hourly.atlasGrossMonthly{
+  display:block!important;
+  margin-top:3px!important;
+  color:var(--mut)!important;
+  font-size:10.5px!important;
+  line-height:1.35!important;
+  font-weight:650!important;
+  text-align:right!important;
+  white-space:nowrap!important;
+}
+html.atlasPremiumPreview #shortlistList .placementTop .uxTakeHome{
+  display:block!important;
+  max-width:185px!important;
+  margin:4px 0 0 auto!important;
+  color:var(--mut)!important;
+  font-size:10.5px!important;
+  line-height:1.4!important;
+  font-weight:600!important;
+  text-align:right!important;
+  white-space:normal!important;
+}
+html.atlasPremiumPreview #shortlistList .placement>.badges{
+  display:flex!important;
+  flex-wrap:wrap!important;
+  gap:5px!important;
+  margin:6px 0 0!important;
+}
+html.atlasPremiumPreview #shortlistList .placement>.badges .badge{
+  padding:3px 7px!important;
+  font-size:10px!important;
+  line-height:1.25!important;
+}
+html.atlasPremiumPreview #shortlistList .atlasShortlistFacts{
+  margin:4px 0 0!important;
+  padding:6px 9px!important;
+}
+html.atlasPremiumPreview #shortlistList .atlasShortlistFacts>summary{
+  font-size:10.5px!important;
+}
+html.atlasPremiumPreview #shortlistList .programmeDates{
+  margin:6px 0 0!important;
+  padding:8px 10px!important;
+  border-radius:10px!important;
+  font-size:11px!important;
+  line-height:1.38!important;
+}
+html.atlasPremiumPreview #shortlistList .programmeDates *{
+  font-size:inherit!important;
+  line-height:inherit!important;
+}
+html.atlasPremiumPreview #shortlistList .fit.fitExpanded.uxFitWithLocation{
+  grid-template-columns:minmax(155px,180px) minmax(270px,340px) minmax(0,1fr)!important;
+  gap:10px!important;
+  align-items:stretch!important;
+  min-width:0!important;
+  margin:8px 0 0!important;
+}
+html.atlasPremiumPreview #shortlistList .fit.fitExpanded.uxFitWithLocation>.score{
+  min-width:0!important;
+  width:auto!important;
+  padding:12px 13px!important;
+  border-radius:12px!important;
+  justify-content:flex-start!important;
+  gap:5px!important;
+  overflow-wrap:anywhere!important;
+}
+html.atlasPremiumPreview #shortlistList .fit.fitExpanded.uxFitWithLocation>.score>span{
+  font-size:10px!important;
+  line-height:1.3!important;
+  letter-spacing:.085em!important;
+}
+html.atlasPremiumPreview #shortlistList .fit.fitExpanded.uxFitWithLocation>.score>b{
+  font-size:25px!important;
+  line-height:1.05!important;
+}
+html.atlasPremiumPreview #shortlistList .fit.fitExpanded.uxFitWithLocation>.score>small{
+  font-size:11px!important;
+  line-height:1.35!important;
+}
+html.atlasPremiumPreview #shortlistList .fit.fitExpanded.uxFitWithLocation>.score>em{
+  font-size:10px!important;
+  line-height:1.35!important;
+}
+html.atlasPremiumPreview #shortlistList .fit.fitExpanded.uxFitWithLocation>.score .atlasFitQuizLink{
+  display:inline-flex!important;
+  align-self:flex-start!important;
+  width:auto!important;
+  min-height:29px!important;
+  margin:5px 0 0!important;
+  padding:6px 9px!important;
+  border:1px solid currentColor!important;
+  border-radius:8px!important;
+  background:transparent!important;
+  font-size:11px!important;
+  line-height:1.2!important;
+  font-weight:750!important;
+  text-align:left!important;
+  text-decoration:none!important;
+  opacity:1!important;
+}
+html.atlasPremiumPreview #shortlistList .fit.fitExpanded.uxFitWithLocation .fitBreakdown{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  align-content:start!important;
+  gap:8px!important;
+  min-width:0!important;
+}
+html.atlasPremiumPreview #shortlistList .fit.fitExpanded.uxFitWithLocation .fitColumn{
+  min-width:0!important;
+  width:100%!important;
+  margin:0!important;
+  padding:10px 12px!important;
+  border-radius:11px!important;
+  box-shadow:none!important;
+}
+html.atlasPremiumPreview #shortlistList .fit.fitExpanded.uxFitWithLocation .fitLabel{
+  margin:0 0 4px!important;
+  font-size:10px!important;
+  line-height:1.3!important;
+  letter-spacing:.085em!important;
+}
+html.atlasPremiumPreview #shortlistList .fit.fitExpanded.uxFitWithLocation .fitPoint{
+  font-size:11.5px!important;
+  line-height:1.45!important;
+  overflow-wrap:anywhere!important;
+}
+html.atlasPremiumPreview #shortlistList .fit.fitExpanded.uxFitWithLocation .fitColumn .atlasFitQuizLink{
+  display:none!important;
+}
+html.atlasPremiumPreview #shortlistList .fit.fitExpanded.uxFitWithLocation>.uxLocationPanel{
+  min-width:0!important;
+  width:100%!important;
+  padding:9px!important;
+  gap:6px!important;
+  border-radius:12px!important;
+}
+html.atlasPremiumPreview #shortlistList .uxLocationTitle{
+  font-size:10px!important;
+  line-height:1.3!important;
+}
+html.atlasPremiumPreview #shortlistList .uxSiteName{
+  font-size:11.5px!important;
+  line-height:1.35!important;
+}
+html.atlasPremiumPreview #shortlistList .uxLocationSummary{
+  font-size:11px!important;
+  line-height:1.38!important;
+}
+html.atlasPremiumPreview #shortlistList .uxMiniMap{
+  height:112px!important;
+  min-height:112px!important;
+}
+html.atlasPremiumPreview #shortlistList .uxLocationCaption,
+html.atlasPremiumPreview #shortlistList .uxCommutePersonalisation{
+  font-size:10.5px!important;
+  line-height:1.4!important;
+}
+html.atlasPremiumPreview #shortlistList .uxCommutePersonalisation{
+  padding:7px 8px!important;
+}
+html.atlasPremiumPreview #shortlistList .uxLocationMore>summary{
+  font-size:10.5px!important;
+}
+html.atlasPremiumPreview #shortlistList .uxMapLinks{
+  font-size:10px!important;
+}
+html.atlasPremiumPreview #shortlistList .decision-quick{
+  display:flex!important;
+  flex-wrap:wrap!important;
+  align-items:center!important;
+  gap:6px!important;
+  margin-top:5px!important;
+}
+html.atlasPremiumPreview #shortlistList .decision-quick .btn{
+  min-height:32px!important;
+  padding:7px 10px!important;
+  font-size:11px!important;
+}
+html.atlasPremiumPreview #shortlistList .decision-quick .smallnote{
+  font-size:10px!important;
+  line-height:1.35!important;
+}
+html.atlasPremiumPreview #shortlistList .placement>.controls{
+  grid-template-columns:minmax(145px,1fr) 72px minmax(150px,2fr) auto!important;
+  gap:6px!important;
+  margin-top:4px!important;
+}
+html.atlasPremiumPreview #shortlistList .placement>.controls input,
+html.atlasPremiumPreview #shortlistList .placement>.controls select{
+  min-width:0!important;
+  min-height:32px!important;
+  padding:6px 8px!important;
+  font-size:11px!important;
+}
+html.atlasPremiumPreview #shortlistList .placement>.controls .btn{
+  min-height:32px!important;
+  padding:7px 9px!important;
+  font-size:11px!important;
+}
+html.atlasPremiumPreview #shortlistList .rank-controls{
+  position:sticky!important;
+  top:105px!important;
+  display:grid!important;
+  justify-items:center!important;
+  align-content:start!important;
+  gap:5px!important;
+  padding-top:7px!important;
+}
+html.atlasPremiumPreview #shortlistList .rank-controls .btn{
+  min-width:30px!important;
+  min-height:30px!important;
+  padding:4px!important;
+}
+html.atlasPremiumPreview #shortlistList .rank-controls>.atlasRemoveShortlist{
+  position:static!important;
+  width:30px!important;
+  height:30px!important;
+  min-width:30px!important;
+  min-height:30px!important;
+  flex:0 0 30px!important;
+  margin:3px 0 0!important;
+  padding:0!important;
+  border-radius:9px!important;
+  box-shadow:none!important;
+  transform:none!important;
+}
+@media(hover:none),(pointer:coarse){
+  html.atlasPremiumPreview #shortlistList .rank-controls>.atlasRemoveShortlist{
+    opacity:0!important;
+    pointer-events:none!important;
+    transform:translateX(7px)!important;
+  }
+  html.atlasPremiumPreview #shortlistList .rank-row.atlasSwipeOpen .rank-controls>.atlasRemoveShortlist{
+    opacity:1!important;
+    pointer-events:auto!important;
+    transform:none!important;
+  }
+}
+@media(hover:hover) and (pointer:fine){
+  html.atlasPremiumPreview #shortlistList .rank-controls>.atlasRemoveShortlist{
+    opacity:1!important;
+    pointer-events:auto!important;
+    transform:none!important;
+  }
+}
+@media(max-width:1100px){
+  html.atlasPremiumPreview #shortlistList .fit.fitExpanded.uxFitWithLocation{
+    grid-template-columns:minmax(145px,170px) minmax(0,1fr)!important;
+  }
+  html.atlasPremiumPreview #shortlistList .fit.fitExpanded.uxFitWithLocation>.uxLocationPanel{
+    grid-column:1/-1!important;
+  }
+  html.atlasPremiumPreview #shortlistList .uxMiniMap{
+    height:108px!important;
+    min-height:108px!important;
+  }
+}
+@media(max-width:780px){
+  html.atlasPremiumPreview #shortlistList .rank-row{
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+  html.atlasPremiumPreview #shortlistList .rank-controls{
+    position:static!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:flex-start!important;
+    padding:0 0 5px!important;
+    gap:6px!important;
+  }
+  html.atlasPremiumPreview #shortlistList .rank-controls>.atlasRemoveShortlist{
+    margin:0 0 0 3px!important;
+  }
+  html.atlasPremiumPreview #shortlistList .fit.fitExpanded.uxFitWithLocation{
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+  html.atlasPremiumPreview #shortlistList .fit.fitExpanded.uxFitWithLocation>.score{
+    display:flex!important;
+    flex-direction:row!important;
+    flex-wrap:wrap!important;
+    align-items:center!important;
+    gap:8px!important;
+  }
+  html.atlasPremiumPreview #shortlistList .fit.fitExpanded.uxFitWithLocation>.score .atlasFitQuizLink{
+    margin:0!important;
+  }
+  html.atlasPremiumPreview #shortlistList .placementTop>div:last-child{
+    min-width:125px!important;
+  }
+  html.atlasPremiumPreview #shortlistList .placement>.controls{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+  html.atlasPremiumPreview #shortlistList .placement>.controls input[data-action="note"]{
+    grid-column:1/-1!important;
+  }
+}
+@media(max-width:460px){
+  html.atlasPremiumPreview #shortlistList .placementTop{
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+  html.atlasPremiumPreview #shortlistList .placementTop>div:last-child{
+    min-width:0!important;
+    max-width:none!important;
+    text-align:left!important;
+  }
+  html.atlasPremiumPreview #shortlistList .placementTop .salary,
+  html.atlasPremiumPreview #shortlistList .placementTop .uxTakeHome{
+    text-align:left!important;
+    margin-left:0!important;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  html.atlasPremiumPreview #shortlistList .placement,
+  html.atlasPremiumPreview #shortlistList .rank-controls>.atlasRemoveShortlist{
+    transition:none!important;
+  }
+}
+
+
+/* SOURCE: member-profile.css */
+
+.atlasMemberOverlay{position:fixed;inset:0;z-index:9400;background:#080c10aa;backdrop-filter:blur(7px);display:grid;place-items:center;padding:15px}
+.atlasMemberDialog{width:min(550px,100%);max-height:92vh;overflow:auto;position:relative;padding:clamp(20px,3vw,29px);border-radius:23px;border:1px solid var(--line);background:var(--panel);color:var(--ink);box-shadow:0 28px 75px #0004}
+.atlasMemberDialog h2{font-size:clamp(24px,3vw,31px);letter-spacing:-.04em;margin:5px 35px 6px 0;line-height:1.15}
+.atlasMemberDialog>p{font-size:13px;color:var(--mut);margin:0 0 20px;line-height:1.5}
+.atlasMemberClose{position:absolute;top:16px;right:16px;border:1px solid var(--line);background:var(--soft);color:var(--ink);width:33px;height:33px;border-radius:50%;font-size:20px;cursor:pointer}
+.atlasMemberFields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.atlasMemberField{display:flex;flex-direction:column;gap:6px;min-width:0}
+.atlasMemberField.wide{grid-column:1/-1}
+.atlasMemberField>label{font-size:12px;font-weight:800;display:flex;align-items:center;gap:6px}
+.atlasMemberField>input{width:100%;min-height:43px;padding:9px 11px;border:1px solid var(--line);background:var(--soft);color:var(--ink);border-radius:12px;font:inherit;outline:none}
+.atlasMemberField>input:focus{border-color:var(--ux-accent-ink);box-shadow:0 0 0 2px var(--ux-accent-soft)}
+.atlasMemberField small{font-size:11px;color:var(--mut);min-height:16px}
+.atlasMemberField small[data-tone="error"],#atlasMemberError{color:#d36b74}
+.atlasMemberField small[data-tone="success"]{color:var(--ux-accent-ink)}
+.atlasMemberTip{position:relative}
+.atlasMemberTip>summary{display:grid;place-items:center;list-style:none;border:1px solid var(--line);border-radius:50%;font-size:10px;font-weight:800;color:var(--mut);width:18px;height:18px;cursor:help}
+.atlasMemberTip summary::-webkit-details-marker{display:none}
+.atlasMemberTip>span{display:none;position:absolute;left:0;top:22px;z-index:4;width:min(235px,60vw);padding:10px;border-radius:12px;border:1px solid var(--line);background:var(--panel);box-shadow:0 10px 25px #0004;color:var(--mut);font-size:11px;line-height:1.5;font-weight:500}
+.atlasMemberTip[open]>span,.atlasMemberTip:hover>span{display:block}
+.atlasMemberYears{display:flex;flex-wrap:wrap;gap:7px}
+.atlasMemberYears label{border:1px solid var(--line);background:var(--soft);border-radius:999px;padding:8px 11px;font-size:12px;display:flex;gap:6px;align-items:center;cursor:pointer}
+.atlasMemberYears input{accent-color:var(--ux-accent-ink);margin:0}
+.atlasHandleSuggestions{display:flex;flex-wrap:wrap;gap:6px}
+.atlasHandleSuggestions button{border:1px solid var(--line);border-radius:999px;padding:5px 9px;background:var(--soft);color:var(--ink);cursor:pointer;font:inherit;font-size:11px}
+.atlasMemberFooter{display:flex;align-items:center;justify-content:space-between;gap:15px;border-top:1px solid var(--line);padding-top:16px;margin-top:21px}
+.atlasMemberFooter span{color:var(--mut);font-size:11px}
+.atlasMemberFooter button{background:var(--ink);color:var(--panel);border:0;border-radius:12px;padding:11px 17px;font:inherit;font-weight:800;cursor:pointer;white-space:nowrap}
+.atlasMemberFooter button:disabled{opacity:.55}
+#atlasMemberError{font-size:12px;min-height:16px}
+html body .atlasStickyHeader .atlasHeaderUtilities .cloudAccount{display:none!important}
+html body .atlasStickyHeader>nav.tabs>.tab[data-tab="outcome"]{display:none!important}
+html body .atlasStickyHeader .paHeaderProfile{display:flex!important;align-items:center!important;gap:7px;max-width:175px}
+html body .atlasStickyHeader .paHeaderLabel{max-width:120px;font-size:12px;font-weight:750;color:var(--ink)}
+#paNameEdit,#paNameSave,#paNameCancel{display:none!important}
+#paMemberEdit[hidden]{display:none!important}
+.atlasLearnHubNav{display:flex;gap:4px;border:1px solid var(--line);background:var(--soft);padding:4px;border-radius:13px;width:max-content;max-width:100%}
+.atlasLearnHubNav button{border:0;border-radius:10px;padding:10px 13px;background:transparent;color:var(--mut);font:inherit;font-weight:800;font-size:12px;cursor:pointer}
+.atlasLearnHubNav button[aria-current="page"]{background:var(--panel);color:var(--ink);box-shadow:0 1px 3px #0002}
+#atlasLearnHome[hidden],#atlasLearnGuidance[hidden]{display:none!important}
+.atlasLearnHomeGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:15px 0}
+.atlasLearnModule,.atlasLearnHubGuidance{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px}
+.atlasLearnModule h3,.atlasLearnHubGuidance h3{font-size:18px;letter-spacing:-.025em;margin:9px 0}
+.atlasLearnModule p,.atlasLearnHubGuidance p{color:var(--mut);font-size:13px;line-height:1.55;margin:0}
+.atlasLearnModule small{display:block;color:var(--mut);font-size:11px;margin-top:18px}
+.atlasModuleIndex{font-size:11px;font-weight:850;color:var(--ux-accent-ink)}
+.atlasLearnHubGuidance{display:flex;justify-content:space-between;align-items:center;gap:15px}
+@media(max-width:620px){.atlasMemberFields,.atlasLearnHomeGrid{grid-template-columns:1fr}.atlasMemberField.wide{grid-column:auto}.atlasMemberFooter,.atlasLearnHubGuidance{flex-direction:column;align-items:stretch}}
+
+/* One compact, vertically stacked account identity in the header.
+   The two separate buttons keep Profile navigation and sign-in/out accessible. */
+html body .atlasStickyHeader .atlasHeaderUtilities .paHeaderIdentity{
+  display:flex!important;flex-direction:column!important;align-items:center!important;
+  justify-content:center!important;gap:0!important;flex:0 0 auto!important;
+  width:112px!important;max-width:112px!important;min-width:0!important;
+}
+html body .atlasStickyHeader .atlasHeaderUtilities .paHeaderIdentity .paHeaderProfile{
+  display:flex!important;flex-direction:column!important;align-items:center!important;
+  justify-content:center!important;gap:3px!important;width:100%!important;
+  min-height:53px!important;max-width:100%!important;padding:2px 3px 1px!important;
+  margin:0!important;background:transparent!important;border:0!important;
+  border-radius:12px!important;color:var(--ink)!important;cursor:pointer!important;
+}
+html body .atlasStickyHeader .atlasHeaderUtilities .paHeaderIdentity .paHeaderPhoto{
+  display:grid!important;place-items:center!important;width:33px!important;height:33px!important;
+  min-width:33px!important;min-height:33px!important;border-radius:50%!important;
+  overflow:hidden!important;flex:none!important;background:var(--soft)!important;
+  border:1px solid var(--line)!important;font-weight:800!important;font-size:13px!important;
+}
+html body .atlasStickyHeader .atlasHeaderUtilities .paHeaderIdentity .paHeaderPhoto svg{
+  width:20px;height:20px;color:var(--mut);
+}
+html body .atlasStickyHeader .atlasHeaderUtilities .paHeaderIdentity .paHeaderLabel{
+  display:block!important;max-width:100%!important;min-width:0!important;
+  width:100%!important;overflow:hidden!important;text-overflow:ellipsis!important;
+  white-space:nowrap!important;text-align:center!important;
+  font-size:11px!important;font-weight:760!important;line-height:1.2!important;
+  color:var(--ink)!important;
+}
+html body .atlasStickyHeader .atlasHeaderUtilities .paHeaderIdentity .paHeaderSessionAction{
+  appearance:none!important;display:block!important;flex:0 0 auto!important;
+  background:transparent!important;border:0!important;box-shadow:none!important;
+  margin:0!important;padding:3px 8px 4px!important;min-height:24px!important;
+  color:var(--mut)!important;text-decoration:underline!important;text-underline-offset:3px!important;
+  font:inherit!important;font-size:10px!important;line-height:1.2!important;
+  font-weight:500!important;cursor:pointer!important;
+}
+html body .atlasStickyHeader .atlasHeaderUtilities .paHeaderIdentity .paHeaderProfile:hover .paHeaderLabel,
+html body .atlasStickyHeader .atlasHeaderUtilities .paHeaderIdentity .paHeaderSessionAction:hover{
+  color:var(--ink)!important;
+}
+html body .atlasStickyHeader .atlasHeaderUtilities .paHeaderIdentity button:focus-visible{
+  outline:2px solid var(--ux-accent-ink)!important;outline-offset:2px!important;
+}
+@media(max-width:720px){
+  html body .atlasStickyHeader .atlasHeaderUtilities .paHeaderIdentity{
+    width:87px!important;max-width:87px!important;
+  }
+  html body .atlasStickyHeader .atlasHeaderUtilities .paHeaderIdentity .paHeaderPhoto{
+    width:29px!important;height:29px!important;min-width:29px!important;min-height:29px!important;
+  }
+  html body .atlasStickyHeader .atlasHeaderUtilities .paHeaderIdentity .paHeaderProfile{
+    min-height:48px!important;
+  }
+  html body .atlasStickyHeader .atlasHeaderUtilities .paHeaderIdentity .paHeaderLabel{
+    font-size:10px!important;
+  }
+}
+
+/* Profile onboarding v2 · soft, compact, fully keyboard-accessible controls */
+.atlasMemberDialog{width:min(660px,calc(100vw - 24px));max-height:min(92dvh,860px);padding:clamp(20px,3vw,32px);border-radius:28px;box-shadow:0 35px 110px #0005}
+.atlasMemberOverlay{padding:12px}
+.atlasMemberDialog h2{font-size:clamp(27px,3.1vw,38px);letter-spacing:-.052em;margin-top:8px}
+.atlasMemberDialog>p{font-size:14px;max-width:56ch;line-height:1.55}
+.atlasMemberFields{gap:17px 15px}
+.atlasMemberField>label{font-size:13px;letter-spacing:-.01em}
+.atlasMemberField>input,.atlasUniControl>input,.atlasUniOther>input,.atlasBirthParts select{
+  min-width:0;width:100%;min-height:49px;border:1px solid var(--line);border-radius:16px;
+  background:var(--soft);color:var(--ink);font:inherit;font-size:14px;padding:12px 14px;
+  outline:none;transition:border-color .16s ease,box-shadow .16s ease
+}
+.atlasMemberField>input:focus,.atlasUniControl>input:focus,.atlasUniOther>input:focus,.atlasBirthParts select:focus{
+  border-color:var(--ux-accent-ink);box-shadow:0 0 0 3px var(--ux-accent-soft)
+}
+.atlasBirthParts{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1fr) minmax(0,1fr);gap:6px}
+.atlasBirthParts select{appearance:none;-webkit-appearance:none;padding:12px 9px;background-image:none;cursor:pointer;text-align:center}
+.atlasUniField{position:relative}
+.atlasUniControl{display:grid;grid-template-columns:minmax(0,1fr) 46px;border:1px solid var(--line);border-radius:16px;background:var(--soft)}
+.atlasUniControl:focus-within{border-color:var(--ux-accent-ink);box-shadow:0 0 0 3px var(--ux-accent-soft)}
+.atlasUniControl input{border:0!important;box-shadow:none!important;background:transparent;min-height:47px;padding-left:13px}
+.atlasUniControl>button{border:0;border-radius:0 15px 15px 0;background:transparent;color:var(--mut);font-size:25px;cursor:pointer}
+.atlasUniControl>button:hover{color:var(--ink);background:var(--ux-accent-soft)}
+.atlasUniOptions{position:absolute;top:calc(100% + 5px);left:0;right:0;z-index:8;
+ display:grid;gap:2px;padding:6px;max-height:min(310px,42vh);overflow-y:auto;overscroll-behavior:contain;
+ border:1px solid var(--line);border-radius:18px;background:var(--panel);box-shadow:0 20px 45px #0004}
+.atlasUniOptions[hidden],.atlasUniOther[hidden]{display:none!important}
+.atlasUniOptions button{width:100%;border:0;border-radius:11px;text-align:left;
+ background:transparent;color:var(--ink);font:inherit;font-size:13px;line-height:1.4;
+ padding:10px 11px;cursor:pointer}
+.atlasUniOptions button:hover,.atlasUniOptions button:focus-visible{background:var(--ux-accent-soft);outline:none}
+.atlasUniOptions .atlasUniOtherOption{border-top:1px solid var(--line);border-radius:4px 4px 10px 10px;
+ margin-top:5px;padding-top:14px;color:var(--ux-accent-ink);font-weight:750}
+.atlasUniOther{display:grid;gap:5px;margin-top:5px}
+.atlasUniOther label{font-size:11px;font-weight:750}
+.atlasUniOther small{font-size:11px;color:var(--mut)}
+.atlasMemberYears{gap:8px}
+.atlasMemberYears label{border-radius:13px;min-height:42px;padding:10px 13px;font-size:12px;transition:background .15s ease,box-shadow .15s ease}
+.atlasMemberYears label:has(input:checked){border-color:var(--ux-accent-ink);background:var(--ux-accent-soft);box-shadow:inset 0 0 0 1px var(--ux-accent-ink);font-weight:750}
+.atlasAlternatePath{grid-column:1/-1;color:var(--mut);font-size:12px}
+.atlasAlternatePath summary{width:max-content;max-width:100%;cursor:pointer;list-style:none;text-decoration:underline;text-underline-offset:3px}
+.atlasAlternatePath summary::-webkit-details-marker{display:none}
+.atlasAlternatePath p{margin:8px 0 5px;max-width:66ch;line-height:1.6}
+.atlasAlternatePath a{color:var(--ux-accent-ink)}
+.atlasMemberFooter{gap:14px;align-items:center}
+.atlasMemberFooter button{border-radius:15px;min-height:46px;padding:11px 18px}
+.atlasMemberClose{width:36px;height:36px;top:17px;right:17px}
+@media(max-width:560px){
+ .atlasMemberDialog{max-height:calc(100dvh - 20px);padding:21px 18px;border-radius:24px}
+ .atlasMemberFields{grid-template-columns:minmax(0,1fr);gap:13px}
+ .atlasMemberField.wide{grid-column:1}
+ .atlasMemberFooter{align-items:stretch;flex-direction:column}
+ .atlasMemberFooter button{width:100%}
+ .atlasUniOptions{position:relative;top:auto;max-height:230px;margin-top:4px}
+ .atlasMemberDialog>p{margin-bottom:15px}
+}
+
+
+/* SOURCE: atlas-experience.css */
+/* Placement Atlas · contextual offers and the regional Learning Hub */
+.atlasOfferOverlay[hidden]{display:none!important}
+.atlasOfferOverlay{position:fixed;inset:0;z-index:9550;display:grid;place-items:center;
+  padding:clamp(10px,2vw,24px);background:rgba(10,16,20,.72);
+  -webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px)}
+.atlasOfferDialog{width:min(960px,100%);max-height:calc(100dvh - 26px);
+  overflow-y:auto;overscroll-behavior:contain;border:1px solid var(--line);
+  border-radius:27px;background:var(--panel);color:var(--ink);
+  box-shadow:0 35px 100px rgba(0,0,0,.35);padding:clamp(18px,2.4vw,27px)}
+.atlasOfferHead{display:flex;gap:18px;justify-content:space-between;align-items:flex-start;
+  padding-bottom:17px;border-bottom:1px solid var(--line)}
+.atlasOfferHead h2{font-size:clamp(27px,3vw,38px);letter-spacing:-.045em;
+  line-height:1.18;margin:5px 0 6px}
+.atlasOfferHead p{font-size:13px;line-height:1.55;max-width:65ch;margin:0;color:var(--mut)}
+.atlasOfferClose{display:grid;place-items:center;flex:none;width:39px;height:39px;border:1px solid var(--line);
+  border-radius:50%;background:var(--soft);color:var(--ink);font-size:24px;cursor:pointer}
+.atlasOfferGuidance{background:var(--soft);border:1px solid var(--line);border-radius:18px;
+  padding:17px 19px;margin:18px 0}
+.atlasOfferGuidance>strong{display:block;font-size:15px;font-weight:800;margin-bottom:7px}
+.atlasOfferGuidance p{font-size:12px;color:var(--mut);line-height:1.55;margin:6px 0}
+.atlasOfferPersonalised{display:grid;gap:6px;border-top:1px solid var(--line);padding-top:12px;margin-top:12px}
+.atlasOfferPersonalised .btn,.atlasOfferGuidance>.btn{width:max-content;max-width:100%;margin-top:9px}
+.atlasOfferContent .paOutcomeBody{padding:0}
+.atlasOfferContent .sectionHero{display:none!important}
+.atlasOfferContent .outcomeLayout{margin:0}
+.atlasOfferContent .outcomeLayout .card{border-radius:18px;min-width:0}
+.atlasOfferContent .outcomeLayout .outcomeForm{padding:clamp(13px,2vw,21px)}
+.atlasOfferContent .outcomeLayout .outcomeInsights{min-width:0}
+.atlasOfferContent input,.atlasOfferContent select,.atlasOfferContent textarea{border-radius:13px}
+.atlasOfferContent .outcomeTableWrap{max-width:100%;overflow-x:auto}
+.atlasOfferSimButton{min-height:41px;white-space:normal}
+#orielDeadline .atlasOfferDeadlineButton{display:inline-flex;align-items:center;justify-content:center;
+ border:1px solid currentColor;border-radius:11px;padding:7px 11px;margin-top:10px;
+ background:transparent;color:inherit;cursor:pointer;font:inherit;font-size:11px;font-weight:750}
+#orielDeadline .atlasOfferDeadlineButton:hover{background:rgba(36,96,73,.09)}
+.atlasOfferCongrats{display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+ margin:0 0 18px;padding:17px 19px;border-radius:20px;
+ border:1px solid #a9d9bf;background:#e2f6e9;color:#174f35;
+ box-shadow:0 7px 22px rgba(25,86,52,.06)}
+.atlasOfferCelebrationIcon{display:grid;place-items:center;width:48px;height:48px;flex:none;
+ border-radius:16px;background:#c4ead3;color:#17653e;font-size:25px;font-weight:900}
+.atlasOfferCongrats>div:nth-child(2){flex:1 1 240px}
+.atlasOfferCongrats .eyebrow{color:#416d55}
+.atlasOfferCongrats h2{font-size:clamp(19px,2vw,26px);letter-spacing:-.04em;margin:3px 0}
+.atlasOfferCongrats p{font-size:12px;color:#416d55;margin:0}
+.atlasOfferCongrats .atlasCongratsAction{border-color:#78b18d;background:#fff;color:#174f35;
+ border-radius:13px;font-size:12px}
+html[data-theme="dark"] .atlasOfferCongrats{background:#193d2d;border-color:#315f45;color:#e3f9e9}
+html[data-theme="dark"] .atlasOfferCongrats .eyebrow,
+html[data-theme="dark"] .atlasOfferCongrats p{color:#bfdfc9}
+html[data-theme="dark"] .atlasOfferCelebrationIcon{background:#28553a;color:#d9ffe8}
+@media(max-width:720px){
+ .atlasOfferOverlay{padding:8px}
+ .atlasOfferDialog{max-height:calc(100dvh - 16px);border-radius:23px;padding:17px}
+ .atlasOfferContent .outcomeLayout{display:grid;grid-template-columns:minmax(0,1fr)}
+ .atlasOfferContent .outcomeLayout .outcomeInsights{min-width:0}
+ .atlasOfferCongrats{gap:11px}
+ .atlasOfferCongrats .atlasCongratsAction{width:100%}
+}
+@media(prefers-reduced-motion:reduce){.atlasOfferOverlay,.atlasOfferCongrats{transition:none!important}}
+
+/* Location guide: grounded programme data + research tools, not Google searches. */
+html body #atlasLearnRegions{overflow:visible}
+html body #atlasLearnRegions .atlasLearnRegionTools{display:grid;grid-template-columns:minmax(170px,1fr) minmax(200px,310px);
+ align-items:center;gap:12px;margin:17px 0;padding:16px 17px;border:1px solid var(--line);
+ border-radius:19px;background:var(--soft)}
+html body #atlasLearnRegions .atlasLearnRegionTools label{font-size:13px;font-weight:800;color:var(--ink)}
+html body #atlasLearnRegions .atlasLearnRegionTools select{width:100%;min-height:45px;
+ padding:9px 13px;border:1px solid var(--line);border-radius:14px;
+ color:var(--ink);background:var(--panel);font:inherit;font-size:13px}
+html body #atlasLearnRegions .atlasRegionData{border:1px solid var(--line);background:var(--panel);
+ padding:clamp(15px,2vw,21px);border-radius:20px;margin:0 0 12px}
+html body #atlasLearnRegions .atlasRegionData h4{font-size:16px;letter-spacing:-.025em;margin:0 0 14px}
+html body #atlasLearnRegions .atlasRegionStats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+html body #atlasLearnRegions .atlasRegionStats>div{display:grid;gap:5px;min-width:0;
+ padding:14px 15px;border:1px solid var(--line);border-radius:15px;background:var(--soft)}
+html body #atlasLearnRegions .atlasRegionStats span{font-size:11px;line-height:1.4;color:var(--mut)}
+html body #atlasLearnRegions .atlasRegionStats strong{font-size:clamp(17px,1.8vw,24px);letter-spacing:-.035em;overflow-wrap:anywhere}
+html body #atlasLearnRegions .atlasRegionFootnote{margin:13px 0 0;color:var(--mut);font-size:11px;line-height:1.5}
+html body #atlasLearnRegions .atlasRegionExploreBtn{margin-top:14px;border-radius:13px;white-space:normal}
+html body #atlasLearnRegions .atlasLearnRegionLinks{display:flex;align-items:center;flex-wrap:wrap;
+ gap:8px;padding:13px 0;margin:0;border:0;background:transparent;min-width:0}
+html body #atlasLearnRegions .atlasRegionLinksHeading{flex-basis:100%;font-size:12px;margin-bottom:3px;color:var(--ink)}
+html body #atlasLearnRegions .atlasLearnRegionLinks a{display:inline-flex;align-items:center;
+ padding:10px 13px;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+ color:var(--ux-accent-ink);font-size:12px;font-weight:750;text-decoration:none;
+ min-width:0;max-width:100%;white-space:normal;overflow-wrap:anywhere}
+html body #atlasLearnRegions .atlasLearnRegionLinks a:hover{background:var(--ux-accent-soft)}
+html body #atlasLearnRegions .atlasRegionDecision{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin-top:13px}
+html body #atlasLearnRegions .atlasRegionDecision>div{display:grid;align-content:start;gap:8px;min-width:0;
+ border:1px solid var(--line);border-radius:18px;background:var(--soft);padding:16px}
+html body #atlasLearnRegions .atlasRegionDecision strong{font-size:13px}
+html body #atlasLearnRegions .atlasRegionDecision span{font-size:12px;color:var(--mut);line-height:1.55}
+@media(max-width:650px){
+ html body #atlasLearnRegions .atlasLearnRegionTools{grid-template-columns:minmax(0,1fr)}
+ html body #atlasLearnRegions .atlasRegionStats{grid-template-columns:repeat(2,minmax(0,1fr))}
+ html body #atlasLearnRegions .atlasRegionStats>div:first-child{grid-column:1/-1}
+ html body #atlasLearnRegions .atlasRegionDecision{grid-template-columns:minmax(0,1fr)}
+}
+
+/* 2026-11-13: Page isolation. The prior .atlasLearnPanel display:grid rule
+   overrode .panel{display:none}, leaking Learning Hub into every view.
+   Only the single currently active top-level page may be rendered. */
+html body .shell > section.panel:not(.active){display:none!important}
+html body .shell > section.panel.active{display:block!important}
+html body .shell > section#learn.panel.active{display:grid!important;grid-template-columns:minmax(0,1fr);gap:18px}
+html body .shell > section#learn.panel:not(.active){display:none!important}
+html body .shell > section#outcome.panel:not(.active){display:none!important}
+html body #paOutcomeDetails{display:none!important}
+/* Prevent cards/inputs from escaping the bounds of their own page. */
+html body .shell > section.panel{min-width:0;max-width:100%}
+html body #learn,html body #learn>*{min-width:0;max-width:100%}
+html body #learn .atlasLearnHomeGrid,html body #learn .atlasLearnSettingGrid{min-width:0}
+html body #learn .atlasLearnModule,html body #learn .atlasLearnSection,html body #learn .atlasLearnHero{min-width:0;overflow-wrap:break-word}
+@media(max-width:680px){
+ html body #learn .atlasLearnHomeGrid,html body #learn .atlasLearnSettingGrid{grid-template-columns:minmax(0,1fr)!important}
+ html body #learn .atlasLearnModule,html body #learn .atlasLearnHubGuidance{padding:16px}
+}
+
+
+/* SOURCE: learning-industry-guide.css */
+/* Placement Atlas Learning Hub — evidence-led industry foundation placement guide.
+   Scoped to the Learning Hub and independent, static reading page. */
+#learn .atlasIndustryHubTeaser{
+  display:flex;gap:clamp(14px,2.5vw,25px);align-items:center;justify-content:space-between;
+  margin:0 0 17px;padding:clamp(18px,2.5vw,26px);
+  border:1px solid var(--ux-accent-border,var(--line));border-radius:20px;
+  background:var(--ux-accent-soft,var(--panel));
+  color:var(--ink);min-width:0;
+}
+#learn .atlasIndustryHubTeaser>div{min-width:0;flex:1}
+#learn .atlasIndustryHubTeaser h3{font-size:clamp(18px,2vw,24px);line-height:1.23;letter-spacing:-.03em;margin:7px 0}
+#learn .atlasIndustryHubTeaser p{max-width:70ch;margin:0;color:var(--mut);font-size:13px;line-height:1.55}
+#learn .atlasIndustryHubTeaser .btn{flex:none;min-height:43px;white-space:normal;max-width:100%}
+.atlasIndustryGuide{scroll-margin-top:100px}
+.atlasIndustryGuide h3{max-width:950px;letter-spacing:-.032em!important}
+.atlasIndustryGuide .atlasIndustryGuideSubtitle{max-width:850px;font-size:14px!important;line-height:1.6!important}
+.atlasIndustryGuideIntro{padding:17px 19px;border:1px solid var(--line);border-radius:15px;
+  background:var(--soft);margin:10px 0 18px;color:var(--ink);line-height:1.7}
+.atlasIndustryGuideIntro p{font-size:13px;max-width:95ch;margin:0 0 9px;color:var(--ink)}
+.atlasIndustryGuideIntro p:last-child{margin-bottom:0;color:var(--mut)}
+.atlasIndustryTools{display:flex;flex-wrap:wrap;gap:8px;margin:15px 0}
+.atlasIndustryTools .btn{border-radius:11px;min-height:38px;font-size:12px;line-height:1.3;white-space:normal}
+.atlasIndustryAnswers{display:grid;gap:10px;min-width:0}
+.atlasIndustryAnswer{min-width:0;overflow:hidden;border:1px solid var(--line);
+  border-radius:15px;background:var(--panel);color:var(--ink)}
+.atlasIndustryAnswer[open]{border-color:var(--ux-accent-border,var(--line));box-shadow:0 4px 18px #00000008}
+.atlasIndustryAnswer summary{
+  display:flex;align-items:flex-start;gap:13px;padding:16px 17px;
+  cursor:pointer;list-style:none;font-size:clamp(13px,1.2vw,15px);font-weight:790;
+  line-height:1.45;color:var(--ink);transition:background .15s ease;
+}
+.atlasIndustryAnswer summary::-webkit-details-marker{display:none}
+.atlasIndustryAnswer summary:hover{background:var(--soft)}
+.atlasIndustryAnswer summary:focus-visible{outline:3px solid var(--ux-accent-ink,#365e4b);outline-offset:-4px}
+.atlasIndustryAnswer summary:after{content:"+";font-weight:750;flex:none;font-size:20px;line-height:1;margin-left:auto;color:var(--mut)}
+.atlasIndustryAnswer[open] summary:after{content:"−"}
+.atlasIndustryQuestionNumber{font-size:11px;font-weight:850;padding-top:3px;min-width:23px;color:var(--ux-accent-ink,var(--ink))}
+.atlasIndustryAnswerBody{padding:0 clamp(16px,2.5vw,26px) 21px;margin-left:25px;
+  max-width:93ch;color:var(--ink);font-size:13px;line-height:1.78}
+.atlasIndustryAnswerBody p{margin:0 0 13px;line-height:inherit;overflow-wrap:anywhere}
+.atlasIndustryAnswerBody strong{font-weight:780;color:var(--ink)}
+.atlasIndustryAnswerBody em{font-style:italic}
+.atlasIndustryCitations{margin-top:18px!important;padding-top:11px;border-top:1px solid var(--line);
+  font-size:11px!important;color:var(--mut)!important;line-height:1.8!important}
+.atlasIndustryCitations a{color:var(--ux-accent-ink,var(--ink));text-decoration:underline;
+  text-underline-offset:3px;overflow-wrap:anywhere}
+.atlasIndustryCitations a:hover{color:var(--ink)}
+@media(max-width:700px){
+ #learn .atlasIndustryHubTeaser{flex-direction:column;align-items:stretch;gap:13px}
+ #learn .atlasIndustryHubTeaser .btn{width:100%}
+ .atlasIndustryGuide .atlasIndustryGuideSubtitle{font-size:13px!important}
+ .atlasIndustryGuideIntro{padding:14px}
+ .atlasIndustryAnswer summary{padding:13px;gap:8px;font-size:13px}
+ .atlasIndustryQuestionNumber{min-width:19px;font-size:10px}
+ .atlasIndustryAnswerBody{padding:0 14px 16px;margin-left:0;font-size:12px;line-height:1.68}
+ .atlasIndustryTools .btn{flex:1 1 145px}
+}
+@media(prefers-reduced-motion:reduce){.atlasIndustryAnswer summary{transition:none}}
+
+/* Self-contained, crawlable public article with the same guide text. */
+.industryStandalone{--panel:#fff;--soft:#f5f7f4;--ink:#26352d;--mut:#59635c;
+  --line:#dce4db;--ux-accent-ink:#315847;--ux-accent-border:#a6c7b5;
+  --ux-accent-soft:#eaf4ee;background:#f6f7f4;color:var(--ink);
+  margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}
+.industryStandalone *{box-sizing:border-box}
+.industryStandalone .atlasIndustrySiteHead{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  padding:15px clamp(16px,5vw,48px);border-bottom:1px solid var(--line);background:var(--panel)}
+.industryStandalone .atlasIndustrySiteHead strong{font-weight:850;letter-spacing:-.025em;color:var(--ux-accent-ink)}
+.industryStandalone .atlasIndustrySiteHead a{color:var(--ux-accent-ink);font-size:13px;font-weight:750;text-decoration:none}
+.industryStandalone .atlasIndustrySiteHead a:focus-visible,.industryStandalone .atlasIndustrySiteHead a:hover{text-decoration:underline}
+.industryStandalone main{width:min(1080px,calc(100% - 28px));margin:26px auto 60px;padding:0}
+.industryStandalone .atlasIndustryPublicHero{padding:clamp(22px,3vw,40px);
+  border:1px solid var(--line);border-radius:22px;background:var(--panel);margin-bottom:17px}
+.industryStandalone .atlasIndustryPublicHero .eyebrow{font-size:11px;font-weight:850;letter-spacing:.09em;color:var(--mut)}
+.industryStandalone .atlasIndustryPublicHero h1{font-size:clamp(27px,4vw,46px);
+  letter-spacing:-.05em;line-height:1.12;margin:10px 0}
+.industryStandalone .atlasIndustryPublicHero>p{max-width:85ch;color:var(--mut);font-size:15px;line-height:1.65}
+.industryStandalone .atlasIndustryPublicHero .atlasIndustryMetadata{font-size:11px;color:var(--mut)}
+.industryStandalone .atlasIndustryGuide{background:var(--panel);padding:clamp(16px,3vw,30px);
+  border-radius:22px;border:1px solid var(--line)}
+.industryStandalone .atlasIndustryGuide h2{font-size:clamp(20px,2.5vw,26px);letter-spacing:-.03em}
+.industryStandalone .atlasIndustrySectionIndex{margin:17px 0 23px;padding:18px;border:1px solid var(--line);
+  border-radius:16px;background:var(--soft)}
+.industryStandalone .atlasIndustrySectionIndex strong{display:block;margin-bottom:8px}
+.industryStandalone .atlasIndustrySectionIndex ol{columns:2;margin:0;padding-left:20px}
+.industryStandalone .atlasIndustrySectionIndex li{font-size:12px;margin:4px 0 8px;break-inside:avoid}
+.industryStandalone .atlasIndustrySectionIndex a{color:var(--ux-accent-ink);text-underline-offset:3px}
+.industryStandalone .atlasIndustryAnswer{scroll-margin-top:15px}
+.industryStandalone footer{width:min(1080px,calc(100% - 28px));margin:0 auto 30px;color:var(--mut);font-size:11px}
+@media(max-width:640px){.industryStandalone .atlasIndustrySectionIndex ol{columns:1}}
+
+/* Curated primary and first-person reading, without promoting anecdotes to facts. */
+.atlasIndustryExperienceLinks{margin:14px 0 21px;padding:16px;border:1px solid var(--line);border-radius:16px;background:var(--soft);color:var(--ink);min-width:0}
+.atlasIndustryExperienceLinks>strong{display:block;font-size:14px;margin-bottom:10px}
+.atlasIndustryExperienceGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.atlasIndustryExperienceGrid a{display:flex;flex-direction:column;gap:5px;min-width:0;padding:12px 13px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink);font-size:12px;font-weight:750;line-height:1.4;text-decoration:none;overflow-wrap:anywhere}
+.atlasIndustryExperienceGrid a:hover,.atlasIndustryExperienceGrid a:focus-visible{border-color:var(--ux-accent-ink);text-decoration:underline;text-underline-offset:3px}
+.atlasIndustryExperienceGrid a span{font-size:11px;font-weight:500;color:var(--mut)}
+.atlasIndustryExperienceLinks>p{font-size:11px;line-height:1.6;color:var(--mut);margin:11px 0 0}
+@media(max-width:650px){.atlasIndustryExperienceGrid{grid-template-columns:minmax(0,1fr)}.atlasIndustryExperienceLinks{padding:12px}}
+
+
+/* SOURCE: responsive-fit.css */
+/* Placement Atlas responsive sizing and footer-safe controls
+   Every main page must fit the usable viewport at the default 100% zoom.
+   Content may wrap and stack, but must not be clipped offscreen. */
+
+/* All app panels honour the width of their parent, including inside CSS zoom. */
+html body .shell{min-width:0;box-sizing:border-box;padding-inline:clamp(12px,2.1vw,24px)}
+html body .shell > section.panel,
+html body .shell > .productIntro,
+html body .shell > .contextStrip,
+html body #prefs,
+html body #shortlist,
+html body #shortlistList,
+html body #results,
+html body #learn{
+  min-width:0;max-width:100%;box-sizing:border-box;
+}
+html body .panel .card,
+html body .panel .sectionHero,
+html body #prefs .settings,
+html body #prefs .settingsCard,
+html body #shortlistList .rank-row,
+html body #shortlistList .rank-row > *,
+html body #learn .atlasLearnSection{
+  min-width:0;max-width:100%;box-sizing:border-box;
+}
+html body .panel h2,
+html body .panel h3,
+html body .panel p,
+html body .panel label,
+html body .panel .muted,
+html body .atlasFooterBottom p{overflow-wrap:break-word}
+html body .panel input,
+html body .panel textarea,
+html body .panel select{max-width:100%;box-sizing:border-box}
+
+/* Preferences: visible hierarchy, generous spacing between rating rows
+   and location tools; never squeeze two large panels on a laptop. */
+html.atlasPremiumPreview body #prefs .settings{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ align-items:start!important;column-gap:clamp(24px,2.8vw,44px)!important;
+ row-gap:clamp(25px,3vw,42px)!important;
+}
+html.atlasPremiumPreview body #prefs .settingsCard.card{
+ min-width:0!important;padding:clamp(18px,2.2vw,28px)!important;
+ border:1px solid var(--line)!important;border-radius:22px!important;
+ background:var(--panel)!important;box-shadow:none!important;
+}
+html.atlasPremiumPreview body #prefs .settingsCard .eyebrow{margin-bottom:9px}
+html.atlasPremiumPreview body #prefs .settingsCard h2{margin:0 0 11px!important}
+html.atlasPremiumPreview body #prefs .settingsCard>p{margin:0 0 19px!important;line-height:1.6!important}
+html body #prefs #weights{gap:clamp(14px,1.4vw,20px)!important;margin-top:22px!important}
+html body #prefs #weights .weight.weightModern{
+ grid-template-columns:minmax(105px,.82fr) minmax(0,1.18fr)!important;
+ gap:clamp(12px,1.6vw,22px)!important;
+ min-width:0!important;margin:0!important;
+ padding:clamp(14px,1.3vw,19px)!important;
+ border-radius:17px!important;
+}
+html body #prefs #weights .weightScale{min-width:0!important;gap:clamp(4px,.55vw,8px)!important}
+html body #prefs #weights .weightStep{min-width:0!important;min-height:42px;border-radius:11px}
+html body #prefs .geoLikesPane,
+html body #prefs .geoBlacklistPane{
+ min-width:0!important;
+ margin:17px 0!important;
+ padding:15px!important;
+ border-radius:18px;border:1px solid var(--line);
+ background:var(--soft);
+}
+html body #prefs .geoInputRow{
+ display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;
+ gap:10px!important;align-items:center!important;
+}
+html body #prefs .geoInputRow>*{min-width:0}
+html body #prefs .geoSearchLabel{margin-bottom:11px!important}
+html body #prefs #atlasDataTools.atlasDataTools{
+ width:100%;min-width:0;max-width:100%;
+ margin:clamp(22px,3vw,40px) 0 0!important;
+ border-radius:22px!important;box-shadow:none!important;
+}
+/* A wide Oriel simulation is useful on desktop; on compact screens it
+   becomes one full-width column, without hiding other columns offscreen. */
+html body #simulator .simViewport{min-width:0;max-width:100%}
+html body #shortlistList .rank-row{overflow-wrap:break-word}
+html body #shortlistList .card.empty{white-space:normal;overflow-wrap:break-word}
+html body #compare .compareWrap{min-width:0;max-width:100%;overflow-x:auto}
+
+/* Do not cover footer links and attribution with floating utility buttons. */
+html body #uxPageZoomDock,
+html body #uxBackTop,
+html body #uxDrawerLauncher,
+html body #uxFloatingTools,
+html body .tdFloatingDecisions{
+ transition:opacity .16s ease,visibility .16s ease;
+}
+html body.atlasFooterInView #uxPageZoomDock,
+html body.atlasFooterInView #uxBackTop,
+html body.atlasFooterInView #uxDrawerLauncher,
+html body.atlasFooterInView #uxFloatingTools,
+html body.atlasFooterInView .tdFloatingDecisions{
+ opacity:0!important;visibility:hidden!important;
+ pointer-events:none!important;
+}
+
+/* Direct state wins over older forced-visible shortlist styles. */
+html body #uxPageZoomDock[data-atlas-footer-hidden],
+html body #uxBackTop[data-atlas-footer-hidden],
+html body #uxDrawerLauncher[data-atlas-footer-hidden],
+html body #uxFloatingTools[data-atlas-footer-hidden],
+html body .tdFloatingDecisions[data-atlas-footer-hidden]{
+ display:none!important;visibility:hidden!important;pointer-events:none!important;
+}
+
+/* Clear, intentional inset on both sides of the footer. */
+html body .app-footer.atlasFooter{
+ min-width:0;max-width:100%;box-sizing:border-box;
+ padding:clamp(30px,3.5vw,48px) clamp(20px,3.3vw,48px) 28px!important;
+ margin:0 0 12px!important;
+}
+html body .app-footer.atlasFooter .atlasFooterGrid,
+html body .app-footer.atlasFooter .atlasFooterBottom{min-width:0;max-width:100%}
+html body .app-footer.atlasFooter .atlasFooterGrid{
+ grid-template-columns:minmax(180px,1.7fr) repeat(3,minmax(0,1fr))!important;
+ gap:clamp(19px,2.8vw,40px)!important;
+}
+html body .app-footer.atlasFooter .atlasFooterGroup{min-width:0}
+html body .app-footer.atlasFooter .atlasFooterBottom{
+ display:grid!important;
+ grid-template-columns:minmax(0,.88fr) minmax(0,1.4fr)!important;
+ gap:clamp(18px,3.2vw,58px)!important;
+ align-items:start!important;
+ padding-top:22px!important;
+}
+html body .app-footer.atlasFooter .atlasFooterBottom p:first-child{
+ white-space:normal!important;
+}
+html body .app-footer.atlasFooter .atlasFooterBottom p:last-child{
+ width:100%!important;max-width:65ch!important;min-width:0!important;
+ justify-self:end!important;text-align:right!important;
+ padding-right:8px!important;line-height:1.65!important;
+}
+
+/* Above the narrow-desktop breakpoint, preserve a proper card width. */
+@media(max-width:1320px){
+ html.atlasPremiumPreview body #prefs .settings{
+  grid-template-columns:minmax(0,1fr)!important;
+  row-gap:24px!important;
+ }
+ html body .app-footer.atlasFooter .atlasFooterGrid{
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ }
+ html body .app-footer.atlasFooter .atlasFooterIdentity{grid-column:1/-1}
+}
+
+/* Wrap the navigation across rows instead of requiring horizontal gestures
+   to discover hidden sections. The content of pages still scrolls vertically. */
+@media(max-width:1150px){
+ html body .shell>.top.atlasStickyHeader{
+  grid-template-columns:minmax(0,1fr) auto!important;
+  grid-template-rows:auto auto!important;
+  grid-template-areas:"brand utility" "nav nav"!important;
+  min-width:0!important;
+ }
+ html body .atlasStickyHeader>nav.tabs{
+  display:flex!important;flex-wrap:wrap!important;
+  justify-content:flex-start!important;
+  width:100%!important;min-width:0!important;max-width:100%!important;
+  overflow:visible!important;gap:5px!important;
+ }
+ html body .atlasStickyHeader>nav.tabs>.tab{
+  min-width:0!important;max-width:100%!important;
+  flex:0 1 auto!important;white-space:normal!important;
+ }
+}
+@media(max-width:950px){
+ html body #simulator .simViewport{overflow:visible!important}
+ html body #simulator .simColumns{
+   min-width:0!important;max-width:100%!important;
+   grid-template-columns:minmax(0,1fr)!important;gap:17px!important;
+ }
+ html body #simulator .simCol{width:100%;min-width:0}
+ html body .app-footer.atlasFooter .atlasFooterBottom{grid-template-columns:minmax(0,1fr)!important}
+ html body .app-footer.atlasFooter .atlasFooterBottom p:last-child{
+  justify-self:start!important;text-align:left!important;padding-right:0!important;max-width:72ch!important;
+ }
+ html body #prefs #weights .weight.weightModern{
+  grid-template-columns:minmax(0,1fr) minmax(0,1.4fr)!important;
+ }
+}
+@media(max-width:760px){
+ html body #prefs #weights .weight.weightModern{
+  grid-template-columns:minmax(0,1fr)!important;gap:13px!important;
+ }
+ html body #prefs .settingsCard.card{padding:18px!important}
+ html body #prefs .geoLikesPane,html body #prefs .geoBlacklistPane{padding:13px!important}
+ html body .app-footer.atlasFooter{padding:30px 20px 26px!important}
+ html body .app-footer.atlasFooter .atlasFooterGrid{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:22px 20px!important;
+ }
+ html body .app-footer.atlasFooter .atlasFooterIdentity{grid-column:1/-1}
+ html body .app-footer.atlasFooter .atlasFooterGroup:last-child{grid-column:1/-1}
+ html body .atlasStickyHeader>nav.tabs{
+  display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  column-gap:5px!important;row-gap:5px!important;
+ }
+ html body .atlasStickyHeader>nav.tabs>.tab{
+  display:flex!important;justify-content:center!important;
+  width:100%!important;min-width:0!important;
+  padding:8px 5px!important;white-space:normal!important;
+  text-align:center!important;
+  font-size:clamp(10px,2.4vw,12px)!important;
+ }
+ html body .atlasStickyHeader>nav.tabs>.tab .atlasTabLabel{white-space:normal!important}
+ html body .atlasStickyHeader>.brand h1{font-size:clamp(18px,4.2vw,25px)!important}
+}
+@media(max-width:390px){
+ html body .atlasStickyHeader>nav.tabs{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ }
+ html body #prefs .geoInputRow{grid-template-columns:minmax(0,1fr)!important}
+ html body #prefs .geoInputRow button{width:100%}
+ html body .app-footer.atlasFooter{padding-inline:18px!important}
+ html body .app-footer.atlasFooter .atlasFooterGrid{grid-template-columns:minmax(0,1fr)!important}
+ html body .app-footer.atlasFooter .atlasFooterGroup,
+ html body .app-footer.atlasFooter .atlasFooterIdentity{grid-column:1!important}
+}
+@media(prefers-reduced-motion:reduce){
+ html body #uxPageZoomDock,html body #uxBackTop,
+ html body #uxDrawerLauncher,html body #uxFloatingTools,
+ html body .tdFloatingDecisions{transition:none!important}
+}
+
+
+/* SOURCE: explore-layout-fixes.css */
+/* Placement Atlas — Explore layout, detail-card and performance corrections.
+   Scoped to Explore; shortlist, Oriel decisions, source data and ranking are untouched. */
+
+html.atlasPremiumPreview #explore .layout,
+html.atlasPremiumPreview #explore .workspace,
+html.atlasPremiumPreview #explore .map-card,
+html.atlasPremiumPreview #explore #placementMap {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+/* Removing the filter panel must remove its grid track as well. */
+html.atlasPremiumPreview #explore.uxFiltersCollapsed .layout {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 0 !important;
+}
+html.atlasPremiumPreview #explore.uxFiltersCollapsed #uxFilterSidebar {
+  display: none !important;
+}
+html.atlasPremiumPreview #explore.uxFiltersCollapsed .workspace {
+  grid-column: 1 / -1 !important;
+  width: 100% !important;
+  min-width: 0 !important;
+}
+html.atlasPremiumPreview #explore.uxFiltersCollapsed .map-card {
+  width: 100% !important;
+  max-width: none !important;
+}
+html.atlasPremiumPreview #explore.uxFiltersCollapsed #placementMap {
+  height: clamp(390px, 48vw, 680px) !important;
+  min-height: 390px !important;
+}
+
+/* Filters are part of the page flow. The document, not a nested panel,
+   owns vertical scrolling, so every filter remains discoverable. */
+html.atlasPremiumPreview #explore #uxFilterSidebar,
+html.atlasPremiumPreview #explore:not(.uxFiltersCollapsed) #uxFilterSidebar {
+  position: static !important;
+  inset: auto !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  overflow-y: visible !important;
+  overflow-x: visible !important;
+  overscroll-behavior: auto !important;
+  align-self: start !important;
+}
+html.atlasPremiumPreview #explore #atlasFilterBackdrop {
+  display: none !important;
+}
+@media (max-width: 1180px) {
+  html.atlasPremiumPreview #explore .layout {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 14px !important;
+  }
+  html.atlasPremiumPreview #explore:not(.uxFiltersCollapsed) #uxFilterSidebar {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    max-height: none !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 18px !important;
+    box-shadow: none !important;
+  }
+  html.atlasPremiumPreview #explore.uxFiltersCollapsed #uxFilterSidebar {
+    display: none !important;
+  }
+  html.atlasPremiumPreview #explore .workspace {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+  }
+  html.atlasPremiumPreview #explore.uxFiltersCollapsed #placementMap {
+    height: clamp(360px, 58vw, 620px) !important;
+  }
+}
+@media (max-width: 550px) {
+  html.atlasPremiumPreview #explore:not(.uxFiltersCollapsed) #uxFilterSidebar {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 14px !important;
+  }
+  html.atlasPremiumPreview #explore.uxFiltersCollapsed #placementMap {
+    height: min(72vh, 520px) !important;
+    min-height: 340px !important;
+  }
+}
+
+/* The actual cards are atlasDiscoveryCard, not the retired atlasSampleCard.
+   Expanded details use the full grid row and a readable three-part overview. */
+html.atlasPremiumPreview[data-layout="grid"] #results > .placement.atlasDiscoveryCard.uxExpanded {
+  grid-column: 1 / -1 !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  align-self: start !important;
+  overflow: visible !important;
+}
+html.atlasPremiumPreview #results > .placement.atlasDiscoveryCard.uxExpanded {
+  min-width: 0 !important;
+}
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasCardSections,
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasCardPages,
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasCardPage {
+  min-width: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .fit.fitExpanded.atlasTabbedFit {
+  display: grid !important;
+  grid-template-columns: minmax(150px, .78fr) minmax(0, 2fr) !important;
+  align-items: stretch !important;
+  gap: 14px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit > .score {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: auto !important;
+  min-height: 150px !important;
+}
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit > .fitBreakdown {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  align-items: stretch !important;
+  gap: 12px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit .fitColumn {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 14px 16px !important;
+  overflow-wrap: anywhere !important;
+}
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit .fitColumn .fitPoint {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 8px !important;
+  min-width: 0 !important;
+  text-align: left !important;
+  line-height: 1.48 !important;
+  padding: 7px 0 !important;
+  overflow-wrap: anywhere !important;
+}
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit .fitColumn .fitPoint::before {
+  flex: 0 0 auto !important;
+  align-self: flex-start !important;
+  margin-top: .48em !important;
+}
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit .fitColumn.positive .atlasFitQuizLink,
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit .fitColumn.caution .atlasFitQuizLink,
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit .fitColumn.positive [data-atlas-start-quiz],
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit .fitColumn.caution [data-atlas-start-quiz] {
+  display: none !important;
+}
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit .fitColumn.positive,
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit .fitColumn.caution {
+  min-width: 0 !important;
+  overflow-wrap: anywhere !important;
+}
+@media (max-width: 900px) {
+  html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .fit.fitExpanded.atlasTabbedFit {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit > .score {
+    min-height: 0 !important;
+  }
+}
+@media (max-width: 680px) {
+  html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit > .fitBreakdown {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+/* Reduce off-screen card layout work without hiding or removing any results. */
+html.atlasPremiumPreview #results > .placement.atlasDiscoveryCard {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 470px;
+}
+html.atlasPremiumPreview #results > .placement.atlasDiscoveryCard.uxExpanded {
+  content-visibility: visible;
+  contain-intrinsic-size: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.atlasPremiumPreview #explore #placementMap,
+  html.atlasPremiumPreview #results .placement.atlasDiscoveryCard {
+    scroll-behavior: auto !important;
+    transition-duration: 0s !important;
+  }
+}
+
+
+/* SOURCE: atlas-grid-performance.css */
+/* Placement Atlas — stable grid cards, compact specialist filters and faster map browsing.
+   Final, scoped overrides: do not alter programme data, ranking or saved decisions. */
+
+html.atlasPremiumPreview[data-layout="grid"] #results {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  grid-auto-rows: auto !important;
+  align-items: stretch !important;
+  gap: 14px !important;
+}
+
+/* Let CSS Grid size each row naturally. A fixed 100% card height combined
+   with overflow:hidden was clipping the final details control. */
+html.atlasPremiumPreview[data-layout="grid"] #results > .placement.atlasDiscoveryCard {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  align-self: stretch !important;
+  overflow: visible !important;
+  min-width: 0 !important;
+}
+
+/* The compact footer has three equal decision controls and one full-width
+   details control. This also neutralises the old negative-margin alignment. */
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.atlasSampleCard .decision-quick.atlasCardFooter {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  grid-template-rows: minmax(44px, auto) minmax(44px, auto) !important;
+  align-items: stretch !important;
+  justify-content: stretch !important;
+  gap: 8px !important;
+  width: 100% !important;
+  margin: auto 0 0 !important;
+  padding: 13px 16px !important;
+  border-top: 1px solid var(--line) !important;
+  border-radius: 0 0 18px 18px !important;
+}
+
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.atlasSampleCard .decision-quick.atlasCardFooter > [data-action="prefer"],
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.atlasSampleCard .decision-quick.atlasCardFooter > [data-action="compare"],
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.atlasSampleCard .decision-quick.atlasCardFooter > [data-action="exclude"] {
+  display: flex !important;
+  grid-row: 1 !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 44px !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 8px 9px !important;
+  text-align: center !important;
+  white-space: normal !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  line-height: 1.25 !important;
+  font-size: 11.5px !important;
+}
+
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.atlasSampleCard .decision-quick.atlasCardFooter > .atlasSampleExpandButton,
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.atlasSampleCard .decision-quick.atlasCardFooter > .atlasDetailsButtonPremium {
+  display: flex !important;
+  grid-column: 1 / -1 !important;
+  grid-row: 2 !important;
+  align-items: center !important;
+  justify-content: center !important;
+  align-self: stretch !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 44px !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 10px 14px !important;
+  border: 1px solid var(--ux-accent-border) !important;
+  border-radius: 10px !important;
+  background: var(--ux-accent-soft) !important;
+  color: var(--ux-accent-ink) !important;
+  box-shadow: none !important;
+  text-align: center !important;
+  white-space: normal !important;
+  line-height: 1.3 !important;
+  font-size: 12.5px !important;
+  font-weight: 780 !important;
+}
+
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.atlasSampleCard .decision-quick.atlasCardFooter > .atlasFooterDecisionStatus {
+  display: none !important;
+}
+
+/* Safe fallback if the detail-tab enhancement has not initialised yet. */
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard:not(.atlasSampleCard) > .decision-quick {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  align-items: stretch !important;
+  gap: 8px !important;
+  margin-top: auto !important;
+}
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard:not(.atlasSampleCard) > .uxDetailButton {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-height: 44px !important;
+  height: auto !important;
+  margin: 9px 0 0 !important;
+  align-self: stretch !important;
+}
+
+/* Expanded cards occupy the full grid width; the two explanation panels share
+   the available width and height instead of becoming tall, narrow columns. */
+html.atlasPremiumPreview[data-layout="grid"] #results > .placement.atlasDiscoveryCard.uxExpanded {
+  grid-column: 1 / -1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  align-self: start !important;
+  overflow: visible !important;
+}
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.uxExpanded .atlasCardSections,
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.uxExpanded .atlasCardPages,
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.uxExpanded .atlasCardPage {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  overflow: visible !important;
+}
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.uxExpanded .fit.fitExpanded.atlasTabbedFit {
+  display: grid !important;
+  grid-template-columns: minmax(150px, .78fr) minmax(0, 2fr) !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  height: auto !important;
+  min-width: 0 !important;
+  overflow: visible !important;
+}
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.uxExpanded .atlasTabbedFit > .fitBreakdown {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  align-items: stretch !important;
+  gap: 12px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+}
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.uxExpanded .atlasTabbedFit .fitColumn,
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.uxExpanded .atlasTabbedFit .fitColumn:first-child,
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.uxExpanded .atlasTabbedFit .fitColumn:last-child {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  min-height: 100% !important;
+  height: 100% !important;
+  align-self: stretch !important;
+  justify-self: stretch !important;
+  text-align: left !important;
+  overflow-wrap: anywhere !important;
+}
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.uxExpanded .atlasTabbedFit .fitColumn .fitPoint {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 8px !important;
+  min-width: 0 !important;
+  text-align: left !important;
+  line-height: 1.48 !important;
+  overflow-wrap: anywhere !important;
+}
+@media (max-width: 900px) {
+  html.atlasPremiumPreview[data-layout="grid"] #results {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.uxExpanded .fit.fitExpanded.atlasTabbedFit {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+@media (max-width: 680px) {
+  html.atlasPremiumPreview[data-layout="grid"] #results {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.uxExpanded .atlasTabbedFit > .fitBreakdown {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+/* Keep specialist-setting filters readable without hiding the classification caveat. */
+html.atlasPremiumPreview #uxFilterSidebar .uxSpecialistFilters {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  padding: 12px 13px !important;
+  border-radius: 12px !important;
+}
+html.atlasPremiumPreview #uxFilterSidebar .uxSpecialistFilters > legend {
+  font-size: 12.5px !important;
+  font-weight: 760 !important;
+}
+html.atlasPremiumPreview #uxFilterSidebar .uxSpecialistIntro {
+  max-width: 38ch !important;
+  margin: 4px 0 8px !important;
+  color: var(--mut) !important;
+  font-size: 11.5px !important;
+  line-height: 1.4 !important;
+}
+html.atlasPremiumPreview #uxFilterSidebar .uxSpecialistMethod {
+  margin: 0 0 8px !important;
+}
+html.atlasPremiumPreview #uxFilterSidebar .uxSpecialistMethod > summary {
+  width: fit-content;
+  color: var(--ux-accent-ink);
+  font-size: 11px;
+  font-weight: 730;
+  line-height: 1.35;
+  cursor: pointer;
+}
+html.atlasPremiumPreview #uxFilterSidebar .uxSpecialistMethod > p {
+  max-width: 42ch;
+  margin: 6px 0 8px;
+  color: var(--mut);
+  font-size: 11px;
+  line-height: 1.4;
+}
+html.atlasPremiumPreview #uxFilterSidebar .uxSpecialistFilters .check {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 8px !important;
+  margin: 8px 0 !important;
+  font-size: 12.5px !important;
+  line-height: 1.35 !important;
+}
+html.atlasPremiumPreview #uxFilterSidebar .uxSpecialistFilters .check input {
+  flex: 0 0 auto !important;
+  margin-top: .18em !important;
+}
+
+/* The map is a complementary view; the current page is the fast default.
+   Users can explicitly request all filtered programmes when they need them. */
+html.atlasPremiumPreview .uxMapScopeToggle[aria-pressed="true"] {
+  background: var(--ux-accent-soft) !important;
+  color: var(--ux-accent-ink) !important;
+  border-color: var(--ux-accent-border) !important;
+}
+html.atlasPremiumPreview .map-heading-tools .uxMapScopeToggle {
+  white-space: nowrap;
+}
+html.atlasPremiumPreview .uxMapScopeToggle:focus-visible {
+  outline: 2px solid var(--ux-accent-ink) !important;
+  outline-offset: 3px !important;
+}
+
+
+/* Expanded programme signals: align bullets with the first text baseline.
+   Wrapped lines stay beneath the words rather than beneath the bullet. */
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit .fitColumn .fitPoint,
+html.atlasPremiumPreview #results .placement.atlasSampleCard .atlasTabbedFit .fitColumn .fitPoint,
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.uxExpanded .atlasTabbedFit .fitColumn .fitPoint {
+  display:flex!important;
+  align-items:baseline!important;
+  gap:8px!important;
+  min-width:0!important;
+  width:100%!important;
+  text-align:left!important;
+  white-space:normal!important;
+  overflow-wrap:anywhere!important;
+}
+html.atlasPremiumPreview #results .placement.atlasDiscoveryCard .atlasTabbedFit .fitColumn .fitPoint::before,
+html.atlasPremiumPreview #results .placement.atlasSampleCard .atlasTabbedFit .fitColumn .fitPoint::before,
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasDiscoveryCard.uxExpanded .atlasTabbedFit .fitColumn .fitPoint::before {
+  flex:0 0 auto!important;
+  align-self:auto!important;
+  margin-top:0!important;
+  font-size:1.05em!important;
+  line-height:inherit!important;
+}
+
+
+/* Programme titles: give words more breathing room across every card view. */
+html.atlasPremiumPreview #results .placement .placementTop h3,
+html.atlasPremiumPreview #shortlistList .placement .placementTop h3,
+html.atlasPremiumPreview #mapSelection .placement .placementTop h3,
+html.atlasPremiumPreview #reco .reco h3 {
+  letter-spacing:-.006em!important;
+  word-spacing:.015em!important;
+  line-height:1.38!important;
+  overflow-wrap:break-word!important;
+  word-break:normal!important;
+  hyphens:none!important;
+}
+
+/* The concise and original title must never appear together when expanded. */
+html.atlasPremiumPreview .placement .uxTitleExpanded>.atlasTitleConcise {
+  display:none!important;
+}
+
+/* Theme palettes style individual navigation choices, never the navigation rail. */
+html.atlasPremiumPreview body .shell > header.top.atlasStickyHeader > nav.tabs {
+  background:transparent!important;
+  background-color:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+
+
+/* SOURCE: explore-efficiency.css */
+/* Placement Atlas · compact Explore first-screen / filter summary.
+   All refinements remain reversible and use existing canonical controls. */
+html.atlasPremiumPreview body .productIntro.card{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(300px,440px)!important;
+  align-items:start!important;
+  column-gap:clamp(18px,3vw,52px)!important;
+  row-gap:14px!important;
+  min-height:0!important;
+  padding:clamp(19px,2.4vw,34px)!important;
+  margin:8px 0 12px!important;
+}
+html.atlasPremiumPreview body .productIntro .productIntroCopy{
+  grid-column:1;min-width:0!important;width:100%!important;max-width:none!important;
+}
+html.atlasPremiumPreview body .productIntro h2{
+  font-size:clamp(30px,2.9vw,43px)!important;
+  line-height:1.11!important;
+  letter-spacing:-.043em!important;
+  margin:0 0 12px!important;
+}
+html.atlasPremiumPreview body .productIntro .eyebrow{margin-bottom:9px!important}
+html.atlasPremiumPreview body .productIntro p{margin-bottom:14px!important;line-height:1.5!important}
+html.atlasPremiumPreview body .productIntro .introActions .btn{
+  min-height:41px!important;padding:10px 17px!important;
+}
+html.atlasPremiumPreview body .productIntro .atlasHeroTrust{margin-top:11px!important}
+html.atlasPremiumPreview body .productIntro .atlasHowItWorks{
+  margin-top:13px!important;padding-top:9px!important;
+}
+html.atlasPremiumPreview body .productIntro #atlasDeadlineRow{
+  grid-column:2;grid-row:1;
+  align-self:start;justify-self:stretch;
+  position:relative!important;
+  display:block!important;width:100%!important;
+  min-width:0!important;max-width:none!important;
+  margin:0!important;padding:0!important;
+}
+html.atlasPremiumPreview body .productIntro #atlasDeadlineRow #orielDeadline{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto!important;
+  align-items:center!important;
+  width:100%!important;max-width:none!important;min-width:0!important;
+  margin:0!important;padding:13px 15px!important;
+  gap:4px 12px!important;
+  text-align:left!important;
+  border-radius:13px!important;
+  background:var(--ux-accent-soft,var(--soft))!important;
+  border-color:var(--ux-accent-border,var(--line))!important;
+  box-shadow:none!important;
+}
+html.atlasPremiumPreview body .productIntro #orielDeadline .deadlineLabel{
+  font-size:11px!important;letter-spacing:.05em!important;
+  line-height:1.35!important;color:var(--ux-accent-ink,var(--ink))!important;
+}
+html.atlasPremiumPreview body .productIntro #orielDeadline .deadlineValue{
+  font-size:12px!important;line-height:1.4!important;
+  text-align:right!important;color:var(--ux-accent-ink,var(--ink))!important;
+}
+html.atlasPremiumPreview body .productIntro #orielDeadline .deadlineExact{
+  grid-column:1!important;line-height:1.4!important;min-width:0!important;
+  font-size:11px!important;
+}
+html.atlasPremiumPreview body .productIntro #orielDeadline .deadlineLink{
+  grid-column:2!important;font-size:11px!important;
+  max-width:100%;white-space:normal!important;text-align:right!important;
+}
+html.atlasPremiumPreview body .productIntro #orielDeadline .atlasOfferDeadlineButton{
+  grid-column:1 / -1!important;
+  justify-self:stretch!important;
+  width:100%!important;min-height:36px!important;
+  padding:7px 11px!important;margin:6px 0 0!important;
+  border-radius:10px!important;
+}
+/* Save vertical space between the introductory decision and the actual map. */
+html.atlasPremiumPreview body #explore .atlasExploreSubnav{
+  margin-bottom:10px!important;padding:9px 12px!important;
+}
+html.atlasPremiumPreview body #explore .atlasStatToolbarPremium{
+  margin:10px 0 7px!important;
+}
+html.atlasPremiumPreview body #explore #stats{
+  margin-bottom:11px!important;gap:9px!important;
+}
+html.atlasPremiumPreview body #explore #stats .stat{
+  padding:11px 14px!important;border-radius:13px!important;
+}
+html.atlasPremiumPreview body #explore #stats .stat .k{
+  font-size:clamp(20px,2.15vw,26px)!important;
+}
+html.atlasPremiumPreview body #explore #stats .stat .l{
+  font-size:11.5px!important;
+}
+/* The single Undo/Redo disclosure follows the filter heading, not the map. */
+html.atlasPremiumPreview body #uxFilterSidebar > .historyControls{
+  display:flex!important;justify-content:flex-start!important;
+  width:100%!important;margin:-5px 0 13px!important;
+  padding:0 0 10px!important;
+  border-bottom:1px solid var(--line)!important;
+  min-height:0!important;
+}
+html.atlasPremiumPreview body #uxFilterSidebar .atlasHistoryDisclosure{max-width:100%}
+html.atlasPremiumPreview body #uxFilterSidebar .atlasHistoryDisclosure > summary{
+  min-height:32px!important;
+}
+/* Existing exclusion and shortlist toggle buttons now live below salary/hours. */
+html body #uxFilterSidebar .atlasSidebarToggleRow{
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:7px;align-items:stretch;margin:1px 0 13px;padding:0 0 13px;
+  border-bottom:1px solid var(--line);
+}
+html body #uxFilterSidebar .atlasSidebarToggleRow > .btn{
+  display:inline-flex!important;align-items:center;justify-content:center;
+  min-width:0!important;width:100%!important;min-height:40px!important;
+  margin:0!important;padding:8px 7px!important;
+  border-radius:10px!important;white-space:normal!important;
+  text-wrap:balance;text-align:center;
+  font-size:11.5px!important;line-height:1.25!important;font-weight:750!important;
+}
+html body #uxFilterSidebar .atlasSidebarToggleRow .btn[aria-pressed="true"]{
+  color:var(--ux-accent-ink,var(--ink))!important;
+  background:var(--ux-accent-soft,var(--soft))!important;
+  border-color:var(--ux-accent-border,var(--line))!important;
+}
+/* Hide duplicate technical checkboxes; the buttons above control the same state. */
+html body #uxFilterSidebar label.check:has(> #hideExcluded),
+html body #uxFilterSidebar label.check:has(> #hideShortlisted){
+  display:none!important;
+}
+/* No redundant Hide filters in programme toolbar; it reappears only to restore a
+   collapsed sidebar. The main collapse button is inside the sidebar itself. */
+html body #explore:not(.uxFiltersCollapsed) #uxExploreToolbar #uxToolbarFilters{
+  display:none!important;
+}
+html body #explore.uxFiltersCollapsed #uxExploreToolbar #uxToolbarFilters{
+  display:inline-flex!important;
+}
+html.atlasPremiumPreview body #uxExploreToolbar{
+  align-items:center!important;
+  gap:9px 12px!important;
+  margin-top:9px!important;
+}
+html.atlasPremiumPreview body #uxExploreToolbar .uxToolbarLead{
+  display:flex!important;flex:1 1 460px!important;
+  flex-wrap:wrap!important;align-items:center!important;
+  justify-content:flex-start!important;
+  gap:7px 10px!important;min-width:0!important;margin-right:auto!important;
+}
+html.atlasPremiumPreview body #uxExploreToolbar .uxToolbarLead > b{
+  font-size:15.5px!important;font-weight:820!important;
+  letter-spacing:-.015em!important;white-space:nowrap;
+}
+html.atlasPremiumPreview body #uxExploreToolbar .atlasActiveFilters{
+  display:flex!important;min-width:0!important;max-width:100%!important;
+  flex:1 1 200px;flex-wrap:wrap!important;align-items:center!important;
+  gap:5px!important;
+}
+html.atlasPremiumPreview body #uxExploreToolbar .atlasFilterChip{
+  display:inline-flex!important;align-items:center;justify-content:center;gap:7px;
+  max-width:100%;min-height:29px;padding:5px 9px!important;
+  border:1px solid var(--line)!important;border-radius:999px!important;
+  background:var(--soft)!important;color:var(--ink)!important;
+  font:700 11.5px/1.25 "Plus Jakarta Sans",Inter,sans-serif!important;
+  cursor:pointer;transition:background .14s,border-color .14s;
+  text-align:left;
+}
+html.atlasPremiumPreview body #uxExploreToolbar .atlasFilterChip > span:first-child{
+  min-width:0;overflow-wrap:anywhere;
+}
+html.atlasPremiumPreview body #uxExploreToolbar .atlasFilterChip .atlasFilterRemove{
+  color:var(--mut);font-size:15px;font-weight:600;line-height:1;
+}
+html.atlasPremiumPreview body #uxExploreToolbar .atlasFilterChip:hover{
+  background:var(--ux-accent-soft,var(--panel))!important;
+  border-color:var(--ux-accent-border,var(--line))!important;
+}
+html.atlasPremiumPreview body #uxExploreToolbar .atlasFilterChip:focus-visible{
+  outline:2px solid var(--ux-accent-ink,var(--ink))!important;outline-offset:2px;
+}
+html.atlasPremiumPreview body #uxExploreToolbar .atlasNoFilters{
+  color:var(--mut);font-size:12px;line-height:1.4;
+}
+@media(max-width:1130px){
+  html.atlasPremiumPreview body .productIntro.card{
+    grid-template-columns:minmax(0,1fr) minmax(265px,340px)!important;
+    column-gap:20px!important;
+  }
+  html.atlasPremiumPreview body .productIntro h2{
+    font-size:clamp(29px,3vw,38px)!important;
+  }
+}
+@media(max-width:860px){
+  html.atlasPremiumPreview body .productIntro.card{
+    grid-template-columns:minmax(0,1fr)!important;
+    row-gap:14px!important;
+    padding:20px!important;
+  }
+  html.atlasPremiumPreview body .productIntro #atlasDeadlineRow{
+    grid-column:1!important;grid-row:2!important;
+    max-width:490px!important;
+  }
+  html.atlasPremiumPreview body .productIntro .productIntroCopy{
+    grid-column:1!important;grid-row:1!important;
+  }
+  html.atlasPremiumPreview body #uxExploreToolbar .uxToolbarLead{flex-basis:100%!important}
+}
+@media(max-width:650px){
+  html.atlasPremiumPreview body .productIntro.card{
+    padding:17px 15px!important;margin:6px 0 10px!important;row-gap:11px!important;
+  }
+  html.atlasPremiumPreview body .productIntro h2{font-size:clamp(26px,6vw,33px)!important}
+  html.atlasPremiumPreview body .productIntro #orielDeadline .deadlineLabel,
+  html.atlasPremiumPreview body .productIntro #orielDeadline .deadlineExact,
+  html.atlasPremiumPreview body .productIntro #orielDeadline .deadlineLink{
+    font-size:10px!important;
+  }
+  html.atlasPremiumPreview body #explore .atlasExploreSubnav{padding:8px!important}
+  html.atlasPremiumPreview body #uxFilterSidebar .atlasSidebarToggleRow{gap:6px}
+  html.atlasPremiumPreview body #uxExploreToolbar .atlasActiveFilters{flex-basis:100%!important}
+}
+@media(prefers-reduced-motion:reduce){
+  html.atlasPremiumPreview body #uxExploreToolbar .atlasFilterChip{transition:none!important}
+}
+
+
+/* The standard map is a browseable preview: keep first programme cards within
+   reach of the first viewport. Expanded map remains a separate, full-size view. */
+html.atlasPremiumPreview body #explore:not(.uxFiltersCollapsed) #placementMap{
+  height:clamp(245px,30vh,330px)!important;
+  min-height:245px!important;
+}
+html.atlasPremiumPreview body #explore.uxFiltersCollapsed #placementMap{
+  height:clamp(285px,37vh,410px)!important;
+  min-height:285px!important;
+}
+@media(max-width:860px){
+  html.atlasPremiumPreview body #explore #placementMap,
+  html.atlasPremiumPreview body #explore.uxFiltersCollapsed #placementMap{
+    height:clamp(285px,39vh,380px)!important;
+    min-height:285px!important;
+  }
+}
+@media(max-width:550px){
+  html.atlasPremiumPreview body #explore #placementMap,
+  html.atlasPremiumPreview body #explore.uxFiltersCollapsed #placementMap{
+    height:310px!important;min-height:310px!important;
+  }
+}
+
+/* Full-screen map focus must not inherit the compact Explore preview height. */
+html.atlasPremiumPreview body #explore .atlasMapFocusStage #placementMap,
+html.atlasPremiumPreview body #explore.uxFiltersCollapsed .atlasMapFocusStage #placementMap{
+  height:100%!important;min-height:0!important;
+}
+
+
+/* Decision dropdown must float above the NEXT programme card. Premium
+   cards clip their children for rounded corners; that also clips the
+   original absolutely-positioned decision menu. Temporarily release the
+   clipping only for the card with an open decision picker. */
+html.atlasPremiumPreview #results > .placement.atlasSampleCard:has(.decisionPicker[open]),
+html.atlasPremiumPreview #results > .placement.atlasDiscoveryCard:has(.decisionPicker[open]){
+  position:relative!important;
+  overflow:visible!important;
+  z-index:1000!important;
+}
+html.atlasPremiumPreview #results > .placement:has(.decisionPicker[open]) .atlasCardSections,
+html.atlasPremiumPreview #results > .placement:has(.decisionPicker[open]) .atlasCardPages,
+html.atlasPremiumPreview #results > .placement:has(.decisionPicker[open]) .atlasCardPage:not([hidden]),
+html.atlasPremiumPreview #results > .placement:has(.decisionPicker[open]) .controls,
+html.atlasPremiumPreview #results > .placement:has(.decisionPicker[open]) .decisionPicker{
+  overflow:visible!important;
+}
+html.atlasPremiumPreview #results > .placement:has(.decisionPicker[open]) .decisionPicker[open]{
+  position:relative!important;
+  z-index:1001!important;
+}
+html.atlasPremiumPreview #results > .placement:has(.decisionPicker[open]) .decisionChoices{
+  position:absolute!important;
+  z-index:1002!important;
+}
+/* Preserve the same layering for cards rendered in map previews and the
+   shortlist, without changing any decision or ranking data. */
+html.atlasPremiumPreview #mapSelection .placement:has(.decisionPicker[open]),
+html.atlasPremiumPreview #shortlistList .placement:has(.decisionPicker[open]){
+  position:relative!important;
+  overflow:visible!important;
+  z-index:1000!important;
+}
+
+
+/* SOURCE: atlas-card-repairs.css */
+/* Placement Atlas · November 20 card-layout and interaction repair.
+   Loaded last so earlier prototype/grid rules cannot split salary links or
+   shrink the two fit-explanation columns. No source data is changed. */
+
+/* Salary: a self-contained, right-aligned stack, with a non-breaking
+   action label whenever there is enough room. */
+html.atlasPremiumPreview #results .placement.atlasSampleCard .placementTop{
+  grid-template-columns:minmax(0,1fr) minmax(192px,max-content)!important;
+  align-items:start!important;
+  gap:10px 20px!important;
+  min-height:0!important;
+}
+html.atlasPremiumPreview #results .placement.atlasSampleCard .placementTop>div:first-child{
+  min-width:0!important;
+}
+html.atlasPremiumPreview #results .placement.atlasSampleCard .placementTop>div:last-child{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-end!important;
+  justify-content:flex-start!important;
+  min-width:192px!important;
+  width:max-content!important;
+  max-width:225px!important;
+  text-align:right!important;
+  gap:0!important;
+}
+html.atlasPremiumPreview #results .placement.atlasSampleCard .placementTop .salary,
+html.atlasPremiumPreview #results .placement.atlasSampleCard .placementTop .atlasSalaryValue{
+  display:block!important;
+  width:100%!important;
+  text-align:right!important;
+  white-space:nowrap!important;
+}
+html.atlasPremiumPreview #results .placement.atlasSampleCard .atlasSalaryMonthly{
+  width:100%!important;
+  text-align:right!important;
+  white-space:normal!important;
+  overflow-wrap:normal!important;
+  word-break:normal!important;
+  line-height:1.4!important;
+}
+html.atlasPremiumPreview #results .placement.atlasSampleCard .atlasSalaryModeToggle{
+  display:inline-flex!important;
+  justify-content:flex-end!important;
+  align-self:flex-end!important;
+  width:max-content!important;
+  max-width:100%!important;
+  margin:7px 0 0!important;
+  padding:2px 0!important;
+  white-space:nowrap!important;
+  word-break:normal!important;
+  overflow-wrap:normal!important;
+  text-align:right!important;
+  line-height:1.4!important;
+  font-size:11.5px!important;
+  font-weight:750!important;
+}
+html.atlasPremiumPreview #results .placement.atlasSampleCard .atlasSalaryModeToggle[hidden]{
+  display:none!important;
+}
+/* Legacy net-pay copy remains readable and aligned to the annual figure. */
+html.atlasPremiumPreview #results .placement.atlasSampleCard .placementTop .uxTakeHome{
+  align-self:flex-end!important;
+  text-align:right!important;
+  max-width:100%!important;
+  color:var(--mut)!important;
+  line-height:1.35!important;
+  overflow-wrap:normal!important;
+  word-break:normal!important;
+}
+
+/* The summary chips belong beneath the programme title/employer, not
+   beneath the much taller salary column. JS safely re-homes the existing
+   node after the tabbed-card enhancement has completed. */
+html.atlasPremiumPreview #results .placement.atlasSampleCard .placementTop .atlasCompactSummary{
+  display:flex!important;
+  flex-wrap:wrap!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  margin:13px 0 0!important;
+  padding:0!important;
+  gap:7px!important;
+}
+html.atlasPremiumPreview #results .placement.atlasSampleCard .atlasSummaryChip{
+  display:inline-flex!important;
+  align-items:center!important;
+  min-height:34px!important;
+  padding:7px 12px!important;
+  border-radius:11px!important;
+  font-size:12.5px!important;
+  font-weight:700!important;
+  line-height:1.3!important;
+  white-space:normal!important;
+  word-break:normal!important;
+}
+html.atlasPremiumPreview #results .placement.atlasSampleCard .atlasCardQuickRead{
+  margin-top:15px!important;
+}
+html.atlasPremiumPreview #results .placement.atlasSampleCard .atlasCardQuickFact-good>span:last-child{
+  color:var(--ink)!important;
+  opacity:1!important;
+  font-weight:800!important;
+}
+html.atlasPremiumPreview #results .placement.atlasSampleCard .atlasCardQuickFact-good .atlasCardSignalDot{
+  background:var(--fit-green-ink,var(--ux-accent-ink))!important;
+}
+html.atlasPremiumPreview #results .placement.atlasSampleCard .atlasCardCompactFit.atlasFitStrong small{
+  color:var(--ink)!important;
+  font-weight:800!important;
+  opacity:1!important;
+}
+
+/* Full Oriel title is as prominent as the concise title. The control stays
+   inline and reversible, and only the chosen text is shown. */
+html.atlasPremiumPreview #results .placement .placementTop h3.uxTitleExpanded>.atlasTitleOriginal,
+html.atlasPremiumPreview #shortlistList .placement .placementTop h3.uxTitleExpanded>.atlasTitleOriginal,
+html.atlasPremiumPreview #mapSelection .placement .placementTop h3.uxTitleExpanded>.atlasTitleOriginal,
+html.atlasPremiumPreview #reco .reco h3.uxTitleExpanded>.atlasTitleOriginal{
+  display:inline!important;
+  color:inherit!important;
+  font-size:inherit!important;
+  font-family:inherit!important;
+  font-weight:inherit!important;
+  font-style:inherit!important;
+  letter-spacing:inherit!important;
+  line-height:inherit!important;
+  word-spacing:inherit!important;
+  margin:0!important;
+  padding:0!important;
+  opacity:1!important;
+  white-space:normal!important;
+  overflow-wrap:break-word!important;
+  word-break:normal!important;
+}
+html.atlasPremiumPreview .placement .placementTop h3.uxTitleExpanded>.atlasTitleConcise,
+html.atlasPremiumPreview #reco .reco h3.uxTitleExpanded>.atlasTitleConcise{
+  display:none!important;
+}
+html.atlasPremiumPreview .placement .placementTop h3>.atlasTitleExpand{
+  display:inline-flex!important;
+  vertical-align:baseline!important;
+  align-items:baseline!important;
+  flex:0 0 auto!important;
+  margin-left:9px!important;
+  white-space:nowrap!important;
+}
+
+/* Expand explanations into the unused width, rather than retaining the old
+   380px cap; both explanations stay equal-width. */
+html.atlasPremiumPreview #results .placement.atlasSampleCard .fit.fitExpanded.atlasTabbedFit{
+  grid-template-columns:minmax(165px,.64fr) minmax(0,2.7fr)!important;
+  width:100%!important;
+  max-width:none!important;
+  justify-content:stretch!important;
+  gap:17px!important;
+}
+html.atlasPremiumPreview #results .placement.atlasSampleCard .atlasTabbedFit>.fitBreakdown{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  width:100%!important;
+  max-width:none!important;
+  min-width:0!important;
+  justify-content:stretch!important;
+  align-items:stretch!important;
+  gap:14px!important;
+}
+html.atlasPremiumPreview #results .placement.atlasSampleCard .atlasTabbedFit .fitColumn{
+  width:100%!important;
+  max-width:none!important;
+  min-width:0!important;
+  flex:1 1 auto!important;
+  border-radius:15px!important;
+  padding:17px 19px!important;
+}
+html.atlasPremiumPreview #results .placement.atlasSampleCard .atlasTabbedFit .fitColumn .fitPoint{
+  font-size:13.5px!important;
+  line-height:1.55!important;
+  gap:9px!important;
+}
+
+/* Replacing every card after one shortlist action must not animate all the
+   buttons that were previously selected. Only the clicked programme gets
+   a confirmation pulse, applied by the companion script. */
+html.atlasPremiumPreview #results .placement.atlasSampleCard .atlasCardFooter [data-action="prefer"]{
+  animation:none!important;
+  transition:none!important;
+  box-shadow:none!important;
+}
+@keyframes atlasSingleShortlistPulse{
+  0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--ux-accent) 47%,transparent)}
+  55%{box-shadow:0 0 0 6px color-mix(in srgb,var(--ux-accent) 22%,transparent)}
+  100%{box-shadow:0 0 0 0 transparent}
+}
+html.atlasPremiumPreview #results .placement.atlasSampleCard .atlasCardFooter [data-action="prefer"].atlasJustShortlisted{
+  animation:atlasSingleShortlistPulse .5s ease-out 1!important;
+}
+
+@media(max-width:1000px){
+  html.atlasPremiumPreview #results .placement.atlasSampleCard .fit.fitExpanded.atlasTabbedFit{
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+}
+@media(max-width:760px){
+  html.atlasPremiumPreview #results .placement.atlasSampleCard .placementTop{
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:13px!important;
+  }
+  html.atlasPremiumPreview #results .placement.atlasSampleCard .placementTop>div:last-child{
+    align-items:flex-start!important;
+    min-width:0!important;
+    width:100%!important;
+    max-width:none!important;
+    text-align:left!important;
+  }
+  html.atlasPremiumPreview #results .placement.atlasSampleCard .placementTop .salary,
+  html.atlasPremiumPreview #results .placement.atlasSampleCard .placementTop .atlasSalaryValue,
+  html.atlasPremiumPreview #results .placement.atlasSampleCard .atlasSalaryMonthly,
+  html.atlasPremiumPreview #results .placement.atlasSampleCard .placementTop .uxTakeHome{
+    text-align:left!important;
+    align-self:flex-start!important;
+  }
+  html.atlasPremiumPreview #results .placement.atlasSampleCard .atlasSalaryModeToggle{
+    align-self:flex-start!important;
+    justify-content:flex-start!important;
+    text-align:left!important;
+  }
+  html.atlasPremiumPreview #results .placement.atlasSampleCard .atlasTabbedFit>.fitBreakdown{
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+}
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasSampleCard .placementTop{
+  grid-template-columns:minmax(0,1fr)!important;
+  gap:12px!important;
+}
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasSampleCard .placementTop>div:last-child{
+  min-width:0!important;
+  width:100%!important;
+  max-width:none!important;
+  align-items:flex-start!important;
+  text-align:left!important;
+}
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasSampleCard .placementTop .salary,
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasSampleCard .placementTop .atlasSalaryValue,
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasSampleCard .atlasSalaryMonthly,
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasSampleCard .placementTop .uxTakeHome{
+  text-align:left!important;
+  align-self:flex-start!important;
+}
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasSampleCard .atlasSalaryModeToggle{
+  align-self:flex-start!important;
+  justify-content:flex-start!important;
+  text-align:left!important;
+  white-space:normal!important;
+}
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasSampleCard .atlasSummaryChip{
+  min-height:30px!important;
+  padding:6px 10px!important;
+  border-radius:10px!important;
+  font-size:11.5px!important;
+}
+html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasSampleCard .atlasTabbedFit>.fitBreakdown{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+}
+@media(max-width:680px){
+  html.atlasPremiumPreview[data-layout="grid"] #results .placement.atlasSampleCard .atlasTabbedFit>.fitBreakdown{
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  html.atlasPremiumPreview #results .placement.atlasSampleCard .atlasCardFooter [data-action="prefer"].atlasJustShortlisted{
+    animation:none!important;
+  }
+}

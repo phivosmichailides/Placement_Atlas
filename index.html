@@ -97,6 +97,25 @@
 })();
 </script>
 <script>
+/* Start downloading the two map tiles at the centre of the opening London view straight away (the map is the page's
+   largest image), instead of after every script has run. Must match map-basemap.js: default "fast" Streets style,
+   streets-v4 / streets-v4-dark, 256px tiles, zoom 10 around 51.5074,-0.1278 (tiles 511/340 and 512/340). Skipped for
+   visitors who chose an Editorial vector map, which does not use these tiles. */
+(function(){
+  try{
+    var saved=localStorage.getItem('oriel-basemap-style-v3')||localStorage.getItem('oriel-basemap-style-v2')||'fast';
+    if(saved!=='fast'&&!(saved==='auto'&&!localStorage.getItem('oriel-basemap-fast-migration-20261119')))return;
+    var style=document.documentElement.getAttribute('data-theme')==='dark'?'streets-v4-dark':'streets-v4';
+    [511,512].forEach(function(x){
+      var link=document.createElement('link');
+      link.rel='preload';link.as='image';link.setAttribute('fetchpriority','high');
+      link.href='https://api.maptiler.com/maps/'+style+'/256/10/'+x+'/340.png?key=JDEneNwTjuuyOGnlUckz';
+      document.head.appendChild(link);
+    });
+  }catch(e){}
+})();
+</script>
+<script>
 /* Apply the page zoom before first paint. session-ui.js applies the same
    values later; doing it here stops the whole page jumping from 100% to the
    compact zoom after load. Keep the maths identical to session-ui.js. */

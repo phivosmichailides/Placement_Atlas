@@ -238,6 +238,11 @@ html.atlasPremiumPreview #shortlistList .fit.fitExpanded.uxFitWithLocation .fitC
   display:none!important;
 }
 html.atlasPremiumPreview #shortlistList .fit.fitExpanded.uxFitWithLocation>.uxLocationPanel{
+  /* Third column of the expanded shortlist card. The general grid-view rule pins this panel to column 1 on a new
+     row, which squeezed it under the fit score and left the wide third column empty. Narrower screens below
+     span it across the card or stack it, as before. */
+  grid-column:3!important;
+  max-width:none!important;
   min-width:0!important;
   width:100%!important;
   padding:9px!important;
@@ -352,6 +357,18 @@ html.atlasPremiumPreview #shortlistList .rank-controls>.atlasRemoveShortlist{
     pointer-events:auto!important;
     transform:none!important;
   }
+}
+/* Grid view, wide screens: score card, reasons, then location filling the rest of the expanded card. */
+@media(min-width:1101px){
+  html.atlasPremiumPreview[data-layout="grid"] #shortlistList .fit.fitExpanded.uxFitWithLocation{
+    grid-template-columns:auto minmax(270px,340px) minmax(0,1fr)!important;
+  }
+}
+html.atlasPremiumPreview[data-layout="grid"] body #shortlistList .fit.fitExpanded.uxFitWithLocation .fitBreakdown{
+  width:100%!important;max-width:none!important;
+}
+html.atlasPremiumPreview[data-layout="grid"] body #shortlistList .fit.fitExpanded.uxFitWithLocation>.uxLocationPanel{
+  max-width:none!important;
 }
 @media(max-width:1100px){
   html.atlasPremiumPreview #shortlistList .fit.fitExpanded.uxFitWithLocation{

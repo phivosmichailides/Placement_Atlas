@@ -61,8 +61,10 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   assert.equal(await page.locator('#uxPageZoomValue').textContent(),'100%',
     'Manual zoom must remain adjustable and persist within the test session');
 
-  // First visit is monochrome and starts with a lightweight, 36-card results page.
-  assert.equal(await page.locator('html').getAttribute('data-palette'),'mono','New visitors should start in the monochrome palette');
+  // First visit uses light Forest, visible filters and a lightweight 36-card results page.
+  assert.equal(await page.locator('html').getAttribute('data-palette'),'forest','New visitors should start with the Forest green palette');
+  assert.equal(await page.locator('html').getAttribute('data-theme'),'light','New visitors should start in light mode');
+  assert.equal(await page.locator('#explore.uxFiltersCollapsed').count(),0,'Filters must start visible on desktop');
   const pageSize=page.locator('#uxExplorePager select');
   assert.equal(await pageSize.inputValue(),'36','Default programme page size should be 36');
   assert.deepEqual(await pageSize.locator('option').evaluateAll(options=>options.map(option=>option.value)),['36','72','100','200','500','all']);
@@ -678,11 +680,11 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   await page.waitForFunction(()=>document.querySelector('.onboardOverlay .onboardStepLabel')?.textContent?.includes('6 of 6'),null,{timeout:5000});
   await assertQuizFits('Appearance step');
   assert.equal((await page.locator('#obFinish').innerText()).trim(),'Done');
-  assert.equal(await page.locator('[data-ob-palette="mono"]').getAttribute('aria-pressed'),'true','Monochrome should be the first-visit palette');
+  assert.equal(await page.locator('[data-ob-palette="forest"]').getAttribute('aria-pressed'),'true','Forest should be the first-visit palette');
   await page.locator('[data-ob-palette="copper"]').click();
   await page.waitForFunction(()=>document.documentElement.dataset.palette==='copper',null,{timeout:3000});
-  await page.locator('[data-ob-palette="mono"]').click();
-  await page.waitForFunction(()=>document.documentElement.dataset.palette==='mono',null,{timeout:3000});
+  await page.locator('[data-ob-palette="forest"]').click();
+  await page.waitForFunction(()=>document.documentElement.dataset.palette==='forest',null,{timeout:3000});
   await page.locator('[data-ob-mode="dark"]').click();
   await page.waitForFunction(()=>document.documentElement.dataset.theme==='dark',null,{timeout:3000});
   await page.locator('[data-ob-mode="light"]').click();

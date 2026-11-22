@@ -5,24 +5,26 @@
   const map=document.getElementById('placementMap');
   if(!explore||!map)return;
   let frame=0,lastWidth=0,lastHeight=0;
+  const measure=()=>{
+    const rect=map.getBoundingClientRect();
+    const width=Math.round(rect.width),height=Math.round(rect.height);
+    if(width<80||height<80)return;
+    if(width===lastWidth&&height===lastHeight)return;
+    lastWidth=width;lastHeight=height;
+    try{
+      if(typeof placementMap!=='undefined'&&placementMap){
+        placementMap.invalidateSize(false);
+      }
+    }catch(error){console.debug('Explore map resize deferred.',error);}
+  };
   const refresh=()=>{
     if(frame)return;
-    frame=requestAnimationFrame(()=>{
-      frame=0;
-      const rect=map.getBoundingClientRect();
-      const width=Math.round(rect.width),height=Math.round(rect.height);
-      if(width<80||height<80)return;
-      if(width===lastWidth&&height===lastHeight)return;
-      lastWidth=width;lastHeight=height;
-      try{
-        if(typeof placementMap!=='undefined'&&placementMap){
-          placementMap.invalidateSize(false);
-        }
-      }catch(error){console.debug('Explore map resize deferred.',error);}
-    });
+    frame=requestAnimationFrame(()=>{frame=0;measure();});
   };
   if('ResizeObserver'in window){
-    const observer=new ResizeObserver(refresh);
+    // Resize callbacks run right after layout, so measuring here is free; a later animation frame often found the page
+    // already changed again and forced a fresh layout.
+    const observer=new ResizeObserver(()=>{if(frame){cancelAnimationFrame(frame);frame=0;}measure();});
     observer.observe(map);
     const workspace=explore.querySelector('.workspace');
     if(workspace)observer.observe(workspace);
@@ -34,6 +36,9 @@
   document.querySelectorAll('[data-ux-layout]').forEach(button=>button.addEventListener('click',()=>requestAnimationFrame(refresh)));
   window.addEventListener('resize',refresh,{passive:true});
   document.addEventListener('desk:after-navigation',event=>{if(event.detail?.to==='explore')refresh();});
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',refresh,{once:true});
-  else refresh();
+  // With ResizeObserver the first observation already measures the map; otherwise measure once the DOM is ready.
+  if(!('ResizeObserver'in window)){
+    if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',refresh,{once:true});
+    else refresh();
+  }
 })();

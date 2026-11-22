@@ -69,8 +69,8 @@ test('reset is complete and persisted, including specialist exclusions',()=>{
 });
 
 test('new-account script versions and PWA assets match to avoid stale logic',()=>{
-  const versions={'supabase-cloud.js':'20261120accountaudit1','app.js':'20261121clarity1',
-    'app-base.js':'20261120auditperf2','app-product.js':'20261121clarity1',
+  const versions={'supabase-cloud.js':'20261120accountaudit1','app.js':'20261122mapstable1',
+    'app-base.js':'20261122mapstable1','app-product.js':'20261122mapstable1',
     'generic-public.js':'20261120accountaudit1','onboarding.js':'20261121quiz2'};
   for(const [file,bundle] of Object.entries(versions)){
     if(file==='supabase-cloud.js'||file==='app.js')

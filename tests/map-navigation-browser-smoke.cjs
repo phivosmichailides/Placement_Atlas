@@ -20,13 +20,27 @@ const target=process.env.TARGET||'http://127.0.0.1:8000/';
    null,{timeout:90000});
   const before=await page.evaluate(()=>({center:placementMap.getCenter(),zoom:placementMap.getZoom(),pageZoom:getComputedStyle(document.querySelector('.shell')).zoom}));
   assert.equal(before.pageZoom,'0.7','The regression must be exercised at the problematic 70% page zoom');
+  await page.evaluate(()=>{
+   window.__atlasPopupDebug=[];
+   const record=(type)=>{window.__atlasPopupDebug.push({type,at:Math.round(performance.now()),stack:(new Error()).stack?.slice(0,700),popup:!!placementMap._popup,markers:mapLayer.getLayers().length});};
+   placementMap.on('popupopen',()=>record('popupopen'));
+   placementMap.on('popupclose',()=>record('popupclose'));
+   const originalDraw=drawMap;
+   drawMap=function(...args){record('drawMap options '+JSON.stringify(args[1]||{}));return originalDraw(...args);};
+  });
   const marker=page.locator('#placementMap .oriel-cluster-marker:visible').first();
   await marker.click({timeout:20000});
   await page.locator('#placementMap .atlasProgrammePopup').waitFor({timeout:10000});
   // Popup autopan triggers moveend. The camera redraw must not dismiss it.
   await page.waitForTimeout(650);
-  assert(await page.locator('#placementMap .atlasProgrammePopup').isVisible(),
-   'Cluster click opened and then immediately dismissed its programme details');
+  const popupVisible=await page.locator('#placementMap .atlasProgrammePopup').isVisible();
+  const popupDebug=await page.evaluate(()=>({
+   events:window.__atlasPopupDebug||[],popup:!!placementMap._popup,
+   popupCount:document.querySelectorAll('#placementMap .atlasProgrammePopup').length,
+   markerCount:mapLayer.getLayers().length,zoom:placementMap.getZoom(),
+   center:placementMap.getCenter()
+  }));
+  assert(popupVisible,'Cluster click opened and then immediately dismissed its programme details: '+JSON.stringify(popupDebug));
   assert(await page.locator('#placementMap .atlasPopupDrilldown').count()>0,
    'The explicit zoom-into-sites action is missing');
   await page.evaluate(()=>placementMap.closePopup());

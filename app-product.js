@@ -400,7 +400,7 @@
       const pts=mapLayer.getLayers().map(l=>l.getLatLng());
       const target=bounds||(pts.length?L.latLngBounds(pts):null);
       if(target?.isValid?.()){
-        placementMap.invalidateSize(false);
+        placementMap.invalidateSize({pan:false,animate:false});
         placementMap.fitBounds(target,{
           padding:[42,42],maxZoom:11,animate:false
         });

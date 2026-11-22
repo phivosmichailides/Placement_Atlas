@@ -1,5 +1,5 @@
 'use strict';
-const CACHE_NAME='placement-atlas-shell-2026-11-21-v133-css-bundle-pruned';
+const CACHE_NAME='placement-atlas-shell-2026-11-21-v134-css-bundle-pruned';
 const ROOT=new URL('./',self.registration.scope).href;
 const EXTRA_ASSETS=[
   'css-bundle-preflight.css?v=20261122bundle1',
@@ -108,7 +108,7 @@ const trimMapTileCache=async cache=>{
 self.addEventListener('install',event=>{
   event.waitUntil((async()=>{
     const cache=await caches.open(CACHE_NAME);
-    const urls=new Set([localURL('./'),localURL('index.html'),localURL('manifest.webmanifest'),localURL('icons/placement-atlas-192.png'),localURL('pwa.css?v=20261108atlas1'),localURL('pwa.js?v=20261114vector1'),...EXTRA_ASSETS.map(localURL)]);
+    const urls=new Set([localURL('./'),localURL('index.html'),localURL('manifest.webmanifest'),localURL('icons/placement-atlas-192.png'),localURL('pwa.js?v=20261114vector1'),...EXTRA_ASSETS.map(localURL)]);
     // Do not activate a new worker unless the current app shell was
     // successfully fetched. This preserves the previous working offline app
     // if an update is attempted during a connection failure.

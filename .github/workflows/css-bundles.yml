@@ -1,0 +1,29 @@
+name: Stylesheet bundles up to date
+on:
+  push:
+    paths:
+      - '*.css'
+      - 'vendor/*.css'
+      - 'index.html'
+      - 'scripts/build_css_bundles.py'
+      - 'tests/css-bundles.test.cjs'
+      - '.github/workflows/css-bundles.yml'
+  pull_request:
+    paths:
+      - '*.css'
+      - 'vendor/*.css'
+      - 'index.html'
+      - 'scripts/build_css_bundles.py'
+      - 'tests/css-bundles.test.cjs'
+      - '.github/workflows/css-bundles.yml'
+  workflow_dispatch:
+jobs:
+  check-bundles:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check the bundles match their source stylesheets
+        run: node --test tests/css-bundles.test.cjs

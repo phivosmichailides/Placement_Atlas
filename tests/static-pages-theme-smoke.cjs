@@ -2,8 +2,9 @@
 /* Validate the separate reading pages inherit the same appearance and header. */
 const {chromium}=require('playwright');
 const assert=require('node:assert/strict');
+let browser=null;
 (async()=>{
- const browser=await chromium.launch({headless:true,args:['--no-sandbox','--disable-gpu','--disable-dev-shm-usage','--no-zygote']});
+ browser=await chromium.launch({headless:true,args:['--no-sandbox','--disable-gpu','--disable-dev-shm-usage','--no-zygote']});
  const base=(process.env.TARGET||'http://127.0.0.1:8000/').replace(/\/$/,'')+'/';
  const page=await browser.newPage({viewport:{width:1365,height:900}});
  const errors=[];
@@ -13,6 +14,7 @@ const assert=require('node:assert/strict');
  const paths=['privacy.html','terms.html','about.html','guide.html','programme-snapshot.html','industry-foundation-training.html'];
  let expectedWidth=null;
  for(const path of paths){
+  console.log('Checking static article: '+path);
   await page.goto(base+path,{waitUntil:'domcontentloaded',timeout:30000});
   await page.locator('.paDocHeader .paDocBrand').waitFor({state:'visible',timeout:10000});
   const state=await page.evaluate(()=>{
@@ -39,4 +41,4 @@ const assert=require('node:assert/strict');
  assert(!errors.length,'Reading pages must not throw: '+errors.join(' | '));
  await browser.close();
  console.log('Static reading pages share an accessible header and persistent light/dark mode.');
-})().catch(error=>{console.error(error);process.exitCode=1});
+})().catch(async error=>{console.error(error);try{await browser?.close()}catch{}process.exitCode=1});

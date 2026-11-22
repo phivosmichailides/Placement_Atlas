@@ -1,0 +1,46 @@
+name: Placement Atlas startup performance comparison
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'atlas-i18n.js'
+      - 'app-product.js'
+      - 'premium-discovery-preview.js'
+      - 'deadline-dates.js'
+      - 'tests/startup-performance-compare.cjs'
+      - '.github/workflows/startup-performance-compare.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Prepare unchanged main-branch baseline
+        run: |
+          git fetch --no-tags origin main:refs/remotes/origin/main
+          git worktree add --detach /tmp/placementatlas-perf-baseline origin/main
+          python3 -m http.server 8000 --bind 127.0.0.1 --directory "$GITHUB_WORKSPACE" >/tmp/placement-head.log 2>&1 &
+          python3 -m http.server 8001 --bind 127.0.0.1 --directory /tmp/placementatlas-perf-baseline >/tmp/placement-main.log 2>&1 &
+      - name: Compare first-load blocking time, paint and layout stability
+        run: node tests/startup-performance-compare.cjs
+      - name: Upload measured results
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: placement-startup-performance-compare
+          path: startup-performance-results.json
+          if-no-files-found: ignore
+          retention-days: 7

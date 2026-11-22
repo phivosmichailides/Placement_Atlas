@@ -80,7 +80,7 @@ test('Like, Like No and Super Like feedback stays anchored above scrollable card
 
 test('updated assets load in the website and offline application',()=>{
   for(const asset of [
-    "atlas-i18n.js?v=20261121clarity1",
+    "atlas-i18n.js?v=20261121englishfast1",
     "atlas-i18n-east-asia.js?v=20261121eastasia1",
     "atlas-i18n-parity.js?v=20261121parity1",
     "atlas-i18n-quiz.js?v=20261121quiz1",

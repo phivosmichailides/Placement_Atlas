@@ -15,7 +15,10 @@
     return Number.isNaN(d.getTime())?null:d;
   };
 
-  const fmtDate=d=>d?new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'}).format(d):'';
+  // DateTimeFormat construction is expensive when several cards render at once.
+  // Reuse one formatter; date output and time zone remain identical.
+  const dateFormatter=new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'});
+  const fmtDate=d=>d?dateFormatter.format(d):'';
 
   const durationWeeks=p=>{
     const settings=Array.isArray(p?.settings)?p.settings:[];
@@ -43,8 +46,18 @@
       const row=dateRow(p);
       return html.replace('<div class="fit fitExpanded">',`${row}<div class="fit fitExpanded">`);
     };
-    try{renderAll();}catch{
-      try{explore();reco();shortlist();}catch{}
+    // The initial programme list may already be on screen. Rather than
+    // re-rendering every panel (and resetting card DOM/focus), insert the
+    // date row into existing cards once; future renders use the wrapper above.
+    if(typeof placements!=='undefined'&&Array.isArray(placements)&&placements.length){
+      const byId=new Map(placements.map(p=>[String(p.id),p]));
+      document.querySelectorAll('.placement[data-id], .reco[data-id]').forEach(element=>{
+        const placement=byId.get(String(element.dataset.id||''));
+        const details=element.querySelector('.fit.fitExpanded');
+        if(placement&&details&&!element.querySelector('.programmeDates')){
+          details.insertAdjacentHTML('beforebegin',dateRow(placement));
+        }
+      });
     }
     return true;
   };

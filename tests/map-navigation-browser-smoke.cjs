@@ -30,15 +30,16 @@ const target=process.env.TARGET||'http://127.0.0.1:8000/';
   assert(await page.locator('#placementMap .atlasPopupDrilldown').count()>0,
    'The explicit zoom-into-sites action is missing');
   await page.evaluate(()=>placementMap.closePopup());
+  const settled=await page.evaluate(()=>({center:placementMap.getCenter(),zoom:placementMap.getZoom()}));
   await page.locator('#atlasMapZoom [data-atlas-zoom="in"]').click();
-  await page.waitForFunction(z=>placementMap.getZoom()>z,before.zoom,{timeout:8000});
+  await page.waitForFunction(z=>placementMap.getZoom()>z,settled.zoom,{timeout:8000});
   const afterIn=await page.evaluate(()=>({center:placementMap.getCenter(),zoom:placementMap.getZoom()}));
   await page.locator('#atlasMapZoom [data-atlas-zoom="out"]').click();
-  await page.waitForFunction(z=>Math.abs(placementMap.getZoom()-z)<0.01,before.zoom,{timeout:8000});
+  await page.waitForFunction(z=>Math.abs(placementMap.getZoom()-z)<0.01,settled.zoom,{timeout:8000});
   const afterOut=await page.evaluate(()=>({center:placementMap.getCenter(),zoom:placementMap.getZoom()}));
   for(const c of [afterIn.center,afterOut.center]){
-   assert(Math.abs(c.lat-before.center.lat)<0.08&&Math.abs(c.lng-before.center.lng)<0.08,
-    'Zoom buttons moved the map diagonally away from the London view: '+JSON.stringify({before,afterIn,afterOut}));
+   assert(Math.abs(c.lat-settled.center.lat)<0.08&&Math.abs(c.lng-settled.center.lng)<0.08,
+    'Zoom buttons moved the map diagonally away from the London view: '+JSON.stringify({settled,afterIn,afterOut}));
   }
   await page.locator('#atlasMapExpand').click();
   await page.waitForFunction(()=>!document.getElementById('atlasMapFocus')?.hidden,null,{timeout:7000});

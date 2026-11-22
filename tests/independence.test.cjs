@@ -129,7 +129,8 @@ test('theme-aware header and muted map remain purely visual changes', () => {
 test('Tinder Mode preloads the next card but conceals it until promotion', () => {
   const js=read('tinder-mode.js'),css=read('tinder-mode.css');
   const html=read('index.html'),sw=read('sw.js');
-  assertAssetSynced(html,sw,'tinder-mode.js');
+  assertAssetSynced(html,sw,'atlas-lazy-swipe.js');
+   assert.match(read('atlas-lazy-swipe.js'),/tinder-mode\\.js\\?v=20261122close1/);
   assert.match(html,/tinder-mode\.css\?v=20261122close1/);
   assert.match(sw,/tinder-mode\.js\?v=[0-9a-z_-]+/);
   assert.match(sw,/tinder-mode\.css\?v=20261122close1/);
@@ -145,7 +146,8 @@ test('Tinder Mode preloads the next card but conceals it until promotion', () =>
 
 test('Tinder Mode-only directional shines, instruction hints and decision drawers remain scoped', () => {
   const html=read('index.html'),sw=read('sw.js'),js=read('tinder-mode.js'),css=read('tinder-mode.css');
-  assertAssetSynced(html,sw,'tinder-mode.js');
+  assertAssetSynced(html,sw,'atlas-lazy-swipe.js');
+   assert.match(read('atlas-lazy-swipe.js'),/tinder-mode\\.js\\?v=20261122close1/);
   assert.match(html,/tinder-mode\.css\?v=20261122close1/);
   assert.match(sw,/tinder-mode\.js\?v=[0-9a-z_-]+/);
   assert.match(sw,/tinder-mode\.css\?v=20261122close1/);

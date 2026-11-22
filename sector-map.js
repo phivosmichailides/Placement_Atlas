@@ -320,7 +320,6 @@
         dialog.hidden=false;document.body.classList.add('atlasMapFocusOpen');stage.append(mapContainer);updateFocusCount();
         requestAnimationFrame(()=>{
           preserveCamera(centre,zoom);
-          setTimeout(()=>preserveCamera(centre,zoom),230);
           closeButton.focus();
         });
       };

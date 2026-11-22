@@ -1223,6 +1223,12 @@
     document.documentElement.dataset.atlasLanguage = activeLanguage;
     if(scan)walk(document.body);
     needsEnglishRestore=false;
+    // Do not monitor every DOM mutation while the visitor is in English.
+    // Restore observation only for a non-English language.
+    if(observer){
+      observer.disconnect();
+      if(activeLanguage!=='en')observer.observe(document.body,{childList:true,subtree:true,characterData:true});
+    }
     document.dispatchEvent(new CustomEvent('placementatlas:languagechange', { detail: { language: activeLanguage, direction: rtl ? 'rtl' : 'ltr' } }));
   }
 
@@ -1413,7 +1419,7 @@
         requestAnimationFrame(flush);
       }
     });
-    observer.observe(document.body,{childList:true,subtree:true,characterData:true});
+    if(activeLanguage!=='en')observer.observe(document.body,{childList:true,subtree:true,characterData:true});
     document.addEventListener('desk:after-navigation',()=>walk(document.body));
     document.addEventListener('placementatlas:refresh-translation',e=>walk(e.detail?.root||document.body));
     window.PlacementAtlasTranslateUI=root=>walk(root||document.body);

@@ -121,10 +121,31 @@
  };
  forward('uxFloatSalary','salary');forward('uxFloatSort','sort');forward('uxResultsSort','sort');forward('uxFloatHideShortlisted','hideShortlisted');
  const isExplore=()=>getTab()==='explore';
+ // A quick filter shortcut belongs beside the map and cards, not the hero.
+ const floatTargets=['placementMap','results'].map(id=>$(id)).filter(Boolean);
+ const floatIntersecting=new Set();
+ const floatObserver=typeof IntersectionObserver!=='undefined'
+   ?new IntersectionObserver(entries=>{
+     entries.forEach(entry=>{
+       if(entry.isIntersecting)floatIntersecting.add(entry.target);
+       else floatIntersecting.delete(entry.target);
+     });
+     updateFloating();
+   },{rootMargin:'-48px 0px -80px 0px',threshold:0})
+   :null;
+ floatTargets.forEach(target=>floatObserver?.observe(target));
+ const floatRelevant=()=>{
+   if(!$('results')?.querySelector('.placement'))return false;
+   if(floatObserver)return floatIntersecting.size>0;
+   return floatTargets.some(target=>{
+     const rect=target.getBoundingClientRect();
+     return rect.height>0&&rect.bottom>48&&rect.top<window.innerHeight-80;
+   });
+ };
  function updateFloating(){
    const y=window.scrollY||0;
    if(dock){
-     const visible=isExplore()&&(collapsed||y>300);
+     const visible=isExplore()&&(collapsed||y>300)&&floatRelevant();
      dock.classList.toggle('uxFloatVisible',visible);
      if(!visible)closeDock();
    }
@@ -149,6 +170,7 @@
    if(scrollTimer)return;
    scrollTimer=setTimeout(()=>{scrollTimer=0;snapshot()},230);
  },{passive:true});
+ ['desk:dataset','desk:cards-ready','desk:ready'].forEach(name=>document.addEventListener(name,updateFloating));
  document.addEventListener('desk:after-navigation',e=>{
    lastTab=e.detail?.to||getTab();updateFloating();
    setTimeout(()=>snapshot(),150);

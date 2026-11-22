@@ -4,6 +4,7 @@
 (()=>{
   const MIN_PASSWORD_LENGTH=12;
   const ERROR='cloudAuthError';
+  const globe='<svg class="cloudAuthGlobe" viewBox="0 0 64 64" fill="none" stroke="currentColor" aria-hidden="true" focusable="false"><circle cx="32" cy="32" r="25" stroke-width="4.4"/><path d="M7 32h50M13 19.4c6.1 3.3 12.3 5.1 19 5.1s12.9-1.8 19-5.1M13 44.6c6.1-3.3 12.3-5.1 19-5.1s12.9 1.8 19 5.1" stroke-width="3.5" stroke-linecap="round"/><path d="M32 7c-8.8 7-13.7 15.4-13.7 25S23.2 50 32 57M32 7c8.8 7 13.7 15.4 13.7 25S40.8 50 32 57" stroke-width="3.7" stroke-linecap="round"/></svg>';
   const byId=(root,id)=>root.querySelector('#'+id);
   const emailIsValid=input=>input.value.trim()!=='' && input.checkValidity();
   const recoveryUrl=base=>base+(base.includes('?')?'&':'?')+'atlas_auth=recovery';
@@ -21,18 +22,15 @@
     overlay.innerHTML=[
       '<section class="cloudDialog cloudPasswordDialog" role="dialog" aria-modal="true" aria-labelledby="cloudDialogTitle">',
       '<button type="button" class="cloudClose" aria-label="Close sign-in dialog">×</button>',
-      '<div class="cloudEyebrow">PLACEMENT ATLAS</div>',
-      '<h2 id="cloudDialogTitle">Sign in</h2>',
-      '<p class="cloudLead" id="cloudDialogLead">Access your saved programmes, preferences and shortlist.</p>',
-      '<div class="cloudAuthTabs" id="cloudAuthTabs" role="group" aria-label="Account options">',
-      '<button type="button" data-auth-mode="signin" aria-pressed="true">Sign in</button>',
-      '<button type="button" data-auth-mode="signup" aria-pressed="false">Create account</button>',
-      '</div>',
+      '<div class="cloudAuthBrand" aria-label="Placement Atlas"><span class="cloudAuthBrandIcon">'+globe+'</span><span>Placement Atlas</span></div>',
+      '<div class="cloudAuthEmblem">'+globe+'</div>',
+      '<h2 id="cloudDialogTitle">Sign in to Placement Atlas</h2>',
+      '<p class="cloudLead" id="cloudDialogLead">Your shortlist, wherever you are.</p>',
       '<div id="cloudGoogleRegion"><button type="button" class="btn cloudGoogleButton" id="cloudGoogleSignIn"><span aria-hidden="true">G</span> Continue with Google</button></div>',
-      '<div class="cloudOr" id="cloudAuthDivider"><span>or with email</span></div>',
+      '<div class="cloudOr" id="cloudAuthDivider"><span>OR</span></div>',
       '<form id="cloudPasswordForm" novalidate>',
       '<label class="cloudEmailLabel" for="cloudEmail">Email address</label>',
-      '<input class="cloudAuthInput" id="cloudEmail" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required>',
+      '<input class="cloudAuthInput" id="cloudEmail" type="email" autocomplete="email" inputmode="email" placeholder="Your email address" required>',
       '<label class="cloudEmailLabel" for="cloudPassword">Password</label>',
       '<div class="cloudPasswordField"><input class="cloudAuthInput" id="cloudPassword" type="password" autocomplete="current-password" minlength="12" placeholder="Enter your password" required>',
       '<button class="cloudVisibility" type="button" data-toggle-password="cloudPassword" aria-label="Show password" aria-pressed="false">Show</button></div>',
@@ -74,8 +72,13 @@
       '<button type="button" class="cloudTextAction" id="cloudLinkButton">Email me a link or code</button>',
       '</div>',
       '<button class="cloudTextAction cloudBack" type="button" id="cloudBackButton" hidden>Back to sign in</button>',
-      '<p class="cloudFine" id="cloudAuthFine">Don’t have an account? Choose Create account above.</p>',
-      '<p class="cloudPrivacy">Your workspace is private to your account. <a href="/privacy.html" target="_blank" rel="noopener noreferrer">Privacy policy</a></p>',
+      '<p class="cloudFine" id="cloudAuthFine"></p>',
+      '<div class="cloudAuthTabs" id="cloudAuthTabs" role="group" aria-label="Switch between sign-in and registration">',
+      '<span class="cloudAuthSwitchPrompt" id="cloudAuthSwitchPrompt">New to Placement Atlas?</span>',
+      '<button type="button" data-auth-mode="signin" aria-pressed="true">Log in</button>',
+      '<button type="button" data-auth-mode="signup" aria-pressed="false">Create an account</button>',
+      '</div>',
+      '<p class="cloudPrivacy">Your workspace stays private. <a href="/privacy.html" target="_blank" rel="noopener noreferrer">Privacy</a> <span aria-hidden="true">·</span> <a href="/terms.html" target="_blank" rel="noopener noreferrer">Terms</a></p>',
       '<p class="cloudError" id="cloudAuthError" role="status" aria-live="polite"></p>',
       '</section>'
     ].join('');
@@ -87,7 +90,12 @@
       errorNode.textContent=message||'';
       errorNode.dataset.tone=tone;
     };
-    const close=()=>{challenge?.destroy();overlay.remove()};
+    const priorFocus=document.activeElement;
+    const close=()=>{
+      challenge?.destroy();
+      overlay.remove();
+      if(priorFocus?.isConnected)priorFocus.focus({preventScroll:true});
+    };
     const pwdForm=get('cloudPasswordForm');
     const pw=get('cloudPassword');
     const conf=get('cloudConfirmPassword');
@@ -155,8 +163,8 @@
         button.setAttribute('aria-pressed',String(button.dataset.authMode===mode));
       }
       const copy={
-        signin:['Sign in','Access your saved programmes, preferences and shortlist.','New here? Choose Create account above.'],
-        signup:['Create your account','Save your shortlist and preferences securely across devices.','We’ll email you a link to verify your address.'],
+        signin:['Sign in to Placement Atlas','Your shortlist, wherever you are.',''],
+        signup:['Create your account','Save your shortlist and preferences across devices.','We’ll email you a link to verify your address.'],
         forgot:['Reset your password','We’ll email a secure password reset link if an account exists.','Check your inbox, including spam, after submitting.'],
         link:['Sign in without a password','We’ll email a secure link and a temporary six-digit code. Choose either to sign in.','This is for existing Placement Atlas accounts.'],
         otp:['Check your email','Enter the six-digit code we sent, or open the sign-in link instead.','The code expires after a short time. Return to request a new one if needed.'],
@@ -165,6 +173,8 @@
       get('cloudDialogTitle').textContent=copy[mode][0];
       get('cloudDialogLead').textContent=copy[mode][1];
       get('cloudAuthFine').textContent=copy[mode][2];
+      get('cloudAuthFine').hidden=mode==='signin';
+      get('cloudAuthSwitchPrompt').textContent=mode==='signup'?'Already have an account?':'New to Placement Atlas?';
       setStatus('');
       if(mode==='forgot')get('cloudForgotEmail').value=email.value.trim();
       if(mode==='link')get('cloudLinkEmail').value=pendingOtpEmail||email.value.trim();
@@ -174,7 +184,16 @@
     overlay.addEventListener('atlas:auth-mode',event=>setMode(event.detail));
     overlay.querySelector('.cloudClose').addEventListener('click',close);
     overlay.addEventListener('click',event=>{if(event.target===overlay)close();});
-    overlay.addEventListener('keydown',event=>{if(event.key==='Escape')close();});
+    overlay.addEventListener('keydown',event=>{
+      if(event.key==='Escape'){event.preventDefault();close();return;}
+      if(event.key!=='Tab')return;
+      const focusable=[...overlay.querySelectorAll('button, a[href], input, select, textarea, [tabindex]')]
+        .filter(el=>!el.disabled&&el.tabIndex>=0&&el.getClientRects().length&&getComputedStyle(el).visibility!=='hidden');
+      const first=focusable[0],last=focusable[focusable.length-1];
+      if(!first)return;
+      if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
+      else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
+    });
     overlay.querySelectorAll('[data-auth-mode]').forEach(button=>{
       button.addEventListener('click',()=>setMode(button.dataset.authMode));
     });
@@ -319,6 +338,11 @@
     });
     if(initialEmail)email.value=String(initialEmail).trim();
     setMode(initialMode);
+    requestAnimationFrame(()=>{
+      if(!overlay.isConnected)return;
+      const target=(initialMode==='forgot'?get('cloudForgotEmail'):initialMode==='link'?get('cloudLinkEmail'):initialMode==='otp'?get('cloudOtpCode'):initialMode==='recovery'?get('cloudNewPassword'):email);
+      target?.focus({preventScroll:true});
+    });
     return overlay;
   };
   window.PlacementAtlasPasswordAuth={open};

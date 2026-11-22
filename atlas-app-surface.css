@@ -1,18 +1,26 @@
 /* Placement Atlas — consistent surfaces and safe empty-state layout, 22 Nov 2026.
    Pure presentation; does not alter saved decisions or ranking data. */
 
-/* The Swipe Mode workspace may change width, but the page shell and navigation must not. */
+/* A single viewport-compensated shell rule for ALL desktop tabs.
+   Previously Swipe Mode alone switched to this calculation, making the
+   navigation jump; returning Swipe to raw percentage width caused overflow
+   under CSS zoom. Retain the working compensated geometry everywhere. */
 @media (min-width:900px) and (hover:hover) and (pointer:fine) {
+  html body .shell,
   html body[data-atlas-view="tinderMode"] .shell {
-    width:var(--ux-shell-width,100%)!important;
+    width:var(--ux-viewport-compensated-width,var(--ux-shell-width,100%))!important;
     max-width:var(--ux-shell-max-width,1540px)!important;
-    padding-inline:clamp(12px,2.1vw,24px)!important;
+    min-width:0!important;
+    box-sizing:border-box!important;
+    padding-inline:clamp(12px,1.7vw,26px)!important;
     margin-inline:auto!important;
   }
+  html body .shell > header.top.atlasStickyHeader,
   html body[data-atlas-view="tinderMode"] .shell > header.top.atlasStickyHeader {
+    box-sizing:border-box!important;
     width:100%!important;
     max-width:100%!important;
-    margin-inline:0!important;
+    min-width:0!important;
     transform:none!important;
   }
 }

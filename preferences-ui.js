@@ -6,12 +6,7 @@
  if(!host)return;
  const meanings=['Off','Very low','Low','Moderate','High','Maximum'];
  const enhance=()=>{
-   if(!host.querySelector('.weightGuide')&&host.querySelector('.weight')){
-     const guide=document.createElement('p');
-     guide.className='weightGuide';
-     guide.textContent='Fine-tune how strongly each factor affects your matches.';
-     host.prepend(guide);
-   }
+   // The section intro above already says how to fine-tune each factor; no second, near-identical sentence here.
    for(const row of host.querySelectorAll('.weight')){
      if(row.classList.contains('weightModern'))continue;
      const source=row.querySelector('input[data-weight]');

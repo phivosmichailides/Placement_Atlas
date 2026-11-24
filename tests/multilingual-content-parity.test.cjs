@@ -16,7 +16,7 @@ test('every non-English language has the same programme and quiz vocabulary',()=
   for(const [language,words] of Object.entries(packs)){
     assert.ok(Object.keys(words).length>=94,language+' should contain the core common, quiz and mobile vocabulary');
     if(['yue-HK','ja','ko'].includes(language)){
-      assert.equal(Object.keys(words).length,133,'East Asian language should also translate base navigation and filters: '+language);
+      assert.equal(Object.keys(words).length,158,'East Asian language should also translate base navigation and filters: '+language);
       assert.ok(words.Explore&&words.Preferences&&words['Minimum salary'],'Missing base navigation translations: '+language);
     }
     for(const key of [
@@ -44,9 +44,9 @@ test('translation uses a shareable query code and honours all official programme
   assert.match(i18n,/MutationObserver/);
 });
 test('translation packs are loaded before interface translator',()=>{
-  const parityIndex=html.indexOf('atlas-i18n-parity.js?v=20261121parity1');
+  const parityIndex=html.indexOf('atlas-i18n-parity.js?v=20261124qa1');
   const quizIndex=html.indexOf('atlas-i18n-quiz.js?v=20261121quiz1');
   const asiaIndex=html.indexOf('atlas-i18n-east-asia.js?v=20261121eastasia1');
-  const i18nIndex=html.indexOf('atlas-i18n.js?v=20261122perf1');
+  const i18nIndex=html.indexOf('atlas-i18n.js?v=20261124qa1');
   assert.ok(parityIndex>0&&quizIndex>parityIndex&&asiaIndex>quizIndex&&i18nIndex>asiaIndex);
 });

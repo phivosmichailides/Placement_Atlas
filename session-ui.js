@@ -240,7 +240,63 @@
  };
  let colourTries=0;
  const colourTimer=setInterval(()=>{colourTries++;if(arrangePreferenceColours()||colourTries>150)clearInterval(colourTimer)},140);
+ // ---- Tab addresses: #/shortlist etc. Back/Forward move between tabs; a link opens the named tab. ----
+ const ROUTES={explore:'',foryou:'for-you',shortlist:'shortlist',compare:'compare',simulator:'simulation',tinderMode:'swipe',learn:'learn',prefs:'preferences',outcome:'outcome'};
+ const TABS_BY_ROUTE=Object.fromEntries(Object.entries(ROUTES).filter(([,r])=>r).map(([t,r])=>[r,t]));
+ const routeTab=()=>{const m=location.hash.match(/^#\/([a-z-]+)\/?$/);return m?TABS_BY_ROUTE[m[1]]||null:null};
+ const linkedTab=routeTab();
+ let routeReplace=true,routeFromHistory=false;
+ const writeRoute=tab=>{
+   if(!(tab in ROUTES))return;
+   const hash=ROUTES[tab]?'#/'+ROUTES[tab]:'';
+   if(hash===(location.hash.startsWith('#/')?location.hash:''))return;
+   // Never replace a non-route hash: sign-in, magic-link and password-recovery links carry their tokens there.
+   if(location.hash&&!location.hash.startsWith('#/'))return;
+   const url=location.pathname+location.search+hash;
+   try{routeReplace?history.replaceState(history.state,'',url):history.pushState({atlasTab:tab},'',url)}catch{}
+ };
+ document.addEventListener('desk:after-navigation',e=>{
+   const to=e.detail?.to;
+   if(routeFromHistory){routeFromHistory=false;return;}
+   writeRoute(to);
+ });
+ window.addEventListener('popstate',()=>{
+   const tab=routeTab()||(location.hash.startsWith('#/')||!location.hash?'explore':null);
+   if(!tab||typeof switchTab!=='function'||!document.getElementById(tab))return;
+   if(document.querySelector('.tab.active')?.dataset.tab===tab)return;
+   routeFromHistory=true;
+   try{switchTab(tab)}catch{routeFromHistory=false}
+ });
+ // ---- Page title per tab and language: "<tab name> · Placement Atlas", using the tab's visible (translated) label.
+ const HOME_TITLE=document.title||'Placement Atlas | Independent Oriel Pharmacy Placement Tool';
+ const TAB_FALLBACK={foryou:'For You',shortlist:'Shortlist',compare:'Compare',simulator:'Oriel Simulation',tinderMode:'Swipe Mode',learn:'Learning Hub',prefs:'Preferences',outcome:'Offer & outcome'};
+ const updateTitle=()=>{
+   const tab=document.querySelector('.tab.active')?.dataset.tab||'explore';
+   const english=(document.documentElement.lang||'en').startsWith('en');
+   if(tab==='explore'){
+     const label=document.querySelector('.tab[data-tab="explore"] .atlasTabLabel, .tab[data-tab="explore"] span:last-child')?.textContent?.trim();
+     document.title=english||!label?HOME_TITLE:label+' · Placement Atlas';
+     return;
+   }
+   const holder=document.querySelector('.tab[data-tab="'+tab+'"]')||document.querySelector('[data-atlas-subtab="'+tab+'"]');
+   const label=(holder?.querySelector('.atlasTabLabel')||holder)?.textContent?.replace(/\s+/g,' ').trim()||TAB_FALLBACK[tab]||'';
+   document.title=label?label+' · Placement Atlas':HOME_TITLE;
+ };
+ document.addEventListener('desk:after-navigation',()=>requestAnimationFrame(updateTitle));
+ document.addEventListener('placementatlas:languagechange',()=>requestAnimationFrame(updateTitle));
+ let initialRouteDone=false;
+ const finishInitialRoute=()=>{
+   if(initialRouteDone)return;initialRouteDone=true;
+   requestAnimationFrame(updateTitle);
+   // A shared link wins over the remembered tab; the startup switch replaces history rather than adding to it.
+   const want=linkedTab;
+   if(want&&typeof switchTab==='function'&&document.getElementById(want)&&document.querySelector('.tab.active')?.dataset.tab!==want){
+     try{switchTab(want)}catch{}
+   }else writeRoute(document.querySelector('.tab.active')?.dataset.tab||'explore');
+   setTimeout(()=>{routeReplace=false},0);
+ };
  const saved=getSaved();
+ if(saved&&linkedTab)saved.tab=linkedTab;
  function restore(){
    if(!saved||restoreDone)return;
    if(typeof switchTab!=='function'||!document.querySelector('.tab'))return;
@@ -278,12 +334,13 @@
      window.scrollTo({top:y,behavior:'instant'});
      restoreInProgress=false;snapshot(false);updateFloating();syncFloating();
    })),160);
+   finishInitialRoute();
  }
  let tries=0;
  const timer=setInterval(()=>{
    tries++;
-   if((typeof placements!=='undefined'&&placements.length>0)&&typeof switchTab==='function'){clearInterval(timer);restore()}
-   else if(tries>160){clearInterval(timer);restore()}
+   const ready=(typeof placements!=='undefined'&&placements.length>0)&&typeof switchTab==='function';
+   if(ready||tries>160){clearInterval(timer);if(saved)restore();finishInitialRoute();}
  },100);
  if(!saved){restoreDone=true;syncFloating();updateFloating()}
 })();

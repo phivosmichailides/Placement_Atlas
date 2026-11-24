@@ -81,3 +81,6 @@ html[data-theme="light"] .geoReasonRed{color:#ae273e!important}
 .geoPreferredOnly input{width:15px;height:15px;accent-color:var(--ux-accent);flex:0 0 auto}
 .geoPreferredOnly:has(input:disabled){opacity:.52;cursor:not-allowed}
 .geoPreferredOnly span{line-height:1.4}
+/* The search area being used sits above the next section, so its suggestions never hide behind the other field. */
+.geoSearchHolder{position:relative}
+.geoSearchHolder:focus-within{z-index:70}

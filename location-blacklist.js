@@ -168,6 +168,8 @@
       if(resp.ok){const data=await resp.json();result=data.result||[];}
     }catch(error){console.warn('Location suggestions temporarily unavailable',error);}
     if(num!==searchRequests[mode]||input.value.trim()!==query.trim())return;
+    // Results that arrive after the visitor has moved to another field are not shown (no stray open list).
+    if(!input.closest('.geoSearchHolder')?.contains(document.activeElement))return;
     const suggestions=suggestionsFromResponse(raw,result);
     list.replaceChildren();
     if(!suggestions.length){const empty=document.createElement('div');empty.className='geoSuggestionEmpty';empty.textContent='No matching place found. Try a different area name.';list.append(empty);}
@@ -333,7 +335,14 @@
     legacyLike?.after(likesPane);original?.after(pane);saveBtn.hidden=true;saveBtn.setAttribute('aria-hidden','true');
     const bindLocationSearch=(mode)=>{
       const like=mode==='like',input=byId(like?'geoLikeSearch':'geoAreaSearch'),list=byId(like?'geoLikeSuggestions':'geoAreaSuggestions'),add=byId(like?'geoAddLike':'geoAddArea');
-      input?.addEventListener('input',()=>{clearTimeout(searchTimers[mode]);list.replaceChildren();selected[mode]=null;add.disabled=true;searchTimers[mode]=setTimeout(()=>searchLocations(input.value,mode),260);});
+      const otherList=()=>byId(like?'geoAreaSuggestions':'geoLikeSuggestions');
+      // Only one suggestion list is ever open: entering one search box closes the other's list.
+      input?.addEventListener('focus',()=>otherList()?.replaceChildren());
+      input?.addEventListener('input',()=>{clearTimeout(searchTimers[mode]);list.replaceChildren();otherList()?.replaceChildren();selected[mode]=null;add.disabled=true;searchTimers[mode]=setTimeout(()=>searchLocations(input.value,mode),260);});
+      // Close this list when focus leaves its search area (Tab away, or click elsewhere), but not while moving
+      // between the box and its own suggestions.
+      const holder=input?.closest('.geoSearchHolder');
+      holder?.addEventListener('focusout',event=>{if(!holder.contains(event.relatedTarget))setTimeout(()=>{if(!holder.contains(document.activeElement))list.replaceChildren()},120);});
       input?.addEventListener('keydown',event=>{if(event.key==='Enter'){const first=list.querySelector('button.geoSuggestion');if(first){event.preventDefault();first.click();}}if(event.key==='Escape')list.replaceChildren();});
       add?.addEventListener('click',()=>saveNewArea(mode));
     };

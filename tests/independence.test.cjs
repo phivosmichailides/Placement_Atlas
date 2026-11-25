@@ -34,7 +34,10 @@ test('current deployable assets contain no obsolete explorer branding or data lo
   assert.match(read('app.js'),/generic-public\.js\?v=[0-9a-z_-]+/);
   assert.match(read('app-product.js'),/app-base\.js\?v=[0-9a-z_-]+/);
   assert.match(html,/rail-stations\.js\?v=20261109national1/);
-  assert.match(read('generic-public.js'),/document\.title='Placement Atlas'/);
+  // The brand title lives in index.html; session-ui.js adds the active view and language.
+  assert.match(html,/<title>[^<]*Placement Atlas[^<]*<\/title>/);
+  assert.doesNotMatch(read('generic-public.js'),/document\.title=/);
+  assert.match(read('session-ui.js'),/document\.title=/);
   assert.doesNotMatch(read('generic-public.js'),/Oriel Placement Desk/);
 });
 

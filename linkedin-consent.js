@@ -33,7 +33,8 @@
     /* Only public pages with known non-sensitive campaign parameters qualify.
        Auth redirects, free-form query strings, and private fragments are excluded. */
     if (!/^\/(?:|index\.html|about\.html|guide\.html|privacy\.html|terms\.html)$/.test(window.location.pathname)) return false;
-    if (window.location.hash && !/^#(?:top|features|how-it-works|questions|cookies)$/.test(window.location.hash)) return false;
+    /* Tab addresses (#/shortlist etc.) are fixed app section names and carry no personal data. */
+    if (window.location.hash && !/^#(?:top|features|how-it-works|questions|cookies|\/(?:for-you|shortlist|compare|simulation|swipe|learn|preferences|outcome))$/.test(window.location.hash)) return false;
     var params = new URLSearchParams(window.location.search);
     var allowed = true;
     params.forEach(function (value, key) {

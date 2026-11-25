@@ -137,6 +137,16 @@ const STYLES=Object.freeze({
         queueMiniRender(record);
       }catch(error){console.warn('Mini-map style could not switch',error)}
     }
+    // A map that fell back to OpenStreetMap gets another chance at the Streets tiles whenever the theme changes,
+    // instead of staying on the fallback for the rest of the visit.
+    if(preference==='fast'){
+      for(const record of [...fallbackInstances]){
+        if(record.provider!=='osm')continue;
+        const map=record.leaflet,holder=map?.getContainer?.();
+        if(!holder?.isConnected){fallbackInstances.delete(record);continue;}
+        try{removeFallbackRecord(record);raster(map,'Reliable Streets basemap');}catch(error){console.warn('Streets map retry failed',error)}
+      }
+    }
     for(const record of rasterInstances){
       try{
         const holder=record.leaflet.getContainer();
@@ -158,6 +168,21 @@ const STYLES=Object.freeze({
     applyStyle();
     return true;
   };
+  // Leaflet 1.9 GridLayer.redraw() (used by setUrl) clamps the map's *unrounded* zoom, so at the fractional opening
+  // zoom (10.4) a theme switch requested tiles like /256/10.4/674/448.png, which do not exist. Its normal view
+  // update rounds first; make redraw do the same so every tile layer always asks for whole zoom levels.
+  if(window.L?.GridLayer&&!L.GridLayer.prototype.__orielRoundedRedraw){
+    L.GridLayer.prototype.redraw=function(){
+      if(this._map){
+        this._removeAllTiles();
+        const tileZoom=this._clampZoom(Math.round(this._map.getZoom()));
+        if(tileZoom!==this._tileZoom){this._tileZoom=tileZoom;this._updateLevels();}
+        this._update();
+      }
+      return this;
+    };
+    L.GridLayer.prototype.__orielRoundedRedraw=true;
+  }
   let lastTheme=mode();
   const themeObserver=new MutationObserver(()=>{
     const nextTheme=mode();
@@ -238,7 +263,9 @@ const STYLES=Object.freeze({
       osmFallback(map,reason);
     };
     layer.on('tileload',()=>{loadedTiles++;if(timer)clearTimeout(timer);});
-    layer.on('tileerror',()=>{errorTiles++;if(errorTiles>=2)useOpenStreetMap('MapTiler raster tiles returned repeated errors; switching to a complete OpenStreetMap tile layer rather than leaving missing patches.');});
+    // Fall back only when MapTiler is clearly failing: several errors and more failures than successes. One or two
+    // missing tiles (a brief network blip) no longer replace the whole map.
+    layer.on('tileerror',()=>{errorTiles++;if(errorTiles>=4&&errorTiles>loadedTiles)useOpenStreetMap('MapTiler raster tiles returned repeated errors; switching to a complete OpenStreetMap tile layer rather than leaving missing patches.');});
     map.on('unload',()=>{if(timer)clearTimeout(timer);rasterInstances.delete(record);fallbackInstances.delete(record);});
     timer=setTimeout(()=>{
       if(loadedTiles===0)useOpenStreetMap(errorTiles?'MapTiler raster tiles returned errors.':'MapTiler raster tiles did not arrive before the loading timeout.');
@@ -638,6 +665,17 @@ const STYLES=Object.freeze({
     if(navigator.onLine===false)return Promise.resolve(false);
     if(retryPromise)return retryPromise;
     retryPromise=(async()=>{
+      // The default Streets map only needs its raster tiles back; it must not wait for (or fail on) MapLibre.
+      if(preference==='fast'){
+        let recovered=0;
+        for(const old of [...fallbackInstances]){
+          if(old.intentional||old.provider!=='osm')continue;
+          const map=old.leaflet,holder=map?.getContainer?.();
+          if(!holder?.isConnected){fallbackInstances.delete(old);continue;}
+          try{removeFallbackRecord(old);raster(map,'Reliable Streets basemap');recovered++;}catch(error){console.warn('Streets map retry failed',error)}
+        }
+        return recovered>0;
+      }
       try{await ensureMapLibraries();}catch(error){console.warn('MapLibre retry is not ready yet.',error);return false;}
       let recovered=0;
       for(const old of [...fallbackInstances]){

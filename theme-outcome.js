@@ -194,15 +194,23 @@
     persisted=null;fill(empty());refresh();notify('Outcome cleared on this browser. Your shortlist is unchanged.');
   });
 
+  // The 4,064 code suggestions are only needed once someone types a code, so
+  // build them on first use instead of keeping thousands of hidden nodes in the page.
+  let codeOptionsReady=false;
+  const fillCodeOptions=()=>{
+    if(codeOptionsReady||!getPlacements().length)return;
+    const list=$('outcomeProgrammeOptions');if(!list)return;
+    const fragment=document.createDocumentFragment();
+    getPlacements().forEach(p=>{const option=document.createElement('option');option.value=String(p.id).split('/').pop().trim();option.label=p.title||p.employer||'';fragment.append(option)});
+    list.replaceChildren(fragment);codeOptionsReady=true;
+  };
+  const codeInput=$('outcomeProgrammeId');
+  if(codeInput)for(const type of ['focus','pointerdown','input'])codeInput.addEventListener(type,fillCodeOptions);
   // The Placement Desk dataset loads asynchronously; read its existing globals only.
   let checkCount=0;
   const timer=setInterval(()=>{
     checkCount++;
     if(getPlacements().length){
-      const list=$('outcomeProgrammeOptions');
-      const fragment=document.createDocumentFragment();
-      getPlacements().forEach(p=>{const option=document.createElement('option');option.value=String(p.id).split('/').pop().trim();option.label=p.title||p.employer||'';fragment.append(option)});
-      list.replaceChildren(fragment);
       refresh();
       clearInterval(timer);
     }else if(checkCount>=150){clearInterval(timer);refresh()}

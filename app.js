@@ -31,7 +31,7 @@
     };
     const loadGeneric=()=>{
       const generic=document.createElement('script');
-      generic.src='generic-public.js?v=20261123onerender1';
+      generic.src='generic-public.js?v=20261124qa1';
       generic.onload=loadSectors;
       generic.onerror=loadSectors;
       document.body.appendChild(generic);

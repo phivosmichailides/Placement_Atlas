@@ -47,7 +47,7 @@
     }
 
     // Public identity: authored by Phivos, but designed for any applicant.
-    document.title='Placement Atlas';
+    // The page title is set per tab and language by session-ui.js; keep the descriptive HTML title on Explore.
     const title=document.querySelector('header.top h1');
     if(title)title.textContent='Placement Atlas';
     const topEyebrow=document.querySelector('header.top .brand .eyebrow');

@@ -953,6 +953,51 @@
     "Training site": "Τοποθεσία εκπαίδευσης"
   });
 
+  // Remaining Greek interface copy found by the all-tabs language sweep.
+  Object.assign(DICTIONARIES.el, {
+    "Compare 4,064 foundation training programmes by location, salary, training experience and what matters most to you.": "Σύγκρινε 4.064 προγράμματα foundation training ανά τοποθεσία, μισθό, εμπειρία εκπαίδευσης και ό,τι μετράει περισσότερο για σένα.",
+    "Final upgrades: 25 Nov 2026 · 12:00 UK": "Τελικές αναβαθμίσεις: 25 Νοεμβρίου 2026 · 12:00 ώρα ΗΒ",
+    "Official offers guidance ↗": "Επίσημες οδηγίες για προσφορές ↗",
+    "Set your priorities to tailor these suggestions. Until then, they are a general starting point.": "Όρισε τις προτεραιότητές σου για να προσαρμοστούν οι προτάσεις. Μέχρι τότε, είναι ένα γενικό σημείο εκκίνησης.",
+    "Your shortlist starts with a little curiosity.": "Η λίστα σου ξεκινά με λίγη περιέργεια.",
+    "No saved programmes yet — and that's perfectly fine. Explore a few possibilities, figure out what matters to you, and keep the ones worth comparing. Your actual shortlist will take over this space as soon as you add something.": "Δεν έχεις αποθηκεύσει ακόμη προγράμματα — και αυτό είναι απολύτως εντάξει. Εξερεύνησε μερικές επιλογές, δες τι μετράει για σένα και κράτα όσα αξίζει να συγκρίνεις. Η λίστα σου θα εμφανιστεί εδώ μόλις προσθέσεις κάτι.",
+    "Try Swipe Mode ♡": "Δοκίμασε το Swipe Mode ♡",
+    "Not sure where to begin? Pick a question.": "Δεν ξέρεις από πού να ξεκινήσεις; Διάλεξε μια ερώτηση.",
+    "💘 Could your perfect placement be one swipe away?": "💘 Μήπως η ιδανική θέση σου απέχει μόνο ένα swipe;",
+    "🏥 Curious about a hospital + GP split?": "🏥 Σε ενδιαφέρει συνδυασμός νοσοκομείου + GP;",
+    "💷 What could £32k+ placements offer?": "💷 Τι μπορούν να προσφέρουν θέσεις £32k+;",
+    "⏰ Prefer a shorter working week?": "⏰ Προτιμάς μικρότερη εβδομάδα εργασίας;",
+    "🧪 Have you explored industry placements?": "🧪 Έχεις εξερευνήσει θέσεις στη βιομηχανία;",
+    "✨ What matters most to you?": "✨ Τι μετράει περισσότερο για σένα;",
+    "📚 What actually happens during training?": "📚 Τι γίνεται πραγματικά κατά την εκπαίδευση;",
+    "🗺️ Ready to discover somewhere new?": "🗺️ Έτοιμος/η να ανακαλύψεις κάπου καινούργιο;",
+    "📋 How does Oriel ranking work?": "📋 Πώς λειτουργεί η κατάταξη στο Oriel;",
+    "Suggestions use the same programme catalogue, filters and saved decisions as the rest of Placement Atlas.": "Οι προτάσεις χρησιμοποιούν τον ίδιο κατάλογο προγραμμάτων, τα ίδια φίλτρα και τις αποθηκευμένες αποφάσεις με το υπόλοιπο Placement Atlas.",
+    "Arrange programmes in Preference, No Preference or Not Wanted. This is practice only — your Oriel application stays unchanged.": "Τοποθέτησε τα προγράμματα σε Προτίμηση, Χωρίς προτίμηση ή Δεν επιθυμώ. Είναι μόνο εξάσκηση — η αίτησή σου στο Oriel δεν αλλάζει.",
+    "Search to add a programme · drag to reorder · tap a rank to move it · copy its code for Oriel.": "Αναζήτησε για να προσθέσεις πρόγραμμα · σύρε για αλλαγή σειράς · πάτησε μια θέση για μετακίνηση · αντίγραψε τον κωδικό για το Oriel.",
+    "Build confidence from your first MPharm year through foundation training and registration preparation.": "Απόκτησε αυτοπεποίθηση από το πρώτο έτος MPharm έως το foundation training και την προετοιμασία για εγγραφή.",
+    "Industry + Hospital + Community: What to Expect": "Βιομηχανία + Νοσοκομείο + Κοινότητα: Τι να περιμένεις",
+    "Explore 16 detailed answers on industry rotations, daily projects, medical affairs, regulatory affairs, pharmacovigilance, and getting into pharma after training.": "Εξερεύνησε 16 αναλυτικές απαντήσεις για εναλλαγές στη βιομηχανία, καθημερινά έργα, medical affairs, regulatory affairs, φαρμακοεπαγρύπνηση και την είσοδο στη φαρμακοβιομηχανία μετά την εκπαίδευση.",
+    "Explore the guide": "Εξερεύνησε τον οδηγό",
+    "Drug knowledge": "Γνώση φαρμάκων",
+    "Practise a structured formulary and build clinically accurate medicine knowledge.": "Εξασκήσου σε δομημένο συνταγολόγιο και χτίσε κλινικά ακριβή γνώση φαρμάκων.",
+    "Formulary exercises · next stage": "Ασκήσεις συνταγολογίου · επόμενο στάδιο",
+    "Flashcards & revision": "Κάρτες μνήμης & επανάληψη",
+    "Organise year-specific material and revisit the concepts you find difficult.": "Οργάνωσε υλικό ανά έτος και ξαναδές τις έννοιες που σου φαίνονται δύσκολες.",
+    "Study tools · planned": "Εργαλεία μελέτης · προγραμματισμένα",
+    "Clinical simulations": "Κλινικές προσομοιώσεις",
+    "Practise counselling, prescription checking, services and OSCE-style scenarios.": "Εξασκήσου στη συμβουλευτική, τον έλεγχο συνταγών, τις υπηρεσίες και σενάρια τύπου OSCE.",
+    "Interactive practice · planned": "Διαδραστική εξάσκηση · προγραμματισμένη",
+    "Journal & portfolio": "Ημερολόγιο & portfolio",
+    "Capture learning experiences, reflections and future portfolio material.": "Κατέγραψε μαθησιακές εμπειρίες, σκέψεις και υλικό για το μελλοντικό σου portfolio.",
+    "Private autosaving journal · planned": "Ιδιωτικό ημερολόγιο με αυτόματη αποθήκευση · προγραμματισμένο",
+    "Research a placement": "Ερεύνησε μια θέση",
+    "Understand training settings, salary, working life and programme structure.": "Κατανόησε τα περιβάλλοντα εκπαίδευσης, τον μισθό, την καθημερινότητα και τη δομή του προγράμματος.",
+    "Open guidance": "Άνοιγμα οδηγιών",
+    "NHS pension tiers use the published": "Τα κλιμάκια σύνταξης του NHS χρησιμοποιούν τα δημοσιευμένα",
+    "rates as an estimate; 2027/28 deductions may differ. Student-loan Plan 5 uses the £25,000 2026/27 reference threshold pending the applicable later figure. Pension relief model assumes the net-pay method, not salary sacrifice. A 52-week annual salary is used, even for placements beginning July/August.": "ποσοστά ως εκτίμηση· οι κρατήσεις 2027/28 μπορεί να διαφέρουν. Για το φοιτητικό δάνειο Plan 5 χρησιμοποιείται το όριο αναφοράς £25.000 του 2026/27 μέχρι να ισχύσει το επόμενο ποσό. Ο υπολογισμός της φοροαπαλλαγής σύνταξης υποθέτει τη μέθοδο net-pay, όχι salary sacrifice. Χρησιμοποιείται ετήσιος μισθός 52 εβδομάδων, ακόμη και για θέσεις που ξεκινούν Ιούλιο/Αύγουστο."
+  });
+
   // Extend every language using the same reviewed UI keys; the existing packs remain intact.
   const parityPacks = window.PlacementAtlasLocalePacks || {};
   for (const [language, translations] of Object.entries(parityPacks)) {
@@ -1033,6 +1078,9 @@
     if((m=key.match(/^([←↩○✓☷]+\s*)(.+)$/)) && dict[m[2]])return m[1]+dict[m[2]];
     if((m=key.match(/^(.+?)\s*([→↓↑]+)$/)) && dict[m[1]])return dict[m[1]]+' '+m[2];
     if(key==='Done' && dict['Finish'])return dict['Finish'];
+    // Signed-in greeting: localise the salutation, keep the person's name exactly.
+    if((m=key.match(/^Hi,\s+(.+)$/)) && dict['Hi'])return dict['Hi']+', '+m[1];
+    if((m=key.match(/^Open profile\s*·\s*(.+)$/)) && dict['Open profile'])return dict['Open profile']+' · '+m[1];
     if((m=key.match(/^(\d[\d,]*)\s+Shortlisted$/i)) && dict['Shortlisted'])return m[1]+' '+dict['Shortlisted'];
     return null;
   };
@@ -1158,6 +1206,8 @@
           value = greekDate[1] + greekDate[2] + ' ' + months[greekDate[3]] + ' ' + greekDate[4];
         }
       }
+      const showing = key.match(/^Showing\s+([\d,]+)–([\d,]+)\s+of\s+([\d,]+)\s*·\s*Page\s+(\d+)\/(\d+)$/);
+      if (showing) value = 'Εμφάνιση ' + showing[1] + '–' + showing[2] + ' από ' + showing[3].replace(/,/g,'.') + ' · Σελίδα ' + showing[4] + '/' + showing[5];
       const excludes = key.match(/^(\d+)\s+excluded$/i);
       if (excludes) value = excludes[1] + ' αποκλεισμένα';
     }
